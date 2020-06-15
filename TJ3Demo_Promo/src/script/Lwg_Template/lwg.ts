@@ -21,6 +21,11 @@ export module lwg {
         /**当前是否可以免体力进入一次*/
         export let _freetHint: boolean = true;
 
+        /**记录上传体力的时间，用于对比下次进入游戏时时间差，补偿多少体力*/
+        export let _addExHours: number;
+        export let _addMinutes: number;
+
+
         /**最后一次被拾取的房间，用于被吸附到另一个房间*/
         export let _roomPickup: Laya.Image;
         /**关卡总数*/
@@ -155,7 +160,7 @@ export module lwg {
             Admin._openScene('UISet', null, null, null);
         }
 
-        /**指代当前界面的金币资源按钮*/
+        /**指代当前界面的金币资源*/
         export let GoldNumNode: Laya.Sprite;
         /**
          * 创建通用剩余金币资源数量prefab
@@ -224,7 +229,6 @@ export module lwg {
             lwg.Admin._openScene('UIPause', null, null, null);
         }
 
-
         /**指代游戏界面提示按钮节点*/
         export let BtnHintNode: Laya.Sprite;
         /**
@@ -248,8 +252,13 @@ export module lwg {
         export function btnHintUp(event) {
             event.currentTarget.scale(1, 1);
             event.stopPropagation();
-            // lwg.Admin._openScene('UIPause', null, null, null);
-            lwg.Global._createHint_01(lwg.Enum.HintType.noHint);
+
+            ADManager.ShowReward(() => {
+                Admin._openScene(Admin.SceneName.UIPassHint, null, null, f => {
+                    lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = 'UIMain';
+                    lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].setStyle();
+                });
+            })
         }
 
         /**指代当前界面的重来按钮*/
@@ -286,6 +295,34 @@ export module lwg {
             refreshNum++;
             event.currentTarget.scale(1, 1);
             Admin._refreshScene();
+        }
+
+        /**动态创建一个互推*/
+        export let P201_01Node: Laya.Sprite;
+        /**
+         * 创建通用重来prefab
+         * @param parent 父节点
+         * @param x x位置
+         * @param y y位置
+         * @param soundUrl 音效的地址
+         * @param caller 指向脚本（this）引用
+         * @param down 按下函数
+         * @param move 移动函数
+         * @param up 抬起函数
+         * @param out 出屏幕函数
+         */
+        export function _createP201_01(parent): void {
+            let sp: Laya.Sprite;
+            Laya.loader.load('prefab/P201.json', Laya.Handler.create(this, function (prefab: Laya.Prefab) {
+                let _prefab = new Laya.Prefab();
+                _prefab.json = prefab;
+                sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
+                parent.addChild(sp);
+                sp.pos(90, 225);
+                sp.zOrder = 0;
+                Click.on(Enum.ClickType.largen, null, sp, null, null, null, btnAgainUp, null);
+                P201_01Node = sp;
+            }));
         }
 
         /**
@@ -341,9 +378,9 @@ export module lwg {
 
         /**
          * 创建体力消耗动画
-         * @param  func 回调函数
+         * @param  subEx 消耗多少体力值
         */
-        export function createConsumeEx(func): void {
+        export function createConsumeEx(subEx): void {
             let label = Laya.Pool.getItemByClass('label', Laya.Label) as Laya.Label;
             label.name = 'label';//标识符和名称一样
             Laya.stage.addChild(label);
@@ -357,12 +394,10 @@ export module lwg {
             lwg.Animation.fadeOut(label, 0, 1, 200, 150, f => {
                 lwg.Animation.leftRight_Shake(ExecutionNumNode, 15, 60, 0, null);
                 lwg.Animation.fadeOut(label, 1, 0, 600, 400, f => {
-                    if (func) {
-                        func();
-                    }
                 });
             });
         }
+
 
         /**
          * 创建金币prefab
@@ -423,6 +458,9 @@ export module lwg {
                 '_execution': lwg.Global._execution,
                 '_exemptExTime': lwg.Global._exemptExTime,
                 '_freeHintTime': lwg.Global._freeHintTime,
+                '_addExHours': lwg.Global._addExHours,
+                '_addMinutes': lwg.Global._addMinutes,
+
                 // '_buyNum': lwg.Global._buyNum,
                 // '_currentPifu': lwg.Global._currentPifu,
                 // '_havePifu': lwg.Global._havePifu,
@@ -451,7 +489,9 @@ export module lwg {
                 lwg.Global._goldNum = 0;
                 lwg.Global._execution = 15;
                 lwg.Global._exemptExTime = null;
-                lwg.Global._freeHintTime = null
+                lwg.Global._freeHintTime = null;
+                lwg.Global._addExHours = (new Date).getHours();
+                lwg.Global._addMinutes = (new Date).getMinutes();
                 // lwg.Global._buyNum = 1;
                 // lwg.Global._currentPifu = Enum.PifuAllName[0];
                 // lwg.Global._havePifu = ['01_xiaofu'];
@@ -499,16 +539,19 @@ export module lwg {
         /**
           * 打开界面
           * @param name 界面名称
-          * @param cloesScene 需要关闭的场景，如果不需要关闭，传入null
           * @param zOder 指定层级
+          * @param cloesScene 需要关闭的场景，如果不需要关闭，传入null
           * @param func 回调函数
          */
         export function _openScene(openName: string, zOder: number, cloesScene: Laya.Scene, func): void {
             Laya.Scene.load('Scene/' + openName + '.json', Laya.Handler.create(this, function (scene: Laya.Scene) {
                 scene.width = Laya.stage.width;
                 scene.height = Laya.stage.height;
-                // Laya.stage.addChildAt(scene, zOder);
-                Laya.stage.addChild(scene);
+                if (zOder) {
+                    Laya.stage.addChildAt(scene, zOder);
+                } else {
+                    Laya.stage.addChild(scene);
+                }
                 scene.name = openName;
                 _sceneControl[openName] = scene;
                 // 背景图自适应
@@ -609,6 +652,30 @@ export module lwg {
             });
         }
 
+        /**打开下一关场景，并且上传信息
+         * @param subEx 消耗多少体力值
+        */
+        export function _nextCustomScene(subEx): void {
+            if (subEx > 0) {
+                Global._execution -= subEx;
+                let num = Global.ExecutionNumNode.getChildByName('Num') as Laya.FontClip;
+                num.value = Global._execution.toString();
+                Global._createHint_01(lwg.Enum.HintType.consumeEx);
+                Global.createConsumeEx(subEx);
+            }
+
+            if (Admin.openLevelNum >= Global._gameLevel) {
+                Admin._closeCustomScene();
+                Global._gameLevel++;
+                Admin._openGLCustoms();
+            } else {
+                Admin._closeCustomScene();
+                Admin.openLevelNum++;
+                Admin._openLevelNumCustom();
+            }
+            LocalStorage.addData();
+        }
+
         /**
           * 刷新当前实际打开的关卡场景
           **/
@@ -622,6 +689,8 @@ export module lwg {
             _sceneControl[openCustomName].close();
             _openScene(openCustomName, null, null, null);
         }
+
+
 
 
         /**
@@ -823,6 +892,22 @@ export module lwg {
             lwgInit(): void {
                 console.log('父类的初始化！');
             }
+
+            onUpdate(): void {
+                this.lwgOnUpdate();
+            }
+            lwgOnUpdate(): void {
+
+            }
+            onDisable(): void {
+
+            }
+
+            /**离开时执行，子类不执行onDisable，只执行lwgDisable*/
+            lwgDisable(): void {
+
+            }
+
         }
     }
 
@@ -853,7 +938,8 @@ export module lwg {
             "Effects/star_purple.png",
             "Effects/star_red.png",
             "Effects/star_white.png",
-            "Effects/star_yellow.png"
+            "Effects/star_yellow.png",
+            "Effects/icon_biggold.png"
         }
 
         /**类粒子特效的通用父类*/
@@ -885,6 +971,7 @@ export module lwg {
             startAlpha: number;
             /**初始角度*/
             startRotat: number;
+
 
             /**随机旋转方向*/
             startDir: number;
@@ -963,6 +1050,7 @@ export module lwg {
                 }
             }
         }
+
         /**普通爆炸移动类*/
         export class commonExplosion extends lwg.Effects.EffectsBase {
             initProperty(): void {
@@ -984,7 +1072,211 @@ export module lwg {
                 }
             }
         }
+
+        /**
+         * 创建单个金币动画
+         * @param parent 父节点
+         * @param quantity 数量
+         * @param x X轴位置
+         * @param y Y轴位置
+         * @param targeX 目标X位置
+         * @param targeY 目标Y位置
+         */
+        export function createAddGold(parent, quantity, x, y, targetX, targetY,func): void {
+            let delayed = 0;
+            for (let index = 0; index < quantity; index++) {
+                let ele = Laya.Pool.getItemByClass('addGold', Laya.Image) as Laya.Image;
+                ele.name = 'addGold';//标识符和名称一样
+                let num = Math.floor(Math.random() * 12);
+                ele.alpha = 1;
+                ele.skin = SkinUrl[24];
+                parent.addChild(ele);
+                ele.pos(x, y);
+                let scirpt = ele.getComponent(AddGold);
+                if (!scirpt) {
+                    ele.addComponent(AddGold);
+                    let scirpt1 = ele.getComponent(AddGold);
+                    scirpt1.line = index;
+                    scirpt1.targetX = targetX;
+                    scirpt1.targetY = targetY;
+                    scirpt1.timer -= index * 3;
+                    scirpt1.moveSwitch = true;
+                    scirpt1.func = func;
+                    scirpt1.initProperty();
+                } else {
+                    scirpt.line = index;
+                    scirpt.timer -= index * 3;
+                    scirpt.targetX = targetX;
+                    scirpt.targetY = targetY;
+                    scirpt.moveSwitch = true;
+                    scirpt.func = func;
+                    scirpt.initProperty();
+                }
+            }
+        }
+
+        /**炸开后再前往同一个地点，用于金币增加动画*/
+        export class AddGold extends lwg.Effects.EffectsBase {
+            /**属于那一列*/
+            line: number;
+            /**目标位置X*/
+            targetX: number;
+            /**目标位置Y*/
+            targetY: number;
+            /**回调函数*/
+            func:any 
+            initProperty(): void {
+                // this.startAngle = 360 * Math.random();
+                // this.startSpeed = 5 * Math.random() + 8;
+                // this.startScale = 0.4 + Math.random() * 0.6;
+                // this.accelerated = 0.1;
+                // this.vanishTime = 8 + Math.random() * 10;
+            }
+            moveRules(): void {
+                if (this.moveSwitch) {
+                    this.timer++;
+                    if (this.timer > 0) {
+                        lwg.Animation.move_Simple(this.self, this.self.x, this.self.y, this.targetX, this.targetY, 250, 0, f => {
+                            this.self.removeSelf();
+                            if (this.func) {
+                                this.func();
+                            }
+                        });
+                        this.moveSwitch = false;
+                    }
+                }
+
+                // if (this.timer >= this.vanishTime / 2) {
+                //     this.self.alpha -= 0.15;
+                // }
+                // if (this.timer >= this.vanishTime) {
+                //     this.self.removeSelf();
+                // } else {
+                //     this.commonSpeedXYByAngle(this.startAngle, this.startSpeed + this.accelerated);
+                // }
+            }
+        }
+
+
+        /**
+          * 创建普通爆炸动画，四周爆炸随机散开
+          * @param parent 父节点
+          * @param quantity 数量
+          * @param x X轴位置
+          * @param y Y轴位置
+          */
+        export function createFireworks(parent, quantity, x, y): void {
+            for (let index = 0; index < quantity; index++) {
+                let ele = Laya.Pool.getItemByClass('fireworks', Laya.Image) as Laya.Image;
+                ele.name = 'fireworks';//标识符和名称一样
+                let num = Math.floor(Math.random() * 12);
+                ele.alpha = 1;
+                ele.skin = SkinUrl[num];
+                parent.addChild(ele);
+                ele.pos(x, y);
+                let scirpt = ele.getComponent(Fireworks);
+                if (!scirpt) {
+                    ele.addComponent(Fireworks);
+                }
+            }
+        }
+
+        /**类似烟花爆炸，速度逐渐减慢，并且有下降趋势*/
+        export class Fireworks extends lwg.Effects.EffectsBase {
+            initProperty(): void {
+                this.startAngle = 360 * Math.random();
+                this.startSpeed = 5 * Math.random() + 5;
+                this.startScale = 0.4 + Math.random() * 0.6;
+                this.accelerated = 0.1;
+                this.vanishTime = 200 + Math.random() * 10;
+            }
+            moveRules(): void {
+                this.timer++;
+                if (this.timer >= this.vanishTime * 3 / 5) {
+                    this.self.alpha -= 0.1;
+                }
+                if (this.timer >= this.vanishTime) {
+                    this.self.removeSelf();
+                } else {
+                    this.commonSpeedXYByAngle(this.startAngle, this.startSpeed + this.accelerated);
+                }
+                if (this.self.scaleX < 0) {
+                    this.self.scaleX += 0.01;
+                } else if (this.self.scaleX >= this.startScale) {
+                    this.self.scaleX -= 0.01;
+                }
+            }
+        }
+
+        /**
+         * 创建左右喷彩带动画
+         * @param parent 父节点
+         * @param direction 方向
+         * @param quantity 数量
+         * @param x X轴位置
+         * @param y Y轴位置
+        */
+        export function createLeftOrRightJet(parent, direction, quantity, x, y): void {
+            for (let index = 0; index < quantity; index++) {
+                let ele = Laya.Pool.getItemByClass('Jet', Laya.Image) as Laya.Image;
+                ele.name = 'Jet';//标识符和名称一样
+                let num = 12 + Math.floor(Math.random() * 11);
+                ele.skin = SkinUrl[num];
+                ele.alpha = 1;
+                parent.addChild(ele);
+                ele.pos(x, y);
+                let scirpt = ele.getComponent(leftOrRightJet);
+                if (!scirpt) {
+                    ele.addComponent(leftOrRightJet);
+                    let scirpt1 = ele.getComponent(leftOrRightJet);
+                    scirpt1.direction = direction;
+                    scirpt1.initProperty();
+                } else {
+                    scirpt.direction = direction;
+                    scirpt.initProperty();
+                }
+            }
+        }
+        /**创建左右喷彩带动画类*/
+        export class leftOrRightJet extends lwg.Effects.EffectsBase {
+            direction: string;
+            randomRotate: number;
+            initProperty(): void {
+                if (this.direction === 'left') {
+                    this.startAngle = 100 * Math.random() - 90 + 45 - 10 - 20;
+                } else if (this.direction === 'right') {
+                    this.startAngle = 100 * Math.random() + 90 + 45 + 20;
+                }
+                this.startSpeed = 10 * Math.random() + 3;
+                this.startScale = 0.4 + Math.random() * 0.6;
+                this.accelerated = 0.1;
+                this.vanishTime = 300 + Math.random() * 50;
+                this.randomRotate = 1 + Math.random() * 20;
+            }
+            moveRules(): void {
+                this.timer++;
+                if (this.timer >= this.vanishTime * 3 / 5) {
+                    this.self.alpha -= 0.1;
+                }
+                if (this.timer >= this.vanishTime) {
+                    this.self.removeSelf();
+                } else {
+                    this.commonSpeedXYByAngle(this.startAngle, this.startSpeed + this.accelerated);
+                    this.self.y += this.accelerated * 10;
+                }
+
+                this.self.rotation += this.randomRotate;
+
+                if (this.self.scaleX < 0) {
+                    this.self.scaleX += 0.01;
+                } else if (this.self.scaleX >= this.startScale) {
+                    this.self.scaleX -= 0.01;
+                }
+            }
+        }
     }
+
+
 
     /**加载一些骨骼动画，在loding界面出现的时候执行skLoding()方法*/
     export module Sk {

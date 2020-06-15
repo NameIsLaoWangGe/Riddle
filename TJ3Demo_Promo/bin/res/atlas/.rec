@@ -51,6 +51,7 @@ P 1883DA9A cir_purple.png
 P 39CFFB28 cir_red.png
 P C732726D cir_white.png
 P 664AAF37 cir_yellow.png
+P A5763191 icon_biggold.png
 P D474AF7E star_black.png
 P 325DC547 star_blue.png
 P D1775015 star_bluish.png
@@ -295,6 +296,7 @@ P C5638B11 board_02_btn.png
 P 17F47C0D icon_again.png
 P 103AB3A1 icon_continue.png
 P 143D5828 icon_hint.png
+P 9BEEDB20 icon_lookadv.png
 P 48C2C147 icon_pause.png
 P 76321D6F icon_start.png
 R 4C1D8DD2 ui_board_01.png

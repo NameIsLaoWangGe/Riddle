@@ -131,8 +131,8 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
         let diffX = posX - selfX;
         let diffY = posY - selfY;
 
-        // 距离太远并不会被吸附，这里是个bug，智力只是做预防
-        if ((Math.abs(diffX) > 200 || Math.abs(diffY) > 200)) {
+        // 距离太远并不会被吸附，是个bug未解决，现在只是做预防
+        if ((Math.abs(diffX) > 100 || Math.abs(diffY) > 100)) {
             return;
         }
         // 如果自己是被手触摸的那个房间，则移动过去

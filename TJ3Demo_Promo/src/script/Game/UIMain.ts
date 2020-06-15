@@ -34,11 +34,13 @@ export default class UIMain extends lwg.Admin.Scene {
 
         lwg.Global._gameStart = true;
 
-        lwg.Global._createGoldNum(this.self);
-        lwg.Global._createExecutionNum(this.self);
+        // lwg.Global._createGoldNum(this.self);
+        // lwg.Global._createExecutionNum(this.self);
+
         lwg.Global._createBtnAgain(this.self);
         lwg.Global._createBtnPause(this.self);
         lwg.Global._createBtnHint(this.self);
+        // lwg.Global._createP201_01(this.self);
 
     }
 
@@ -52,6 +54,7 @@ export default class UIMain extends lwg.Admin.Scene {
             lwg.Global._freetHint = false;
             lwg.LocalStorage.addData();
             lwg.Admin._openScene('UIPassHint', null, null, f => {
+                lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = 'UIMain';
                 lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].setStyle();
             });
         }

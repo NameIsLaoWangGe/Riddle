@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":41,
+    "selecteID":10,
     "searchKey":"Scene",
     "props":{"width":720,"sceneColor":"#000000","height":1280},
     "nodeParent":-1,
-    "maxID":44,
+    "maxID":74,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -66,13 +66,14 @@
             "props":{"y":649,"x":355,"width":615,"var":"sceneContent","pivotY":461,"pivotX":298,"name":"sceneContent","height":905},
             "nodeParent":2,
             "label":"sceneContent",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":10,
             "child":[
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":-28,"x":-6,"texture":"UI_new/Defeated/ui_baseboard_01.png","alpha":1},
@@ -86,6 +87,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":64,"x":262,"width":276,"texture":"UI_new/Defeated/logo.png","pivotY":48,"pivotX":104,"height":96},
@@ -99,6 +101,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"FontClip",
                     "searchKey":"FontClip,LvNum,LvNum",
                     "props":{"y":272,"x":294,"width":228,"var":"LvNum","value":"15","spaceX":-25,"skin":"UI_new/wrod/word_customs.png","sheet":"0123456789","pivotY":27,"pivotX":114,"name":"LvNum","height":53,"align":"center"},
@@ -111,6 +114,7 @@
                     "compId":26,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":0,"x":20,"texture":"UI_new/wrod/di.png"},
@@ -124,6 +128,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":0,"x":168,"texture":"UI_new/wrod/guan.png"},
@@ -138,6 +143,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,BtnAgain,BtnAgain",
                     "props":{"y":422,"x":296,"width":160,"visible":true,"var":"BtnAgain","texture":"UI_new/Defeated/again_btn.png","pivotY":80,"pivotX":80,"name":"BtnAgain","height":159},
@@ -151,6 +157,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,BtnScelet,BtnScelet",
                     "props":{"y":1039,"x":304,"width":350,"visible":false,"var":"BtnScelet","pivotY":27,"pivotX":175,"name":"BtnScelet","height":53},
@@ -163,6 +170,7 @@
                     "compId":19,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,scelet,scelet",
                             "props":{"y":24,"x":24,"var":"scelet","texture":"UI_new/conmmon/get_02_btn.png","name":"scelet"},
@@ -176,6 +184,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":17,"x":17,"texture":"UI_new/conmmon/get_01_btn.png"},
@@ -190,6 +199,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,BtnLast,BtnLast",
                     "props":{"y":629.5,"x":294,"width":242,"visible":true,"var":"BtnLast","texture":"UI_new/Victory/rede_btn.png","pivotY":66,"pivotX":121,"name":"BtnLast","height":131,"alpha":1},
@@ -202,6 +212,7 @@
                     "compId":20,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":29,"x":14,"texture":"UI_new/Victory/icon_adv_green.png"},
@@ -215,6 +226,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":40,"x":87,"texture":"UI_new/Defeated/word_next.png"},
@@ -229,6 +241,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,BtnBack,BtnBack",
                     "props":{"y":952,"x":294,"width":94,"var":"BtnBack","texture":"UI_new/conmmon/word_back.png","pivotY":23,"pivotX":47,"name":"BtnBack","height":45},
@@ -242,6 +255,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,BtnShare,BtnShare",
                     "props":{"y":774,"x":294,"width":242,"visible":true,"var":"BtnShare","texture":"UI_new/Victory/green_btn.png","pivotY":66,"pivotX":121,"name":"BtnShare","height":131,"alpha":1},
@@ -254,6 +268,7 @@
                     "compId":37,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":40,"x":112,"texture":"UI_new/conmmon/word_share.png"},
@@ -267,6 +282,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":28.5,"x":43,"texture":"UI_new/conmmon/icon_share.png"},
@@ -279,7 +295,309 @@
                             "child":[
                                 ]
                         }]
-                }]
+                },
+                {
+                    "x":30,
+                    "type":"Box",
+                    "searchKey":"Box,P201",
+                    "props":{"width":112,"visible":false,"name":"P201","height":138,"centerY":-160,"centerX":-213,"anchorY":0.5,"anchorX":0.5},
+                    "nodeParent":10,
+                    "label":"P201",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":44,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,icon",
+                            "props":{"width":102,"skin":"TJ/Promo/image/jx8.png","name":"icon","height":102,"centerY":-13,"centerX":0,"anchorY":0.5,"anchorX":0.5},
+                            "nodeParent":44,
+                            "label":"icon",
+                            "isOpen":true,
+                            "isDirectory":true,
+                            "isAniNode":true,
+                            "hasChild":true,
+                            "compId":45,
+                            "child":[
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "searchKey":"Image,kk",
+                                    "props":{"width":112,"skin":"TJ/Promo/image/kk2.png","name":"kk","height":138,"centerY":13,"centerX":0},
+                                    "nodeParent":45,
+                                    "label":"kk",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":46,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "searchKey":"Image,flag1",
+                                    "props":{"width":23,"visible":false,"skin":"TJ/Promo/image/y1.png","name":"flag1","height":23,"centerY":-45,"centerX":45,"anchorY":0.5,"anchorX":0.5},
+                                    "nodeParent":45,
+                                    "label":"flag1",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":47,
+                                    "child":[
+                                        ],
+                                    "$HIDDEN":true
+                                },
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "searchKey":"Image,flag2",
+                                    "props":{"width":45,"visible":false,"skin":"TJ/Promo/image/hb2.png","name":"flag2","height":23,"centerY":-44,"centerX":40,"anchorY":0.5,"anchorX":0.5},
+                                    "nodeParent":45,
+                                    "label":"flag2",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":48,
+                                    "child":[
+                                        ],
+                                    "$HIDDEN":true
+                                },
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "searchKey":"Image,flag3",
+                                    "props":{"width":45,"visible":false,"skin":"TJ/Promo/image/rm3.png","name":"flag3","height":23,"centerY":-44,"centerX":40,"anchorY":0.5,"anchorX":0.5},
+                                    "nodeParent":45,
+                                    "label":"flag3",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":49,
+                                    "child":[
+                                        ],
+                                    "$HIDDEN":true
+                                }],
+                            "$HIDDEN":false
+                        },
+                        {
+                            "x":45,
+                            "type":"Label",
+                            "searchKey":"Label,name",
+                            "props":{"wordWrap":false,"width":105,"valign":"middle","text":"这里是游戏名称","name":"name","multiline":false,"mouseEnabled":false,"height":18,"fontSize":15,"editable":false,"centerY":54,"centerX":0,"anchorY":0.5,"anchorX":0.5,"align":"center"},
+                            "nodeParent":44,
+                            "label":"name",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":50,
+                            "child":[
+                                ],
+                            "$HIDDEN":false
+                        },
+                        {
+                            "x":45,
+                            "type":"Script",
+                            "switchAble":true,
+                            "source":"src/TJ/Promo/script/PromoItem.ts",
+                            "searchKey":"Script,PromoItem",
+                            "removeAble":true,
+                            "props":{},
+                            "nodeParent":44,
+                            "label":"PromoItem",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":51,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Script",
+                            "switchAble":true,
+                            "source":"src/TJ/Promo/script/ButtonScale.ts",
+                            "searchKey":"Script,ButtonScale",
+                            "removeAble":true,
+                            "props":{},
+                            "nodeParent":44,
+                            "label":"ButtonScale",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":52,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Script",
+                            "switchAble":true,
+                            "source":"src/TJ/Promo/script/P201.ts",
+                            "searchKey":"Script,P201",
+                            "removeAble":true,
+                            "props":{"shake":true},
+                            "nodeParent":44,
+                            "label":"P201",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":53,
+                            "child":[
+                                ]
+                        }],
+                    "$HIDDEN":false
+                },
+                {
+                    "x":30,
+                    "type":"Box",
+                    "searchKey":"Box,P201",
+                    "props":{"width":112,"visible":false,"name":"P201","height":138,"centerY":-160,"centerX":194,"anchorY":0.5,"anchorX":0.5},
+                    "nodeParent":10,
+                    "label":"P201",
+                    "isOpen":false,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":64,
+                    "child":[
+                        {
+                            "type":"Image",
+                            "searchKey":"Image,icon",
+                            "props":{"width":102,"skin":"TJ/Promo/image/jx8.png","name":"icon","height":102,"centerY":-13,"centerX":0,"anchorY":0.5,"anchorX":0.5},
+                            "nodeParent":64,
+                            "label":"icon",
+                            "isOpen":true,
+                            "isDirectory":true,
+                            "isAniNode":true,
+                            "hasChild":true,
+                            "compId":65,
+                            "child":[
+                                {
+                                    "type":"Image",
+                                    "searchKey":"Image,kk",
+                                    "props":{"width":112,"skin":"TJ/Promo/image/kk2.png","name":"kk","height":138,"centerY":13,"centerX":0},
+                                    "nodeParent":65,
+                                    "label":"kk",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":66,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "type":"Image",
+                                    "searchKey":"Image,flag1",
+                                    "props":{"width":23,"visible":false,"skin":"TJ/Promo/image/y1.png","name":"flag1","height":23,"centerY":-45,"centerX":45,"anchorY":0.5,"anchorX":0.5},
+                                    "nodeParent":65,
+                                    "label":"flag1",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":67,
+                                    "child":[
+                                        ],
+                                    "$HIDDEN":true
+                                },
+                                {
+                                    "type":"Image",
+                                    "searchKey":"Image,flag2",
+                                    "props":{"width":45,"visible":false,"skin":"TJ/Promo/image/hb2.png","name":"flag2","height":23,"centerY":-44,"centerX":40,"anchorY":0.5,"anchorX":0.5},
+                                    "nodeParent":65,
+                                    "label":"flag2",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":68,
+                                    "child":[
+                                        ],
+                                    "$HIDDEN":true
+                                },
+                                {
+                                    "type":"Image",
+                                    "searchKey":"Image,flag3",
+                                    "props":{"width":45,"visible":false,"skin":"TJ/Promo/image/rm3.png","name":"flag3","height":23,"centerY":-44,"centerX":40,"anchorY":0.5,"anchorX":0.5},
+                                    "nodeParent":65,
+                                    "label":"flag3",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":69,
+                                    "child":[
+                                        ],
+                                    "$HIDDEN":true
+                                }],
+                            "$HIDDEN":false
+                        },
+                        {
+                            "type":"Label",
+                            "searchKey":"Label,name",
+                            "props":{"wordWrap":false,"width":105,"valign":"middle","text":"这里是游戏名称","name":"name","multiline":false,"mouseEnabled":false,"height":18,"fontSize":15,"editable":false,"centerY":54,"centerX":0,"anchorY":0.5,"anchorX":0.5,"align":"center"},
+                            "nodeParent":64,
+                            "label":"name",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":70,
+                            "child":[
+                                ],
+                            "$HIDDEN":false
+                        },
+                        {
+                            "type":"Script",
+                            "switchAble":true,
+                            "source":"src/TJ/Promo/script/PromoItem.ts",
+                            "searchKey":"Script,PromoItem",
+                            "removeAble":true,
+                            "props":{},
+                            "nodeParent":64,
+                            "label":"PromoItem",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":71,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "type":"Script",
+                            "switchAble":true,
+                            "source":"src/TJ/Promo/script/ButtonScale.ts",
+                            "searchKey":"Script,ButtonScale",
+                            "removeAble":true,
+                            "props":{},
+                            "nodeParent":64,
+                            "label":"ButtonScale",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":72,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "type":"Script",
+                            "switchAble":true,
+                            "source":"src/TJ/Promo/script/P201.ts",
+                            "searchKey":"Script,P201",
+                            "removeAble":true,
+                            "props":{"shake":true},
+                            "nodeParent":64,
+                            "label":"P201",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":73,
+                            "child":[
+                                ]
+                        }],
+                    "$HIDDEN":false
+                }],
+            "$HIDDEN":false
         }],
     "animations":[
         {

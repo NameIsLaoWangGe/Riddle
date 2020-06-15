@@ -38,8 +38,7 @@ export default class UIStart extends lwg.Admin.Scene {
         this.listWPos.x = this.CustomsList.x + this.SceneContent.x - this.SceneContent.width / 2;
         this.listWPos.y = this.CustomsList.y + this.SceneContent.y - this.SceneContent.height / 2;
 
-        lwg.Global._createGoldNum(this.self);
-        lwg.Global._createExecutionNum(this.self);
+
         this.createCustomsList();
 
         ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
@@ -377,12 +376,15 @@ export default class UIStart extends lwg.Admin.Scene {
     }
     /**打开游戏场景*/
     openPlayScene(): void {
-        lwg.Admin._openNumCustom(this.listFirstIndex);
-
         lwg.Global._execution -= 2;
+        let num = lwg.Global.ExecutionNumNode.getChildByName('Num') as Laya.FontClip;
+        num.value = lwg.Global._execution.toString();
         lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
         lwg.Global.createConsumeEx(null);
         lwg.LocalStorage.addData();
+
+        lwg.Admin._openNumCustom(this.listFirstIndex);
+
 
         this.self.close();
     }

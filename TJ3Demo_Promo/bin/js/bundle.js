@@ -442,78 +442,6 @@
     }
     P202.style = "P202";
 
-    class P103 extends Behaviour {
-        constructor() {
-            super(...arguments);
-            this.promoList = null;
-            this.itemList = [];
-            this.layout = null;
-        }
-        async OnAwake() {
-            this.layout = this.owner.getChildByName("layout");
-            let close = this.owner.getChildByName("close");
-            close.clickHandler = new Laya.Handler(null, () => { this.OnClose(); });
-            TJ.Develop.Yun.Promo.Data.ReportAwake(P103.style);
-            this.active = false;
-            this.promoList = await TJ.Develop.Yun.Promo.List.Get(P103.style);
-            if (this.promoList.count > 0) {
-                TJ.Develop.Yun.Promo.Data.ReportStart(P103.style);
-                for (let i = 0; i < this.layout.cells.length; i++) {
-                    let node = this.layout.getCell(i);
-                    if (i < this.promoList.count) {
-                        let item = node.getComponent(PromoItem);
-                        if (item != null) {
-                            this.itemList.push(item);
-                            item.style = P103.style;
-                        }
-                        node.active = node.visible = true;
-                    }
-                    else {
-                        node.active = node.visible = false;
-                    }
-                }
-                for (let item of this.itemList) {
-                    this.LoadIcon(item);
-                }
-                this.active = true;
-            }
-            else {
-                this.owner.destroy();
-            }
-        }
-        OnEnable() {
-            for (let item of this.itemList) {
-                item.OnShow();
-            }
-        }
-        async OnDisable() {
-            this.promoList = await TJ.Develop.Yun.Promo.List.Get(P103.style);
-            for (let item of this.itemList) {
-                this.LoadIcon(item);
-            }
-        }
-        LoadIcon(promoItem) {
-            let data = this.promoList.Load();
-            if (data != null) {
-                this.promoList.Unload(promoItem.data);
-                promoItem.data = data;
-                promoItem.onClick_ = (item) => { this.LoadAndShowIcon(item); };
-                promoItem.DoLoad();
-            }
-            return data;
-        }
-        LoadAndShowIcon(promoItem) {
-            if (this.LoadIcon(promoItem) != null) {
-                promoItem.OnShow();
-            }
-        }
-        OnClose() {
-            let node = this.owner;
-            node.active = node.visible = false;
-        }
-    }
-    P103.style = "P103";
-
     class P204 extends Behaviour {
         constructor() {
             super(...arguments);
@@ -1203,7 +1131,12 @@
             function btnHintUp(event) {
                 event.currentTarget.scale(1, 1);
                 event.stopPropagation();
-                lwg.Global._createHint_01(lwg.Enum.HintType.noHint);
+                ADManager.ShowReward(() => {
+                    Admin._openScene(Admin.SceneName.UIPassHint, null, null, f => {
+                        lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = 'UIMain';
+                        lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].setStyle();
+                    });
+                });
             }
             Global.btnHintUp = btnHintUp;
             function _createBtnAgain(parent) {
@@ -1227,6 +1160,20 @@
                 Admin._refreshScene();
             }
             Global.btnAgainUp = btnAgainUp;
+            function _createP201_01(parent) {
+                let sp;
+                Laya.loader.load('prefab/P201.json', Laya.Handler.create(this, function (prefab) {
+                    let _prefab = new Laya.Prefab();
+                    _prefab.json = prefab;
+                    sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
+                    parent.addChild(sp);
+                    sp.pos(90, 225);
+                    sp.zOrder = 0;
+                    Click.on(Enum.ClickType.largen, null, sp, null, null, null, btnAgainUp, null);
+                    Global.P201_01Node = sp;
+                }));
+            }
+            Global._createP201_01 = _createP201_01;
             function _createHint_01(type) {
                 let sp;
                 Laya.loader.load('prefab/HintPre_01.json', Laya.Handler.create(this, function (prefab) {
@@ -1268,7 +1215,7 @@
                 }));
             }
             Global._createHint_02 = _createHint_02;
-            function createConsumeEx(func) {
+            function createConsumeEx(subEx) {
                 let label = Laya.Pool.getItemByClass('label', Laya.Label);
                 label.name = 'label';
                 Laya.stage.addChild(label);
@@ -1282,9 +1229,6 @@
                 lwg.Animation.fadeOut(label, 0, 1, 200, 150, f => {
                     lwg.Animation.leftRight_Shake(Global.ExecutionNumNode, 15, 60, 0, null);
                     lwg.Animation.fadeOut(label, 1, 0, 600, 400, f => {
-                        if (func) {
-                            func();
-                        }
                     });
                 });
             }
@@ -1334,6 +1278,8 @@
                     '_execution': lwg.Global._execution,
                     '_exemptExTime': lwg.Global._exemptExTime,
                     '_freeHintTime': lwg.Global._freeHintTime,
+                    '_addExHours': lwg.Global._addExHours,
+                    '_addMinutes': lwg.Global._addMinutes,
                 };
                 let data = JSON.stringify(storageData);
                 Laya.LocalStorage.setJSON('storageData', data);
@@ -1355,6 +1301,8 @@
                     lwg.Global._execution = 15;
                     lwg.Global._exemptExTime = null;
                     lwg.Global._freeHintTime = null;
+                    lwg.Global._addExHours = (new Date).getHours();
+                    lwg.Global._addMinutes = (new Date).getMinutes();
                     return null;
                 }
             }
@@ -1388,7 +1336,12 @@
                 Laya.Scene.load('Scene/' + openName + '.json', Laya.Handler.create(this, function (scene) {
                     scene.width = Laya.stage.width;
                     scene.height = Laya.stage.height;
-                    Laya.stage.addChild(scene);
+                    if (zOder) {
+                        Laya.stage.addChildAt(scene, zOder);
+                    }
+                    else {
+                        Laya.stage.addChild(scene);
+                    }
                     scene.name = openName;
                     Admin._sceneControl[openName] = scene;
                     let background = scene.getChildByName('background');
@@ -1473,6 +1426,27 @@
                 });
             }
             Admin._openLevelNumCustom = _openLevelNumCustom;
+            function _nextCustomScene(subEx) {
+                if (subEx > 0) {
+                    Global._execution -= subEx;
+                    let num = Global.ExecutionNumNode.getChildByName('Num');
+                    num.value = Global._execution.toString();
+                    Global._createHint_01(lwg.Enum.HintType.consumeEx);
+                    Global.createConsumeEx(subEx);
+                }
+                if (Admin.openLevelNum >= Global._gameLevel) {
+                    Admin._closeCustomScene();
+                    Global._gameLevel++;
+                    Admin._openGLCustoms();
+                }
+                else {
+                    Admin._closeCustomScene();
+                    Admin.openLevelNum++;
+                    Admin._openLevelNumCustom();
+                }
+                LocalStorage.addData();
+            }
+            Admin._nextCustomScene = _nextCustomScene;
             function _refreshScene() {
                 Admin._sceneControl[Admin.openCustomName].close();
                 _openScene(Admin.openCustomName, null, null, null);
@@ -1628,6 +1602,15 @@
                 lwgInit() {
                     console.log('父类的初始化！');
                 }
+                onUpdate() {
+                    this.lwgOnUpdate();
+                }
+                lwgOnUpdate() {
+                }
+                onDisable() {
+                }
+                lwgDisable() {
+                }
             }
             Admin.Object = Object;
         })(Admin = lwg.Admin || (lwg.Admin = {}));
@@ -1659,6 +1642,7 @@
                 SkinUrl[SkinUrl["Effects/star_red.png"] = 21] = "Effects/star_red.png";
                 SkinUrl[SkinUrl["Effects/star_white.png"] = 22] = "Effects/star_white.png";
                 SkinUrl[SkinUrl["Effects/star_yellow.png"] = 23] = "Effects/star_yellow.png";
+                SkinUrl[SkinUrl["Effects/icon_biggold.png"] = 24] = "Effects/icon_biggold.png";
             })(SkinUrl = Effects.SkinUrl || (Effects.SkinUrl = {}));
             class EffectsBase extends Laya.Script {
                 onEnable() {
@@ -1740,6 +1724,160 @@
                 }
             }
             Effects.commonExplosion = commonExplosion;
+            function createAddGold(parent, quantity, x, y, targetX, targetY, func) {
+                for (let index = 0; index < quantity; index++) {
+                    let ele = Laya.Pool.getItemByClass('addGold', Laya.Image);
+                    ele.name = 'addGold';
+                    ele.alpha = 1;
+                    ele.skin = SkinUrl[24];
+                    parent.addChild(ele);
+                    ele.pos(x, y);
+                    let scirpt = ele.getComponent(AddGold);
+                    if (!scirpt) {
+                        ele.addComponent(AddGold);
+                        let scirpt1 = ele.getComponent(AddGold);
+                        scirpt1.line = index;
+                        scirpt1.targetX = targetX;
+                        scirpt1.targetY = targetY;
+                        scirpt1.timer -= index * 3;
+                        scirpt1.moveSwitch = true;
+                        scirpt1.func = func;
+                        scirpt1.initProperty();
+                    }
+                    else {
+                        scirpt.line = index;
+                        scirpt.timer -= index * 3;
+                        scirpt.targetX = targetX;
+                        scirpt.targetY = targetY;
+                        scirpt.moveSwitch = true;
+                        scirpt.func = func;
+                        scirpt.initProperty();
+                    }
+                }
+            }
+            Effects.createAddGold = createAddGold;
+            class AddGold extends lwg.Effects.EffectsBase {
+                initProperty() {
+                }
+                moveRules() {
+                    if (this.moveSwitch) {
+                        this.timer++;
+                        if (this.timer > 0) {
+                            lwg.Animation.move_Simple(this.self, this.self.x, this.self.y, this.targetX, this.targetY, 250, 0, f => {
+                                this.self.removeSelf();
+                                if (this.func) {
+                                    this.func();
+                                }
+                            });
+                            this.moveSwitch = false;
+                        }
+                    }
+                }
+            }
+            Effects.AddGold = AddGold;
+            function createFireworks(parent, quantity, x, y) {
+                for (let index = 0; index < quantity; index++) {
+                    let ele = Laya.Pool.getItemByClass('fireworks', Laya.Image);
+                    ele.name = 'fireworks';
+                    let num = Math.floor(Math.random() * 12);
+                    ele.alpha = 1;
+                    ele.skin = SkinUrl[num];
+                    parent.addChild(ele);
+                    ele.pos(x, y);
+                    let scirpt = ele.getComponent(Fireworks);
+                    if (!scirpt) {
+                        ele.addComponent(Fireworks);
+                    }
+                }
+            }
+            Effects.createFireworks = createFireworks;
+            class Fireworks extends lwg.Effects.EffectsBase {
+                initProperty() {
+                    this.startAngle = 360 * Math.random();
+                    this.startSpeed = 5 * Math.random() + 5;
+                    this.startScale = 0.4 + Math.random() * 0.6;
+                    this.accelerated = 0.1;
+                    this.vanishTime = 200 + Math.random() * 10;
+                }
+                moveRules() {
+                    this.timer++;
+                    if (this.timer >= this.vanishTime * 3 / 5) {
+                        this.self.alpha -= 0.1;
+                    }
+                    if (this.timer >= this.vanishTime) {
+                        this.self.removeSelf();
+                    }
+                    else {
+                        this.commonSpeedXYByAngle(this.startAngle, this.startSpeed + this.accelerated);
+                    }
+                    if (this.self.scaleX < 0) {
+                        this.self.scaleX += 0.01;
+                    }
+                    else if (this.self.scaleX >= this.startScale) {
+                        this.self.scaleX -= 0.01;
+                    }
+                }
+            }
+            Effects.Fireworks = Fireworks;
+            function createLeftOrRightJet(parent, direction, quantity, x, y) {
+                for (let index = 0; index < quantity; index++) {
+                    let ele = Laya.Pool.getItemByClass('Jet', Laya.Image);
+                    ele.name = 'Jet';
+                    let num = 12 + Math.floor(Math.random() * 11);
+                    ele.skin = SkinUrl[num];
+                    ele.alpha = 1;
+                    parent.addChild(ele);
+                    ele.pos(x, y);
+                    let scirpt = ele.getComponent(leftOrRightJet);
+                    if (!scirpt) {
+                        ele.addComponent(leftOrRightJet);
+                        let scirpt1 = ele.getComponent(leftOrRightJet);
+                        scirpt1.direction = direction;
+                        scirpt1.initProperty();
+                    }
+                    else {
+                        scirpt.direction = direction;
+                        scirpt.initProperty();
+                    }
+                }
+            }
+            Effects.createLeftOrRightJet = createLeftOrRightJet;
+            class leftOrRightJet extends lwg.Effects.EffectsBase {
+                initProperty() {
+                    if (this.direction === 'left') {
+                        this.startAngle = 100 * Math.random() - 90 + 45 - 10 - 20;
+                    }
+                    else if (this.direction === 'right') {
+                        this.startAngle = 100 * Math.random() + 90 + 45 + 20;
+                    }
+                    this.startSpeed = 10 * Math.random() + 3;
+                    this.startScale = 0.4 + Math.random() * 0.6;
+                    this.accelerated = 0.1;
+                    this.vanishTime = 300 + Math.random() * 50;
+                    this.randomRotate = 1 + Math.random() * 20;
+                }
+                moveRules() {
+                    this.timer++;
+                    if (this.timer >= this.vanishTime * 3 / 5) {
+                        this.self.alpha -= 0.1;
+                    }
+                    if (this.timer >= this.vanishTime) {
+                        this.self.removeSelf();
+                    }
+                    else {
+                        this.commonSpeedXYByAngle(this.startAngle, this.startSpeed + this.accelerated);
+                        this.self.y += this.accelerated * 10;
+                    }
+                    this.self.rotation += this.randomRotate;
+                    if (this.self.scaleX < 0) {
+                        this.self.scaleX += 0.01;
+                    }
+                    else if (this.self.scaleX >= this.startScale) {
+                        this.self.scaleX -= 0.01;
+                    }
+                }
+            }
+            Effects.leftOrRightJet = leftOrRightJet;
         })(Effects = lwg.Effects || (lwg.Effects = {}));
         let Sk;
         (function (Sk) {
@@ -2904,8 +3042,6 @@
             this.BtnShare = this.self['BtnShare'];
             this.LvNum = this.self['LvNum'];
             this.LvNumDisplay();
-            lwg.Global._createGoldNum(this.self);
-            lwg.Global._createExecutionNum(this.self);
         }
         adaptive() {
             this.self['sceneContent'].y = Laya.stage.height / 2;
@@ -2937,6 +3073,8 @@
             }
             else {
                 lwg.Global._execution -= 2;
+                let num = lwg.Global.ExecutionNumNode.getChildByName('Num');
+                num.value = lwg.Global._execution.toString();
                 lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
                 lwg.Global.createConsumeEx(null);
                 lwg.LocalStorage.addData();
@@ -2953,7 +3091,9 @@
                 this.self.close();
             }
             else {
-                this.btnLastUpFunc();
+                ADManager.ShowReward(() => {
+                    this.btnLastUpFunc();
+                });
             }
         }
         btnLastUpFunc() {
@@ -2963,21 +3103,7 @@
                 });
             }
             else {
-                lwg.Global._execution -= 2;
-                lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
-                lwg.Global.createConsumeEx(null);
-                lwg.LocalStorage.addData();
-                lwg.LocalStorage.addData();
-                if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
-                    lwg.Admin._closeCustomScene();
-                    lwg.Global._gameLevel++;
-                    lwg.Admin._openGLCustoms();
-                }
-                else {
-                    lwg.Admin._closeCustomScene();
-                    lwg.Admin.openLevelNum++;
-                    lwg.Admin._openLevelNumCustom();
-                }
+                lwg.Admin._nextCustomScene(2);
             }
             this.self.close();
             lwg.LocalStorage.addData();
@@ -3030,10 +3156,11 @@
         }
         btnGetUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_noticket');
-            this.btnGetUp_advFunc();
+            ADManager.ShowReward(() => {
+                this.btnGetUp_advFunc();
+            });
         }
         btnGetUp_advFunc() {
-            lwg.Global._stageClick = true;
             lwg.Global._execution += 5;
             lwg.Global._createAddExecution(null, null, f => {
                 let num = lwg.Global.ExecutionNumNode.getChildByName('Num');
@@ -3057,7 +3184,6 @@
         btnCloseUp(event) {
             this.timeSwitch = false;
             ADManager.TAPoint(TaT.BtnClick, 'close_noticket');
-            lwg.Global._stageClick = true;
             if (lwg.Admin._gameState === lwg.Admin.GameState.Defeated) {
                 lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
             }
@@ -3074,7 +3200,6 @@
             if (this.timeSwitch) {
                 this.time++;
                 if (this.time >= 180) {
-                    lwg.Global._stageClick = true;
                     this.timeSwitch = false;
                     this.time = 0;
                     lwg.Global._exemptExTime = (new Date).getDate();
@@ -3121,6 +3246,9 @@
                 this.time = 0;
             }
         }
+        lwgDisable() {
+            lwg.Global._stageClick = true;
+        }
     }
 
     class UIMain extends lwg.Admin.Scene {
@@ -3136,8 +3264,6 @@
             this.KeyNum = this.self['KeyNum'];
             this.Gongzhu = this.self['Gongzhu'];
             lwg.Global._gameStart = true;
-            lwg.Global._createGoldNum(this.self);
-            lwg.Global._createExecutionNum(this.self);
             lwg.Global._createBtnAgain(this.self);
             lwg.Global._createBtnPause(this.self);
             lwg.Global._createBtnHint(this.self);
@@ -3152,6 +3278,7 @@
                 lwg.Global._freetHint = false;
                 lwg.LocalStorage.addData();
                 lwg.Admin._openScene('UIPassHint', null, null, f => {
+                    lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = 'UIMain';
                     lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].setStyle();
                 });
             }
@@ -3227,7 +3354,11 @@
                     lwg.Global._freetHint = false;
                     console.log('今天没有双击免费提示的机会！');
                 }
+                lwg.Global._addExHours = data._addExHours;
+                lwg.Global._addMinutes = data._addMinutes;
             }
+            lwg.Global._createGoldNum(Laya.stage);
+            lwg.Global._createExecutionNum(Laya.stage);
         }
         onUpdate() {
             this.time++;
@@ -3332,7 +3463,7 @@
             let selfY = this.self.y + parent.y - parent.height / 2;
             let diffX = posX - selfX;
             let diffY = posY - selfY;
-            if ((Math.abs(diffX) > 200 || Math.abs(diffY) > 200)) {
+            if ((Math.abs(diffX) > 100 || Math.abs(diffY) > 100)) {
                 return;
             }
             let _roomMove = parent['UIMain_Room']._roomMove;
@@ -4465,6 +4596,9 @@
     }
 
     class UIPassHint extends lwg.Admin.Scene {
+        lwgInit() {
+            lwg.Global._stageClick = false;
+        }
         adaptive() {
             this.self['sceneContent'].y = Laya.stage.height * 0.481;
         }
@@ -4485,12 +4619,7 @@
             ADManager.TAPoint(TaT.BtnClick, 'ADrewordbt_freegift');
             event.currentTarget.scale(1, 1);
             if (this.self['Pic'].skin === 'UI_new/PassHint/word_yes.png') {
-                if (!this.self['BtnNo'].visible) {
-                    this.self.close();
-                }
-                else {
-                    this.closeScene();
-                }
+                this.closeScene();
             }
             else if (this.self['Pic'].skin === 'UI_new/Defeated/word_freereplay.png') {
                 lwg.Admin._refreshScene();
@@ -4505,11 +4634,13 @@
             if (this.intoScene === lwg.Admin.SceneName.UIDefeated) {
                 this.self['Pic'].skin = 'UI_new/Defeated/word_freereplay.png';
                 this.self['Pic'].x -= 30;
+                this.self['BtnNo'].visible = false;
             }
             else {
                 this.self['Pic'].skin = 'UI_new/PassHint/word_yes.png';
                 this.self['Pic'].x = this.self['BtnYse'].width / 2 + 10;
                 this.self['Pic'].y -= 3;
+                this.self['BtnNo'].visible = false;
             }
             this.self['iconAdv'].visible = false;
             let num = lwg.Admin.openCustomName.substring(lwg.Admin.openCustomName.length - 3, lwg.Admin.openCustomName.length);
@@ -4524,55 +4655,31 @@
             if (lwg.Admin._gameState === lwg.Admin.GameState.GameStart) {
                 lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].openPlayScene();
             }
-            else {
-                if (lwg.Admin._gameState === lwg.Admin.GameState.Victory) {
-                    lwg.Global._execution -= 2;
-                    lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
-                    lwg.Global.createConsumeEx(null);
-                    if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
-                        lwg.Admin._closeCustomScene();
-                        lwg.Global._gameLevel++;
-                        lwg.Admin._openGLCustoms();
-                    }
-                    else {
-                        lwg.Admin._closeCustomScene();
-                        lwg.Admin.openLevelNum++;
-                        lwg.Admin._openLevelNumCustom();
-                    }
-                    lwg.Global._goldNum += 25;
-                    lwg.LocalStorage.addData();
+            else if (lwg.Admin._gameState === lwg.Admin.GameState.Victory) {
+                lwg.Admin._nextCustomScene(2);
+                lwg.Global._goldNum += 25;
+                lwg.LocalStorage.addData();
+            }
+            else if (lwg.Admin._gameState === lwg.Admin.GameState.Defeated) {
+                if (this.afterDefeated) {
+                    lwg.Admin._nextCustomScene(2);
                 }
                 else {
-                    if (lwg.Admin._gameState === lwg.Admin.GameState.Defeated) {
-                        if (this.afterDefeated) {
-                            lwg.Global._execution -= 2;
-                            lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
-                            lwg.Global.createConsumeEx(null);
-                            if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
-                                lwg.Admin._closeCustomScene();
-                                lwg.Global._gameLevel++;
-                                lwg.Admin._openGLCustoms();
-                            }
-                            else {
-                                lwg.Admin._closeCustomScene();
-                                lwg.Admin.openLevelNum++;
-                                lwg.Admin._openLevelNumCustom();
-                            }
-                            lwg.LocalStorage.addData();
-                        }
-                        else {
-                            lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
-                        }
-                    }
-                    else if (lwg.Admin._gameState === lwg.Admin.GameState.Victory) {
-                        lwg.Admin._openScene(lwg.Admin.SceneName.UIVictory, null, null, null);
-                    }
-                    else if (lwg.Admin._gameState === lwg.Admin.GameState.Play) {
-                        lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
-                    }
+                    lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
+                }
+            }
+            else if (lwg.Admin._gameState === lwg.Admin.GameState.Play) {
+                if (this.intoScene === 'UIMain') {
+                    this.self.close();
+                }
+                else {
+                    lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
                 }
             }
             this.self.close();
+        }
+        lwgDisable() {
+            lwg.Global._stageClick = true;
         }
     }
 
@@ -4689,8 +4796,6 @@
             this.SceneContent = this.self['SceneContent'];
             this.listWPos.x = this.CustomsList.x + this.SceneContent.x - this.SceneContent.width / 2;
             this.listWPos.y = this.CustomsList.y + this.SceneContent.y - this.SceneContent.height / 2;
-            lwg.Global._createGoldNum(this.self);
-            lwg.Global._createExecutionNum(this.self);
             this.createCustomsList();
             ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
         }
@@ -4985,11 +5090,13 @@
             }
         }
         openPlayScene() {
-            lwg.Admin._openNumCustom(this.listFirstIndex);
             lwg.Global._execution -= 2;
+            let num = lwg.Global.ExecutionNumNode.getChildByName('Num');
+            num.value = lwg.Global._execution.toString();
             lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
             lwg.Global.createConsumeEx(null);
             lwg.LocalStorage.addData();
+            lwg.Admin._openNumCustom(this.listFirstIndex);
             this.self.close();
         }
         openPlayScene_exemptEx() {
@@ -5039,7 +5146,10 @@
     }
 
     class UIVictory extends lwg.Admin.Scene {
-        constructor() { super(); }
+        constructor() {
+            super();
+            this.thisGoldNum = 24;
+        }
         lwgInit() {
             RecordManager.stopAutoRecord();
             this.BtnGoldAdv = this.self['BtnGoldAdv'];
@@ -5047,23 +5157,34 @@
             this.GetGold = this.self['GetGold'];
             this.LvNum = this.self['LvNum'];
             this.LvNum.value = lwg.Global._gameLevel.toString();
-            this.BtnLast = this.self['BtnLast'];
-            lwg.Global._createGoldNum(this.self);
-            lwg.Global._createExecutionNum(this.self);
+            this.BtnNext = this.self['BtnNext'];
             this.getGoldDisplay();
             this.LvNumDisplay();
-            lwg.Global._createGoldNum(this.self);
-            lwg.Global._createExecutionNum(this.self);
+            lwg.Effects.createFireworks(this.self['sceneContent'], 30, 430, 40);
+            lwg.Effects.createFireworks(this.self['sceneContent'], 30, 109, 49.5);
+            lwg.Effects.createLeftOrRightJet(this.self['sceneContent'], 'right', 30, 582, 141.5);
+            lwg.Effects.createLeftOrRightJet(this.self['sceneContent'], 'left', 30, -21.5, 141.5);
+        }
+        getGoldAni(number) {
+            let x = this.self['GetGold'].x + this.self['sceneContent'].x - this.self['sceneContent'].width / 2;
+            let y = this.self['GetGold'].y + this.self['sceneContent'].y - this.self['sceneContent'].height / 2;
+            lwg.Effects.createAddGold(Laya.stage, number, x, y, lwg.Global.GoldNumNode.x, lwg.Global.GoldNumNode.y, f => {
+                let Num = lwg.Global.GoldNumNode.getChildByName('Num');
+                Num.value = (Number(Num.value) + 1).toString();
+                lwg.Global._goldNum++;
+                let goldNum = this.self['GoldNum'];
+                goldNum.value = 'x' + this.thisGoldNum--;
+            });
             lwg.PalyAudio.playSound(lwg.Enum.voiceUrl.victory, 1);
         }
         adaptive() {
             this.self['sceneContent'].y = Laya.stage.height / 2;
         }
         getGoldDisplay() {
-            let getLebel = this.GetGold.getChildByName('Num');
+            let goldNum = this.GetGold.getChildByName('GoldNum');
             let level = lwg.Global._gameLevel;
-            getLebel.value = 'x' + 25;
-            console.log('普通关卡奖励金币为：' + getLebel.value);
+            goldNum.value = 'x' + 25;
+            console.log('普通关卡奖励金币为：' + goldNum.value);
         }
         LvNumDisplay() {
             if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
@@ -5078,41 +5199,30 @@
             ADManager.TAPoint(TaT.BtnShow, 'Share_success');
             ADManager.TAPoint(TaT.BtnShow, 'nextword_success');
             ADManager.TAPoint(TaT.BtnShow, 'ADticketbt_success');
-            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnLast, this, null, null, this.btnLastUp, null);
+            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
             lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnGoldAdv, this, null, null, this.btnGoldAdvUp, null);
             lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
             lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
         }
-        btnLastUp() {
-            ADManager.TAPoint(TaT.BtnClick, 'nextword_success');
-            if (lwg.Global._execution < 2) {
-                lwg.Admin._openScene('UIExecutionHint', null, null, null);
-            }
-            else {
-                if (Number(this.LvNum.value) >= 3) {
-                    lwg.Admin._openScene('UIPassHint', null, null, null);
+        btnNextUp() {
+            this.getGoldAni(25);
+            Laya.timer.frameOnce(70, this, function () {
+                ADManager.TAPoint(TaT.BtnClick, 'nextword_success');
+                if (lwg.Global._execution < 2) {
+                    lwg.Admin._openScene('UIExecutionHint', null, null, null);
                 }
                 else {
-                    lwg.Global._execution -= 2;
-                    lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
-                    lwg.Global.createConsumeEx(null);
-                    lwg.LocalStorage.addData();
-                    lwg.LocalStorage.addData();
-                    if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
-                        lwg.Admin._closeCustomScene();
-                        lwg.Global._gameLevel++;
-                        lwg.Admin._openGLCustoms();
+                    if (Number(this.LvNum.value) >= 3) {
+                        lwg.Admin._openScene('UIPassHint', null, null, null);
                     }
                     else {
-                        lwg.Admin._closeCustomScene();
-                        lwg.Admin.openLevelNum++;
-                        lwg.Admin._openLevelNumCustom();
+                        lwg.Admin._nextCustomScene(2);
+                        lwg.Global._goldNum += 25;
                     }
-                    lwg.Global._goldNum += 25;
+                    lwg.LocalStorage.addData();
                 }
-                lwg.LocalStorage.addData();
-            }
-            this.self.close();
+                this.self.close();
+            });
         }
         btnGoldAdvUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_success');
@@ -5123,35 +5233,31 @@
             });
         }
         btnGoldAdvUpFunc() {
-            if (lwg.Global._execution < 2) {
-                lwg.Admin._openScene('UIExecutionHint', null, null, null);
-            }
-            else {
-                lwg.Admin._closeCustomScene();
-                lwg.Global._execution -= 2;
-                lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
-                lwg.Global.createConsumeEx(null);
-                lwg.LocalStorage.addData();
-                if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
-                    lwg.Global._gameLevel++;
-                    lwg.Admin._openGLCustoms();
+            this.getGoldAni(75);
+            Laya.timer.frameOnce(120, this, function () {
+                if (lwg.Global._execution < 2) {
+                    lwg.Admin._openScene('UIExecutionHint', null, null, null);
                 }
                 else {
-                    lwg.Admin.openLevelNum++;
-                    lwg.Admin._openLevelNumCustom();
+                    lwg.Admin._closeCustomScene();
+                    lwg.Admin._nextCustomScene(-2);
+                    lwg.Global._goldNum = lwg.Global._goldNum + 25 * 3;
                 }
-                lwg.Global._goldNum = lwg.Global._goldNum + 25 * 3;
-            }
-            lwg.LocalStorage.addData();
-            this.self.close();
+                lwg.LocalStorage.addData();
+                this.self.close();
+            });
         }
         btnBackUp(event) {
-            ADManager.TAPoint(TaT.BtnClick, 'ADticketbt_success');
-            lwg.Admin._openScene('UIStart', null, null, null);
-            lwg.Admin._closeCustomScene();
-            lwg.Global._goldNum += 25;
-            lwg.LocalStorage.addData();
-            this.self.close();
+            this.getGoldAni(25);
+            Laya.timer.frameOnce(70, this, function () {
+                ADManager.TAPoint(TaT.BtnClick, 'ADticketbt_success');
+                lwg.Admin._openScene('UIStart', null, null, null);
+                lwg.Admin._closeCustomScene();
+                lwg.Global._goldNum += 25;
+                lwg.LocalStorage.addData();
+                this.self.close();
+                lwg.Global._gameLevel++;
+            });
         }
         btnExAdvUpFunc() {
             lwg.Global._execution += 3;
@@ -5173,6 +5279,69 @@
         }
     }
 
+    class UILoding_ExecutionNumNode extends lwg.Admin.Object {
+        constructor() {
+            super(...arguments);
+            this.time = 0;
+            this.countNum = 59;
+        }
+        lwgInit() {
+            this.Num = this.self.getChildByName('Num');
+            this.CountDown = this.self.getChildByName('CountDown');
+            this.CountDown_board = this.self.getChildByName('CountDown_board');
+            this.countNum = 59;
+            this.CountDown.text = '00:' + this.countNum;
+            this.CountDown_board.text = this.CountDown.text;
+            let d = new Date;
+            if (d.getHours() === lwg.Global._addExHours) {
+                lwg.Global._execution += (d.getMinutes() - lwg.Global._addMinutes);
+                if (lwg.Global._execution > 15) {
+                    lwg.Global._execution = 15;
+                }
+            }
+            else {
+                lwg.Global._execution = 15;
+            }
+            this.Num.value = lwg.Global._execution.toString();
+            lwg.Global._addExHours = d.getHours();
+            lwg.Global._addMinutes = d.getMinutes();
+            lwg.LocalStorage.addData();
+        }
+        countDownAddEx() {
+            this.time++;
+            if (this.time % 60 == 0) {
+                this.countNum--;
+                if (this.countNum < 0) {
+                    this.countNum = 59;
+                    lwg.Global._execution += 1;
+                    this.Num.value = lwg.Global._execution.toString();
+                    let d = new Date;
+                    lwg.Global._addExHours = d.getHours();
+                    lwg.Global._addMinutes = d.getMinutes();
+                    lwg.LocalStorage.addData();
+                }
+                if (this.countNum >= 10 && this.countNum <= 59) {
+                    this.CountDown.text = '00:' + this.countNum;
+                    this.CountDown_board.text = this.CountDown.text;
+                }
+                else if (this.countNum >= 0 && this.countNum < 10) {
+                    this.CountDown.text = '00:0' + this.countNum;
+                    this.CountDown_board.text = this.CountDown.text;
+                }
+            }
+        }
+        lwgOnUpdate() {
+            this.countDownAddEx();
+            if (Number(this.Num.value) > 15) {
+                lwg.Global._execution = 15;
+                this.Num.value = lwg.Global._execution.toString();
+                lwg.LocalStorage.addData();
+            }
+        }
+        lwgDisable() {
+        }
+    }
+
     class GameConfig {
         constructor() { }
         static init() {
@@ -5182,7 +5351,6 @@
             reg("TJ/Promo/script/PromoItem.ts", PromoItem);
             reg("TJ/Promo/script/P201.ts", P201);
             reg("TJ/Promo/script/P202.ts", P202);
-            reg("TJ/Promo/script/P103.ts", P103);
             reg("TJ/Promo/script/P204.ts", P204);
             reg("TJ/Promo/script/P205.ts", P205);
             reg("TJ/Promo/script/P106.ts", P106);
@@ -5206,6 +5374,7 @@
             reg("script/Game/UIStart.ts", UIStart);
             reg("script/Game/UIStart_House.ts", UIStart_House);
             reg("script/Game/UIVictory.ts", UIVictory);
+            reg("script/Game/UILoding_ExecutionNumNode.ts", UILoding_ExecutionNumNode);
         }
     }
     GameConfig.width = 720;

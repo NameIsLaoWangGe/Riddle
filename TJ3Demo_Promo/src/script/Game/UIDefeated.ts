@@ -26,8 +26,8 @@ export default class UIDefeated extends lwg.Admin.Scene {
         this.LvNumDisplay();
         // lwg.PalyAudio.playSound(lwg.Enum.voiceUrl.defeated, 1);
 
-        lwg.Global._createGoldNum(this.self);
-        lwg.Global._createExecutionNum(this.self);
+        // lwg.Global._createGoldNum(this.self);
+        // lwg.Global._createExecutionNum(this.self);
     }
     adaptive(): void {
         this.self['sceneContent'].y = Laya.stage.height / 2;
@@ -64,6 +64,8 @@ export default class UIDefeated extends lwg.Admin.Scene {
         } else {
 
             lwg.Global._execution -= 2;
+            let num = lwg.Global.ExecutionNumNode.getChildByName('Num') as Laya.FontClip;
+            num.value = lwg.Global._execution.toString();
             lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
             lwg.Global.createConsumeEx(null);
             lwg.LocalStorage.addData();
@@ -96,21 +98,7 @@ export default class UIDefeated extends lwg.Admin.Scene {
                 lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].afterDefeated = true;
             });
         } else {
-            lwg.Global._execution -= 2;
-            lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
-            lwg.Global.createConsumeEx(null);
-            lwg.LocalStorage.addData();
-
-            lwg.LocalStorage.addData();
-            if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
-                lwg.Admin._closeCustomScene();
-                lwg.Global._gameLevel++;
-                lwg.Admin._openGLCustoms();
-            } else {
-                lwg.Admin._closeCustomScene();
-                lwg.Admin.openLevelNum++;
-                lwg.Admin._openLevelNumCustom();
-            }
+            lwg.Admin._nextCustomScene(2);
         }
         this.self.close();
         // console.log(lwg.Admin.openLevelNum, lwg.Global._gameLevel);
@@ -140,10 +128,7 @@ export default class UIDefeated extends lwg.Admin.Scene {
         lwg.Global._goldNum += 25;
         lwg.LocalStorage.addData();
         this.self.close();
-        // event.currentTarget.scale(1, 1);
-        // ADManager.ShowReward(() => {
-        //     this.btnExAdvUpFunc();
-        // })
+
     }
     btnExAdvUpFunc(): void {
         lwg.Global._execution += 3;

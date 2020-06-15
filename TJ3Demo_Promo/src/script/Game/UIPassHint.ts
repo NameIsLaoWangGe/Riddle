@@ -6,6 +6,9 @@ export default class UIPassHint extends lwg.Admin.Scene {
     intoScene: string;
     /**是否是失败后再进游戏弹出来的*/
     afterDefeated: boolean;
+    lwgInit() {
+        lwg.Global._stageClick = false;
+    }
     adaptive() {
         this.self['sceneContent'].y = Laya.stage.height * 0.481;
     }
@@ -36,11 +39,7 @@ export default class UIPassHint extends lwg.Admin.Scene {
         // 第二次点击会弹出失败界面
         if (this.self['Pic'].skin === 'UI_new/PassHint/word_yes.png') {
             // this.self['BtnNo']这个按钮不存在，是因为走了免费提示的彩蛋，直接关闭自己
-            if (!this.self['BtnNo'].visible) {
-                this.self.close();
-            } else {
-                this.closeScene();
-            }
+            this.closeScene();
         } else if (this.self['Pic'].skin === 'UI_new/Defeated/word_freereplay.png') {
             lwg.Admin._refreshScene();
         } else {
@@ -53,11 +52,12 @@ export default class UIPassHint extends lwg.Admin.Scene {
         if (this.intoScene === lwg.Admin.SceneName.UIDefeated) {
             this.self['Pic'].skin = 'UI_new/Defeated/word_freereplay.png';
             this.self['Pic'].x -= 30;
-
+            this.self['BtnNo'].visible = false;
         } else {
             this.self['Pic'].skin = 'UI_new/PassHint/word_yes.png';
             this.self['Pic'].x = this.self['BtnYse'].width / 2 + 10;
             this.self['Pic'].y -= 3;
+            this.self['BtnNo'].visible = false;
         }
 
         this.self['iconAdv'].visible = false;
@@ -75,53 +75,29 @@ export default class UIPassHint extends lwg.Admin.Scene {
     closeScene(): void {
         if (lwg.Admin._gameState === lwg.Admin.GameState.GameStart) {
             lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].openPlayScene();
-        } else {
-            if (lwg.Admin._gameState === lwg.Admin.GameState.Victory) {
-                lwg.Global._execution -= 2;
-                lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
-                lwg.Global.createConsumeEx(null);
 
-                if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
-                    lwg.Admin._closeCustomScene();
-                    lwg.Global._gameLevel++;
-                    lwg.Admin._openGLCustoms();
-                } else {
-                    lwg.Admin._closeCustomScene();
-                    lwg.Admin.openLevelNum++;
-                    lwg.Admin._openLevelNumCustom();
-                }
-                lwg.Global._goldNum += 25;
-                // console.log(lwg.Admin.openLevelNum, lwg.Global._gameLevel);
-                lwg.LocalStorage.addData();
+        } else if (lwg.Admin._gameState === lwg.Admin.GameState.Victory) {
+            lwg.Admin._nextCustomScene(2);
+            lwg.Global._goldNum += 25;
+            lwg.LocalStorage.addData();
+
+        } else if (lwg.Admin._gameState === lwg.Admin.GameState.Defeated) {
+            if (this.afterDefeated) {
+                lwg.Admin._nextCustomScene(2);
             } else {
-                if (lwg.Admin._gameState === lwg.Admin.GameState.Defeated) {
-                    if (this.afterDefeated) {
-                        lwg.Global._execution -= 2;
-                        lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
-                        lwg.Global.createConsumeEx(null);
-
-                        if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
-                            lwg.Admin._closeCustomScene();
-                            lwg.Global._gameLevel++;
-                            lwg.Admin._openGLCustoms();
-                        } else {
-                            lwg.Admin._closeCustomScene();
-                            lwg.Admin.openLevelNum++;
-                            lwg.Admin._openLevelNumCustom();
-                        }
-                        lwg.LocalStorage.addData();
-                    } else {
-                        lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
-                    }
-                } else if (lwg.Admin._gameState === lwg.Admin.GameState.Victory) {
-                    lwg.Admin._openScene(lwg.Admin.SceneName.UIVictory, null, null, null);
-                }
-                else if (lwg.Admin._gameState === lwg.Admin.GameState.Play) {
-                    //直接关闭
-                    lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
-                }
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
+            }
+        } else if (lwg.Admin._gameState === lwg.Admin.GameState.Play) {
+            if (this.intoScene === 'UIMain') {
+                this.self.close();
+            } else {
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
             }
         }
+
         this.self.close();
+    }
+    lwgDisable() {
+        lwg.Global._stageClick = true;
     }
 }

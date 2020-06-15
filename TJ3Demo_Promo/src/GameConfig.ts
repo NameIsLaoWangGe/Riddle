@@ -4,7 +4,6 @@ import ButtonScale from "./TJ/Promo/script/ButtonScale"
 import PromoItem from "./TJ/Promo/script/PromoItem"
 import P201 from "./TJ/Promo/script/P201"
 import P202 from "./TJ/Promo/script/P202"
-import P103 from "./TJ/Promo/script/P103"
 import P204 from "./TJ/Promo/script/P204"
 import P205 from "./TJ/Promo/script/P205"
 import P106 from "./TJ/Promo/script/P106"
@@ -28,6 +27,7 @@ import UISet from "./script/Game/UISet"
 import UIStart from "./script/Game/UIStart"
 import UIStart_House from "./script/Game/UIStart_House"
 import UIVictory from "./script/Game/UIVictory"
+import UILoding_ExecutionNumNode from "./script/Game/UILoding_ExecutionNumNode"
 /*
 * 游戏初始化配置;
 */
@@ -52,7 +52,6 @@ export default class GameConfig{
         reg("TJ/Promo/script/PromoItem.ts",PromoItem);
         reg("TJ/Promo/script/P201.ts",P201);
         reg("TJ/Promo/script/P202.ts",P202);
-        reg("TJ/Promo/script/P103.ts",P103);
         reg("TJ/Promo/script/P204.ts",P204);
         reg("TJ/Promo/script/P205.ts",P205);
         reg("TJ/Promo/script/P106.ts",P106);
@@ -76,6 +75,7 @@ export default class GameConfig{
         reg("script/Game/UIStart.ts",UIStart);
         reg("script/Game/UIStart_House.ts",UIStart_House);
         reg("script/Game/UIVictory.ts",UIVictory);
+        reg("script/Game/UILoding_ExecutionNumNode.ts",UILoding_ExecutionNumNode);
     }
 }
 GameConfig.init();

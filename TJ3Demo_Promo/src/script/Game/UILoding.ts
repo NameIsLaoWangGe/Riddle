@@ -22,6 +22,7 @@ export default class UILoding extends lwg.Admin.Scene {
         lwg.Sk.skLoding();
         this.lodeUserInfo();
         this.dataLoading();
+
     }
 
     /**优先加载数据表*/
@@ -86,13 +87,17 @@ export default class UILoding extends lwg.Admin.Scene {
                 lwg.Global._freetHint = false;
                 console.log('今天没有双击免费提示的机会！');
             }
-            // lwg.Global._buyNum = data._buyNum;
-            // lwg.Global._currentPifu = data._currentPifu;
+
+            lwg.Global._addExHours = data._addExHours;
+            lwg.Global._addMinutes = data._addMinutes;
             // lwg.Global._havePifu = data._havePifu;
             // lwg.Global._watchAdsNum = data._watchAdsNum;
             // lwg.Global._gameOverAdvModel = data._gameOverAdvModel;
             // lwg.Global._whetherAdv = data._whetherAdv;
         }
+
+        lwg.Global._createGoldNum(Laya.stage);
+        lwg.Global._createExecutionNum(Laya.stage);
     }
 
     /**计时器*/
