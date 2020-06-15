@@ -1,0 +1,10 @@
+<res>
+   <item name="SK" type="" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="SK/gongzhu.png" type="Sprite" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="SK/gou.png" type="Sprite" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="SK/wangzi.png" type="Sprite" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="SK/qingdi.png" type="Sprite" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="SK/houma.png" type="Sprite" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="SK/houzi.png" type="Sprite" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="SK/qingdi1.png" type="Sprite" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+</res>

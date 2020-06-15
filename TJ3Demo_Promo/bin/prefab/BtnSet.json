@@ -1,0 +1,1 @@
+{"type":"Sprite","props":{"y":0,"x":0,"width":63,"presetID":1,"pivotY":30,"pivotX":32,"name":"BtnSet","isPresetRoot":true,"height":60},"compId":22,"child":[{"type":"Sprite","props":{"y":0,"x":7.5,"texture":"UI_new/GameStart/icon_set.png","presetID":2},"compId":23}],"loadList":["UI_new/GameStart/icon_set.png"],"loadList3D":[]}

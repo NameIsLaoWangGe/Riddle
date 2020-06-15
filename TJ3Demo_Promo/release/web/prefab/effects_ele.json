@@ -1,0 +1,1 @@
+{"type":"Sprite","props":{"y":0,"x":0,"width":26,"presetID":1,"pivotY":15,"pivotX":13,"name":"effects_ele","isPresetRoot":true,"height":28},"compId":217,"child":[{"type":"Image","props":{"y":12,"x":12,"width":24,"skin":"Effects/cir_white.png","presetID":2,"pivotY":12,"pivotX":12,"name":"pic","height":24},"compId":218}],"loadList":["Effects/cir_white.png"],"loadList3D":[]}

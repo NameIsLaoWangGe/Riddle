@@ -1,0 +1,6 @@
+{
+  "code": "import * as tslib_1 from \"tslib\";\r\nimport { lwg } from \"../Lwg_Template/lwg\";\r\nvar UIMain_Puase = (function (_super) {\r\n    tslib_1.__extends(UIMain_Puase, _super);\r\n    function UIMain_Puase() {\r\n        return _super !== null && _super.apply(this, arguments) || this;\r\n    }\r\n    UIMain_Puase.prototype.lwgInit = function () {\r\n        this.BtnUIStart = this.self['BtnUIStart'];\r\n        this.BtnContinue = this.self['BtnContinue'];\r\n    };\r\n    UIMain_Puase.prototype.btnOnClick = function () {\r\n        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnUIStart, this, null, null, this.BtnUIStartUp, null);\r\n        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnContinue, this, null, null, this.BtnContinueUp, null);\r\n    };\r\n    UIMain_Puase.prototype.BtnUIStartUp = function () {\r\n        lwg.Admin._openScene('UIStart', null, this.self, null);\r\n        lwg.Admin._closeCustomScene();\r\n    };\r\n    UIMain_Puase.prototype.BtnContinueUp = function () {\r\n        this.self.close();\r\n    };\r\n    return UIMain_Puase;\r\n}(lwg.Admin.Scene));\r\nexport default UIMain_Puase;\r\n",
+  "references": [
+    "D:/Game/project/Riddle/Riddle1/TJ3Demo_Promo/src/script/Lwg_Template/lwg.ts"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "code": "import { lwg } from \"../Lwg_Template/lwg\";\r\nexport default class UIMain extends Laya.Script {\r\n    constructor() { super(); }\r\n    onEnable() {\r\n        Laya.MouseManager.multiTouchEnabled = false;\r\n        this.self = this.owner;\r\n        lwg.Global._UIMain = this.self;\r\n        this.self['UIMain'] = this;\r\n        this.BtnAgain = this.self['BtnAgain'];\r\n        this.KeyNum = this.self['KeyNum'];\r\n        lwg.Global._gameStart = true;\r\n        this.btnOnClick();\r\n        lwg.Global._keyNum--;\r\n        if (lwg.Global._keyNum <= 0) {\r\n        }\r\n        this.KeyNumDisplay();\r\n    }\r\n    KeyNumDisplay() {\r\n        let num = this.KeyNum.getChildByName('Num');\r\n        num.text = lwg.Global._keyNum + '/' + '5';\r\n    }\r\n    btnOnClick() {\r\n        lwg.Click.on('largen', null, this.BtnAgain, this, null, null, this.BtnAgainUp, null);\r\n    }\r\n    BtnAgainUp(event) {\r\n        lwg.Global.refreshScene();\r\n    }\r\n    onDisable() {\r\n    }\r\n}\r\n",
+  "references": [
+    "D:/Game/project/Riddle/Riddle/src/script/Lwg_Template/lwg.ts"
+  ]
+}

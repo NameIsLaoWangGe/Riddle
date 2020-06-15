@@ -1,0 +1,41 @@
+
+gongzhu.png
+size: 89,89
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+gun
+  rotate: false
+  xy: 2, 9
+  size: 21, 78
+  orig: 21, 78
+  offset: 0, 0
+  index: -1
+shenti
+  rotate: true
+  xy: 25, 6
+  size: 37, 48
+  orig: 37, 48
+  offset: 0, 0
+  index: -1
+tou
+  rotate: false
+  xy: 25, 45
+  size: 46, 42
+  orig: 46, 42
+  offset: 0, 0
+  index: -1
+youxiu
+  rotate: false
+  xy: 73, 73
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+zuoxiu
+  rotate: false
+  xy: 73, 57
+  size: 13, 14
+  orig: 13, 14
+  offset: 0, 0
+  index: -1

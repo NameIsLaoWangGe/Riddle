@@ -1,0 +1,48 @@
+
+wangzi.png
+size: 86,86
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+erduo
+  rotate: false
+  xy: 36, 17
+  size: 11, 12
+  orig: 11, 12
+  offset: 0, 0
+  index: -1
+lian
+  rotate: false
+  xy: 2, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+shenti
+  rotate: false
+  xy: 2, 36
+  size: 37, 48
+  orig: 37, 48
+  offset: 0, 0
+  index: -1
+tou
+  rotate: false
+  xy: 41, 53
+  size: 43, 31
+  orig: 43, 31
+  offset: 0, 0
+  index: -1
+touguan
+  rotate: false
+  xy: 41, 31
+  size: 28, 20
+  orig: 28, 20
+  offset: 0, 0
+  index: -1
+yanjing
+  rotate: true
+  xy: 71, 33
+  size: 18, 10
+  orig: 18, 10
+  offset: 0, 0
+  index: -1

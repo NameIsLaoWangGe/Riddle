@@ -1,0 +1,6 @@
+{
+  "code": "import { lwg } from \"../Lwg_Template/lwg\";\r\nexport default class UIMain_StaticDog extends lwg.Admin.Object {\r\n    lwgInit() {\r\n        this.skeleton = lwg.Sk.gouTem.buildArmature(0);\r\n        this.self.addChild(this.skeleton);\r\n        this.skeleton.x = this.self.width / 2;\r\n        this.skeleton.y = this.self.height;\r\n        let pic = this.self.getChildByName('pic');\r\n        pic.visible = false;\r\n        if (pic.scaleX === -1) {\r\n            this.skeleton.scaleX = -1;\r\n        }\r\n        else {\r\n            this.skeleton.scaleX = 1;\r\n        }\r\n        this.skeleton.play(lwg.Enum.dogAni.standby, true);\r\n        this.createPlaint();\r\n    }\r\n    createPlaint() {\r\n        let img = new Laya.Image();\r\n        img.skin = 'Room/icon_plaint.png';\r\n        img.y = -40;\r\n        img.x = this.self.width / 2;\r\n        this.self.addChild(img);\r\n        img.zOrder = 10;\r\n        this.plaint = img;\r\n    }\r\n    onDisable() {\r\n    }\r\n}\r\n",
+  "references": [
+    "C:/Users/tomato/Desktop/TJ3Demo_Promo/src/script/Lwg_Template/lwg.ts"
+  ]
+}

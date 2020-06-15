@@ -1,0 +1,6 @@
+{
+  "code": "import { lwg } from \"../Lwg_Template/lwg\";\r\nexport default class UIPassHint extends lwg.Admin.Scene {\r\n    adaptive() {\r\n        this.self['sceneContent'].y = Laya.stage.height * 0.481;\r\n    }\r\n    btnOnClick() {\r\n        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnYse'], this, null, null, this.btnYseUp, null);\r\n        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);\r\n    }\r\n    btnYseUp() {\r\n        this.self.scale(1, 1);\r\n        if (this.self['Pic'].skin === 'UI_new/PassHint/word_yes.png') {\r\n            lwg.Admin._openScene('UIDefeated', null, null, null);\r\n        }\r\n        else {\r\n            this.btnYseUp_advFunc();\r\n        }\r\n    }\r\n    btnYseUp_advFunc() {\r\n        this.self['Pic'].skin = 'UI_new/PassHint/word_yes.png';\r\n        let num = lwg.Admin.openCustomName.substring(lwg.Admin.openCustomName.length - 3, lwg.Admin.openCustomName.length);\r\n        this.self['Dec'].text = '  ' + lwg.Global._hintDec[Number(num) - 1]['dec'];\r\n    }\r\n    btnNoUp() {\r\n        this.self.scale(1, 1);\r\n        lwg.Admin._openScene('UIDefeated', null, null, null);\r\n    }\r\n}\r\n",
+  "references": [
+    "D:/Game/project/Riddle/Riddle1/Riddle/src/script/Lwg_Template/lwg.ts"
+  ]
+}

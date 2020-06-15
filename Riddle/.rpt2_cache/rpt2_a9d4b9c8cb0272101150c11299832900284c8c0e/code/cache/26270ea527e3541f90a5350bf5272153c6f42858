@@ -1,0 +1,8 @@
+{
+  "code": "import UIMain_House from \"./script/Game/UIMain_House\";\r\nimport UIMain_Aisle from \"./script/Game/UIMain_Aisle\";\r\nimport UIMain_Person from \"./script/Game/UIMain_Person\";\r\nexport default class GameConfig {\r\n    constructor() { }\r\n    static init() {\r\n        var reg = Laya.ClassUtils.regClass;\r\n        reg(\"script/Game/UIMain_House.ts\", UIMain_House);\r\n        reg(\"script/Game/UIMain_Aisle.ts\", UIMain_Aisle);\r\n        reg(\"script/Game/UIMain_Person.ts\", UIMain_Person);\r\n    }\r\n}\r\nGameConfig.width = 640;\r\nGameConfig.height = 1136;\r\nGameConfig.scaleMode = \"fixedwidth\";\r\nGameConfig.screenMode = \"none\";\r\nGameConfig.alignV = \"top\";\r\nGameConfig.alignH = \"left\";\r\nGameConfig.startScene = \"Scene/UIMain.scene\";\r\nGameConfig.sceneRoot = \"\";\r\nGameConfig.debug = false;\r\nGameConfig.stat = true;\r\nGameConfig.physicsDebug = false;\r\nGameConfig.exportSceneToJson = true;\r\nGameConfig.init();\r\n",
+  "references": [
+    "D:/Game/project/Riddle/Riddle/src/script/Game/UIMain_House.ts",
+    "D:/Game/project/Riddle/Riddle/src/script/Game/UIMain_Aisle.ts",
+    "D:/Game/project/Riddle/Riddle/src/script/Game/UIMain_Person.ts"
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "code": "export default class UIMain_Aisle extends Laya.Script {\r\n    constructor() {\r\n        super();\r\n        this.openSwitch = false;\r\n    }\r\n    onEnable() {\r\n        this.self = this.owner;\r\n    }\r\n    onTriggerEnter(other, self) {\r\n        let otherName = other.owner.name;\r\n        let selfName = this.self.name;\r\n        if (otherName.substring(0, 4) === selfName.substring(0, 4)) {\r\n            let connectHouse = other.owner.parent;\r\n            console.log(connectHouse);\r\n        }\r\n    }\r\n    onTriggerExit() {\r\n    }\r\n    onDisable() {\r\n    }\r\n}\r\n",
+  "references": []
+}

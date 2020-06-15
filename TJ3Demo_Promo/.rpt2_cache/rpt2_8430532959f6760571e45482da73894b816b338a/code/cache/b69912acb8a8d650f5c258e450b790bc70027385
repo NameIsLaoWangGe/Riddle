@@ -1,0 +1,6 @@
+{
+  "code": "import * as tslib_1 from \"tslib\";\r\nimport { lwg } from \"../Lwg_Template/lwg\";\r\nvar UIStart_House = (function (_super) {\r\n    tslib_1.__extends(UIStart_House, _super);\r\n    function UIStart_House() {\r\n        return _super.call(this) || this;\r\n    }\r\n    UIStart_House.prototype.lwgInit = function () {\r\n    };\r\n    UIStart_House.prototype.onDisable = function () {\r\n    };\r\n    return UIStart_House;\r\n}(lwg.Admin.Object));\r\nexport default UIStart_House;\r\n",
+  "references": [
+    "D:/Game/project/Riddle/Riddle1/TJ3Demo_Promo/src/script/Lwg_Template/lwg.ts"
+  ]
+}

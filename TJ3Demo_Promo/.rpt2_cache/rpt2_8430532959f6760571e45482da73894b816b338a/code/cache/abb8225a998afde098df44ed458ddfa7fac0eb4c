@@ -1,0 +1,6 @@
+{
+  "code": "import * as tslib_1 from \"tslib\";\r\nimport { lwg } from \"../Lwg_Template/lwg\";\r\nvar UIMain_Bonfire = (function (_super) {\r\n    tslib_1.__extends(UIMain_Bonfire, _super);\r\n    function UIMain_Bonfire() {\r\n        return _super !== null && _super.apply(this, arguments) || this;\r\n    }\r\n    UIMain_Bonfire.prototype.lwgInit = function () {\r\n        this.ani = this.self.getChildByName('ani');\r\n        this.time = 0;\r\n    };\r\n    UIMain_Bonfire.prototype.onUpdate = function () {\r\n        this.time++;\r\n        var url1 = 'Room/ani_fire_01.png';\r\n        var url2 = 'Room/ani_fire_02.png';\r\n        var url3 = 'Room/ani_fire_03.png';\r\n        var speed = 5;\r\n        if (this.time % (speed * 3) === 0) {\r\n            this.ani.skin = url3;\r\n        }\r\n        else if (this.time % (speed * 2) === 0) {\r\n            this.ani.skin = url2;\r\n        }\r\n        else if (this.time % speed === 0) {\r\n            this.ani.skin = url1;\r\n        }\r\n    };\r\n    return UIMain_Bonfire;\r\n}(lwg.Admin.Object));\r\nexport default UIMain_Bonfire;\r\n",
+  "references": [
+    "D:/Game/project/Riddle/Riddle1/TJ3Demo_Promo/src/script/Lwg_Template/lwg.ts"
+  ]
+}

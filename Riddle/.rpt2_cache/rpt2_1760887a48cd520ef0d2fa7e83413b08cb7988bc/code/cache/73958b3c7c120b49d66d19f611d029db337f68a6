@@ -1,0 +1,6 @@
+{
+  "code": "import { lwg } from \"../Lwg_Template/lwg\";\r\nexport default class UIMain_Wangzi extends lwg.Admin.Person {\r\n    constructor() { super(); }\r\n    lwgInit() {\r\n        this.self.addChild(lwg.Sk.wangziSk);\r\n        lwg.Sk.wangziSk.play(lwg.Enum.wangziAni.standby, true);\r\n        lwg.Sk.wangziSk.x = this.self.width / 2;\r\n        lwg.Sk.wangziSk.y = this.self.height;\r\n        let pic = this.self.getChildByName('pic');\r\n        pic.visible = false;\r\n    }\r\n    onDisable() {\r\n    }\r\n}\r\n",
+  "references": [
+    "D:/Game/project/Riddle/Riddle1/Riddle/src/script/Lwg_Template/lwg.ts"
+  ]
+}

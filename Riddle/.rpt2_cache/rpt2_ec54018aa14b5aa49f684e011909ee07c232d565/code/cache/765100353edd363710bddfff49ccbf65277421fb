@@ -1,0 +1,6 @@
+{
+  "code": "import { lwg } from \"../Lwg_Template/lwg\";\r\nexport default class UIDefeated extends Laya.Script {\r\n    constructor() { super(); }\r\n    onEnable() {\r\n        this.self = this.owner;\r\n        this.BtnAgain = this.self['BtnAgain'];\r\n        this.btnOnClick();\r\n    }\r\n    goldRes() {\r\n        let goldLebel = this.GoldRes.getChildByName('Num');\r\n        goldLebel.text = (lwg.Global._goldNum).toString();\r\n    }\r\n    btnOnClick() {\r\n        lwg.Click.on('largen', null, this.BtnAgain, this, null, null, this.BtnAgainUp, null);\r\n    }\r\n    BtnAgainUp(event) {\r\n        event.currentTarget.scale(1, 1);\r\n        lwg.Global.refreshScene();\r\n    }\r\n    BtnLastUp(event) {\r\n        event.currentTarget.scale(1, 1);\r\n        lwg.Global._openInterface('UIStart', 2, this.self, null);\r\n    }\r\n    btnSetUP(event) {\r\n        event.currentTarget.scale(1, 1);\r\n        lwg.Global._openInterface('UISet', 2, null, null);\r\n    }\r\n    onDisable() {\r\n    }\r\n}\r\n",
+  "references": [
+    "D:/Game/project/Riddle/Riddle/src/script/Lwg_Template/lwg.ts"
+  ]
+}

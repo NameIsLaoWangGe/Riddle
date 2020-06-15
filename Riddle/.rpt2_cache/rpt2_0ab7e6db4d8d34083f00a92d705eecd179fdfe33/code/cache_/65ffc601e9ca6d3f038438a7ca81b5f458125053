@@ -1,0 +1,6 @@
+{
+  "code": "import { lwg } from \"../Lwg_Template/lwg\";\r\nexport default class UIStart_House extends lwg.Admin.Object {\r\n    constructor() { super(); }\r\n    lwgInit() {\r\n    }\r\n    onDisable() {\r\n    }\r\n}\r\n",
+  "references": [
+    "D:/Game/project/Riddle/Riddle1/Riddle/src/script/Lwg_Template/lwg.ts"
+  ]
+}

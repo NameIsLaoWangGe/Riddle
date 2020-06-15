@@ -1,0 +1,6 @@
+{
+  "code": "import { lwg } from \"../Lwg_Template/lwg\";\r\nexport default class UIMain_Bonfire extends lwg.Admin.Object {\r\n    lwgInit() {\r\n        this.ani = this.self.getChildByName('ani');\r\n        this.time = 0;\r\n    }\r\n    onUpdate() {\r\n        this.time++;\r\n        let url1 = 'Room/ani_fire_01.png';\r\n        let url2 = 'Room/ani_fire_02.png';\r\n        let url3 = 'Room/ani_fire_03.png';\r\n        let speed = 5;\r\n        if (this.time % (speed * 3) === 0) {\r\n            this.ani.skin = url3;\r\n        }\r\n        else if (this.time % (speed * 2) === 0) {\r\n            this.ani.skin = url2;\r\n        }\r\n        else if (this.time % speed === 0) {\r\n            this.ani.skin = url1;\r\n        }\r\n    }\r\n}\r\n",
+  "references": [
+    "D:/Game/project/Riddle/Riddle1/Riddle/src/script/Lwg_Template/lwg.ts"
+  ]
+}
