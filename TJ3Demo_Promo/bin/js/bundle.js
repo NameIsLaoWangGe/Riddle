@@ -966,12 +966,12 @@
             p.cbi.Add(TJ.Define.Event.Close, () => {
                 if (!getReward) {
                     lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
-                    lwg.Global._createHint(lwg.Enum.HintType.lookend);
+                    lwg.Global._createHint_01(lwg.Enum.HintType.lookend);
                 }
             });
             p.cbi.Add(TJ.Define.Event.NoAds, () => {
                 lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
-                lwg.Global._createHint(lwg.Enum.HintType.noAdv);
+                lwg.Global._createHint_01(lwg.Enum.HintType.noAdv);
             });
             TJ.ADS.Api.ShowReward(p);
         }
@@ -1203,7 +1203,7 @@
             function btnHintUp(event) {
                 event.currentTarget.scale(1, 1);
                 event.stopPropagation();
-                lwg.Global._createHint(lwg.Enum.HintType.noHint);
+                lwg.Global._createHint_01(lwg.Enum.HintType.noHint);
             }
             Global.btnHintUp = btnHintUp;
             function _createBtnAgain(parent) {
@@ -1227,9 +1227,33 @@
                 Admin._refreshScene();
             }
             Global.btnAgainUp = btnAgainUp;
-            function _createHint(type) {
+            function _createHint_01(type) {
                 let sp;
-                Laya.loader.load('prefab/HintPre.json', Laya.Handler.create(this, function (prefab) {
+                Laya.loader.load('prefab/HintPre_01.json', Laya.Handler.create(this, function (prefab) {
+                    let _prefab = new Laya.Prefab();
+                    _prefab.json = prefab;
+                    sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
+                    Laya.stage.addChild(sp);
+                    sp.pos(Laya.stage.width / 2, Laya.stage.height / 2);
+                    let dec = sp.getChildByName('dec');
+                    dec.text = Enum.HintDec[type];
+                    sp.zOrder = 100;
+                    dec.alpha = 0;
+                    Animation.scale_Alpha(sp, 0, 1, 0, 1, 1, 1, 200, 0, f => {
+                        Animation.fadeOut(dec, 0, 1, 150, 0, f => {
+                            Animation.fadeOut(dec, 1, 0, 200, 800, f => {
+                                Animation.scale_Alpha(sp, 1, 1, 1, 1, 0, 0, 200, 0, f => {
+                                    sp.removeSelf();
+                                });
+                            });
+                        });
+                    });
+                }));
+            }
+            Global._createHint_01 = _createHint_01;
+            function _createHint_02(type) {
+                let sp;
+                Laya.loader.load('prefab/HintPre_02.json', Laya.Handler.create(this, function (prefab) {
                     let _prefab = new Laya.Prefab();
                     _prefab.json = prefab;
                     sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
@@ -1243,7 +1267,7 @@
                     });
                 }));
             }
-            Global._createHint = _createHint;
+            Global._createHint_02 = _createHint_02;
             function createConsumeEx(func) {
                 let label = Laya.Pool.getItemByClass('label', Laya.Label);
                 label.name = 'label';
@@ -1391,12 +1415,6 @@
                     num = lwg.Global._gameLevel;
                 }
                 Admin.openLevelNum = num;
-                if (num <= 9) {
-                    sceneName = 'UIMain_00' + num;
-                }
-                else if (9 < num || num <= 99) {
-                    sceneName = 'UIMain_0' + num;
-                }
                 if (num <= 9) {
                     sceneName = 'UIMain_00' + num;
                 }
@@ -2556,6 +2574,17 @@
                 }), 0);
             }
             Animation.HintAni_01 = HintAni_01;
+            function scale_Alpha(target, fAlpha, fScaleX, fScaleY, eScaleX, eScaleY, eAlpha, time, delayed, func) {
+                target.alpha = fAlpha;
+                target.scaleX = fScaleX;
+                target.scaleY = fScaleY;
+                Laya.Tween.to(target, { scaleX: eScaleX, scaleY: eScaleY, alpha: eAlpha }, time, null, Laya.Handler.create(this, function () {
+                    if (func !== null) {
+                        func();
+                    }
+                }), delayed);
+            }
+            Animation.scale_Alpha = scale_Alpha;
             function rotate_Magnify_KickBack(node, eAngle, eScale, time1, time2, delayed1, delayed2, func) {
                 node.alpha = 0;
                 node.scaleX = 0;
@@ -2908,7 +2937,7 @@
             }
             else {
                 lwg.Global._execution -= 2;
-                lwg.Global._createHint(lwg.Enum.HintType.consumeEx);
+                lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
                 lwg.Global.createConsumeEx(null);
                 lwg.LocalStorage.addData();
                 lwg.Admin._refreshScene();
@@ -2918,19 +2947,26 @@
         btnLastUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADnextbt_fail');
             event.currentTarget.scale(1, 1);
-            ADManager.ShowReward(() => {
-                this.btnLastUpFunc();
-            });
-        }
-        btnLastUpFunc() {
             if (lwg.Global._execution < 2) {
                 lwg.Admin._openScene('UIExecutionHint', null, null, null);
                 lwg.Global.intoBtn = 'BtnLast';
+                this.self.close();
+            }
+            else {
+                this.btnLastUpFunc();
+            }
+        }
+        btnLastUpFunc() {
+            if (Number(this.LvNum.value) >= 3) {
+                lwg.Admin._openScene('UIPassHint', null, null, f => {
+                    lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].afterDefeated = true;
+                });
             }
             else {
                 lwg.Global._execution -= 2;
-                lwg.Global._createHint(lwg.Enum.HintType.consumeEx);
+                lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
                 lwg.Global.createConsumeEx(null);
+                lwg.LocalStorage.addData();
                 lwg.LocalStorage.addData();
                 if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
                     lwg.Admin._closeCustomScene();
@@ -2942,9 +2978,9 @@
                     lwg.Admin.openLevelNum++;
                     lwg.Admin._openLevelNumCustom();
                 }
-                lwg.LocalStorage.addData();
-                this.self.close();
             }
+            this.self.close();
+            lwg.LocalStorage.addData();
         }
         btnShareUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'Share_fail');
@@ -2994,9 +3030,7 @@
         }
         btnGetUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_noticket');
-            ADManager.ShowReward(() => {
-                this.btnGetUp_advFunc();
-            });
+            this.btnGetUp_advFunc();
         }
         btnGetUp_advFunc() {
             lwg.Global._stageClick = true;
@@ -3007,6 +3041,13 @@
             });
             lwg.LocalStorage.addData();
             this.self.close();
+            if (lwg.Admin._gameState === lwg.Admin.GameState.Defeated) {
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
+            }
+            else if (lwg.Admin._gameState === lwg.Admin.GameState.Victory) {
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIVictory, null, null, null);
+            }
+            else if (lwg.Admin._gameState === lwg.Admin.GameState.GameStart) ;
         }
         btnCloseDown() {
             if (lwg.Global._exemptEx) {
@@ -3017,6 +3058,13 @@
             this.timeSwitch = false;
             ADManager.TAPoint(TaT.BtnClick, 'close_noticket');
             lwg.Global._stageClick = true;
+            if (lwg.Admin._gameState === lwg.Admin.GameState.Defeated) {
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
+            }
+            else if (lwg.Admin._gameState === lwg.Admin.GameState.Victory) {
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIVictory, null, null, null);
+            }
+            else if (lwg.Admin._gameState === lwg.Admin.GameState.GameStart) ;
             this.self.close();
         }
         btnCloseOut() {
@@ -3487,7 +3535,9 @@
                     this.skeleton.play(lwg.Enum.gongzhuAni.die, false);
                     apple.visible = false;
                     Laya.timer.frameOnce(100, this, f => {
-                        lwg.Admin._openScene('UIPassHint', null, null, null);
+                        lwg.Admin._openScene('UIPassHint', null, null, f => {
+                            lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = lwg.Admin.SceneName.UIDefeated;
+                        });
                     });
                 });
             }
@@ -3506,7 +3556,9 @@
             this.skeleton.play(lwg.Enum.gongzhuAni.die, false);
             Laya.timer.frameOnce(100, this, f => {
                 this.selfScene['UIMain'].victory = false;
-                lwg.Admin._openScene('UIPassHint', null, null, null);
+                lwg.Admin._openScene('UIPassHint', null, null, f => {
+                    lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = lwg.Admin.SceneName.UIDefeated;
+                });
             });
         }
         speedAndPerson(other, self) {
@@ -3540,7 +3592,9 @@
                 lwg.Global._gameStart = false;
                 Laya.timer.frameOnce(100, this, f => {
                     this.selfScene['UIMain'].victory = false;
-                    lwg.Admin._openScene('UIPassHint', null, null, null);
+                    lwg.Admin._openScene('UIPassHint', null, null, f => {
+                        lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = lwg.Admin.SceneName.UIDefeated;
+                    });
                 });
             }
         }
@@ -3583,7 +3637,9 @@
                 }
                 Laya.timer.frameOnce(100, this, f => {
                     this.selfScene['UIMain'].victory = false;
-                    lwg.Admin._openScene('UIPassHint', null, null, null);
+                    lwg.Admin._openScene('UIPassHint', null, null, f => {
+                        lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = lwg.Admin.SceneName.UIDefeated;
+                    });
                 });
             }
         }
@@ -4436,6 +4492,9 @@
                     this.closeScene();
                 }
             }
+            else if (this.self['Pic'].skin === 'UI_new/Defeated/word_freereplay.png') {
+                lwg.Admin._refreshScene();
+            }
             else {
                 ADManager.ShowReward(() => {
                     this.btnYseUpFunc();
@@ -4443,8 +4502,16 @@
             }
         }
         btnYseUpFunc() {
-            this.self['Pic'].skin = 'UI_new/PassHint/word_yes.png';
-            this.self['iconAdv'].visble = false;
+            if (this.intoScene === lwg.Admin.SceneName.UIDefeated) {
+                this.self['Pic'].skin = 'UI_new/Defeated/word_freereplay.png';
+                this.self['Pic'].x -= 30;
+            }
+            else {
+                this.self['Pic'].skin = 'UI_new/PassHint/word_yes.png';
+                this.self['Pic'].x = this.self['BtnYse'].width / 2 + 10;
+                this.self['Pic'].y -= 3;
+            }
+            this.self['iconAdv'].visible = false;
             let num = lwg.Admin.openCustomName.substring(lwg.Admin.openCustomName.length - 3, lwg.Admin.openCustomName.length);
             this.self['Dec'].text = '  ' + lwg.Global._hintDec[Number(num) - 1]['dec'];
         }
@@ -4460,10 +4527,8 @@
             else {
                 if (lwg.Admin._gameState === lwg.Admin.GameState.Victory) {
                     lwg.Global._execution -= 2;
-                    lwg.Global._createHint(lwg.Enum.HintType.consumeEx);
+                    lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
                     lwg.Global.createConsumeEx(null);
-                    lwg.LocalStorage.addData();
-                    lwg.LocalStorage.addData();
                     if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
                         lwg.Admin._closeCustomScene();
                         lwg.Global._gameLevel++;
@@ -4478,7 +4543,33 @@
                     lwg.LocalStorage.addData();
                 }
                 else {
-                    lwg.Admin._openScene('UIDefeated', null, null, null);
+                    if (lwg.Admin._gameState === lwg.Admin.GameState.Defeated) {
+                        if (this.afterDefeated) {
+                            lwg.Global._execution -= 2;
+                            lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
+                            lwg.Global.createConsumeEx(null);
+                            if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
+                                lwg.Admin._closeCustomScene();
+                                lwg.Global._gameLevel++;
+                                lwg.Admin._openGLCustoms();
+                            }
+                            else {
+                                lwg.Admin._closeCustomScene();
+                                lwg.Admin.openLevelNum++;
+                                lwg.Admin._openLevelNumCustom();
+                            }
+                            lwg.LocalStorage.addData();
+                        }
+                        else {
+                            lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
+                        }
+                    }
+                    else if (lwg.Admin._gameState === lwg.Admin.GameState.Victory) {
+                        lwg.Admin._openScene(lwg.Admin.SceneName.UIVictory, null, null, null);
+                    }
+                    else if (lwg.Admin._gameState === lwg.Admin.GameState.Play) {
+                        lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
+                    }
                 }
             }
             this.self.close();
@@ -4870,7 +4961,7 @@
             ADManager.TAPoint(TaT.BtnClick, 'startbt_main');
             event.currentTarget.scale(1, 1);
             if (this.listFirstIndex > lwg.Global._gameLevel) {
-                lwg.Global._createHint(lwg.Enum.HintType.nopass);
+                lwg.Global._createHint_01(lwg.Enum.HintType.nopass);
             }
             else {
                 if (lwg.Global._execution < 2) {
@@ -4878,6 +4969,13 @@
                 }
                 else {
                     if (this.listFirstIndex >= 4) {
+                        if (this.listFirstIndex <= 9) {
+                            lwg.Admin.openCustomName = 'UIMain_00' + this.listFirstIndex;
+                        }
+                        else if (9 < this.listFirstIndex || this.listFirstIndex <= 99) {
+                            lwg.Admin.openCustomName = 'UIMain_0' + this.listFirstIndex;
+                        }
+                        lwg.Admin.openLevelNum = this.listFirstIndex;
                         lwg.Admin._openScene('UIPassHint', null, null, null);
                     }
                     else {
@@ -4889,7 +4987,7 @@
         openPlayScene() {
             lwg.Admin._openNumCustom(this.listFirstIndex);
             lwg.Global._execution -= 2;
-            lwg.Global._createHint(lwg.Enum.HintType.consumeEx);
+            lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
             lwg.Global.createConsumeEx(null);
             lwg.LocalStorage.addData();
             this.self.close();
@@ -4900,7 +4998,7 @@
         }
         btnPifuClickUp(event) {
             event.currentTarget.scale(1, 1);
-            lwg.Global._createHint(lwg.Enum.HintType.noPifu);
+            lwg.Global._createHint_01(lwg.Enum.HintType.noPifu);
         }
         btnLocationUp(event) {
             event.currentTarget.scale(1, 1);
@@ -4996,7 +5094,7 @@
                 }
                 else {
                     lwg.Global._execution -= 2;
-                    lwg.Global._createHint(lwg.Enum.HintType.consumeEx);
+                    lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
                     lwg.Global.createConsumeEx(null);
                     lwg.LocalStorage.addData();
                     lwg.LocalStorage.addData();
@@ -5013,8 +5111,8 @@
                     lwg.Global._goldNum += 25;
                 }
                 lwg.LocalStorage.addData();
-                this.self.close();
             }
+            this.self.close();
         }
         btnGoldAdvUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_success');
@@ -5031,7 +5129,7 @@
             else {
                 lwg.Admin._closeCustomScene();
                 lwg.Global._execution -= 2;
-                lwg.Global._createHint(lwg.Enum.HintType.consumeEx);
+                lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
                 lwg.Global.createConsumeEx(null);
                 lwg.LocalStorage.addData();
                 if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {

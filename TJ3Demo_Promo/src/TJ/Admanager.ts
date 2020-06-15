@@ -55,7 +55,7 @@ export default class ADManager {
             if (!getReward) {
                 lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
                 //UIMgr.show("UISubSkinTry", 2);
-                lwg.Global._createHint(lwg.Enum.HintType.lookend);
+                lwg.Global._createHint_01(lwg.Enum.HintType.lookend);
                 //TipPanel.ins.showString("观看完整广告才能获取奖励哦！");
             }
         });
@@ -63,7 +63,7 @@ export default class ADManager {
             lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
 
             //UIMgr.show("UISubSkinTry", 1);
-            lwg.Global._createHint(lwg.Enum.HintType.noAdv);
+            lwg.Global._createHint_01(lwg.Enum.HintType.noAdv);
             //TipPanel.ins.showString("暂时没有广告，过会儿再试试吧！");
         });
 

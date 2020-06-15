@@ -19,10 +19,9 @@ export default class UIExecutionHint extends lwg.Admin.Scene {
     }
     btnGetUp(event): void {
         ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_noticket');
-
-        ADManager.ShowReward(() => {
-            this.btnGetUp_advFunc();
-        })
+        // ADManager.ShowReward(() => {
+        this.btnGetUp_advFunc();
+        // })
     }
 
     btnGetUp_advFunc(): void {
@@ -34,6 +33,17 @@ export default class UIExecutionHint extends lwg.Admin.Scene {
         });
         lwg.LocalStorage.addData();
         this.self.close();
+
+        if (lwg.Admin._gameState === lwg.Admin.GameState.Defeated) {
+        
+            lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
+      
+        } else if (lwg.Admin._gameState === lwg.Admin.GameState.Victory) {
+            lwg.Admin._openScene(lwg.Admin.SceneName.UIVictory, null, null, null);
+        }
+        else if (lwg.Admin._gameState === lwg.Admin.GameState.GameStart) {
+            //直接关闭
+        }
     }
 
     /**每天一次免费按住关闭按钮三秒，可以免体力进入游戏一次*/
@@ -51,8 +61,16 @@ export default class UIExecutionHint extends lwg.Admin.Scene {
         ADManager.TAPoint(TaT.BtnClick, 'close_noticket');
 
         lwg.Global._stageClick = true;
+        if (lwg.Admin._gameState === lwg.Admin.GameState.Defeated) {
+            lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
+
+        } else if (lwg.Admin._gameState === lwg.Admin.GameState.Victory) {
+            lwg.Admin._openScene(lwg.Admin.SceneName.UIVictory, null, null, null);
+        }
+        else if (lwg.Admin._gameState === lwg.Admin.GameState.GameStart) {
+            //直接关闭
+        }
         this.self.close();
-        // lwg.Admin._openScene('UIDefeated', null, null, null);
     }
     btnCloseOut(): void {
         this.timeSwitch = false;

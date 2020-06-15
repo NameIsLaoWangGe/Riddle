@@ -211,7 +211,9 @@
             "icon_share.png",
             "word_back.png",
             "word_share.png",
-            "word_last.png"
+            "word_last.png",
+            "ui_describe_02.png",
+            "ui_describe.png"
         ]
     ],
     "res/atlas/UI_new/Defeated.atlas": [
@@ -228,7 +230,8 @@
             "word_11.png",
             "word_add3.png",
             "logo.png",
-            "word_next.png"
+            "word_next.png",
+            "word_freereplay.png"
         ]
     ],
     "res/atlas/UI_new/GameMain.atlas": [

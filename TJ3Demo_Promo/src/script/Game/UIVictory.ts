@@ -84,7 +84,7 @@ export default class UIVictory extends lwg.Admin.Scene {
             } else {
 
                 lwg.Global._execution -= 2;
-                lwg.Global._createHint(lwg.Enum.HintType.consumeEx);
+                lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
                 lwg.Global.createConsumeEx(null);
                 lwg.LocalStorage.addData();
 
@@ -102,8 +102,8 @@ export default class UIVictory extends lwg.Admin.Scene {
             }
             // console.log(lwg.Admin.openLevelNum, lwg.Global._gameLevel);
             lwg.LocalStorage.addData();
-            this.self.close();
         }
+        this.self.close();
     }
 
     // 三倍领取
@@ -123,7 +123,7 @@ export default class UIVictory extends lwg.Admin.Scene {
             lwg.Admin._closeCustomScene();
 
             lwg.Global._execution -= 2;
-            lwg.Global._createHint(lwg.Enum.HintType.consumeEx);
+            lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
             lwg.Global.createConsumeEx(null);
             lwg.LocalStorage.addData();
 

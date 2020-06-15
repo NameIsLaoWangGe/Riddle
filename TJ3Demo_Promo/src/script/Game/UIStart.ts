@@ -354,12 +354,19 @@ export default class UIStart extends lwg.Admin.Scene {
         event.currentTarget.scale(1, 1);
         // 如果选中的關卡大于當前關卡則提示未過關，打开选中关卡
         if (this.listFirstIndex > lwg.Global._gameLevel) {
-            lwg.Global._createHint(lwg.Enum.HintType.nopass);
+            lwg.Global._createHint_01(lwg.Enum.HintType.nopass);
         } else {
             if (lwg.Global._execution < 2) {
                 lwg.Admin._openScene('UIExecutionHint', null, null, null);
             } else {
                 if (this.listFirstIndex >= 4) {
+                    // 格式
+                    if (this.listFirstIndex <= 9) {
+                        lwg.Admin.openCustomName = 'UIMain_00' + this.listFirstIndex;
+                    } else if (9 < this.listFirstIndex || this.listFirstIndex <= 99) {
+                        lwg.Admin.openCustomName = 'UIMain_0' + this.listFirstIndex;
+                    }
+                    lwg.Admin.openLevelNum = this.listFirstIndex;
                     lwg.Admin._openScene('UIPassHint', null, null, null);
                 } else {
                     // console.log(this.listFirstIndex);
@@ -373,7 +380,7 @@ export default class UIStart extends lwg.Admin.Scene {
         lwg.Admin._openNumCustom(this.listFirstIndex);
 
         lwg.Global._execution -= 2;
-        lwg.Global._createHint(lwg.Enum.HintType.consumeEx);
+        lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
         lwg.Global.createConsumeEx(null);
         lwg.LocalStorage.addData();
 
@@ -388,7 +395,7 @@ export default class UIStart extends lwg.Admin.Scene {
     btnPifuClickUp(event): void {
         event.currentTarget.scale(1, 1);
         // lwg.Global.openInterface('UIPifu', null, null);
-        lwg.Global._createHint(lwg.Enum.HintType.noPifu);
+        lwg.Global._createHint_01(lwg.Enum.HintType.noPifu);
     }
     btnLocationUp(event): void {
         event.currentTarget.scale(1, 1);

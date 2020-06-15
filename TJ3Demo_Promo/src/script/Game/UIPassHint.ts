@@ -2,7 +2,10 @@ import { lwg } from "../Lwg_Template/lwg";
 import ADManager, { TaT } from "../../TJ/Admanager";
 
 export default class UIPassHint extends lwg.Admin.Scene {
-
+    /**是从哪个界面进来的*/
+    intoScene: string;
+    /**是否是失败后再进游戏弹出来的*/
+    afterDefeated: boolean;
     adaptive() {
         this.self['sceneContent'].y = Laya.stage.height * 0.481;
     }
@@ -26,6 +29,7 @@ export default class UIPassHint extends lwg.Admin.Scene {
 
     // 看广告获得提示
     btnYseUp(event): void {
+
         ADManager.TAPoint(TaT.BtnClick, 'ADrewordbt_freegift');
 
         event.currentTarget.scale(1, 1);
@@ -37,6 +41,8 @@ export default class UIPassHint extends lwg.Admin.Scene {
             } else {
                 this.closeScene();
             }
+        } else if (this.self['Pic'].skin === 'UI_new/Defeated/word_freereplay.png') {
+            lwg.Admin._refreshScene();
         } else {
             ADManager.ShowReward(() => {
                 this.btnYseUpFunc();
@@ -44,8 +50,17 @@ export default class UIPassHint extends lwg.Admin.Scene {
         }
     }
     btnYseUpFunc(): void {
-        this.self['Pic'].skin = 'UI_new/PassHint/word_yes.png';
-        this.self['iconAdv'].visble = false;
+        if (this.intoScene === lwg.Admin.SceneName.UIDefeated) {
+            this.self['Pic'].skin = 'UI_new/Defeated/word_freereplay.png';
+            this.self['Pic'].x -= 30;
+
+        } else {
+            this.self['Pic'].skin = 'UI_new/PassHint/word_yes.png';
+            this.self['Pic'].x = this.self['BtnYse'].width / 2 + 10;
+            this.self['Pic'].y -= 3;
+        }
+
+        this.self['iconAdv'].visible = false;
         let num = lwg.Admin.openCustomName.substring(lwg.Admin.openCustomName.length - 3, lwg.Admin.openCustomName.length);
         this.self['Dec'].text = '  ' + lwg.Global._hintDec[Number(num) - 1]['dec'];
     }
@@ -63,11 +78,9 @@ export default class UIPassHint extends lwg.Admin.Scene {
         } else {
             if (lwg.Admin._gameState === lwg.Admin.GameState.Victory) {
                 lwg.Global._execution -= 2;
-                lwg.Global._createHint(lwg.Enum.HintType.consumeEx);
+                lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
                 lwg.Global.createConsumeEx(null);
-                lwg.LocalStorage.addData();
 
-                lwg.LocalStorage.addData();
                 if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
                     lwg.Admin._closeCustomScene();
                     lwg.Global._gameLevel++;
@@ -81,7 +94,32 @@ export default class UIPassHint extends lwg.Admin.Scene {
                 // console.log(lwg.Admin.openLevelNum, lwg.Global._gameLevel);
                 lwg.LocalStorage.addData();
             } else {
-                lwg.Admin._openScene('UIDefeated', null, null, null);
+                if (lwg.Admin._gameState === lwg.Admin.GameState.Defeated) {
+                    if (this.afterDefeated) {
+                        lwg.Global._execution -= 2;
+                        lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
+                        lwg.Global.createConsumeEx(null);
+
+                        if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
+                            lwg.Admin._closeCustomScene();
+                            lwg.Global._gameLevel++;
+                            lwg.Admin._openGLCustoms();
+                        } else {
+                            lwg.Admin._closeCustomScene();
+                            lwg.Admin.openLevelNum++;
+                            lwg.Admin._openLevelNumCustom();
+                        }
+                        lwg.LocalStorage.addData();
+                    } else {
+                        lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
+                    }
+                } else if (lwg.Admin._gameState === lwg.Admin.GameState.Victory) {
+                    lwg.Admin._openScene(lwg.Admin.SceneName.UIVictory, null, null, null);
+                }
+                else if (lwg.Admin._gameState === lwg.Admin.GameState.Play) {
+                    //直接关闭
+                    lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
+                }
             }
         }
         this.self.close();

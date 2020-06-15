@@ -64,7 +64,7 @@ export default class UIDefeated extends lwg.Admin.Scene {
         } else {
 
             lwg.Global._execution -= 2;
-            lwg.Global._createHint(lwg.Enum.HintType.consumeEx);
+            lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
             lwg.Global.createConsumeEx(null);
             lwg.LocalStorage.addData();
 
@@ -77,20 +77,31 @@ export default class UIDefeated extends lwg.Admin.Scene {
     btnLastUp(event): void {
         ADManager.TAPoint(TaT.BtnClick, 'ADnextbt_fail');
         event.currentTarget.scale(1, 1);
-        ADManager.ShowReward(() => {
-            this.btnLastUpFunc();
-        })
-    }
-    btnLastUpFunc(): void {
         if (lwg.Global._execution < 2) {
             lwg.Admin._openScene('UIExecutionHint', null, null, null);
             lwg.Global.intoBtn = 'BtnLast';
+            this.self.close();
+
+        } else {
+            ADManager.ShowReward(() => {
+                this.btnLastUpFunc();
+            })
+        }
+    }
+
+    btnLastUpFunc(): void {
+
+        if (Number(this.LvNum.value) >= 3) {
+            lwg.Admin._openScene('UIPassHint', null, null, f => {
+                lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].afterDefeated = true;
+            });
         } else {
             lwg.Global._execution -= 2;
-            lwg.Global._createHint(lwg.Enum.HintType.consumeEx);
+            lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
             lwg.Global.createConsumeEx(null);
             lwg.LocalStorage.addData();
 
+            lwg.LocalStorage.addData();
             if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
                 lwg.Admin._closeCustomScene();
                 lwg.Global._gameLevel++;
@@ -100,10 +111,10 @@ export default class UIDefeated extends lwg.Admin.Scene {
                 lwg.Admin.openLevelNum++;
                 lwg.Admin._openLevelNumCustom();
             }
-            // console.log(lwg.Admin.openLevelNum, lwg.Global._gameLevel);
-            lwg.LocalStorage.addData();
-            this.self.close();
         }
+        this.self.close();
+        // console.log(lwg.Admin.openLevelNum, lwg.Global._gameLevel);
+        lwg.LocalStorage.addData();
     }
 
     // 分享
@@ -121,7 +132,6 @@ export default class UIDefeated extends lwg.Admin.Scene {
         lwg.Global._goldNum += 125;
     }
 
-    // 看广告获取体力
     btnBackUp(event): void {
         ADManager.TAPoint(TaT.BtnClick, 'ADticketbt_fail');
 

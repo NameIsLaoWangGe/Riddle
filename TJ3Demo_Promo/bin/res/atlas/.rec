@@ -255,8 +255,9 @@ P 549E1435 icon_execution.png
 P 4CB05733 icon_gold.png
 P C90B8077 icon_qingdi.png
 P 8CC6C67B icon_share.png
+R 587B755C lALPGqGoaVBw2ejNAkjNAlw_604_584.png
 P 8E8870A9 no_btn.png
-P 1B001091 ui_describe.png
+P 6530897D ui_describe_02.png
 P 363A8649 ui_line.png
 P 3E1CD4E9 word_back.png
 P 1AEABD4C word_last.png
@@ -274,6 +275,7 @@ P 4CD7ED7D share_btn_01.png
 R C2FC0293 ui_baseboard_01.png
 P 595C1B75 word_11.png
 P DBCA2AC7 word_add3.png
+P 22B4F0F2 word_freereplay.png
 P FC9A342F word_next.png
 D UI_new/ExecutionHint
 P AD1803CF adv_btn.png

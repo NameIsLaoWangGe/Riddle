@@ -30,8 +30,7 @@ export module lwg {
 
         /**在体力提示界面中，用于判断在失败界面时，判断从哪个按钮进去，是通过重来按钮还是下一关按钮进来的*/
         export let intoBtn: string;
-        /**用于免费提示彩蛋中控制界面弹出的样式*/
-        export let intoMain: string;
+
 
         /**当前金币总数数量*/
         export let _goldNum = 0;
@@ -250,7 +249,7 @@ export module lwg {
             event.currentTarget.scale(1, 1);
             event.stopPropagation();
             // lwg.Admin._openScene('UIPause', null, null, null);
-            lwg.Global._createHint(lwg.Enum.HintType.noHint);
+            lwg.Global._createHint_01(lwg.Enum.HintType.noHint);
         }
 
         /**指代当前界面的重来按钮*/
@@ -293,9 +292,38 @@ export module lwg {
          * 创建提示框prefab
          * @param type 类型，也就是提示文字类型
          */
-        export function _createHint(type): void {
+        export function _createHint_01(type): void {
             let sp: Laya.Sprite;
-            Laya.loader.load('prefab/HintPre.json', Laya.Handler.create(this, function (prefab: Laya.Prefab) {
+            Laya.loader.load('prefab/HintPre_01.json', Laya.Handler.create(this, function (prefab: Laya.Prefab) {
+                let _prefab = new Laya.Prefab();
+                _prefab.json = prefab;
+                sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
+                Laya.stage.addChild(sp);
+                sp.pos(Laya.stage.width / 2, Laya.stage.height / 2);
+                let dec = sp.getChildByName('dec') as Laya.Label;
+                dec.text = Enum.HintDec[type];
+                sp.zOrder = 100;
+
+                dec.alpha = 0;
+                Animation.scale_Alpha(sp, 0, 1, 0, 1, 1, 1, 200, 0, f => {
+                    Animation.fadeOut(dec, 0, 1, 150, 0, f => {
+                        Animation.fadeOut(dec, 1, 0, 200, 800, f => {
+                            Animation.scale_Alpha(sp, 1, 1, 1, 1, 0, 0, 200, 0, f => {
+                                sp.removeSelf();
+                            });
+                        });
+                    });
+                });
+            }));
+        }
+
+        /**
+        * 创建提示框prefab
+        * @param type 类型，也就是提示文字类型
+        */
+        export function _createHint_02(type): void {
+            let sp: Laya.Sprite;
+            Laya.loader.load('prefab/HintPre_02.json', Laya.Handler.create(this, function (prefab: Laya.Prefab) {
                 let _prefab = new Laya.Prefab();
                 _prefab.json = prefab;
                 sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
@@ -518,11 +546,6 @@ export module lwg {
             }
             openLevelNum = num;
             // 格式
-            if (num <= 9) {
-                sceneName = 'UIMain_00' + num;
-            } else if (9 < num || num <= 99) {
-                sceneName = 'UIMain_0' + num;
-            }
             if (num <= 9) {
                 sceneName = 'UIMain_00' + num;
             } else if (9 < num || num <= 99) {
@@ -2229,6 +2252,31 @@ export module lwg {
                     }), 0);
                 }), 0);
             }), 0);
+        }
+
+
+        /**
+        * 放大缩小加上渐变
+        * @param target 节点
+        * @param fAlpha 初始透明度
+        * @param fScaleX 初始X大小
+        * @param fScaleY 初始Y大小
+        * @param endScaleX 最终X大小
+        * @param endScaleY 最终Y大小
+        * @param eAlpha 最终透明度
+        * @param time 花费时间
+        * @param delayed 延迟时间
+        * @param func 结束回调
+        */
+        export function scale_Alpha(target, fAlpha, fScaleX, fScaleY, eScaleX, eScaleY, eAlpha, time, delayed, func): void {
+            target.alpha = fAlpha;
+            target.scaleX = fScaleX;
+            target.scaleY = fScaleY;
+            Laya.Tween.to(target, { scaleX: eScaleX, scaleY: eScaleY, alpha: eAlpha }, time, null, Laya.Handler.create(this, function () {
+                if (func !== null) {
+                    func()
+                }
+            }), delayed);
         }
 
         /**

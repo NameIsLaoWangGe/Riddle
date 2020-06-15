@@ -189,7 +189,9 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
                 this.skeleton.play(lwg.Enum.gongzhuAni.die, false);
                 apple.visible = false;
                 Laya.timer.frameOnce(100, this, f => {
-                    lwg.Admin._openScene('UIPassHint', null, null, null);
+                    lwg.Admin._openScene('UIPassHint', null, null, f => {
+                        lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = lwg.Admin.SceneName.UIDefeated;
+                    });
                 });
             });
         }
@@ -214,7 +216,9 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         Laya.timer.frameOnce(100, this, f => {
             this.selfScene['UIMain'].victory = false;
 
-            lwg.Admin._openScene('UIPassHint', null, null, null);
+            lwg.Admin._openScene('UIPassHint', null, null, f => {
+                lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = lwg.Admin.SceneName.UIDefeated;
+            });
         });
     }
     /**加速符和角色碰撞*/
@@ -254,7 +258,9 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
             Laya.timer.frameOnce(100, this, f => {
                 this.selfScene['UIMain'].victory = false;
 
-                lwg.Admin._openScene('UIPassHint', null, null, null);
+                lwg.Admin._openScene('UIPassHint', null, null, f => {
+                    lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = lwg.Admin.SceneName.UIDefeated;
+                });
             });
         }
     }
@@ -307,7 +313,9 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
             Laya.timer.frameOnce(100, this, f => {
                 this.selfScene['UIMain'].victory = false;
 
-                lwg.Admin._openScene('UIPassHint', null, null, null);
+                lwg.Admin._openScene('UIPassHint', null, null, f => {
+                    lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = lwg.Admin.SceneName.UIDefeated;
+                });
             });
         }
     }
