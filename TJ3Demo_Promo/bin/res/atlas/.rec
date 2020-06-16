@@ -343,11 +343,13 @@ P 0A40FA13 yes_btn.png
 D UI_new/Victory
 P 1F78459A green_btn.png
 P 1DF9AE7D icon_adv_green.png
+P 8E52ABD9 icon_adv_h.png
 P 19A70E3D icon_adv_red.png
 P A5763191 icon_biggold.png
 P FA691F6B last_btn.png
 P 0129378A logo_victory.png
 P A6CD0CAF rede_btn.png
+P DA12B141 rede_btn_01.png
 R 80FCBB9B ui_01.png
 P 270D4E1B ui_board_01.png
 R 7A97DDA1 ui_board_02.png

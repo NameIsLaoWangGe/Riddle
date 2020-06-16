@@ -49,7 +49,7 @@ export default class UIDefeated extends lwg.Admin.Scene {
         ADManager.TAPoint(TaT.BtnShow, 'Share_fail');
 
         lwg.Click.on('largen', null, this.BtnAgain, this, null, null, this.btnAgainUp, null);
-        lwg.Click.on('largen', null, this.BtnLast, this, null, null, this.btnLastUp, null);
+        lwg.Click.on('largen', null, this.BtnLast, this, null, null, this.btnNextUp, null);
         lwg.Click.on('largen', null, this.BtnShare, this, null, null, this.btnShareUp, null);
         lwg.Click.on('largen', null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
     }
@@ -71,28 +71,26 @@ export default class UIDefeated extends lwg.Admin.Scene {
             lwg.LocalStorage.addData();
 
             lwg.Admin._refreshScene();
+            this.self.close();
         }
-        this.self.close();
     }
 
     // 看广告下一关
-    btnLastUp(event): void {
+    btnNextUp(event): void {
         ADManager.TAPoint(TaT.BtnClick, 'ADnextbt_fail');
         event.currentTarget.scale(1, 1);
         if (lwg.Global._execution < 2) {
             lwg.Admin._openScene('UIExecutionHint', null, null, null);
             lwg.Global.intoBtn = 'BtnLast';
-            this.self.close();
 
         } else {
             ADManager.ShowReward(() => {
-                this.btnLastUpFunc();
+                this.btnNextUpFunc();
             })
         }
     }
 
-    btnLastUpFunc(): void {
-
+    btnNextUpFunc(): void {
         if (Number(this.LvNum.value) >= 3) {
             lwg.Admin._openScene('UIPassHint', null, null, f => {
                 lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].afterDefeated = true;
@@ -101,7 +99,6 @@ export default class UIDefeated extends lwg.Admin.Scene {
             lwg.Admin._nextCustomScene(2);
         }
         this.self.close();
-        // console.log(lwg.Admin.openLevelNum, lwg.Global._gameLevel);
         lwg.LocalStorage.addData();
     }
 

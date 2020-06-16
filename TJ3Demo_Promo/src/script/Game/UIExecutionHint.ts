@@ -20,7 +20,7 @@ export default class UIExecutionHint extends lwg.Admin.Scene {
     btnGetUp(event): void {
         ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_noticket');
         ADManager.ShowReward(() => {
-        this.btnGetUp_advFunc();
+            this.btnGetUp_advFunc();
         })
     }
 
@@ -49,25 +49,12 @@ export default class UIExecutionHint extends lwg.Admin.Scene {
     time: number;
     timeSwitch: boolean = false;
     btnCloseDown(): void {
-        if (lwg.Global._exemptEx) {
-            this.timeSwitch = true;
-        }
+        this.timeSwitch = true;
     }
 
     btnCloseUp(event): void {
         this.timeSwitch = false;
-
         ADManager.TAPoint(TaT.BtnClick, 'close_noticket');
-
-        if (lwg.Admin._gameState === lwg.Admin.GameState.Defeated) {
-            lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
-
-        } else if (lwg.Admin._gameState === lwg.Admin.GameState.Victory) {
-            lwg.Admin._openScene(lwg.Admin.SceneName.UIVictory, null, null, null);
-        }
-        else if (lwg.Admin._gameState === lwg.Admin.GameState.GameStart) {
-            //直接关闭
-        }
         this.self.close();
     }
     btnCloseOut(): void {
@@ -79,6 +66,10 @@ export default class UIExecutionHint extends lwg.Admin.Scene {
             this.time++;
             if (this.time >= 180) {
                 this.timeSwitch = false;
+                if (!lwg.Global._exemptEx) {
+                    lwg.Global._createHint_01(lwg.Enum.HintType.no_exemptExTime);
+                    return;
+                }
                 this.time = 0;
                 lwg.Global._exemptExTime = (new Date).getDate();
                 lwg.Global._exemptEx = false;
@@ -112,7 +103,7 @@ export default class UIExecutionHint extends lwg.Admin.Scene {
                         lwg.Admin._refreshScene();
                     }
                 }
-                // console.log('免费进入游戏一次');
+                console.log('免费进入游戏一次');
                 lwg.LocalStorage.addData();
                 this.self.close();
             }

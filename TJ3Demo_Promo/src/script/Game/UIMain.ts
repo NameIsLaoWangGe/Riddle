@@ -48,7 +48,7 @@ export default class UIMain extends lwg.Admin.Scene {
         this.self.on(Laya.Event.DOUBLE_CLICK, this, this.stageDB);
     }
     stageDB(): void {
-        if (lwg.Global._freetHint) {
+        if (lwg.Global._freetHint && lwg.Global._gameLevel !== 1 && lwg.Global._gameLevel !== 29 && lwg.Admin.openLevelNum !== 1 && lwg.Admin.openLevelNum !== 29) {
             console.log('免费提示出现！');
             lwg.Global._freeHintTime = (new Date).getDate();
             lwg.Global._freetHint = false;
@@ -57,6 +57,10 @@ export default class UIMain extends lwg.Admin.Scene {
                 lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = 'UIMain';
                 lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].setStyle();
             });
+        } else if (!lwg.Global._freetHint) {
+            console.log('今日免费提示机会用完了！');
+        } else {
+            console.log('第1关和第29关不会出现免费提示！');
         }
     }
 

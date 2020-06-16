@@ -290,7 +290,9 @@
             "ui_board_01.png",
             "word_11.png",
             "word_add3.png",
-            "word_threeget.png"
+            "word_threeget.png",
+            "icon_adv_h.png",
+            "rede_btn_01.png"
         ]
     ],
     "res/atlas/Effects.atlas": [

@@ -6,7 +6,7 @@ export default class UIMain_Wangzi extends UIMain_Gongzhu {
     gzConnect: boolean;
     notCommon(): void {
         this.gzConnect = false;
-         this.signSkin = 'Room/icon_love.png';
+        this.signSkin = 'Room/icon_love.png';
     }
     createskeleton(): void {
         this.skeleton = lwg.Sk.wangziTem.buildArmature(0);

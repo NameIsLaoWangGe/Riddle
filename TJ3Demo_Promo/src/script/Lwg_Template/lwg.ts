@@ -1082,36 +1082,33 @@ export module lwg {
          * @param targeX 目标X位置
          * @param targeY 目标Y位置
          */
-        export function createAddGold(parent, quantity, x, y, targetX, targetY,func): void {
+        export function createAddGold(parent, index, x, y, targetX, targetY, func): void {
             let delayed = 0;
-            for (let index = 0; index < quantity; index++) {
-                let ele = Laya.Pool.getItemByClass('addGold', Laya.Image) as Laya.Image;
-                ele.name = 'addGold';//标识符和名称一样
-                let num = Math.floor(Math.random() * 12);
-                ele.alpha = 1;
-                ele.skin = SkinUrl[24];
-                parent.addChild(ele);
-                ele.pos(x, y);
-                let scirpt = ele.getComponent(AddGold);
-                if (!scirpt) {
-                    ele.addComponent(AddGold);
-                    let scirpt1 = ele.getComponent(AddGold);
-                    scirpt1.line = index;
-                    scirpt1.targetX = targetX;
-                    scirpt1.targetY = targetY;
-                    scirpt1.timer -= index * 3;
-                    scirpt1.moveSwitch = true;
-                    scirpt1.func = func;
-                    scirpt1.initProperty();
-                } else {
-                    scirpt.line = index;
-                    scirpt.timer -= index * 3;
-                    scirpt.targetX = targetX;
-                    scirpt.targetY = targetY;
-                    scirpt.moveSwitch = true;
-                    scirpt.func = func;
-                    scirpt.initProperty();
-                }
+            let ele = Laya.Pool.getItemByClass('addGold', Laya.Image) as Laya.Image;
+            ele.name = 'addGold';//标识符和名称一样
+            let num = Math.floor(Math.random() * 12);
+            ele.alpha = 1;
+            ele.skin = SkinUrl[24];
+            parent.addChild(ele);
+            ele.zOrder = 60;
+            ele.pos(x, y);
+            let scirpt = ele.getComponent(AddGold);
+            if (!scirpt) {
+                ele.addComponent(AddGold);
+                let scirpt1 = ele.getComponent(AddGold);
+                scirpt1.line = index;
+                scirpt1.targetX = targetX;
+                scirpt1.targetY = targetY;
+                scirpt1.timer -= index * 3;
+                scirpt1.moveSwitch = true;
+                scirpt1.func = func;
+            } else {
+                scirpt.line = index;
+                scirpt.timer -= index * 3;
+                scirpt.targetX = targetX;
+                scirpt.targetY = targetY;
+                scirpt.moveSwitch = true;
+                scirpt.func = func;
             }
         }
 
@@ -1124,13 +1121,8 @@ export module lwg {
             /**目标位置Y*/
             targetY: number;
             /**回调函数*/
-            func:any 
+            func: any
             initProperty(): void {
-                // this.startAngle = 360 * Math.random();
-                // this.startSpeed = 5 * Math.random() + 8;
-                // this.startScale = 0.4 + Math.random() * 0.6;
-                // this.accelerated = 0.1;
-                // this.vanishTime = 8 + Math.random() * 10;
             }
             moveRules(): void {
                 if (this.moveSwitch) {
@@ -1138,22 +1130,13 @@ export module lwg {
                     if (this.timer > 0) {
                         lwg.Animation.move_Simple(this.self, this.self.x, this.self.y, this.targetX, this.targetY, 250, 0, f => {
                             this.self.removeSelf();
-                            if (this.func) {
+                            if (this.func !== null) {
                                 this.func();
                             }
                         });
                         this.moveSwitch = false;
                     }
                 }
-
-                // if (this.timer >= this.vanishTime / 2) {
-                //     this.self.alpha -= 0.15;
-                // }
-                // if (this.timer >= this.vanishTime) {
-                //     this.self.removeSelf();
-                // } else {
-                //     this.commonSpeedXYByAngle(this.startAngle, this.startSpeed + this.accelerated);
-                // }
             }
         }
 
@@ -1371,7 +1354,9 @@ export module lwg {
             '分享成功',
             '暂无视频，玩一局游戏之后分享！',
             '消耗2点体力！',
+            '今日体力福利已领取！',
         }
+        
         /**提示类型*/
         export enum HintType {
             'noGold',
@@ -1386,6 +1371,7 @@ export module lwg {
             'sharesuccess',
             'novideo',
             'consumeEx',
+            'no_exemptExTime'
         }
         /**皮肤的顺序以及名称*/
         export enum PifuOrder {
@@ -2052,13 +2038,37 @@ export module lwg {
         * @param delayed 延时
         * @param func 回调函数
         */
-        export function move_FadeOut_Scale(node, firstX, firstY, targetX, targetY, time, delayed, func): void {
+        export function move_FadeOut_Scale_01(node, firstX, firstY, targetX, targetY, time, delayed, func): void {
             node.alpha = 0;
             node.targetX = 0;
             node.targetY = 0;
             node.x = firstX;
             node.y = firstY;
             Laya.Tween.to(node, { alpha: 1, x: targetX, y: targetY, scaleX: 1, scaleY: 1 }, time, null, Laya.Handler.create(this, function () {
+                if (func !== null) {
+                    func();
+                }
+            }), delayed)
+        }
+
+        /**
+         * 移动+缩放，起始位置都是0，最终位置都是1
+         * @param node 节点
+         * @param fScale 初始大小
+         * @param fX 初始x位置
+         * @param fY 初始y位置
+         * @param tX x轴移动位置
+         * @param tY y轴移动位置
+         * @param time 花费时间
+         * @param delayed 延时
+         * @param func 回调函数
+         */
+        export function move_Scale(node, fScale, fX, fY, tX, tY, eScale, time, delayed, func): void {
+            node.scaleX = fScale;
+            node.scaleY = fScale;
+            node.x = fX;
+            node.y = fY;
+            Laya.Tween.to(node, { x: tX, y: tY, scaleX: eScale, scaleY: eScale }, time, null, Laya.Handler.create(this, function () {
                 if (func !== null) {
                     func();
                 }
