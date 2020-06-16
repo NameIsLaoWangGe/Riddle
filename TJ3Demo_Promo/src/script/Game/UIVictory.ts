@@ -33,18 +33,23 @@ export default class UIVictory extends lwg.Admin.Scene {
         this.getGoldDisplay();
         this.LvNumDisplay();
 
-        lwg.Effects.createFireworks(this.self['sceneContent'], 30, 430, 40);
-        lwg.Effects.createFireworks(this.self['sceneContent'], 30, 109, 49.5);
-
-
-        lwg.Effects.createLeftOrRightJet(this.self['sceneContent'], 'right', 30, 582, 141.5);
-        lwg.Effects.createLeftOrRightJet(this.self['sceneContent'], 'left', 30, -21.5, 141.5);
-
         lwg.PalyAudio.playSound(lwg.Enum.voiceUrl.victory, 1);
+
+        if (lwg.Global._hotShare) {
+            lwg.Admin._openScene(lwg.Admin.SceneName.UIShare, null, null, null);
+        }
     }
 
     adaptive(): void {
         this.self['sceneContent'].y = Laya.stage.height / 2;
+    }
+
+    openAni(): void {
+        lwg.Effects.createFireworks(this.self['sceneContent'], 30, 430, 40);
+        lwg.Effects.createFireworks(this.self['sceneContent'], 30, 109, 49.5);
+
+        lwg.Effects.createLeftOrRightJet(this.self['sceneContent'], 'right', 30, 582, 141.5);
+        lwg.Effects.createLeftOrRightJet(this.self['sceneContent'], 'left', 30, -21.5, 141.5);
     }
 
     /**
@@ -61,8 +66,8 @@ export default class UIVictory extends lwg.Admin.Scene {
                 Num.value = (Number(Num.value) + 1).toString();
 
                 let goldNum = this.self['GoldNum'] as Laya.FontClip;
-                goldNum.value = 'x' + (number - index - 1);
-                if (index === 24) {
+                goldNum.value = 'x' + (number - index - 2);
+                if (index === number - 1) {
                     if (thisFunc !== null) {
                         thisFunc();
                     }
@@ -112,8 +117,10 @@ export default class UIVictory extends lwg.Admin.Scene {
     /**是否有过三倍领取*/
     goldAdv_3Get: boolean;
     /**需要判断当前的关卡是否和当前关卡相等，不相等说明打开的是以前的关卡*/
-    btnNextUp() {
+    btnNextUp(event) {
         ADManager.TAPoint(TaT.BtnClick, 'nextword_success');
+        event.currentTarget.scale(1, 1);
+
         if (lwg.Global._execution < 2) {
             lwg.Admin._openScene('UIExecutionHint', null, null, null);
         } else {
@@ -121,7 +128,7 @@ export default class UIVictory extends lwg.Admin.Scene {
             if (this.goldAdv_3Get) {
                 this.getGoldAniFunc();
             } else {
-                this.getGoldAni(25, f => {
+                this.getGoldAni(15, f => {
                     this.getGoldAniFunc();
                 })
             }
@@ -141,8 +148,8 @@ export default class UIVictory extends lwg.Admin.Scene {
     // 三倍领取
     btnGoldAdvUp(event): void {
         ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_success');
-
         event.currentTarget.scale(1, 1);
+
         ADManager.ShowReward(() => {
             this.btnGoldAdvUpFunc();
             lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
@@ -160,7 +167,7 @@ export default class UIVictory extends lwg.Admin.Scene {
         let level = lwg.Global._gameLevel;
         goldNum.value = 'x' + 75;
         this.goldAdv_3Get = true;
-        this.getGoldAni(75, fun => {
+        this.getGoldAni(15, fun => {
             // 开始时已经领取了25
             lwg.Global._goldNum = + 25 * 2;
             lwg.LocalStorage.addData();
@@ -172,14 +179,14 @@ export default class UIVictory extends lwg.Admin.Scene {
     }
 
     btnBackUp(event): void {
-
         ADManager.TAPoint(TaT.BtnClick, 'ADticketbt_success');
+        event.currentTarget.scale(1, 1);
 
         this.btnOffClick();
         if (this.goldAdv_3Get) {
             this.btnBackUpFunc();
         } else {
-            this.getGoldAni(25, f => {
+            this.getGoldAni(15, f => {
                 this.btnBackUpFunc();
             })
         }
@@ -196,17 +203,15 @@ export default class UIVictory extends lwg.Admin.Scene {
 
     btnShareUp(event): void {
         ADManager.TAPoint(TaT.BtnClick, 'Share_success');
-
         event.currentTarget.scale(1, 1);
+
         RecordManager._share(() => {
             this.btnShareUpFunc();
         })
     }
 
     btnShareUpFunc(): void {
-        // 分享可以获得奖励
-        lwg.Global._goldNum += 125;
-        this.getGoldAni(125, null);
+        console.log('分享成功，只是没有奖励！');
     }
 
     lwgDisable(): void {

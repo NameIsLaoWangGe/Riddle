@@ -333,5 +333,18 @@
             "logo.png",
             "word_look.png"
         ]
+    ],
+    "res/atlas/UI_new/Share.atlas": [
+        "UI_new/Share/",
+        [
+            "share_btn.png",
+            "ui_board_01.png",
+            "ui_board_02.png",
+            "word_award.png",
+            "word_share.png",
+            "word_share_btn.png",
+            "word_share_btn.png",
+            "noshare_btn.png"
+        ]
     ]
 }

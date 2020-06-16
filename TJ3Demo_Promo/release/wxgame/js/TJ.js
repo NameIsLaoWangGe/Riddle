@@ -49,16 +49,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 /*
 DESKTOP-BT8F2H9
 Microsoft Windows NT 10.0.17763.0
-中国标准时间 2020/6/11 20:59:32
+中国标准时间 2020/6/16 15:45:47
 */
 var DP;
 (function (DP) {
     var Basic;
     (function (Basic) {
-        Basic.appGuid = "07d4d037-ee75-b6fe-d79d-a5ca79f1ca84";
+        Basic.appGuid = "05df765c-e3c8-1c1d-f6c4-a988698f57f0";
         Basic.companyName = "苏州番茄互娱信息科技有限公司";
-        Basic.productName = "我做饭贼6";
-        Basic.packageName = "com.tomatojoy.wzfzl.toutiao";
+        Basic.productName = "解救小王子";
+        Basic.packageName = "com.tomatojoy.jjxwz.toutiao";
         Basic.versionName = "1.0.0";
         Basic.versionCode = 1;
         Basic.channel = "ZJTD_AppRt";
@@ -96,14 +96,14 @@ var DP;
     })(UC = DP.UC || (DP.UC = {}));
     var TT;
     (function (TT) {
-        TT.appId = "ttb34dc5f02c77780c";
-        TT.bannerId = "6lbe87khd798tohllg";
-        TT.insertId = "9fbh57mhadp6ged772";
-        TT.videoId = "a34f094ab3a1e83jj3";
+        TT.appId = "tta0abd6163f917b75";
+        TT.bannerId = "86p20c0o9ch59kckab";
+        TT.insertId = "11rdi7ggf9ebjg6acg";
+        TT.videoId = "cha95b8l5l0f1kl7fn";
     })(TT = DP.TT || (DP.TT = {}));
     var ReYun;
     (function (ReYun) {
-        ReYun.appId = "6bf178d970866a1e5ea96a18cefd0179";
+        ReYun.appId = "1963eb367205486f3efd4799e8107674";
     })(ReYun = DP.ReYun || (DP.ReYun = {}));
     var QQ;
     (function (QQ) {
@@ -5905,6 +5905,16 @@ var TJ;
                         qttGame.showHDReward(options);
                     }
                     QTTGame.ShowHDReward = ShowHDReward;
+                    var ReportDataParam = /** @class */ (function () {
+                        function ReportDataParam() {
+                        }
+                        return ReportDataParam;
+                    }());
+                    QTTGame.ReportDataParam = ReportDataParam;
+                    function ReportData(param) {
+                        qttGame.reportData(param);
+                    }
+                    QTTGame.ReportData = ReportData;
                 })(QTTGame = Extern.QTTGame || (Extern.QTTGame = {}));
             })(Extern = AppRt.Extern || (AppRt.Extern = {}));
         })(AppRt = Platform.AppRt || (Platform.AppRt = {}));
@@ -6478,6 +6488,27 @@ var TJ;
                             qg.getProfile(param);
                         }
                         QG.GetProfile = GetProfile;
+                        var LoginResultData = /** @class */ (function () {
+                            function LoginResultData() {
+                            }
+                            return LoginResultData;
+                        }());
+                        QG.LoginResultData = LoginResultData;
+                        var LoginResult = /** @class */ (function () {
+                            function LoginResult() {
+                            }
+                            return LoginResult;
+                        }());
+                        var LoginParam = /** @class */ (function () {
+                            function LoginParam() {
+                            }
+                            return LoginParam;
+                        }());
+                        QG.LoginParam = LoginParam;
+                        function Login(param) {
+                            qg.login(param);
+                        }
+                        QG.Login = Login;
                         var BannerAd = /** @class */ (function () {
                             function BannerAd(obj) {
                                 this.bannerAd = obj;
@@ -7641,6 +7672,30 @@ var TJ;
                             });
                         }
                         Login.VIVOLogin = VIVOLogin;
+                        function VIVOLogin2(param) {
+                            return __awaiter(this, void 0, void 0, function () {
+                                var req, p, www;
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0:
+                                            req = {};
+                                            req.A = "Login.VIVOAppRT2";
+                                            p = {};
+                                            p.appguid = TJ.API.AppInfo.AppGuid();
+                                            p.token = param.token;
+                                            req.P = JSON.stringify(p);
+                                            www = new TJ.Common.WWW(apiUrl, req);
+                                            www.logText = true;
+                                            return [4 /*yield*/, www.Send("post", "form")];
+                                        case 1:
+                                            _a.sent();
+                                            GetResult(www);
+                                            return [2 /*return*/];
+                                    }
+                                });
+                            });
+                        }
+                        Login.VIVOLogin2 = VIVOLogin2;
                         function TTLogin(param) {
                             return __awaiter(this, void 0, void 0, function () {
                                 var req, p, www;
@@ -7876,7 +7931,7 @@ var TJ;
                                     case 0:
                                         if (loginWait == null) {
                                             loginWait = new Promise(function (r) { loginResolve = r; });
-                                            if (DP.Basic.channel == TJ.Define.Channel.AppRt.HUAWEI_AppRt) {
+                                            if (TJ.API.AppInfo.Channel() == TJ.Define.Channel.AppRt.HUAWEI_AppRt) {
                                                 param = new AppRt.Extern.HBS.LoginParam();
                                                 param.forceLogin = 1;
                                                 param.appid = DP.HBS.appId;
@@ -7933,7 +7988,7 @@ var TJ;
                                         case 0:
                                             if (loginWait == null) {
                                                 loginWait = new Promise(function (r) { loginResolve = r; });
-                                                if (DP.Basic.channel == TJ.Define.Channel.AppRt.OPPO_AppRt) {
+                                                if (TJ.API.AppInfo.Channel() == TJ.Define.Channel.AppRt.OPPO_AppRt) {
                                                     param = new AppRt.Extern.OPPO.QG.LoginParam();
                                                     param.success = function (res) {
                                                         loginToken = res.data.token;
@@ -7976,7 +8031,7 @@ var TJ;
                     var QG;
                     (function (QG) {
                         function InstallShortcut(callback, source) {
-                            if (DP.Basic.channel != TJ.Define.Channel.AppRt.OPPO_AppRt) {
+                            if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.OPPO_AppRt) {
                                 if (callback != null)
                                     callback(true);
                                 return;
@@ -8045,6 +8100,59 @@ var TJ;
         (function (AppRt) {
             var DevKit;
             (function (DevKit) {
+                var QTTGame;
+                (function (QTTGame) {
+                    var _this = this;
+                    TJ.Common.PriorityInit.Add(1000, function () { return __awaiter(_this, void 0, void 0, function () {
+                        var obj;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, DevKit.Yun.loginPromise];
+                                case 1:
+                                    _a.sent();
+                                    return [4 /*yield*/, AppRt.Develop.Yun.Player.GetUserInfo()];
+                                case 2:
+                                    obj = _a.sent();
+                                    open_id = obj.open_id;
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); });
+                    var open_id = "";
+                    function ReportData_load() {
+                        if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.QTT_AppRt)
+                            return;
+                        var param = new AppRt.Extern.QTTGame.ReportDataParam();
+                        param.type = "load";
+                        param.app_id = DP.QTTGame.appId;
+                        param.game_name = DP.Basic.productName;
+                        param.open_id = open_id;
+                        AppRt.Extern.QTTGame.ReportData(param);
+                        console.log("QTTGame.ReportData = " + JSON.stringify(param));
+                    }
+                    QTTGame.ReportData_load = ReportData_load;
+                    function ReportData_start() {
+                        if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.QTT_AppRt)
+                            return;
+                        var param = new AppRt.Extern.QTTGame.ReportDataParam();
+                        param.type = "start";
+                        param.open_id = open_id;
+                        AppRt.Extern.QTTGame.ReportData(param);
+                        console.log("QTTGame.ReportData = " + JSON.stringify(param));
+                    }
+                    QTTGame.ReportData_start = ReportData_start;
+                })(QTTGame = DevKit.QTTGame || (DevKit.QTTGame = {}));
+            })(DevKit = AppRt.DevKit || (AppRt.DevKit = {}));
+        })(AppRt = Platform.AppRt || (Platform.AppRt = {}));
+    })(Platform = TJ.Platform || (TJ.Platform = {}));
+})(TJ || (TJ = {}));
+(function (TJ) {
+    var Platform;
+    (function (Platform) {
+        var AppRt;
+        (function (AppRt) {
+            var DevKit;
+            (function (DevKit) {
                 var TT;
                 (function (TT) {
                     var GameRecorderClip = /** @class */ (function () {
@@ -8093,7 +8201,7 @@ var TJ;
                         }
                         Object.defineProperty(GameRecorderVideo.prototype, "grm", {
                             get: function () {
-                                if (DP.Basic.channel != TJ.Define.Channel.AppRt.ZJTD_AppRt)
+                                if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt)
                                     return null;
                                 return AppRt.Extern.TT.GetGameRecorderManager();
                             },
@@ -8295,54 +8403,91 @@ var TJ;
                     (function (QG) {
                         var loginResolve;
                         var loginWait;
-                        var profile;
-                        function GetProfile() {
+                        // let profile: any;
+                        // export async function GetProfile()
+                        // {
+                        //     if (loginWait == null)
+                        //     {
+                        //         loginWait = new Promise<void>((r) => { loginResolve = r; });
+                        //         if (DP.Basic.channel == Define.Channel.AppRt.VIVO_AppRt)
+                        //         {
+                        //             let token;
+                        //             let param = new Extern.VIVO.QG.AuthorizeParam();
+                        //             param.success = (res) =>
+                        //             {
+                        //                 console.log("VIVO.QG.Authorize success = " + JSON.stringify(res));
+                        //                 token = res.accessToken;
+                        //             }
+                        //             param.complete = (res) =>
+                        //             {
+                        //                 console.log("VIVO.QG.Authorize complete = " + JSON.stringify(res));
+                        //                 loginResolve();
+                        //             }
+                        //             Extern.VIVO.QG.Authorize(param);
+                        //             await loginWait;
+                        //             loginWait = new Promise<void>((r) => { loginResolve = r; });
+                        //             let param2 = new Extern.VIVO.QG.GetProfileParam();
+                        //             param2.token = token;
+                        //             param2.success = (res) =>
+                        //             {
+                        //                 console.log("VIVO.QG.GetProfile success = " + JSON.stringify(res));
+                        //                 profile = res;
+                        //             }
+                        //             param2.complete = (res) =>
+                        //             {
+                        //                 console.log("VIVO.QG.GetProfile complete = " + JSON.stringify(res));
+                        //                 loginResolve();
+                        //             }
+                        //             Extern.VIVO.QG.GetProfile(param2);
+                        //         }
+                        //         else
+                        //         {
+                        //             loginResolve();
+                        //         }
+                        //     }
+                        //     await loginWait;
+                        //     return { userInfo: profile };
+                        // }
+                        var token;
+                        function Login() {
                             return __awaiter(this, void 0, void 0, function () {
-                                var token_1, param, param2;
+                                var param;
                                 return __generator(this, function (_a) {
                                     switch (_a.label) {
                                         case 0:
-                                            if (!(loginWait == null)) return [3 /*break*/, 3];
+                                            if (!(loginWait == null)) return [3 /*break*/, 4];
                                             loginWait = new Promise(function (r) { loginResolve = r; });
-                                            if (!(DP.Basic.channel == TJ.Define.Channel.AppRt.VIVO_AppRt)) return [3 /*break*/, 2];
-                                            param = new AppRt.Extern.VIVO.QG.AuthorizeParam();
+                                            if (!(TJ.API.AppInfo.Channel() == TJ.Define.Channel.AppRt.VIVO_AppRt)) return [3 /*break*/, 2];
+                                            param = new AppRt.Extern.VIVO.QG.LoginParam();
                                             param.success = function (res) {
-                                                console.log("VIVO.QG.Authorize success = " + JSON.stringify(res));
-                                                token_1 = res.accessToken;
-                                            };
-                                            param.complete = function (res) {
-                                                console.log("VIVO.QG.Authorize complete = " + JSON.stringify(res));
+                                                console.log("VIVO.QG.Login success = " + JSON.stringify(res));
+                                                token = res.data.token;
                                                 loginResolve();
                                             };
-                                            AppRt.Extern.VIVO.QG.Authorize(param);
+                                            param.fail = function (res) {
+                                                console.log("VIVO.QG.Login fail = " + JSON.stringify(res));
+                                                loginResolve();
+                                            };
+                                            AppRt.Extern.VIVO.QG.Login(param);
                                             return [4 /*yield*/, loginWait];
                                         case 1:
                                             _a.sent();
-                                            loginWait = new Promise(function (r) { loginResolve = r; });
-                                            param2 = new AppRt.Extern.VIVO.QG.GetProfileParam();
-                                            param2.token = token_1;
-                                            param2.success = function (res) {
-                                                console.log("VIVO.QG.GetProfile success = " + JSON.stringify(res));
-                                                profile = res;
-                                            };
-                                            param2.complete = function (res) {
-                                                console.log("VIVO.QG.GetProfile complete = " + JSON.stringify(res));
-                                                loginResolve();
-                                            };
-                                            AppRt.Extern.VIVO.QG.GetProfile(param2);
                                             return [3 /*break*/, 3];
                                         case 2:
                                             loginResolve();
                                             _a.label = 3;
-                                        case 3: return [4 /*yield*/, loginWait];
-                                        case 4:
+                                        case 3:
+                                            loginWait = null;
+                                            _a.label = 4;
+                                        case 4: return [4 /*yield*/, loginWait];
+                                        case 5:
                                             _a.sent();
-                                            return [2 /*return*/, { userInfo: profile }];
+                                            return [2 /*return*/, { token: token }];
                                     }
                                 });
                             });
                         }
-                        QG.GetProfile = GetProfile;
+                        QG.Login = Login;
                     })(QG = VIVO.QG || (VIVO.QG = {}));
                 })(VIVO = DevKit.VIVO || (DevKit.VIVO = {}));
             })(DevKit = AppRt.DevKit || (AppRt.DevKit = {}));
@@ -8359,7 +8504,7 @@ var TJ;
                 var VIVO;
                 (function (VIVO) {
                     if (TJ.Engine.RuntimeInfo.platform == TJ.Define.Platform.AppRt) {
-                        if (DP.Basic.channel == TJ.Define.Channel.AppRt.VIVO_AppRt) {
+                        if (DP.Basic.channel == TJ.Define.Channel.AppRt.VIVO_AppRt && AppRt.Extern.VIVO.QG.Exist()) {
                             TJ.Common.WWW.prototype.DoSend = function (url, method, data) {
                                 var _this = this;
                                 var param = new AppRt.Extern.VIVO.QG.RequestParam();
@@ -8497,10 +8642,10 @@ var TJ;
                                     case 3:
                                         _b.sent();
                                         return [3 /*break*/, 18];
-                                    case 4: return [4 /*yield*/, AppRt.DevKit.VIVO.QG.GetProfile()];
+                                    case 4: return [4 /*yield*/, AppRt.DevKit.VIVO.QG.Login()];
                                     case 5:
                                         obj = _b.sent();
-                                        return [4 /*yield*/, AppRt.Develop.Yun.Login.VIVOLogin(obj)];
+                                        return [4 /*yield*/, AppRt.Develop.Yun.Login.VIVOLogin2(obj)];
                                     case 6:
                                         _b.sent();
                                         return [3 /*break*/, 18];

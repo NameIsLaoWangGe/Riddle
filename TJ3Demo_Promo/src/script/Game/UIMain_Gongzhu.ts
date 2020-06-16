@@ -591,6 +591,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
             this.rig.setVelocity({ x: 0, y: 6 });
         }
     }
+    
     /**防止没有方向*/
     noMoveDirection(): void {
         if (!this.moveDirection) {

@@ -95,7 +95,7 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
             if ((n1 === 'l' && n2 === 'r') || (n1 === 'r' && n2 === 'l') || (n1 === 'u' && n2 === 'd') || (n1 === 'd' && n2 === 'u')) {
                 this.connectRoom = other.owner.parent as Laya.Image;
                 this.oppositeAisle = other.owner;
-                // console.log('开始感应', n1, n2);
+                console.log('开始感应', n1, n2);
                 this.interactionPicStyle('enter');
                 //如果太远则不吸附，目前是个bug，这时候避免以下
                 this.roomAdsorption();
@@ -226,7 +226,7 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
                 this.openSwitch = false;
                 this.connectRoom = null;
                 this.oppositeAisle = null;
-                // console.log('失去感应', n1, n2);
+                console.log('失去感应', n1, n2);
             }
         }
     }

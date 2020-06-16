@@ -24,6 +24,7 @@ import UIMain_Room from "./script/Game/UIMain_Room"
 import UIPassHint from "./script/Game/UIPassHint"
 import UIPuase from "./script/Game/UIPuase"
 import UISet from "./script/Game/UISet"
+import UIShare from "./script/Game/UIShare"
 import UIStart from "./script/Game/UIStart"
 import UIStart_House from "./script/Game/UIStart_House"
 import UIVictory from "./script/Game/UIVictory"
@@ -72,6 +73,7 @@ export default class GameConfig{
         reg("script/Game/UIPassHint.ts",UIPassHint);
         reg("script/Game/UIPuase.ts",UIPuase);
         reg("script/Game/UISet.ts",UISet);
+        reg("script/Game/UIShare.ts",UIShare);
         reg("script/Game/UIStart.ts",UIStart);
         reg("script/Game/UIStart_House.ts",UIStart_House);
         reg("script/Game/UIVictory.ts",UIVictory);

@@ -21,13 +21,8 @@ export default class UIDefeated extends lwg.Admin.Scene {
         this.BtnAgain = this.self['BtnAgain'];
         this.BtnLast = this.self['BtnLast'];
         this.BtnShare = this.self['BtnShare'];
-        // this.BtnExAdv = this.self['BtnExAdv'];
         this.LvNum = this.self['LvNum'];
         this.LvNumDisplay();
-        // lwg.PalyAudio.playSound(lwg.Enum.voiceUrl.defeated, 1);
-
-        // lwg.Global._createGoldNum(this.self);
-        // lwg.Global._createExecutionNum(this.self);
     }
     adaptive(): void {
         this.self['sceneContent'].y = Laya.stage.height / 2;
@@ -56,8 +51,8 @@ export default class UIDefeated extends lwg.Admin.Scene {
 
     btnAgainUp(event): void {
         ADManager.TAPoint(TaT.BtnClick, 'returnword_fail');
-
         event.currentTarget.scale(1, 1);
+
         if (lwg.Global._execution < 2) {
             lwg.Global.intoBtn = 'BtnAgain';
             lwg.Admin._openScene('UIExecutionHint', null, null, null);
@@ -105,20 +100,19 @@ export default class UIDefeated extends lwg.Admin.Scene {
     // 分享
     btnShareUp(event): void {
         ADManager.TAPoint(TaT.BtnClick, 'Share_fail');
-
         event.currentTarget.scale(1, 1);
+
         RecordManager._share(() => {
             this.btnShareUpFunc();
         })
     }
-
     btnShareUpFunc(): void {
-        // 分享可以获得奖励
-        lwg.Global._goldNum += 125;
+       console.log('分享成功，只是没有奖励！');
     }
 
     btnBackUp(event): void {
         ADManager.TAPoint(TaT.BtnClick, 'ADticketbt_fail');
+        event.currentTarget.scale(1, 1);
 
         lwg.Admin._openScene('UIStart', null, null, null);
         lwg.Admin._closeCustomScene();
@@ -126,12 +120,6 @@ export default class UIDefeated extends lwg.Admin.Scene {
         lwg.LocalStorage.addData();
         this.self.close();
 
-    }
-    btnExAdvUpFunc(): void {
-        lwg.Global._execution += 3;
-        let num = lwg.Global.ExecutionNumNode.getChildByName('Num') as Laya.FontClip;
-        num.value = (Number(num.value) + 3).toString();
-        lwg.LocalStorage.addData();
     }
 
     onDisable(): void {

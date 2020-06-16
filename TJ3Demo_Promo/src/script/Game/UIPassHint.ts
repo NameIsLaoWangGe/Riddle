@@ -20,6 +20,8 @@ export default class UIPassHint extends lwg.Admin.Scene {
         this.self['iconAdv'].visible = false;
         let num = lwg.Admin.openCustomName.substring(lwg.Admin.openCustomName.length - 3, lwg.Admin.openCustomName.length);
         this.self['Dec'].text = '  ' + lwg.Global._hintDec[Number(num) - 1]['dec'];
+        this.self['Pic'].x = this.self['BtnYse'].width / 2 + 10;
+        this.self['Pic'].y -= 3;
     }
 
     btnOnClick(): void {

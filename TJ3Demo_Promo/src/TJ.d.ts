@@ -1335,6 +1335,14 @@ declare namespace TJ.Platform.AppRt.Extern.QTTGame {
     function ShowVideo(callback: (code: number) => void, options?: VideoOptions): void;
     function ShowHDAD(options?: VideoOptions): void;
     function ShowHDReward(options?: VideoOptions): void;
+    class ReportDataParam {
+        type: "ready" | "login" | "load" | "start" | "newRole" | "newUser" | "upgrade" | "userInfo" | "abnormal";
+        app_id: string;
+        open_id: string;
+        game_name: string;
+        extend_info: {};
+    }
+    function ReportData(param: ReportDataParam): void;
 }
 declare namespace TJ.Platform.AppRt.Extern.TT {
     function Exist(): boolean;
@@ -1646,6 +1654,17 @@ declare namespace TJ.Platform.AppRt.Extern.VIVO.QG {
         complete?: (res: any) => void;
     }
     function GetProfile(param: GetProfileParam): void;
+    class LoginResultData {
+        token: string;
+    }
+    class LoginResult {
+        data: LoginResultData;
+    }
+    class LoginParam {
+        success: (res: LoginResult) => void;
+        fail: (res: any) => void;
+    }
+    function Login(param: LoginParam): void;
     class BannerAd {
         private bannerAd;
         constructor(obj: any);
@@ -2006,6 +2025,9 @@ declare namespace TJ.Platform.AppRt.Develop.Yun.Login {
     function VIVOLogin(param: {
         userInfo: {};
     }): Promise<void>;
+    function VIVOLogin2(param: {
+        token: string;
+    }): Promise<void>;
     function TTLogin(param: {
         userInfo: {};
         code: string;
@@ -2037,79 +2059,73 @@ declare namespace TJ.Platform.AppRt.API.AdPoly {
         reward = 2
     }
 }
-declare namespace TJ.Platform.AppRt.DevKit {
-    namespace HBS {
-        function GameLogin(): Promise<{
-            userInfo: any;
-        }>;
-    }
+declare namespace TJ.Platform.AppRt.DevKit.HBS {
+    function GameLogin(): Promise<{
+        userInfo: any;
+    }>;
 }
-declare namespace TJ.Platform.AppRt.DevKit {
-    namespace OPPO {
-        namespace QG {
-            function Login(): Promise<{
-                token: string;
-                userInfo: Extern.OPPO.QG.LoginResultData;
-            }>;
-        }
+declare namespace TJ.Platform.AppRt.DevKit.OPPO {
+    namespace QG {
+        function Login(): Promise<{
+            token: string;
+            userInfo: Extern.OPPO.QG.LoginResultData;
+        }>;
     }
 }
 declare namespace TJ.Platform.AppRt.DevKit.OPPO.QG {
     function InstallShortcut(callback: (has: boolean) => void, source: string): void;
     function HasShortcutInstalled(callback: (has: boolean) => void): void;
 }
-declare namespace TJ.Platform.AppRt.DevKit {
-    namespace TT {
-        class GameRecorderClip {
-            index: number;
-            time: number;
-        }
-        class GameRecorderVideo {
-            private readonly grm;
-            videoPath: string;
-            private share;
-            constructor();
-            Start(duration: number): void;
-            Stop(share?: boolean): void;
-            clips: GameRecorderClip[];
-            RecordClip(beforeTime: number, afterTime: number): GameRecorderClip;
-            Share(param?: Extern.TT.ShareAppMessageParam): void;
-        }
-        class MoreGamesButton {
-            btn: Extern.TT.MoreGamesButton;
-            private CreateBtn;
-            onTap: (res: any) => void;
-            private static OnTap;
-            private static buttons;
-            constructor(apps: Extern.TT.AppLaunchOptions[], x: number, y: number, w: number, h: number, image?: string);
-            Show(): void;
-            Hide(): void;
-            Destroy(): void;
-        }
-        function Login(): Promise<{
-            code: string;
-            userInfo: Extern.TT.UserInfo;
-        }>;
-    }
+declare namespace TJ.Platform.AppRt.DevKit.QTTGame {
+    function ReportData_load(): void;
+    function ReportData_start(): void;
 }
-declare namespace TJ.Platform.AppRt.DevKit {
-    namespace VIVO {
-        namespace QG {
-            function GetProfile(): Promise<{
-                userInfo: any;
-            }>;
-        }
+declare namespace TJ.Platform.AppRt.DevKit.TT {
+    class GameRecorderClip {
+        index: number;
+        time: number;
+    }
+    class GameRecorderVideo {
+        private readonly grm;
+        videoPath: string;
+        private share;
+        constructor();
+        Start(duration: number): void;
+        Stop(share?: boolean): void;
+        clips: GameRecorderClip[];
+        RecordClip(beforeTime: number, afterTime: number): GameRecorderClip;
+        Share(param?: Extern.TT.ShareAppMessageParam): void;
+    }
+    class MoreGamesButton {
+        btn: Extern.TT.MoreGamesButton;
+        private CreateBtn;
+        onTap: (res: any) => void;
+        private static OnTap;
+        private static buttons;
+        constructor(apps: Extern.TT.AppLaunchOptions[], x: number, y: number, w: number, h: number, image?: string);
+        Show(): void;
+        Hide(): void;
+        Destroy(): void;
+    }
+    function Login(): Promise<{
+        code: string;
+        userInfo: Extern.TT.UserInfo;
+    }>;
+}
+declare namespace TJ.Platform.AppRt.DevKit.VIVO {
+    namespace QG {
+        function Login(): Promise<{
+            token: string;
+        }>;
     }
 }
 declare namespace TJ.Platform.AppRt.DevKit.VIVO {
 }
-declare namespace TJ.Platform.AppRt.DevKit {
-    namespace WX {
-        function Login(): Promise<{
-            code: string;
-            userInfo: Extern.WX.UserInfo;
-        }>;
-    }
+declare namespace TJ.Platform.AppRt.DevKit.WX {
+    function Login(): Promise<{
+        code: string;
+        userInfo: Extern.WX.UserInfo;
+    }>;
 }
 declare namespace TJ.Platform.AppRt.DevKit.Yun {
     let loginPromise: Promise<void>;

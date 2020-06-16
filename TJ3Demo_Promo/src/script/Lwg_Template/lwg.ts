@@ -16,6 +16,11 @@ export module lwg {
         /**当前是否可以免体力进入一次*/
         export let _exemptEx: boolean = true;
 
+        /**用于今天是否进行了热门分享的日期*/
+        export let _hotShareTime: number;
+        /**当前是否可以免体力进入一次*/
+        export let _hotShare: boolean = true;
+
         /**当前免费双击关卡提示，只要当前日期和下次日期不同，说明不是同一天，则给予一次免体力进入彩蛋机会*/
         export let _freeHintTime: number;
         /**当前是否可以免体力进入一次*/
@@ -24,6 +29,8 @@ export module lwg {
         /**记录上传体力的时间，用于对比下次进入游戏时时间差，补偿多少体力*/
         export let _addExHours: number;
         export let _addMinutes: number;
+
+
 
 
         /**最后一次被拾取的房间，用于被吸附到另一个房间*/
@@ -316,11 +323,10 @@ export module lwg {
             Laya.loader.load('prefab/P201.json', Laya.Handler.create(this, function (prefab: Laya.Prefab) {
                 let _prefab = new Laya.Prefab();
                 _prefab.json = prefab;
-                sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
+                sp = Laya.Pool.getItemByCreateFun('P201', _prefab.create, _prefab);
                 parent.addChild(sp);
                 sp.pos(90, 225);
-                sp.zOrder = 0;
-                Click.on(Enum.ClickType.largen, null, sp, null, null, null, btnAgainUp, null);
+                sp.zOrder = 65;
                 P201_01Node = sp;
             }));
         }
@@ -458,6 +464,7 @@ export module lwg {
                 '_execution': lwg.Global._execution,
                 '_exemptExTime': lwg.Global._exemptExTime,
                 '_freeHintTime': lwg.Global._freeHintTime,
+                '_hotShareTime': lwg.Global._hotShareTime,
                 '_addExHours': lwg.Global._addExHours,
                 '_addMinutes': lwg.Global._addMinutes,
 
@@ -490,6 +497,7 @@ export module lwg {
                 lwg.Global._execution = 15;
                 lwg.Global._exemptExTime = null;
                 lwg.Global._freeHintTime = null;
+                lwg.Global._hotShareTime = null;
                 lwg.Global._addExHours = (new Date).getHours();
                 lwg.Global._addMinutes = (new Date).getMinutes();
                 // lwg.Global._buyNum = 1;
@@ -522,6 +530,7 @@ export module lwg {
             UISet = 'UISet',
             UIPifu = 'UIPifu',
             UIPuase = 'UIPuase',
+            UIShare = 'UIShare',
         }
         /**游戏当前的状态*/
         export enum GameState {
@@ -792,6 +801,7 @@ export module lwg {
                 this.lwgInit();
                 this.btnOnClick();
                 this.adaptive();
+                this.openAni();
                 printPoint('on', this.calssName);
             }
             /**游戏当前的状态*/
@@ -1356,7 +1366,7 @@ export module lwg {
             '消耗2点体力！',
             '今日体力福利已领取！',
         }
-        
+
         /**提示类型*/
         export enum HintType {
             'noGold',

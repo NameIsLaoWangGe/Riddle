@@ -340,6 +340,15 @@ P 94F61A4C word_look.png
 P F5B6F421 word_yes.png
 R 750B7882 xiaoguotu.jpg
 P 0A40FA13 yes_btn.png
+D UI_new/Share
+P 7753590B noshare_btn.png
+P 3249E887 share_btn.png
+P E2CCC02C ui_board_01.png
+P D9D69CFC ui_board_02.png
+P AE818E6A word_award.png
+P 5E431E8D word_share.png
+P 88509320 word_share_btn.png
+R 9CEC2355 xiaoguotu.jpg
 D UI_new/Victory
 P 1F78459A green_btn.png
 P 1DF9AE7D icon_adv_green.png

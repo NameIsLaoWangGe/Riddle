@@ -1001,6 +1001,7 @@
             Global._gameStart = false;
             Global._execution = 100;
             Global._exemptEx = true;
+            Global._hotShare = true;
             Global._freetHint = true;
             Global._CustomsNum = 999;
             Global._stageClick = true;
@@ -1165,11 +1166,10 @@
                 Laya.loader.load('prefab/P201.json', Laya.Handler.create(this, function (prefab) {
                     let _prefab = new Laya.Prefab();
                     _prefab.json = prefab;
-                    sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
+                    sp = Laya.Pool.getItemByCreateFun('P201', _prefab.create, _prefab);
                     parent.addChild(sp);
                     sp.pos(90, 225);
-                    sp.zOrder = 0;
-                    Click.on(Enum.ClickType.largen, null, sp, null, null, null, btnAgainUp, null);
+                    sp.zOrder = 65;
                     Global.P201_01Node = sp;
                 }));
             }
@@ -1278,6 +1278,7 @@
                     '_execution': lwg.Global._execution,
                     '_exemptExTime': lwg.Global._exemptExTime,
                     '_freeHintTime': lwg.Global._freeHintTime,
+                    '_hotShareTime': lwg.Global._hotShareTime,
                     '_addExHours': lwg.Global._addExHours,
                     '_addMinutes': lwg.Global._addMinutes,
                 };
@@ -1301,6 +1302,7 @@
                     lwg.Global._execution = 15;
                     lwg.Global._exemptExTime = null;
                     lwg.Global._freeHintTime = null;
+                    lwg.Global._hotShareTime = null;
                     lwg.Global._addExHours = (new Date).getHours();
                     lwg.Global._addMinutes = (new Date).getMinutes();
                     return null;
@@ -1323,6 +1325,7 @@
                 SceneName["UISet"] = "UISet";
                 SceneName["UIPifu"] = "UIPifu";
                 SceneName["UIPuase"] = "UIPuase";
+                SceneName["UIShare"] = "UIShare";
             })(SceneName = Admin.SceneName || (Admin.SceneName = {}));
             let GameState;
             (function (GameState) {
@@ -3126,21 +3129,16 @@
             });
         }
         btnShareUpFunc() {
-            lwg.Global._goldNum += 125;
+            console.log('分享成功，只是没有奖励！');
         }
         btnBackUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADticketbt_fail');
+            event.currentTarget.scale(1, 1);
             lwg.Admin._openScene('UIStart', null, null, null);
             lwg.Admin._closeCustomScene();
             lwg.Global._goldNum += 25;
             lwg.LocalStorage.addData();
             this.self.close();
-        }
-        btnExAdvUpFunc() {
-            lwg.Global._execution += 3;
-            let num = lwg.Global.ExecutionNumNode.getChildByName('Num');
-            num.value = (Number(num.value) + 3).toString();
-            lwg.LocalStorage.addData();
         }
         onDisable() {
         }
@@ -3273,6 +3271,7 @@
             lwg.Global._createBtnAgain(this.self);
             lwg.Global._createBtnPause(this.self);
             lwg.Global._createBtnHint(this.self);
+            lwg.Global._createP201_01(this.self);
         }
         btnOnClick() {
             this.self.on(Laya.Event.DOUBLE_CLICK, this, this.stageDB);
@@ -3347,8 +3346,8 @@
                 lwg.Global._goldNum = data._goldNum;
                 lwg.Global._execution = data._execution;
                 lwg.Global._exemptExTime = data._exemptExTime;
-                let d1 = (new Date()).getDate();
-                if (d1 !== lwg.Global._exemptExTime) {
+                let d = (new Date()).getDate();
+                if (d !== lwg.Global._exemptExTime) {
                     lwg.Global._exemptEx = true;
                     console.log('今天还有一次免体力进入的机会！');
                 }
@@ -3357,14 +3356,22 @@
                     console.log('今天没有免体力进入的机会！');
                 }
                 lwg.Global._freeHintTime = data._freeHintTime;
-                let d2 = (new Date()).getDate();
-                if (d2 !== lwg.Global._freeHintTime) {
+                if (d !== lwg.Global._freeHintTime) {
                     lwg.Global._freetHint = true;
                     console.log('今天还有一次双击免费提示的机会！');
                 }
                 else {
                     lwg.Global._freetHint = false;
                     console.log('今天没有双击免费提示的机会！');
+                }
+                lwg.Global._hotShareTime = data._hotShareTime;
+                if (d !== lwg.Global._hotShareTime) {
+                    lwg.Global._hotShare = true;
+                    console.log('今天还有一次热门分享的机会！');
+                }
+                else {
+                    lwg.Global._hotShare = false;
+                    console.log('今天没有热门分享的机会！');
                 }
                 lwg.Global._addExHours = data._addExHours;
                 lwg.Global._addMinutes = data._addMinutes;
@@ -3451,6 +3458,7 @@
                 if ((n1 === 'l' && n2 === 'r') || (n1 === 'r' && n2 === 'l') || (n1 === 'u' && n2 === 'd') || (n1 === 'd' && n2 === 'u')) {
                     this.connectRoom = other.owner.parent;
                     this.oppositeAisle = other.owner;
+                    console.log('开始感应', n1, n2);
                     this.interactionPicStyle('enter');
                     this.roomAdsorption();
                 }
@@ -3534,6 +3542,7 @@
                     this.openSwitch = false;
                     this.connectRoom = null;
                     this.oppositeAisle = null;
+                    console.log('失去感应', n1, n2);
                 }
             }
         }
@@ -4620,6 +4629,8 @@
             this.self['iconAdv'].visible = false;
             let num = lwg.Admin.openCustomName.substring(lwg.Admin.openCustomName.length - 3, lwg.Admin.openCustomName.length);
             this.self['Dec'].text = '  ' + lwg.Global._hintDec[Number(num) - 1]['dec'];
+            this.self['Pic'].x = this.self['BtnYse'].width / 2 + 10;
+            this.self['Pic'].y -= 3;
         }
         btnOnClick() {
             ADManager.TAPoint(TaT.BtnShow, 'ADrewordbt_freegift');
@@ -4709,13 +4720,17 @@
             lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnUIStart, this, null, null, this.BtnUIStartUp, null);
             lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnContinue, this, null, null, this.BtnContinueUp, null);
         }
-        BtnUIStartUp() {
+        BtnUIStartUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'home_pause');
-            lwg.Admin._openScene('UIStart', null, this.self, null);
-            lwg.Admin._closeCustomScene();
+            event.currentTarget.scale(1, 1);
+            lwg.Admin._openScene('UIStart', null, this.self, f => {
+                this.self.close();
+                lwg.Admin._closeCustomScene();
+            });
         }
-        BtnContinueUp() {
+        BtnContinueUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'continue_pause');
+            event.currentTarget.scale(1, 1);
             this.self.close();
         }
     }
@@ -4789,6 +4804,41 @@
             this.self.close();
         }
         onDisable() {
+        }
+    }
+
+    class UIShare extends lwg.Admin.Scene {
+        adaptive() {
+            this.self['SceneContent'].y = Laya.stage.height / 2;
+        }
+        btnOnClick() {
+            ADManager.TAPoint(TaT.BtnShow, 'home_pause');
+            ADManager.TAPoint(TaT.BtnShow, 'continue_pause');
+            lwg.Click.on(lwg.Enum.ClickType.noEffect, null, this.self['background'], this, null, null, this.backgroundUp, null);
+            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnNoShare'], this, null, null, this.btnNoShareUp, null);
+            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
+        }
+        backgroundUp(event) {
+            console.log('点击背景也是分享！');
+            RecordManager._share(() => {
+                this.btnShareUpFunc();
+            });
+        }
+        btnNoShareUp(event) {
+            this.self.close();
+            event.currentTarget.scale(1, 1);
+        }
+        btnShareUp(event) {
+            console.log('点击按钮的分享！');
+            event.currentTarget.scale(1, 1);
+            RecordManager._share(() => {
+                this.btnShareUpFunc();
+            });
+        }
+        btnShareUpFunc() {
+            console.log('分享成功了！');
+            lwg.Global._goldNum += 100;
+            this.self.close();
         }
     }
 
@@ -5174,6 +5224,9 @@
             lwg.Effects.createLeftOrRightJet(this.self['sceneContent'], 'right', 30, 582, 141.5);
             lwg.Effects.createLeftOrRightJet(this.self['sceneContent'], 'left', 30, -21.5, 141.5);
             lwg.PalyAudio.playSound(lwg.Enum.voiceUrl.victory, 1);
+            if (lwg.Global._hotShare) {
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIShare, null, null, null);
+            }
         }
         adaptive() {
             this.self['sceneContent'].y = Laya.stage.height / 2;
@@ -5186,8 +5239,8 @@
                     let Num = lwg.Global.GoldNumNode.getChildByName('Num');
                     Num.value = (Number(Num.value) + 1).toString();
                     let goldNum = this.self['GoldNum'];
-                    goldNum.value = 'x' + (number - index - 1);
-                    if (index === 24) {
+                    goldNum.value = 'x' + (number - index - 2);
+                    if (index === number - 1) {
                         if (thisFunc !== null) {
                             thisFunc();
                         }
@@ -5226,8 +5279,9 @@
             lwg.Click.off(lwg.Enum.ClickType.largen, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
             lwg.Click.off(lwg.Enum.ClickType.largen, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
         }
-        btnNextUp() {
+        btnNextUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'nextword_success');
+            event.currentTarget.scale(1, 1);
             if (lwg.Global._execution < 2) {
                 lwg.Admin._openScene('UIExecutionHint', null, null, null);
             }
@@ -5237,7 +5291,7 @@
                     this.getGoldAniFunc();
                 }
                 else {
-                    this.getGoldAni(25, f => {
+                    this.getGoldAni(15, f => {
                         this.getGoldAniFunc();
                     });
                 }
@@ -5269,7 +5323,7 @@
             let level = lwg.Global._gameLevel;
             goldNum.value = 'x' + 75;
             this.goldAdv_3Get = true;
-            this.getGoldAni(75, fun => {
+            this.getGoldAni(15, fun => {
                 lwg.Global._goldNum = +25 * 2;
                 lwg.LocalStorage.addData();
                 lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
@@ -5279,12 +5333,13 @@
         }
         btnBackUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADticketbt_success');
+            event.currentTarget.scale(1, 1);
             this.btnOffClick();
             if (this.goldAdv_3Get) {
                 this.btnBackUpFunc();
             }
             else {
-                this.getGoldAni(25, f => {
+                this.getGoldAni(15, f => {
                     this.btnBackUpFunc();
                 });
             }
@@ -5305,8 +5360,7 @@
             });
         }
         btnShareUpFunc() {
-            lwg.Global._goldNum += 125;
-            this.getGoldAni(125, null);
+            console.log('分享成功，只是没有奖励！');
         }
         lwgDisable() {
             Laya.timer.clearAll(this);
@@ -5411,6 +5465,7 @@
             reg("script/Game/UIPassHint.ts", UIPassHint);
             reg("script/Game/UIPuase.ts", UIPuase);
             reg("script/Game/UISet.ts", UISet);
+            reg("script/Game/UIShare.ts", UIShare);
             reg("script/Game/UIStart.ts", UIStart);
             reg("script/Game/UIStart_House.ts", UIStart_House);
             reg("script/Game/UIVictory.ts", UIVictory);
