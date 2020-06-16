@@ -35,7 +35,7 @@ export default class UIVictory extends lwg.Admin.Scene {
 
         lwg.PalyAudio.playSound(lwg.Enum.voiceUrl.victory, 1);
 
-        if (lwg.Global._hotShare) {
+        if (lwg.Global._hotShare && lwg.Global._gameLevel !== 1) {
             lwg.Admin._openScene(lwg.Admin.SceneName.UIShare, null, null, null);
         }
     }
@@ -70,6 +70,7 @@ export default class UIVictory extends lwg.Admin.Scene {
                 if (index === number - 1) {
                     if (thisFunc !== null) {
                         thisFunc();
+
                     }
                 }
             });
@@ -130,6 +131,9 @@ export default class UIVictory extends lwg.Admin.Scene {
             } else {
                 this.getGoldAni(15, f => {
                     this.getGoldAniFunc();
+                    lwg.Global._goldNum += 10;
+                    let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
+                    Num.value = (Number(Num.value) + 10).toString();
                 })
             }
 
@@ -176,6 +180,10 @@ export default class UIVictory extends lwg.Admin.Scene {
             lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
             lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
         });
+
+        lwg.Global._goldNum += 35;
+        let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
+        Num.value = (Number(Num.value) + 35).toString();
     }
 
     btnBackUp(event): void {
@@ -188,6 +196,9 @@ export default class UIVictory extends lwg.Admin.Scene {
         } else {
             this.getGoldAni(15, f => {
                 this.btnBackUpFunc();
+                lwg.Global._goldNum += 10;
+                let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
+                Num.value = (Number(Num.value) + 10).toString();
             })
         }
     }

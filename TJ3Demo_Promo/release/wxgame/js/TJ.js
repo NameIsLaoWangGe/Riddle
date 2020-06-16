@@ -96,7 +96,7 @@ var DP;
     })(UC = DP.UC || (DP.UC = {}));
     var TT;
     (function (TT) {
-        TT.appId = "tta0abd6163f917b75";
+        TT.appId = "tta0abd6163f917b75  ";
         TT.bannerId = "86p20c0o9ch59kckab";
         TT.insertId = "11rdi7ggf9ebjg6acg";
         TT.videoId = "cha95b8l5l0f1kl7fn";

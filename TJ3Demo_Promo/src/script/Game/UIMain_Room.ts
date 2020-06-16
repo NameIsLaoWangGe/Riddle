@@ -60,6 +60,10 @@ export default class UIMain_Room extends Laya.Script {
     private _roomY: number;
     /**房子按下*/
     houseDwon(): void {
+        // 第一关的新手引导中，第二个房间不可以移动
+        if (lwg.Global._gameLevel === 1 && this.self.name === 'Room2') {
+            return;
+        }
         this._roomX = this.self.x;
         this._roomY = this.self.y;
         this._roomMove = true;

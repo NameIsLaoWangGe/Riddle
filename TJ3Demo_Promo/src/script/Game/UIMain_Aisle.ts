@@ -168,11 +168,22 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
             this.openSwitch = false;
             let wangzi = this.selfScene['UIMain'].Wangzi;
             wangzi['UIMain_Wangzi'].gzConnect = false;
+
+            if (lwg.Global._gameLevel === 1 && this.selfScene['Finger'] && this.selfScene['Wangzi']['UIMain_Wangzi'].belongRoom !== this.selfScene['Gongzhu']['UIMain_Gongzhu'].belongRoom) {
+                if (this.selfScene['Finger']) {
+                    this.selfScene['Finger'].alpha = 1;
+                }
+            }
             // console.log('断开连接！');
         } else {
             this.openSwitch = true;
             this.gzAndWzConnect();
             // console.log('打开连接');
+            if (lwg.Global._gameLevel === 1 && this.selfScene['Finger']) {
+                if (this.selfScene['Finger']) {
+                    this.selfScene['Finger'].alpha = 0;
+                }
+            }
         }
     }
 

@@ -92,17 +92,17 @@ export default class RecordManager {
             p.extra.videoTopics = ["甩锅给队友", "回来吧刺激战场", "番茄小游戏", "抖音小游戏"]
             p.channel = "video";
             p.success = () => {
-                lwg.Global._createHint(lwg.Enum.HintType.sharesuccess);
+                lwg.Global._createHint_01(lwg.Enum.HintType.sharesuccess);
                 successedAc();
             };
             p.fail = () => {
-                lwg.Global._createHint(lwg.Enum.HintType.sharefail);
+                lwg.Global._createHint_01(lwg.Enum.HintType.sharefail);
                 failAc();
             }
             RecordManager.grv.Share(p);
         }
         else  {
-            lwg.Global._createHint(lwg.Enum.HintType.novideo);
+            lwg.Global._createHint_01(lwg.Enum.HintType.novideo);
             // UIMgr.tip("暂无录屏，玩一局游戏可以分享");
         }
     }

@@ -58,16 +58,21 @@ export default class UILoding_ExecutionNumNode extends lwg.Admin.Object {
         }
     }
 
-
+    timeSwitch: boolean = true;
     lwgOnUpdate(): void {
         if (Number(this.Num.value) >= 15) {
-            lwg.Global._execution = 15;
-            this.Num.value = lwg.Global._execution.toString();
-            lwg.LocalStorage.addData();
-            this.CountDown.text = '00:00';
-            this.CountDown_board.text = this.CountDown.text;
-            this.countNum = 60;
+            if (this.timeSwitch) {
+                lwg.Global._execution = 15;
+                this.Num.value = lwg.Global._execution.toString();
+                lwg.LocalStorage.addData();
+                this.CountDown.text = '00:00';
+                this.CountDown_board.text = this.CountDown.text;
+                this.countNum = 60;
+                this.timeSwitch = false;
+            }
+
         } else {
+            this.timeSwitch = true;
             this.countDownAddEx();
         }
     }

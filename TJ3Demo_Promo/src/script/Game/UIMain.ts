@@ -1,6 +1,8 @@
 import { lwg } from "../Lwg_Template/lwg";
 import RecordManager from "../../TJ/RecordManager";
 import ADManager, { TaT } from "../../TJ/Admanager";
+import UIMain_Wangzi from "./UIMain_Wangzi";
+import UIMain_Gongzhu from "./UIMain_Gongzhu";
 
 export default class UIMain extends lwg.Admin.Scene {
     constructor() {
@@ -38,11 +40,18 @@ export default class UIMain extends lwg.Admin.Scene {
         lwg.Global._createBtnPause(this.self);
         lwg.Global._createBtnHint(this.self);
         lwg.Global._createP201_01(this.self);
+
+        if (lwg.Global._gameLevel === 1) {
+            this.guideSwitch = true;
+        } else {
+            this.guideSwitch = false;
+        }
     }
 
     btnOnClick(): void {
         this.self.on(Laya.Event.DOUBLE_CLICK, this, this.stageDB);
     }
+
     stageDB(): void {
         if (lwg.Global._freetHint && lwg.Global._gameLevel !== 1 && lwg.Global._gameLevel !== 29 && lwg.Admin.openLevelNum !== 1 && lwg.Admin.openLevelNum !== 29) {
             console.log('免费提示出现！');
@@ -57,6 +66,29 @@ export default class UIMain extends lwg.Admin.Scene {
             console.log('今日免费提示机会用完了！');
         } else {
             console.log('第1关和第29关不会出现免费提示！');
+        }
+    }
+
+    /**计时器*/
+    timer: number = 0;
+    /**是否处于引导状态中*/
+    guideSwitch: boolean;
+    onUpdate(): void {
+        this.timer++;
+        if (this.guideSwitch) {
+            if (lwg.Global._gameLevel === 1) {
+                if (this.timer % 85 === 0 || this.timer === 1) {
+                    lwg.Animation.move_Simple(this.self['Finger'], this.self['Room1'].x, this.self['Room1'].y, this.self['guideRoom'].x, this.self['guideRoom'].y, 800, 0, f => {
+                    });
+                    if (this.self['Wangzi']['UIMain_Wangzi'].belongRoom === this.self['Gongzhu']['UIMain_Gongzhu'].belongRoom) {
+                        this.self['Finger'].alpha = 0;
+                        this.self['Finger'].alpha = 0;
+                    } else {
+                        this.self['Finger'].alpha = 1;
+                        this.self['Finger'].alpha = 1;
+                    }
+                }
+            }
         }
     }
 

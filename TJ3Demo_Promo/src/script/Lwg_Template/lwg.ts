@@ -293,7 +293,7 @@ export module lwg {
                 parent.addChild(sp);
                 sp.pos(645, 404);
                 sp.zOrder = 0;
-                Click.on(Enum.ClickType.largen, null, sp, null, null, null, btnAgainUp, null);
+                Click.on(Enum.ClickType.largen, null, sp, null, btnAgainUp, null, null, null);
                 BtnAgainNode = sp;
             }));
         }
@@ -1365,6 +1365,7 @@ export module lwg {
             '暂无视频，玩一局游戏之后分享！',
             '消耗2点体力！',
             '今日体力福利已领取！',
+            '分享成功，获得125金币！',
         }
 
         /**提示类型*/
@@ -1381,7 +1382,8 @@ export module lwg {
             'sharesuccess',
             'novideo',
             'consumeEx',
-            'no_exemptExTime'
+            'no_exemptExTime',
+            'shareyes'
         }
         /**皮肤的顺序以及名称*/
         export enum PifuOrder {

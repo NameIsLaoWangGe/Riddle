@@ -68,8 +68,8 @@ export default class UILoding extends lwg.Admin.Scene {
             lwg.Global._execution = data._execution;
 
             lwg.Global._exemptExTime = data._exemptExTime;
-            let d = (new Date()).getDate();
-            if (d !== lwg.Global._exemptExTime) {
+            let d = new Date();
+            if (d.getDate() !== lwg.Global._exemptExTime) {
                 lwg.Global._exemptEx = true;
                 console.log('今天还有一次免体力进入的机会！');
             } else {
@@ -78,7 +78,7 @@ export default class UILoding extends lwg.Admin.Scene {
             }
 
             lwg.Global._freeHintTime = data._freeHintTime;
-            if (d !== lwg.Global._freeHintTime) {
+            if (d.getDate() !== lwg.Global._freeHintTime) {
                 lwg.Global._freetHint = true;
                 console.log('今天还有一次双击免费提示的机会！');
             } else {
@@ -87,7 +87,7 @@ export default class UILoding extends lwg.Admin.Scene {
             }
 
             lwg.Global._hotShareTime = data._hotShareTime;
-            if (d !== lwg.Global._hotShareTime) {
+            if (d.getDate() !== lwg.Global._hotShareTime) {
                 lwg.Global._hotShare = true;
                 console.log('今天还有一次热门分享的机会！');
             } else {

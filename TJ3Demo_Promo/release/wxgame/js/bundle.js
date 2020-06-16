@@ -1001,6 +1001,7 @@
             Global._gameStart = false;
             Global._execution = 100;
             Global._exemptEx = true;
+            Global._hotShare = true;
             Global._freetHint = true;
             Global._CustomsNum = 999;
             Global._stageClick = true;
@@ -1148,7 +1149,7 @@
                     parent.addChild(sp);
                     sp.pos(645, 404);
                     sp.zOrder = 0;
-                    Click.on(Enum.ClickType.largen, null, sp, null, null, null, btnAgainUp, null);
+                    Click.on(Enum.ClickType.largen, null, sp, null, btnAgainUp, null, null, null);
                     Global.BtnAgainNode = sp;
                 }));
             }
@@ -1277,6 +1278,7 @@
                     '_execution': lwg.Global._execution,
                     '_exemptExTime': lwg.Global._exemptExTime,
                     '_freeHintTime': lwg.Global._freeHintTime,
+                    '_hotShareTime': lwg.Global._hotShareTime,
                     '_addExHours': lwg.Global._addExHours,
                     '_addMinutes': lwg.Global._addMinutes,
                 };
@@ -1300,6 +1302,7 @@
                     lwg.Global._execution = 15;
                     lwg.Global._exemptExTime = null;
                     lwg.Global._freeHintTime = null;
+                    lwg.Global._hotShareTime = null;
                     lwg.Global._addExHours = (new Date).getHours();
                     lwg.Global._addMinutes = (new Date).getMinutes();
                     return null;
@@ -1532,6 +1535,7 @@
                     this.lwgInit();
                     this.btnOnClick();
                     this.adaptive();
+                    this.openAni();
                     printPoint('on', this.calssName);
                 }
                 gameState(calssName) {
@@ -1967,6 +1971,7 @@
                 HintDec[HintDec["\u6682\u65E0\u89C6\u9891\uFF0C\u73A9\u4E00\u5C40\u6E38\u620F\u4E4B\u540E\u5206\u4EAB\uFF01"] = 10] = "\u6682\u65E0\u89C6\u9891\uFF0C\u73A9\u4E00\u5C40\u6E38\u620F\u4E4B\u540E\u5206\u4EAB\uFF01";
                 HintDec[HintDec["\u6D88\u80172\u70B9\u4F53\u529B\uFF01"] = 11] = "\u6D88\u80172\u70B9\u4F53\u529B\uFF01";
                 HintDec[HintDec["\u4ECA\u65E5\u4F53\u529B\u798F\u5229\u5DF2\u9886\u53D6\uFF01"] = 12] = "\u4ECA\u65E5\u4F53\u529B\u798F\u5229\u5DF2\u9886\u53D6\uFF01";
+                HintDec[HintDec["\u5206\u4EAB\u6210\u529F\uFF0C\u83B7\u5F97125\u91D1\u5E01\uFF01"] = 13] = "\u5206\u4EAB\u6210\u529F\uFF0C\u83B7\u5F97125\u91D1\u5E01\uFF01";
             })(HintDec = Enum.HintDec || (Enum.HintDec = {}));
             let HintType;
             (function (HintType) {
@@ -1983,6 +1988,7 @@
                 HintType[HintType["novideo"] = 10] = "novideo";
                 HintType[HintType["consumeEx"] = 11] = "consumeEx";
                 HintType[HintType["no_exemptExTime"] = 12] = "no_exemptExTime";
+                HintType[HintType["shareyes"] = 13] = "shareyes";
             })(HintType = Enum.HintType || (Enum.HintType = {}));
             let PifuOrder;
             (function (PifuOrder) {
@@ -2944,9 +2950,110 @@
         })(Tools = lwg.Tools || (lwg.Tools = {}));
     })(lwg || (lwg = {}));
 
+    class RecordManager {
+        constructor() {
+            this.GRV = null;
+            this.isRecordVideoing = false;
+            this.isVideoRecord = false;
+            this.videoRecordTimer = 0;
+            this.isHasVideoRecord = false;
+        }
+        static Init() {
+            RecordManager.grv = new TJ.Platform.AppRt.DevKit.TT.GameRecorderVideo();
+        }
+        static startAutoRecord() {
+            if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt)
+                return;
+            if (RecordManager.grv == null)
+                RecordManager.Init();
+            if (RecordManager.recording)
+                return;
+            RecordManager.autoRecording = true;
+            console.log("******************开始录屏");
+            RecordManager._start();
+            RecordManager.lastRecordTime = Date.now();
+        }
+        static stopAutoRecord() {
+            if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt)
+                return;
+            if (!RecordManager.autoRecording) {
+                console.log("RecordManager.autoRecording", RecordManager.autoRecording);
+                return false;
+            }
+            RecordManager.autoRecording = false;
+            RecordManager._end(false);
+            if (Date.now() - RecordManager.lastRecordTime > 6000) {
+                return true;
+            }
+            if (Date.now() - RecordManager.lastRecordTime < 3000) {
+                console.log("小于3秒");
+                return false;
+            }
+            return true;
+        }
+        static startRecord() {
+            if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt)
+                return;
+            if (RecordManager.autoRecording) {
+                this.stopAutoRecord();
+            }
+            RecordManager.recording = true;
+            RecordManager._start();
+            RecordManager.lastRecordTime = Date.now();
+        }
+        static stopRecord() {
+            if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt)
+                return;
+            console.log("time:" + (Date.now() - RecordManager.lastRecordTime));
+            if (Date.now() - RecordManager.lastRecordTime <= 3000) {
+                return false;
+            }
+            RecordManager.recording = false;
+            RecordManager._end(true);
+            return true;
+        }
+        static _start() {
+            if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt)
+                return;
+            console.log("******************180s  ？？？？？");
+            RecordManager.grv.Start(180);
+        }
+        static _end(share) {
+            if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt)
+                return;
+            console.log("******************180结束 ？？？？？");
+            RecordManager.grv.Stop(share);
+        }
+        static _share(successedAc, completedAc = null, failAc = null) {
+            if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt)
+                return;
+            console.log("******************吊起分享 ？？？？？", RecordManager.grv, RecordManager.grv.videoPath);
+            if (RecordManager.grv.videoPath) {
+                let p = new TJ.Platform.AppRt.Extern.TT.ShareAppMessageParam();
+                p.extra.videoTopics = ["甩锅给队友", "回来吧刺激战场", "番茄小游戏", "抖音小游戏"];
+                p.channel = "video";
+                p.success = () => {
+                    lwg.Global._createHint_01(lwg.Enum.HintType.sharesuccess);
+                    successedAc();
+                };
+                p.fail = () => {
+                    lwg.Global._createHint_01(lwg.Enum.HintType.sharefail);
+                    failAc();
+                };
+                RecordManager.grv.Share(p);
+            }
+            else {
+                lwg.Global._createHint_01(lwg.Enum.HintType.novideo);
+            }
+        }
+    }
+    RecordManager.recording = false;
+    RecordManager.autoRecording = false;
+
     class UIDefeated extends lwg.Admin.Scene {
         constructor() { super(); }
         lwgInit() {
+            RecordManager.stopAutoRecord();
             this.self = this.owner;
             this.BtnAgain = this.self['BtnAgain'];
             this.BtnLast = this.self['BtnLast'];
@@ -3021,10 +3128,12 @@
         btnShareUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'Share_fail');
             event.currentTarget.scale(1, 1);
-            lwg.Admin._openScene(lwg.Admin.SceneName.UIShare, null, null, null);
+            RecordManager._share(() => {
+                this.btnShareUpFunc();
+            });
         }
         btnShareUpFunc() {
-            lwg.Global._goldNum += 125;
+            console.log('分享成功，只是没有奖励！');
         }
         btnBackUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADticketbt_fail');
@@ -3034,12 +3143,6 @@
             lwg.Global._goldNum += 25;
             lwg.LocalStorage.addData();
             this.self.close();
-        }
-        btnExAdvUpFunc() {
-            lwg.Global._execution += 3;
-            let num = lwg.Global.ExecutionNumNode.getChildByName('Num');
-            num.value = (Number(num.value) + 3).toString();
-            lwg.LocalStorage.addData();
         }
         onDisable() {
         }
@@ -3156,109 +3259,10 @@
         }
     }
 
-    class RecordManager {
-        constructor() {
-            this.GRV = null;
-            this.isRecordVideoing = false;
-            this.isVideoRecord = false;
-            this.videoRecordTimer = 0;
-            this.isHasVideoRecord = false;
-        }
-        static Init() {
-            RecordManager.grv = new TJ.Platform.AppRt.DevKit.TT.GameRecorderVideo();
-        }
-        static startAutoRecord() {
-            if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt)
-                return;
-            if (RecordManager.grv == null)
-                RecordManager.Init();
-            if (RecordManager.recording)
-                return;
-            RecordManager.autoRecording = true;
-            console.log("******************开始录屏");
-            RecordManager._start();
-            RecordManager.lastRecordTime = Date.now();
-        }
-        static stopAutoRecord() {
-            if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt)
-                return;
-            if (!RecordManager.autoRecording) {
-                console.log("RecordManager.autoRecording", RecordManager.autoRecording);
-                return false;
-            }
-            RecordManager.autoRecording = false;
-            RecordManager._end(false);
-            if (Date.now() - RecordManager.lastRecordTime > 6000) {
-                return true;
-            }
-            if (Date.now() - RecordManager.lastRecordTime < 3000) {
-                console.log("小于3秒");
-                return false;
-            }
-            return true;
-        }
-        static startRecord() {
-            if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt)
-                return;
-            if (RecordManager.autoRecording) {
-                this.stopAutoRecord();
-            }
-            RecordManager.recording = true;
-            RecordManager._start();
-            RecordManager.lastRecordTime = Date.now();
-        }
-        static stopRecord() {
-            if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt)
-                return;
-            console.log("time:" + (Date.now() - RecordManager.lastRecordTime));
-            if (Date.now() - RecordManager.lastRecordTime <= 3000) {
-                return false;
-            }
-            RecordManager.recording = false;
-            RecordManager._end(true);
-            return true;
-        }
-        static _start() {
-            if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt)
-                return;
-            console.log("******************180s  ？？？？？");
-            RecordManager.grv.Start(180);
-        }
-        static _end(share) {
-            if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt)
-                return;
-            console.log("******************180结束 ？？？？？");
-            RecordManager.grv.Stop(share);
-        }
-        static _share(successedAc, completedAc = null, failAc = null) {
-            if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt)
-                return;
-            console.log("******************吊起分享 ？？？？？", RecordManager.grv, RecordManager.grv.videoPath);
-            if (RecordManager.grv.videoPath) {
-                let p = new TJ.Platform.AppRt.Extern.TT.ShareAppMessageParam();
-                p.extra.videoTopics = ["甩锅给队友", "回来吧刺激战场", "番茄小游戏", "抖音小游戏"];
-                p.channel = "video";
-                p.success = () => {
-                    lwg.Global._createHint(lwg.Enum.HintType.sharesuccess);
-                    successedAc();
-                };
-                p.fail = () => {
-                    lwg.Global._createHint(lwg.Enum.HintType.sharefail);
-                    failAc();
-                };
-                RecordManager.grv.Share(p);
-            }
-            else {
-                lwg.Global._createHint(lwg.Enum.HintType.novideo);
-            }
-        }
-    }
-    RecordManager.recording = false;
-    RecordManager.autoRecording = false;
-
     class UIMain extends lwg.Admin.Scene {
         constructor() {
             super();
+            this.timer = 0;
         }
         lwgInit() {
             ADManager.TAPoint(TaT.LevelStart, this.self.name);
@@ -3273,6 +3277,12 @@
             lwg.Global._createBtnPause(this.self);
             lwg.Global._createBtnHint(this.self);
             lwg.Global._createP201_01(this.self);
+            if (lwg.Global._gameLevel === 1) {
+                this.guideSwitch = true;
+            }
+            else {
+                this.guideSwitch = false;
+            }
         }
         btnOnClick() {
             this.self.on(Laya.Event.DOUBLE_CLICK, this, this.stageDB);
@@ -3293,6 +3303,25 @@
             }
             else {
                 console.log('第1关和第29关不会出现免费提示！');
+            }
+        }
+        onUpdate() {
+            this.timer++;
+            if (this.guideSwitch) {
+                if (lwg.Global._gameLevel === 1) {
+                    if (this.timer % 85 === 0 || this.timer === 1) {
+                        lwg.Animation.move_Simple(this.self['Finger'], this.self['Room1'].x, this.self['Room1'].y, this.self['guideRoom'].x, this.self['guideRoom'].y, 800, 0, f => {
+                        });
+                        if (this.self['Wangzi']['UIMain_Wangzi'].belongRoom === this.self['Gongzhu']['UIMain_Gongzhu'].belongRoom) {
+                            this.self['Finger'].alpha = 0;
+                            this.self['Finger'].alpha = 0;
+                        }
+                        else {
+                            this.self['Finger'].alpha = 1;
+                            this.self['Finger'].alpha = 1;
+                        }
+                    }
+                }
             }
         }
         lwgDisable() {
@@ -3347,8 +3376,8 @@
                 lwg.Global._goldNum = data._goldNum;
                 lwg.Global._execution = data._execution;
                 lwg.Global._exemptExTime = data._exemptExTime;
-                let d1 = (new Date()).getDate();
-                if (d1 !== lwg.Global._exemptExTime) {
+                let d = new Date();
+                if (d.getDate() !== lwg.Global._exemptExTime) {
                     lwg.Global._exemptEx = true;
                     console.log('今天还有一次免体力进入的机会！');
                 }
@@ -3357,14 +3386,22 @@
                     console.log('今天没有免体力进入的机会！');
                 }
                 lwg.Global._freeHintTime = data._freeHintTime;
-                let d2 = (new Date()).getDate();
-                if (d2 !== lwg.Global._freeHintTime) {
+                if (d.getDate() !== lwg.Global._freeHintTime) {
                     lwg.Global._freetHint = true;
                     console.log('今天还有一次双击免费提示的机会！');
                 }
                 else {
                     lwg.Global._freetHint = false;
                     console.log('今天没有双击免费提示的机会！');
+                }
+                lwg.Global._hotShareTime = data._hotShareTime;
+                if (d.getDate() !== lwg.Global._hotShareTime) {
+                    lwg.Global._hotShare = true;
+                    console.log('今天还有一次热门分享的机会！');
+                }
+                else {
+                    lwg.Global._hotShare = false;
+                    console.log('今天没有热门分享的机会！');
                 }
                 lwg.Global._addExHours = data._addExHours;
                 lwg.Global._addMinutes = data._addMinutes;
@@ -3492,10 +3529,20 @@
                 this.openSwitch = false;
                 let wangzi = this.selfScene['UIMain'].Wangzi;
                 wangzi['UIMain_Wangzi'].gzConnect = false;
+                if (lwg.Global._gameLevel === 1 && this.selfScene['Finger'] && this.selfScene['Wangzi']['UIMain_Wangzi'].belongRoom !== this.selfScene['Gongzhu']['UIMain_Gongzhu'].belongRoom) {
+                    if (this.selfScene['Finger']) {
+                        this.selfScene['Finger'].alpha = 1;
+                    }
+                }
             }
             else {
                 this.openSwitch = true;
                 this.gzAndWzConnect();
+                if (lwg.Global._gameLevel === 1 && this.selfScene['Finger']) {
+                    if (this.selfScene['Finger']) {
+                        this.selfScene['Finger'].alpha = 0;
+                    }
+                }
             }
         }
         styleChanges() {
@@ -4574,6 +4621,9 @@
             lwg.Click.on('noEffect', null, this.self, this, this.houseDwon, null, null, null);
         }
         houseDwon() {
+            if (lwg.Global._gameLevel === 1 && this.self.name === 'Room2') {
+                return;
+            }
             this._roomX = this.self.x;
             this._roomY = this.self.y;
             this._roomMove = true;
@@ -4830,8 +4880,31 @@
         }
         btnShareUpFunc() {
             console.log('分享成功了！');
-            lwg.Global._goldNum += 100;
+            lwg.Global._createHint_01(lwg.Enum.HintType.shareyes);
+            lwg.Global._goldNum += 125;
+            let Num = lwg.Global.GoldNumNode.getChildByName('Num');
+            Num.value = (Number(Num.value) + 125).toString();
             this.self.close();
+            let d = new Date();
+            lwg.Global._hotShare = false;
+            lwg.Global._hotShareTime = d.getDate();
+        }
+        getGoldAni(number, thisFunc) {
+            let x = this.self['GetGold'].x + this.self['sceneContent'].x - this.self['sceneContent'].width / 2;
+            let y = this.self['GetGold'].y + this.self['sceneContent'].y - this.self['sceneContent'].height / 2;
+            for (let index = 0; index < number; index++) {
+                lwg.Effects.createAddGold(Laya.stage, index, x, y, lwg.Global.GoldNumNode.x, lwg.Global.GoldNumNode.y, f => {
+                    let Num = lwg.Global.GoldNumNode.getChildByName('Num');
+                    Num.value = (Number(Num.value) + 1).toString();
+                    let goldNum = this.self['GoldNum'];
+                    goldNum.value = 'x' + (number - index - 2);
+                    if (index === number - 1) {
+                        if (thisFunc !== null) {
+                            thisFunc();
+                        }
+                    }
+                });
+            }
         }
     }
 
@@ -5212,14 +5285,19 @@
             this.BtnNext = this.self['BtnNext'];
             this.getGoldDisplay();
             this.LvNumDisplay();
+            lwg.PalyAudio.playSound(lwg.Enum.voiceUrl.victory, 1);
+            if (lwg.Global._hotShare && lwg.Global._gameLevel !== 1) {
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIShare, null, null, null);
+            }
+        }
+        adaptive() {
+            this.self['sceneContent'].y = Laya.stage.height / 2;
+        }
+        openAni() {
             lwg.Effects.createFireworks(this.self['sceneContent'], 30, 430, 40);
             lwg.Effects.createFireworks(this.self['sceneContent'], 30, 109, 49.5);
             lwg.Effects.createLeftOrRightJet(this.self['sceneContent'], 'right', 30, 582, 141.5);
             lwg.Effects.createLeftOrRightJet(this.self['sceneContent'], 'left', 30, -21.5, 141.5);
-            lwg.PalyAudio.playSound(lwg.Enum.voiceUrl.victory, 1);
-        }
-        adaptive() {
-            this.self['sceneContent'].y = Laya.stage.height / 2;
         }
         getGoldAni(number, thisFunc) {
             let x = this.self['GetGold'].x + this.self['sceneContent'].x - this.self['sceneContent'].width / 2;
@@ -5281,8 +5359,11 @@
                     this.getGoldAniFunc();
                 }
                 else {
-                    this.getGoldAni(25, f => {
+                    this.getGoldAni(15, f => {
                         this.getGoldAniFunc();
+                        lwg.Global._goldNum += 10;
+                        let Num = lwg.Global.GoldNumNode.getChildByName('Num');
+                        Num.value = (Number(Num.value) + 10).toString();
                     });
                 }
             }
@@ -5313,13 +5394,16 @@
             let level = lwg.Global._gameLevel;
             goldNum.value = 'x' + 75;
             this.goldAdv_3Get = true;
-            this.getGoldAni(75, fun => {
+            this.getGoldAni(15, fun => {
                 lwg.Global._goldNum = +25 * 2;
                 lwg.LocalStorage.addData();
                 lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
                 lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
                 lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
             });
+            lwg.Global._goldNum += 35;
+            let Num = lwg.Global.GoldNumNode.getChildByName('Num');
+            Num.value = (Number(Num.value) + 35).toString();
         }
         btnBackUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADticketbt_success');
@@ -5329,8 +5413,11 @@
                 this.btnBackUpFunc();
             }
             else {
-                this.getGoldAni(25, f => {
+                this.getGoldAni(15, f => {
                     this.btnBackUpFunc();
+                    lwg.Global._goldNum += 10;
+                    let Num = lwg.Global.GoldNumNode.getChildByName('Num');
+                    Num.value = (Number(Num.value) + 10).toString();
                 });
             }
         }
@@ -5345,11 +5432,12 @@
         btnShareUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'Share_success');
             event.currentTarget.scale(1, 1);
-            lwg.Admin._openScene(lwg.Admin.SceneName.UIShare, null, null, null);
+            RecordManager._share(() => {
+                this.btnShareUpFunc();
+            });
         }
         btnShareUpFunc() {
-            lwg.Global._goldNum += 125;
-            this.getGoldAni(125, null);
+            console.log('分享成功，只是没有奖励！');
         }
         lwgDisable() {
             Laya.timer.clearAll(this);
@@ -5362,6 +5450,7 @@
             super(...arguments);
             this.time = 0;
             this.countNum = 59;
+            this.timeSwitch = true;
         }
         lwgInit() {
             this.Num = this.self.getChildByName('Num');
@@ -5410,14 +5499,18 @@
         }
         lwgOnUpdate() {
             if (Number(this.Num.value) >= 15) {
-                lwg.Global._execution = 15;
-                this.Num.value = lwg.Global._execution.toString();
-                lwg.LocalStorage.addData();
-                this.CountDown.text = '00:00';
-                this.CountDown_board.text = this.CountDown.text;
-                this.countNum = 60;
+                if (this.timeSwitch) {
+                    lwg.Global._execution = 15;
+                    this.Num.value = lwg.Global._execution.toString();
+                    lwg.LocalStorage.addData();
+                    this.CountDown.text = '00:00';
+                    this.CountDown_board.text = this.CountDown.text;
+                    this.countNum = 60;
+                    this.timeSwitch = false;
+                }
             }
             else {
+                this.timeSwitch = true;
                 this.countDownAddEx();
             }
         }

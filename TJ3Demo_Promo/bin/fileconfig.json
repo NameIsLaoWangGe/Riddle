@@ -121,7 +121,8 @@
             "icon_speed.png",
             "icon_plaint.png",
             "icon_plaint1.png",
-            "icon_love.png"
+            "icon_love.png",
+            "icon_finger.png"
         ]
     ],
     "res/atlas/UI.atlas": [

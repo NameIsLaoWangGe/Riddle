@@ -17,6 +17,7 @@ export default class UIDefeated extends lwg.Admin.Scene {
     constructor() { super(); }
 
     lwgInit(): void {
+        RecordManager.stopAutoRecord();
         this.self = this.owner as Laya.Scene;
         this.BtnAgain = this.self['BtnAgain'];
         this.BtnLast = this.self['BtnLast'];
