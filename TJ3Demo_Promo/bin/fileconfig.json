@@ -214,7 +214,8 @@
             "word_share.png",
             "word_last.png",
             "ui_describe_02.png",
-            "ui_describe.png"
+            "ui_describe.png",
+            "icon_adv_big.png"
         ]
     ],
     "res/atlas/UI_new/Defeated.atlas": [
@@ -346,6 +347,57 @@
             "word_share_btn.png",
             "word_share_btn.png",
             "noshare_btn.png"
+        ]
+    ],
+    "res/atlas/UI_new/Pifu.atlas": [
+        "UI_new/Pifu/",
+        [
+            "icon_lock.png",
+            "logo.png",
+            "UI_board_01.png",
+            "ui_dot_01.png",
+            "ui_dot_02.png",
+            "word_goldjs.png",
+            "word_scelet_02.png",
+            "pifu/pifu_01_gongzhu.png",
+            "pifu/pifu_02_chiji.png",
+            "pifu/pifu_03_change.png",
+            "pifu/pifu_04_huiguniang.png",
+            "pifu/pifu_05_tianshi.png",
+            "pifu/pifu_06_xiaohongmao.png",
+            "pifu/pifu_07_xiaohuangya.png",
+            "pifu/pifu_08_zhenzi.png",
+            "pifu/pifu_09_aisha.png",
+            "pifu/pifu_01_gongzhu_h.png",
+            "pifu/pifu_02_chiji_h.png",
+            "pifu/pifu_03_change_h.png",
+            "pifu/pifu_04_huiguniang_h.png",
+            "pifu/pifu_05_tianshi_h.png",
+            "pifu/pifu_06_xiaohongmao_h.png",
+            "pifu/pifu_07_xiaohuangya_h.png",
+            "pifu/pifu_08_zhenzi_h.png",
+            "pifu/pifu_09_aisha_h.png"
+        ]
+    ],
+    "res/atlas/UI_new/PifuTry.atlas": [
+        "UI_new/PifuTry/",
+        [
+            "free_btn1.png",
+            "free_btn2.png",
+            "logo.png",
+            "selet_freebtn.png",
+            "selet_nofreebtn.png",
+            "ui_line.png",
+            "word_freetry.png"
+        ]
+    ],
+    "res/atlas/UI_new/PifuXD.atlas": [
+        "UI_new/PifuXD/",
+        [
+            "adv_btn.png",
+            "logo_board.png",
+            "logo.png",
+            "word_dec.png"
         ]
     ]
 }

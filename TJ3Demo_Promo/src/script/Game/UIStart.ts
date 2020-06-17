@@ -30,7 +30,6 @@ export default class UIStart extends lwg.Admin.Scene {
         this.BtnStart = this.self['BtnStart'];
         this.CustomsList = this.self['CustomsList'];
         this.BtnPifu = this.self['BtnPifu'];
-        this.BtnPifu.visible = false;
         this.BtnLocation = this.self['BtnLocation'];
         this.BtnLocation.visible = false;
         this.SceneContent = this.self['SceneContent'];
@@ -42,6 +41,8 @@ export default class UIStart extends lwg.Admin.Scene {
         this.createCustomsList();
 
         ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
+
+        ADManager.ShowBanner();
 
     }
 
@@ -341,10 +342,10 @@ export default class UIStart extends lwg.Admin.Scene {
     btnOnClick(): void {
         ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
 
-        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnStart, this, null, null, this.btnStartClickUp, null);
-        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnPifu, this, null, null, this.btnPifuClickUp, null);
-        lwg.Click.on(lwg.Enum.ClickType.noEffect, null, this.BtnLocation, this, null, null, this.btnLocationUp, null);
-        lwg.Click.on(lwg.Enum.ClickType.noEffect, null, this.CustomsList, this, null, null, this.customsListUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnStart, this, null, null, this.btnStartClickUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnPifu, this, null, null, this.btnPifuClickUp, null);
+        lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.BtnLocation, this, null, null, this.btnLocationUp, null);
+        lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.CustomsList, this, null, null, this.customsListUp, null);
     }
 
     btnStartClickUp(event): void {
@@ -396,9 +397,9 @@ export default class UIStart extends lwg.Admin.Scene {
 
     btnPifuClickUp(event): void {
         event.currentTarget.scale(1, 1);
-        // lwg.Global.openInterface('UIPifu', null, null);
-        lwg.Global._createHint_01(lwg.Enum.HintType.noPifu);
+        lwg.Admin._openScene('UIPifu', null, null, null);
     }
+    
     btnLocationUp(event): void {
         event.currentTarget.scale(1, 1);
         this.listFirstIndex = lwg.Global._gameLevel;
@@ -432,6 +433,7 @@ export default class UIStart extends lwg.Admin.Scene {
     }
 
     lwgDisable() {
+        ADManager.CloseBanner();
     }
 
 

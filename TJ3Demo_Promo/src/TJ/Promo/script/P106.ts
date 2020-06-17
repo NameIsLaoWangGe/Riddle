@@ -24,7 +24,9 @@ export default class P106 extends Behaviour
         TJ.Develop.Yun.Promo.Data.ReportAwake(P106.style);
 
         this.active = false;
-
+        if (Laya.Browser.onIOS && TJ.API.AppInfo.Channel() == TJ.Define.Channel.AppRt.ZJTD_AppRt) {
+            return;
+        }
         let list = await TJ.Develop.Yun.Promo.List.Get(P106.style);
         if (this.promoList == null) this.promoList = list;
         if (this.promoList.count > 0)

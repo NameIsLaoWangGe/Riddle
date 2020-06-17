@@ -21,6 +21,7 @@ export default class UIVictory extends lwg.Admin.Scene {
     constructor() { super(); }
 
     lwgInit(): void {
+        ADManager.ShowNormal();
         RecordManager.stopAutoRecord();
 
         this.BtnGoldAdv = this.self['BtnGoldAdv'];
@@ -38,6 +39,7 @@ export default class UIVictory extends lwg.Admin.Scene {
         if (lwg.Global._hotShare && lwg.Global._gameLevel !== 1) {
             lwg.Admin._openScene(lwg.Admin.SceneName.UIShare, null, null, null);
         }
+
     }
 
     adaptive(): void {
@@ -50,6 +52,17 @@ export default class UIVictory extends lwg.Admin.Scene {
 
         lwg.Effects.createLeftOrRightJet(this.self['sceneContent'], 'right', 30, 582, 141.5);
         lwg.Effects.createLeftOrRightJet(this.self['sceneContent'], 'left', 30, -21.5, 141.5);
+
+
+        this.BtnNext.visible = false;
+        setTimeout(() => {
+            this.BtnNext.visible = true;
+        }, 3000);
+
+        this.self['BtnBack'].visible = false;
+        setTimeout(() => {
+            this.self['BtnBack'].visible = true;
+        }, 3000);
     }
 
     /**
@@ -101,18 +114,18 @@ export default class UIVictory extends lwg.Admin.Scene {
         ADManager.TAPoint(TaT.BtnShow, 'nextword_success');
         ADManager.TAPoint(TaT.BtnShow, 'ADticketbt_success');
 
-        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnGoldAdv, this, null, null, this.btnGoldAdvUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnGoldAdv, this, null, null, this.btnGoldAdvUp, null);
 
-        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
-        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
-        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
     }
 
     btnOffClick(): void {
-        lwg.Click.off(lwg.Enum.ClickType.largen, this.BtnNext, this, null, null, this.btnNextUp, null);
-        lwg.Click.off(lwg.Enum.ClickType.largen, this.BtnGoldAdv, this, null, null, this.btnGoldAdvUp, null);
-        lwg.Click.off(lwg.Enum.ClickType.largen, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
-        lwg.Click.off(lwg.Enum.ClickType.largen, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
+        lwg.Click.off(lwg.Click.ClickType.largen, this.BtnNext, this, null, null, this.btnNextUp, null);
+        lwg.Click.off(lwg.Click.ClickType.largen, this.BtnGoldAdv, this, null, null, this.btnGoldAdvUp, null);
+        lwg.Click.off(lwg.Click.ClickType.largen, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
+        lwg.Click.off(lwg.Click.ClickType.largen, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
     }
 
     /**是否有过三倍领取*/
@@ -183,9 +196,9 @@ export default class UIVictory extends lwg.Admin.Scene {
             lwg.Global._goldNum += 25 * 2;
             lwg.LocalStorage.addData();
 
-            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
-            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
-            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
 
             goldNum.value = 'x' + 0;
         });

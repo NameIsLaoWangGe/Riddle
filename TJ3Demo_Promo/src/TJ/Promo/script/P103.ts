@@ -18,6 +18,9 @@ export default class P103 extends Behaviour
 
         TJ.Develop.Yun.Promo.Data.ReportAwake(P103.style);
         this.active = false;
+        if (Laya.Browser.onIOS && TJ.API.AppInfo.Channel() == TJ.Define.Channel.AppRt.ZJTD_AppRt) {
+            return;
+        }
         this.promoList = await TJ.Develop.Yun.Promo.List.Get(P103.style);
         if (this.promoList.count > 0)
         {

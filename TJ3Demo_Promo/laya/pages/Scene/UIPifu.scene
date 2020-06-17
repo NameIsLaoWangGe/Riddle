@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":2,
-    "selecteID":41,
+    "selectedBox":44,
+    "selecteID":50,
     "searchKey":"View",
     "props":{"width":720,"sceneColor":"#000000","height":1280},
     "nodeParent":-1,
-    "maxID":42,
+    "maxID":55,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -16,9 +16,23 @@
     "child":[
         {
             "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite",
+            "props":{"texture":"UI_new/conmmon/xiaoguotu.jpg"},
+            "nodeParent":2,
+            "label":"Sprite",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":42,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
             "type":"Image",
             "searchKey":"Image,background,background",
-            "props":{"y":640,"x":360,"width":720,"var":"background","skin":"pifu/bg_01.png","pivotY":640,"pivotX":360,"name":"background","mouseEnabled":false,"height":1280,"alpha":1},
+            "props":{"y":640,"x":360,"width":720,"var":"background","skin":"UI_new/conmmon/bg_blackmask.png","pivotY":640,"pivotX":360,"name":"background","mouseEnabled":false,"height":1280,"alpha":1},
             "nodeParent":2,
             "label":"background",
             "isDirectory":false,
@@ -32,7 +46,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,BtnBack,BtnBack",
-            "props":{"y":75,"x":60,"width":65,"var":"BtnBack","texture":"pifu/back_btn.png","pivotY":35,"pivotX":33,"name":"BtnBack","height":69},
+            "props":{"y":1062.5,"x":356,"width":94,"var":"BtnBack","texture":"UI_new/conmmon/word_back.png","pivotY":23,"pivotX":47,"name":"BtnBack","height":45},
             "nodeParent":2,
             "label":"BtnBack",
             "isDirectory":false,
@@ -107,13 +121,14 @@
                     "compId":17,
                     "child":[
                         ]
-                }]
+                }],
+            "$HIDDEN":true
         },
         {
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,PifuName,PifuName",
-            "props":{"y":338,"x":359,"width":186,"var":"PifuName","texture":"pifu/ui_name.png","pivotY":27,"pivotX":93,"name":"PifuName","height":53},
+            "props":{"y":173,"x":239,"var":"PifuName","texture":"UI_new/Pifu/UI_board_01.png","pivotY":27,"pivotX":93,"name":"PifuName"},
             "nodeParent":2,
             "label":"PifuName",
             "isOpen":false,
@@ -125,7 +140,7 @@
                 {
                     "type":"Label",
                     "searchKey":"Label,Name",
-                    "props":{"y":29,"x":93,"width":111,"valign":"middle","text":"小啾啾","pivotY":21,"pivotX":56,"name":"Name","height":38,"fontSize":31,"font":"Microsoft YaHei","color":"#ffffff","bold":true,"align":"center"},
+                    "props":{"y":91.5,"x":192,"width":111,"valign":"middle","text":"小啾啾","pivotY":21,"pivotX":56,"name":"Name","height":38,"fontSize":31,"font":"Microsoft YaHei","color":"#ffffff","bold":true,"alpha":0,"align":"center"},
                     "nodeParent":7,
                     "label":"Name",
                     "isDirectory":false,
@@ -134,13 +149,26 @@
                     "compId":18,
                     "child":[
                         ]
+                },
+                {
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":46.5,"x":106,"texture":"UI_new/Pifu/logo.png"},
+                    "nodeParent":7,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":43,
+                    "child":[
+                        ]
                 }]
         },
         {
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,TowBtn,TowBtn",
-            "props":{"y":1053,"x":362,"width":602,"var":"TowBtn","pivotY":78,"pivotX":301,"name":"TowBtn","height":155},
+            "props":{"y":922,"x":360,"width":553,"var":"TowBtn","pivotY":78,"pivotX":277,"name":"TowBtn","height":155},
             "nodeParent":2,
             "label":"TowBtn",
             "isOpen":true,
@@ -153,19 +181,20 @@
                     "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,BtnBuy,BtnBuy",
-                    "props":{"y":71,"x":138,"width":266,"var":"BtnBuy","texture":"pifu/buy_btn.png","pivotY":52,"pivotX":133,"name":"BtnBuy","height":121,"alpha":1},
+                    "props":{"y":71,"x":138,"var":"BtnBuy","texture":"UI_new/Victory/rede_btn.png","pivotY":52,"pivotX":133,"name":"BtnBuy","alpha":1},
                     "nodeParent":40,
                     "label":"BtnBuy",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":8,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
-                            "props":{"y":23,"x":34,"texture":"pifu/icon_sifter.png"},
+                            "props":{"y":38,"x":45,"texture":"UI_new/Pifu/word_goldjs.png"},
                             "nodeParent":8,
                             "label":"Sprite",
                             "isDirectory":false,
@@ -174,51 +203,26 @@
                             "compId":19,
                             "child":[
                                 ]
-                        },
-                        {
-                            "type":"Sprite",
-                            "searchKey":"Sprite",
-                            "props":{"y":22,"x":192,"texture":"pifu/icon_gold.png"},
-                            "nodeParent":8,
-                            "label":"Sprite",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":20,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "type":"Label",
-                            "searchKey":"Label,Num,Num",
-                            "props":{"y":48,"x":128,"width":98,"var":"Num","valign":"middle","text":"500","pivotY":21,"pivotX":39,"name":"Num","height":41,"fontSize":45,"color":"#ffffff","bold":true,"align":"center"},
-                            "nodeParent":8,
-                            "label":"Num",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":21,
-                            "child":[
-                                ]
                         }]
                 },
                 {
                     "x":30,
                     "type":"Image",
                     "searchKey":"Image,BtnSelect,BtnSelect",
-                    "props":{"y":67,"x":463,"width":266,"var":"BtnSelect","skin":"pifu/select_btn1.png","pivotY":49,"pivotX":133,"name":"BtnSelect","height":121},
+                    "props":{"y":71,"x":442,"var":"BtnSelect","skin":"UI_new/Victory/green_btn.png","pivotY":49,"pivotX":133,"name":"BtnSelect"},
                     "nodeParent":40,
                     "label":"BtnSelect",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":9,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
-                            "props":{"y":27,"x":87,"texture":"pifu/word_select.png"},
+                            "props":{"y":40.5,"x":87,"texture":"UI_new/Pifu/word_scelet_01.png"},
                             "nodeParent":9,
                             "label":"Sprite",
                             "isDirectory":false,
@@ -234,20 +238,19 @@
             "x":15,
             "type":"List",
             "searchKey":"List,PifuList,PifuList",
-            "props":{"y":684,"x":333,"width":830,"var":"PifuList","spaceX":70,"repeatY":1,"pivotY":302,"pivotX":415,"name":"PifuList","height":603},
+            "props":{"y":640,"x":346,"width":830,"var":"PifuList","spaceX":70,"repeatY":1,"pivotY":302,"pivotX":415,"name":"PifuList","height":455},
             "nodeParent":2,
             "label":"PifuList",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":10,
             "child":[
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box",
-                    "props":{"y":316,"x":130,"width":231,"renderType":"render","pivotY":300,"pivotX":116,"height":582},
+                    "props":{"y":221,"x":130,"width":231,"renderType":"render","pivotY":205,"pivotX":116,"height":409},
                     "nodeParent":10,
                     "label":"Box",
                     "isOpen":true,
@@ -257,7 +260,6 @@
                     "compId":23,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Shadow",
                             "props":{"y":426,"x":18.5,"skin":"pifu/ui_shadow.png","name":"Shadow"},
@@ -268,13 +270,13 @@
                             "hasChild":false,
                             "compId":24,
                             "child":[
-                                ]
+                                ],
+                            "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,PifuImg",
-                            "props":{"y":451,"x":124,"width":251,"skin":"pifu/pifu_01_xiaofu.png","pivotY":451,"pivotX":126,"name":"PifuImg","height":462},
+                            "props":{"y":407,"x":115,"width":234,"skin":"UI_new/Pifu/pifu_01_gongzhu.png","pivotY":407,"pivotX":117,"name":"PifuImg","height":407},
                             "nodeParent":23,
                             "label":"PifuImg",
                             "isOpen":true,
@@ -286,7 +288,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,Select",
                             "props":{"y":544,"x":128,"width":64,"texture":"pifu/ui_select.png","pivotY":33,"pivotX":32,"name":"Select","height":66},
@@ -298,10 +299,10 @@
                             "hasChild":false,
                             "compId":26,
                             "child":[
-                                ]
+                                ],
+                            "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,Lock",
                             "props":{"y":291,"x":100,"texture":"pifu/icon_lock.png","name":"Lock"},
@@ -312,7 +313,8 @@
                             "hasChild":false,
                             "compId":27,
                             "child":[
-                                ]
+                                ],
+                            "$HIDDEN":true
                         }]
                 }]
         },
@@ -393,7 +395,147 @@
                         ],
                     "$HIDDEN":false
                 }],
-            "$HIDDEN":false
+            "$HIDDEN":true
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite,matchDot",
+            "props":{"y":812,"x":352,"pivotY":7,"pivotX":132,"name":"matchDot"},
+            "nodeParent":2,
+            "label":"matchDot",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":44,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,1",
+                    "props":{"y":0,"x":-10,"skin":"UI_new/Pifu/ui_dot_01.png","name":"1"},
+                    "nodeParent":44,
+                    "label":"1",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":45,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,2",
+                    "props":{"y":0,"x":25,"skin":"UI_new/Pifu/ui_dot_01.png","name":"2"},
+                    "nodeParent":44,
+                    "label":"2",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":46,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,3",
+                    "props":{"y":0,"x":60,"skin":"UI_new/Pifu/ui_dot_01.png","name":"3"},
+                    "nodeParent":44,
+                    "label":"3",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":47,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,4",
+                    "props":{"y":0,"x":100,"skin":"UI_new/Pifu/ui_dot_01.png","name":"4"},
+                    "nodeParent":44,
+                    "label":"4",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":48,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,5",
+                    "props":{"y":0,"x":135,"skin":"UI_new/Pifu/ui_dot_01.png","name":"5"},
+                    "nodeParent":44,
+                    "label":"5",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":49,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite,6",
+                    "props":{"y":0,"x":170,"texture":"UI_new/Pifu/ui_dot_01.png","name":"6"},
+                    "nodeParent":44,
+                    "label":"6",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":50,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite,7",
+                    "props":{"y":0,"x":205,"texture":"UI_new/Pifu/ui_dot_01.png","name":"7"},
+                    "nodeParent":44,
+                    "label":"7",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":51,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite,8",
+                    "props":{"y":1,"x":240,"texture":"UI_new/Pifu/ui_dot_01.png","name":"8"},
+                    "nodeParent":44,
+                    "label":"8",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":52,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite,9",
+                    "props":{"y":0,"x":275,"texture":"UI_new/Pifu/ui_dot_01.png","name":"9"},
+                    "nodeParent":44,
+                    "label":"9",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":53,
+                    "child":[
+                        ]
+                }]
         }],
     "animations":[
         {

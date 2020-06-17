@@ -29,7 +29,9 @@ export default class P202 extends Behaviour
         TJ.Develop.Yun.Promo.Data.ReportAwake(P202.style);
 
         this.active = false;
-
+        if (Laya.Browser.onIOS && TJ.API.AppInfo.Channel() == TJ.Define.Channel.AppRt.ZJTD_AppRt) {
+            return;
+        }
         this.promoList = await TJ.Develop.Yun.Promo.List.Get(P202.style);
         if (this.promoList.count > 0)
         {

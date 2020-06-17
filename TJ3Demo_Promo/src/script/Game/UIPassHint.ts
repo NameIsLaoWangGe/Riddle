@@ -7,12 +7,25 @@ export default class UIPassHint extends lwg.Admin.Scene {
     /**是否是失败后再进游戏弹出来的*/
     afterDefeated: boolean;
     lwgInit() {
+        ADManager.ShowBanner();
         lwg.Global._stageClick = false;
     }
     adaptive() {
         this.self['sceneContent'].y = Laya.stage.height * 0.481;
     }
-    /**用于免费提示彩蛋中控制界面弹出的样式*/
+
+    openAni(): void {
+        this.self['BtnNo'].visible = false;
+        setTimeout(() => {
+            if (this.intoScene === 'UIMain') {
+
+            } else {
+                this.self['BtnNo'].visible = true;
+            }
+        }, 3000);
+    }
+
+    /**用于免费提示彩蛋中弹出的界面样式*/
     setStyle(): void {
         // 如果从双击彩蛋中进来，则直接是确定
         this.self['Pic'].skin = 'UI_new/PassHint/word_yes.png';
@@ -22,14 +35,15 @@ export default class UIPassHint extends lwg.Admin.Scene {
         this.self['Dec'].text = '  ' + lwg.Global._hintDec[Number(num) - 1]['dec'];
         this.self['Pic'].x = this.self['BtnYse'].width / 2 + 10;
         this.self['Pic'].y -= 3;
+        this.intoScene = 'UIMain';
     }
 
     btnOnClick(): void {
         ADManager.TAPoint(TaT.BtnShow, 'ADrewordbt_freegift');
         ADManager.TAPoint(TaT.BtnShow, 'closeword_freegift');
 
-        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnYse'], this, null, null, this.btnYseUp, null);
-        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnYse'], this, null, null, this.btnYseUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
     }
 
     // 看广告获得提示
@@ -54,14 +68,12 @@ export default class UIPassHint extends lwg.Admin.Scene {
         if (this.intoScene === lwg.Admin.SceneName.UIDefeated) {
             this.self['Pic'].skin = 'UI_new/Defeated/word_freereplay.png';
             this.self['Pic'].x -= 30;
-            this.self['BtnNo'].visible = false;
         } else {
             this.self['Pic'].skin = 'UI_new/PassHint/word_yes.png';
             this.self['Pic'].x = this.self['BtnYse'].width / 2 + 10;
             this.self['Pic'].y -= 3;
-            this.self['BtnNo'].visible = false;
         }
-
+        this.self['BtnNo'].visible = false;
         this.self['iconAdv'].visible = false;
         let num = lwg.Admin.openCustomName.substring(lwg.Admin.openCustomName.length - 3, lwg.Admin.openCustomName.length);
         this.self['Dec'].text = '  ' + lwg.Global._hintDec[Number(num) - 1]['dec'];
@@ -100,6 +112,7 @@ export default class UIPassHint extends lwg.Admin.Scene {
         this.self.close();
     }
     lwgDisable() {
+        ADManager.CloseBanner();
         lwg.Global._stageClick = true;
     }
 }

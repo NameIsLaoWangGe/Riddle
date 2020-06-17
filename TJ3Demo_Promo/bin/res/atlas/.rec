@@ -145,22 +145,6 @@ P 6ABB385B ui_ladder.png
 P 83A9D4D0 ui_sofa.png
 P C57BEDB4 ui_window.png
 D SK
-P CB043945 gongzhu.png
-R 1075E30C gongzhu.sk
-P DE172639 gou.png
-R A292A837 gou.sk
-P 2AD3FBB9 houma.png
-R 68F1F4C0 houma.sk
-R FD3F14FA house.png
-R 15CF4976 house.sk
-P E5C6074D houzi.png
-R FAABFAF3 houzi.sk
-P 2D8F26B9 qingdi.png
-R 6E8D907C qingdi.sk
-P AD041AAC qingdi1.png
-R 542C4D08 qingdi1.sk
-P E0991C06 wangzi.png
-R 8D272CDD wangzi.sk
 D TJ
 D UI
 P 6ED01857 0275e94c-56a7-410f-bd1a-fc7483f7d14a.png
@@ -253,11 +237,11 @@ R 755485BC bg_blackmask.png
 R F871B17C bg_yeloow.png
 P D9F739FB get_01_btn.png
 P 0CF2B819 get_02_btn.png
+P C245FC34 icon_adv_big.png
 P 549E1435 icon_execution.png
 P 4CB05733 icon_gold.png
 P C90B8077 icon_qingdi.png
 P 8CC6C67B icon_share.png
-R 587B755C lALPGqGoaVBw2ejNAkjNAlw_604_584.png
 P 8E8870A9 no_btn.png
 P 6530897D ui_describe_02.png
 P 363A8649 ui_line.png
@@ -341,6 +325,49 @@ P 94F61A4C word_look.png
 P F5B6F421 word_yes.png
 R 750B7882 xiaoguotu.jpg
 P 0A40FA13 yes_btn.png
+D UI_new/Pifu
+P D6D76169 icon_lock.png
+P DE115A9E logo.png
+P F8F4DD23 pifu_01_gongzhu.png
+P 4B4D2E37 pifu_01_gongzhu_h.png
+P 8F6366E5 pifu_02_chiji.png
+P DB527397 pifu_02_chiji_h.png
+P DE0A86BF pifu_03_change.png
+P 9E0307CC pifu_03_change_h.png
+P DF93F1E2 pifu_04_huiguniang.png
+P B2B3E40F pifu_04_huiguniang_h.png
+P 039D44ED pifu_05_tianshi.png
+P F1594758 pifu_05_tianshi_h.png
+P 068FE9FC pifu_06_xiaohongmao.png
+P DB16E8A1 pifu_06_xiaohongmao_h.png
+P 5EE13225 pifu_07_xiaohuangya.png
+P F13B5359 pifu_07_xiaohuangya_h.png
+P 90B5AC3A pifu_08_zhenzi.png
+P 8D2E81C4 pifu_08_zhenzi_h.png
+P 55D87F40 pifu_09_aisha.png
+P 865BE7D5 pifu_09_aisha_h.png
+P 1C114509 UI_board_01.png
+P D495C5C0 ui_dot_01.png
+P B9064BDA ui_dot_02.png
+P CA15D227 word_goldjs.png
+P 285C3D2B word_scelet_01.png
+P 40BEFF44 word_scelet_02.png
+R 5ADCDE8D xiaoguotu.jpg
+D UI_new/PifuTry
+P AF97CBCD free_btn1.png
+P 327535A9 free_btn2.png
+P EB9AB7E4 logo.png
+P 48252792 selet_freebtn.png
+P 3EDB1499 selet_nofreebtn.png
+P 363A8649 ui_line.png
+P F6C0D048 word_freetry.png
+R 1D7544B4 xiaoguotu.jpg
+D UI_new/PifuXd
+P CC3D2631 adv_btn.png
+P 5F864DD3 logo.png
+P 0BDDE69D logo_board.png
+P B08325C6 word_dec.png
+R EA2537B5 xiaoguotu.jpg
 D UI_new/Share
 P 7753590B noshare_btn.png
 P 3249E887 share_btn.png

@@ -41,10 +41,10 @@ export default class UIMain extends lwg.Admin.Scene {
         lwg.Global._createBtnHint(this.self);
         lwg.Global._createP201_01(this.self);
 
-        if (lwg.Global._gameLevel === 1) {
-            this.guideSwitch = true;
-        } else {
-            this.guideSwitch = false;
+        // console.log(this.self.name);
+        if (this.self.name === 'UIMain_001' && lwg.Global._gameLevel !== 1) {
+            this.self['Finger'].visible = false;
+            this.self['guideRoom'].visible = false;
         }
     }
 
@@ -59,7 +59,6 @@ export default class UIMain extends lwg.Admin.Scene {
             lwg.Global._freetHint = false;
             lwg.LocalStorage.addData();
             lwg.Admin._openScene('UIPassHint', null, null, f => {
-                lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = 'UIMain';
                 lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].setStyle();
             });
         } else if (!lwg.Global._freetHint) {
@@ -71,11 +70,9 @@ export default class UIMain extends lwg.Admin.Scene {
 
     /**计时器*/
     timer: number = 0;
-    /**是否处于引导状态中*/
-    guideSwitch: boolean;
     onUpdate(): void {
         this.timer++;
-        if (this.guideSwitch) {
+        if (this.self.name === 'UIMain_001') {
             if (lwg.Global._gameLevel === 1) {
                 if (this.timer % 85 === 0 || this.timer === 1) {
                     lwg.Animation.move_Simple(this.self['Finger'], this.self['Room1'].x, this.self['Room1'].y, this.self['guideRoom'].x, this.self['guideRoom'].y, 800, 0, f => {
@@ -98,6 +95,8 @@ export default class UIMain extends lwg.Admin.Scene {
         } else {
             ADManager.TAPoint(TaT.LevelFail, this.self.name);
         }
+
+      
     }
 
 }

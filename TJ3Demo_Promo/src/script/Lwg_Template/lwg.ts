@@ -65,7 +65,7 @@ export module lwg {
         /**当前未拥有皮肤名称，删除超人的皮肤*/
         export let _notHavePifuSubChaoren: Array<string>;
         /**所有的皮肤的和排列顺序*/
-        export let _allPifu: Array<string> = ['01_xiaofu', '02_konglong', '03_xueren', '04_qipao', '05_qianxun', '06_lvyifu', '07_maozi', '08_lufei', '09_chaoren'];
+        export let _allPifu: Array<string> = ['01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha'];
 
         /**购买次数,随着购买次数的增加，消耗金币也会增加,超人皮肤是看广告获得，暂时不可买到*/
         export let _buyNum: number;
@@ -156,7 +156,7 @@ export module lwg {
                 parent.addChild(sp);
                 sp.pos(671, 273);
                 sp.zOrder = 0;
-                Click.on(Enum.ClickType.largen, null, sp, null, null, null, btnSetUp, null);
+                Click.on(Click.ClickType.largen, null, sp, null, null, null, btnSetUp, null);
                 BtnSetNode = sp;
                 BtnSetNode.name = 'BtnSetNode';
             }));
@@ -227,7 +227,7 @@ export module lwg {
                 sp.zOrder = 0;
                 BtnPauseNode = sp;
                 BtnPauseNode.name = 'BtnPauseNode';
-                Click.on(Enum.ClickType.largen, null, sp, null, null, null, btnPauseUp, null);
+                Click.on(Click.ClickType.largen, null, sp, null, null, null, btnPauseUp, null);
             }));
         }
         export function btnPauseUp(event) {
@@ -253,7 +253,7 @@ export module lwg {
                 sp.zOrder = 0;
                 BtnHintNode = sp;
                 BtnHintNode.name = 'BtnHintNode';
-                Click.on(Enum.ClickType.largen, null, sp, null, null, null, btnHintUp, null);
+                Click.on(Click.ClickType.largen, null, sp, null, null, null, btnHintUp, null);
             }));
         }
         export function btnHintUp(event) {
@@ -293,7 +293,7 @@ export module lwg {
                 parent.addChild(sp);
                 sp.pos(645, 404);
                 sp.zOrder = 0;
-                Click.on(Enum.ClickType.largen, null, sp, null, btnAgainUp, null, null, null);
+                Click.on(Click.ClickType.largen, null, sp, null, btnAgainUp, null, null, null);
                 BtnAgainNode = sp;
             }));
         }
@@ -1270,11 +1270,20 @@ export module lwg {
     }
 
 
-
     /**加载一些骨骼动画，在loding界面出现的时候执行skLoding()方法*/
     export module Sk {
+
         /**公主骨骼动画*/
         export let gongzhuTem: Laya.Templet = new Laya.Templet();
+        export let aishaTem: Laya.Templet = new Laya.Templet();
+        export let changeTem: Laya.Templet = new Laya.Templet();
+        export let chijiTem: Laya.Templet = new Laya.Templet();
+        export let huiguniangTem: Laya.Templet = new Laya.Templet();
+        export let tianshiTem: Laya.Templet = new Laya.Templet();
+        export let xiaohongmaoTem: Laya.Templet = new Laya.Templet();
+        export let xiaohuangyaTem: Laya.Templet = new Laya.Templet();
+        export let zhenziTem: Laya.Templet = new Laya.Templet();
+
         /**王子骨骼动画*/
         export let wangziTem: Laya.Templet = new Laya.Templet();
         /**狗骨骼动画*/
@@ -1287,64 +1296,110 @@ export module lwg {
         export let houmaTem: Laya.Templet = new Laya.Templet();
         /**猴子*/
         export let houziTem: Laya.Templet = new Laya.Templet();
-        /**房子动画*/
-        export let houseTem: Laya.Templet = new Laya.Templet();
 
         export function skLoding(): void {
             createGongzhuTem();
+            createAishaTem();
+            createChijiTem();
+            createChangeTem()
+            createHuiguniangTem();
+            createTianshiTem();
+            createXiaohongmaoTem();
+            createXiaohuangyaTem();
+            createZhenziTem();
+
             createWangziTem();
             createGouTem();
             createQingdi_01Tem();
             createQingdi_02Tem();
             createHoumaTem();
             createHouziTem();
-            createHouseTem();
         }
 
-        /**全部加载，如果遇到很多*/
+        /**全部加载*/
         export function createGongzhuTem(): void {
-            //创建动画模板
-            gongzhuTem.on(Laya.Event.COMPLETE, this, null);
+            gongzhuTem.on(Laya.Event.COMPLETE, this, onCompelet);
             gongzhuTem.on(Laya.Event.ERROR, this, onError);
             gongzhuTem.loadAni("SK/gongzhu.sk");
         }
+        export function createAishaTem(): void {
+            aishaTem.on(Laya.Event.COMPLETE, this, onCompelet);
+            aishaTem.on(Laya.Event.ERROR, this, onError);
+            aishaTem.loadAni("SK/aisha.sk");
+        }
+        export function createChangeTem(): void {
+            changeTem.on(Laya.Event.COMPLETE, this, onCompelet);
+            changeTem.on(Laya.Event.ERROR, this, onError);
+            changeTem.loadAni("SK/change.sk");
+        }
+        export function createChijiTem(): void {
+            chijiTem.on(Laya.Event.COMPLETE, this, onCompelet);
+            chijiTem.on(Laya.Event.ERROR, this, onError);
+            chijiTem.loadAni("SK/chiji.sk");
+        }
+        export function createHuiguniangTem(): void {
+            huiguniangTem.on(Laya.Event.COMPLETE, this, onCompelet);
+            huiguniangTem.on(Laya.Event.ERROR, this, onError);
+            huiguniangTem.loadAni("SK/huiguniang.sk");
+        }
+        export function createTianshiTem(): void {
+            tianshiTem.on(Laya.Event.COMPLETE, this, onCompelet);
+            tianshiTem.on(Laya.Event.ERROR, this, onError);
+            tianshiTem.loadAni("SK/tianshi.sk");
+        }
+        export function createXiaohongmaoTem(): void {
+            xiaohongmaoTem.on(Laya.Event.COMPLETE, this, onCompelet);
+            xiaohongmaoTem.on(Laya.Event.ERROR, this, onError);
+            xiaohongmaoTem.loadAni("SK/xiaohongmao.sk");
+        }
+        export function createXiaohuangyaTem(): void {
+            xiaohuangyaTem.on(Laya.Event.COMPLETE, this, onCompelet);
+            xiaohuangyaTem.on(Laya.Event.ERROR, this, onError);
+            xiaohuangyaTem.loadAni("SK/xiaohuangya.sk");
+        }
+        export function createZhenziTem(): void {
+            zhenziTem.on(Laya.Event.COMPLETE, this, onCompelet);
+            zhenziTem.on(Laya.Event.ERROR, this, onError);
+            zhenziTem.loadAni("SK/zhenzi.sk");
+        }
+
+
         export function createWangziTem(): void {
-            wangziTem.on(Laya.Event.COMPLETE, this, null);
+            wangziTem.on(Laya.Event.COMPLETE, this, onCompelet);
             wangziTem.on(Laya.Event.ERROR, this, onError);
             wangziTem.loadAni("SK/wangzi.sk");
         }
         export function createGouTem(): void {
-            gouTem.on(Laya.Event.COMPLETE, this, null);
+            gouTem.on(Laya.Event.COMPLETE, this, onCompelet);
             gouTem.on(Laya.Event.ERROR, this, onError);
             gouTem.loadAni("SK/gou.sk");
         }
         export function createQingdi_01Tem(): void {
-            qingdi_01Tem.on(Laya.Event.COMPLETE, this, null);
+            qingdi_01Tem.on(Laya.Event.COMPLETE, this, onCompelet);
             qingdi_01Tem.on(Laya.Event.ERROR, this, onError);
             qingdi_01Tem.loadAni("SK/qingdi.sk");
         }
         export function createQingdi_02Tem(): void {
-            qingdi_02Tem.on(Laya.Event.COMPLETE, this, null);
+            qingdi_02Tem.on(Laya.Event.COMPLETE, this, onCompelet);
             qingdi_02Tem.on(Laya.Event.ERROR, this, onError);
             qingdi_02Tem.loadAni("SK/qingdi1.sk");
         }
         export function createHoumaTem(): void {
-            houmaTem.on(Laya.Event.COMPLETE, this, null);
+            houmaTem.on(Laya.Event.COMPLETE, this, onCompelet);
             houmaTem.on(Laya.Event.ERROR, this, onError);
             houmaTem.loadAni("SK/houma.sk");
         }
         export function createHouziTem(): void {
-            houziTem.on(Laya.Event.COMPLETE, this, null);
+            houziTem.on(Laya.Event.COMPLETE, this, onCompelet);
             houziTem.on(Laya.Event.ERROR, this, onError);
             houziTem.loadAni("SK/houzi.sk");
         }
-        export function createHouseTem(): void {
-            houseTem.on(Laya.Event.COMPLETE, this, null);
-            houseTem.on(Laya.Event.ERROR, this, onError);
-            houseTem.loadAni("SK/house.sk");
+        export function onCompelet(tem: Laya.Templet): void {
+            console.log(tem['_skBufferUrl'], '加载成功');
+
         }
-        export function onError(): void {
-            console.log('加载失败！')
+        export function onError(url): void {
+            console.log(url, '加载失败！');
         }
     }
 
@@ -1387,28 +1442,49 @@ export module lwg {
         }
         /**皮肤的顺序以及名称*/
         export enum PifuOrder {
-            '01_xiaofu',
-            '02_konglong',
-            '03_xueren',
-            '04_qipao',
-            '05_qianxun',
-            '06_lvyifu',
-            '07_maozi',
-            '08_lufei',
-            '09_chaoren'
+            '01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha'
+        }
+        /**皮肤的顺序以及名称*/
+        export enum PifuAllName {
+            '01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha'
+        }
+        /**皮肤图片顺序对应的地址*/
+        export enum PifuSkin {
+            'pifu/pifu_01_gongzhu.png',
+            'pifu/pifu_02_chiji.png',
+            'pifu/pifu_03_change.png',
+            'pifu/pifu_04_huiguniang.png',
+            'pifu/pifu_05_tianshi.png',
+            'pifu/pifu_06_xiaohongmao.png',
+            'pifu/pifu_07_xiaohuangya.png',
+            'pifu/pifu_08_zhenzi.png',
+            'pifu/pifu_09_aisha.png'
         }
 
-        /**点击事件类型*/
-        export enum ClickType {
-            /**无效果*/
-            noEffect = 'noEffect',
-            /**点击放大*/
-            largen = 'largen',
-            /**类似气球*/
-            balloon = 'balloon',
-            /**小虫子*/
-            beetle = 'beetle',
+        /**灰色皮肤顺序对应的地址*/
+        export enum PifuSkin_No {
+            'pifu/pifu_01_gongzhu_h.png',
+            'pifu/pifu_02_chiji_h.png',
+            'pifu/pifu_03_change_h.png',
+            'pifu/pifu_04_huiguniang_h.png',
+            'pifu/pifu_05_tianshi_h.png',
+            'pifu/pifu_06_xiaohongmao_h.png',
+            'pifu/pifu_07_xiaohuangya_h.png',
+            'pifu/pifu_08_lzhenzi_h.png',
+            'pifu/pifu_09_aisha_h.png'
         }
+
+        // /**点击事件类型*/
+        // export enum ClickType {
+        //     /**无效果*/
+        //     noEffect = 'noEffect',
+        //     /**点击放大*/
+        //     largen = 'largen',
+        //     /**类似气球*/
+        //     balloon = 'balloon',
+        //     /**小虫子*/
+        //     beetle = 'beetle',
+        // }
 
         /**音效*/
         export enum voiceUrl {
@@ -1418,18 +1494,6 @@ export module lwg {
             defeated = 'voice/wancheng.wav',
         }
 
-        /**皮肤的顺序以及名称*/
-        export enum PifuAllName {
-            '01_xiaofu',
-            '02_konglong',
-            '03_xueren',
-            '04_qipao',
-            '05_qianxun',
-            '06_lvyifu',
-            '07_maozi',
-            '08_lufei',
-            '09_chaoren'
-        }
         /**皮肤的顺序以及名称*/
         export enum PifuAllName_Ch {
             '同桌',
@@ -1443,31 +1507,6 @@ export module lwg {
             '英雄'
         }
 
-        /**皮肤顺序对应的地址*/
-        export enum PifuSkin {
-            'pifu/pifu_01_xiaofu.png',
-            'pifu/pifu_02_konglong.png',
-            'pifu/pifu_03_xueren.png',
-            'pifu/pifu_04_qipao.png',
-            'pifu/pifu_05_qianxun.png',
-            'pifu/pifu_06_lvyifu.png',
-            'pifu/pifu_07_maozi.png',
-            'pifu/pifu_08_lufei.png',
-            'pifu/pifu_09_chaoren.png'
-        }
-
-        /**灰色皮肤顺序对应的地址*/
-        export enum PifuSkin_No {
-            'pifu/pifu_01_xiaofu_h.png',
-            'pifu/pifu_02_konglong_h.png',
-            'pifu/pifu_03_xueren_h.png',
-            'pifu/pifu_04_qipao_h.png',
-            'pifu/pifu_05_qianxun_h.png',
-            'pifu/pifu_06_lvyifu_h.png',
-            'pifu/pifu_07_maozi_h.png',
-            'pifu/pifu_08_lufei_h.png',
-            'pifu/pifu_09_chaoren_h.png'
-        }
 
         /**任务类型*/
         export enum TaskType {
@@ -1480,8 +1519,6 @@ export module lwg {
             /**吃金币*/
             gold = 'gold',
         }
-
-
 
         /**角色的四个方向*/
         export enum PersonDir {
@@ -1632,6 +1669,19 @@ export module lwg {
     * 2.点击事件模块
     */
     export module Click {
+
+        /**点击事件类型*/
+        export enum ClickType {
+            /**无效果*/
+            noEffect = 'noEffect',
+            /**点击放大*/
+            largen = 'largen',
+            /**类似气球*/
+            balloon = 'balloon',
+            /**小虫子*/
+            beetle = 'beetle',
+        }
+
         /**音乐的url*/
         export let audioUrl: string;
         /**
@@ -1662,16 +1712,16 @@ export module lwg {
                 Click.audioUrl = Enum.voiceUrl.btn;
             }
             switch (effect) {
-                case 'noEffect':
+                case ClickType.noEffect:
                     btnEffect = new Btn_NoEffect();
                     break;
-                case 'largen':
+                case ClickType.largen:
                     btnEffect = new Btn_LargenEffect();
                     break;
-                case 'balloon':
+                case ClickType.balloon:
                     btnEffect = new Btn_Balloon();
                     break;
-                case 'beetle':
+                case ClickType.balloon:
                     btnEffect = new Btn_Beetle();
                     break;
                 default:

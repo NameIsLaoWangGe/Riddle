@@ -23,11 +23,14 @@ import UIMain_Houma from "./script/Game/UIMain_Houma"
 import UIMain_Room from "./script/Game/UIMain_Room"
 import UIPassHint from "./script/Game/UIPassHint"
 import UIPuase from "./script/Game/UIPuase"
+import UIPifu from "./script/Game/UIPifu"
+import UIPifuTry from "./script/Game/UIPifuTry"
 import UISet from "./script/Game/UISet"
 import UIShare from "./script/Game/UIShare"
 import UIStart from "./script/Game/UIStart"
 import UIStart_House from "./script/Game/UIStart_House"
 import UIVictory from "./script/Game/UIVictory"
+import UIXDpifu from "./script/Game/UIXDpifu"
 import UILoding_ExecutionNumNode from "./script/Game/UILoding_ExecutionNumNode"
 /*
 * 游戏初始化配置;
@@ -72,11 +75,14 @@ export default class GameConfig{
         reg("script/Game/UIMain_Room.ts",UIMain_Room);
         reg("script/Game/UIPassHint.ts",UIPassHint);
         reg("script/Game/UIPuase.ts",UIPuase);
+        reg("script/Game/UIPifu.ts",UIPifu);
+        reg("script/Game/UIPifuTry.ts",UIPifuTry);
         reg("script/Game/UISet.ts",UISet);
         reg("script/Game/UIShare.ts",UIShare);
         reg("script/Game/UIStart.ts",UIStart);
         reg("script/Game/UIStart_House.ts",UIStart_House);
         reg("script/Game/UIVictory.ts",UIVictory);
+        reg("script/Game/UIXDpifu.ts",UIXDpifu);
         reg("script/Game/UILoding_ExecutionNumNode.ts",UILoding_ExecutionNumNode);
     }
 }

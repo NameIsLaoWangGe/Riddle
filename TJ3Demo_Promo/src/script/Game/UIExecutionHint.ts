@@ -4,6 +4,7 @@ import ADManager, { TaT } from "../../TJ/Admanager";
 export default class UIExecutionHint extends lwg.Admin.Scene {
 
     lwgInit() {
+        ADManager.ShowBanner();
         lwg.Global._stageClick = false;
     }
     adaptive() {
@@ -13,9 +14,9 @@ export default class UIExecutionHint extends lwg.Admin.Scene {
         ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_noticket');
         ADManager.TAPoint(TaT.BtnShow, 'close_noticket');
 
-        lwg.Click.on(lwg.Enum.ClickType.noEffect, null, this.self['BtnGet'], this, null, null, this.btnGetUp, null);
-        lwg.Click.on(lwg.Enum.ClickType.noEffect, null, this.self['BtnClose'], this, this.btnCloseDown, null, this.btnCloseUp, this.btnCloseOut);
-        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['Btn'], this, null, null, null, null);
+        lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnGet'], this, null, null, this.btnGetUp, null);
+        lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnClose'], this, this.btnCloseDown, null, this.btnCloseUp, this.btnCloseOut);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['Btn'], this, null, null, null, null);
     }
     btnGetUp(event): void {
         ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_noticket');
@@ -108,5 +109,6 @@ export default class UIExecutionHint extends lwg.Admin.Scene {
 
     lwgDisable(): void {
         lwg.Global._stageClick = true;
+        ADManager.CloseBanner();
     }
 }

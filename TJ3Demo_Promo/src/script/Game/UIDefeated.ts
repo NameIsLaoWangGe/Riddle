@@ -25,8 +25,16 @@ export default class UIDefeated extends lwg.Admin.Scene {
         this.LvNum = this.self['LvNum'];
         this.LvNumDisplay();
     }
+    
     adaptive(): void {
         this.self['sceneContent'].y = Laya.stage.height / 2;
+    }
+
+    openAni(): void {
+        this.self['BtnBack'].visible = false;
+        setTimeout(() => {
+            this.self['BtnBack'].visible = true;
+        }, 3000);
     }
 
     /**关卡数显示，有两种情况，一种是显示当前真实关卡，一种是重玩以前的关卡*/
@@ -108,7 +116,7 @@ export default class UIDefeated extends lwg.Admin.Scene {
         })
     }
     btnShareUpFunc(): void {
-       console.log('分享成功，只是没有奖励！');
+        console.log('分享成功，只是没有奖励！');
     }
 
     btnBackUp(event): void {
