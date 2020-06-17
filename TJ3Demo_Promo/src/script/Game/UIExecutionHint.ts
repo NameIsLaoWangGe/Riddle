@@ -32,17 +32,6 @@ export default class UIExecutionHint extends lwg.Admin.Scene {
         });
         lwg.LocalStorage.addData();
         this.self.close();
-
-        if (lwg.Admin._gameState === lwg.Admin.GameState.Defeated) {
-
-            lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
-
-        } else if (lwg.Admin._gameState === lwg.Admin.GameState.Victory) {
-            lwg.Admin._openScene(lwg.Admin.SceneName.UIVictory, null, null, null);
-        }
-        else if (lwg.Admin._gameState === lwg.Admin.GameState.GameStart) {
-            //直接关闭
-        }
     }
 
     /**每天一次免费按住关闭按钮三秒，可以免体力进入游戏一次*/
@@ -88,6 +77,11 @@ export default class UIExecutionHint extends lwg.Admin.Scene {
                         lwg.Admin.openLevelNum++;
                         lwg.Admin._openLevelNumCustom();
                     }
+
+                    // 表现上加上
+                    let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
+                    Num.value = (Number(Num.value) + 25).toString();
+
                 } else if (lwg.Admin._gameState === lwg.Admin.GameState.Defeated) {
                     if (lwg.Global.intoBtn === 'BtnLast') {
                         if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {

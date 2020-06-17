@@ -142,10 +142,13 @@ export default class UIVictory extends lwg.Admin.Scene {
     /**领取金币动画后回调*/
     getGoldAniFunc(): void {
         if (Number(this.LvNum.value) >= 3) {
-            lwg.Admin._openScene('UIPassHint', null, null, null);
+            lwg.Admin._openScene('UIPassHint', null, null, f => {
+                console.log('下一关');
+            });
+        } else {
+            lwg.Admin._nextCustomScene(2);
+            lwg.LocalStorage.addData();
         }
-        lwg.Admin._nextCustomScene(2);
-        lwg.LocalStorage.addData();
         this.self.close();
     }
 
@@ -156,7 +159,6 @@ export default class UIVictory extends lwg.Admin.Scene {
 
         ADManager.ShowReward(() => {
             this.btnGoldAdvUpFunc();
-            lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
         })
     }
 
@@ -168,22 +170,26 @@ export default class UIVictory extends lwg.Admin.Scene {
         this.btnOffClick();
 
         let goldNum = this.GetGold.getChildByName('GoldNum') as Laya.FontClip;
-        let level = lwg.Global._gameLevel;
         goldNum.value = 'x' + 75;
+
+        // 表现上加上
+        let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
+        Num.value = (Number(Num.value) + 60).toString();
+
         this.goldAdv_3Get = true;
+
         this.getGoldAni(15, fun => {
             // 开始时已经领取了25
-            lwg.Global._goldNum = + 25 * 2;
+            lwg.Global._goldNum += 25 * 2;
             lwg.LocalStorage.addData();
 
             lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
             lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
             lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
+
+            goldNum.value = 'x' + 0;
         });
 
-        lwg.Global._goldNum += 35;
-        let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
-        Num.value = (Number(Num.value) + 35).toString();
     }
 
     btnBackUp(event): void {

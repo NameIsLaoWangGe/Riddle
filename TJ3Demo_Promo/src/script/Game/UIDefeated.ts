@@ -120,7 +120,6 @@ export default class UIDefeated extends lwg.Admin.Scene {
         lwg.Global._goldNum += 25;
         lwg.LocalStorage.addData();
         this.self.close();
-
     }
 
     onDisable(): void {

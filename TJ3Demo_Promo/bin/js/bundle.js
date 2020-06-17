@@ -3180,13 +3180,6 @@
             });
             lwg.LocalStorage.addData();
             this.self.close();
-            if (lwg.Admin._gameState === lwg.Admin.GameState.Defeated) {
-                lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
-            }
-            else if (lwg.Admin._gameState === lwg.Admin.GameState.Victory) {
-                lwg.Admin._openScene(lwg.Admin.SceneName.UIVictory, null, null, null);
-            }
-            else if (lwg.Admin._gameState === lwg.Admin.GameState.GameStart) ;
         }
         btnCloseDown() {
             this.timeSwitch = true;
@@ -3227,6 +3220,8 @@
                             lwg.Admin.openLevelNum++;
                             lwg.Admin._openLevelNumCustom();
                         }
+                        let Num = lwg.Global.GoldNumNode.getChildByName('Num');
+                        Num.value = (Number(Num.value) + 25).toString();
                     }
                     else if (lwg.Admin._gameState === lwg.Admin.GameState.Defeated) {
                         if (lwg.Global.intoBtn === 'BtnLast') {
@@ -3523,8 +3518,8 @@
                 parent['UIMain_Room']._roomMove = false;
                 lwg.Global._roomPickup = null;
                 lwg.Effects.createCommonExplosion(Laya.stage, 15, posX, posY);
+                this.interactionPicStyle('exit');
             }
-            else if (parent['UIMain_Room']._roomMove || Math.abs(diffX) > 15 || Math.abs(diffY) > 15) ;
             if ((Math.abs(diffX) > 10 || Math.abs(diffY) > 10) || parent['UIMain_Room']._roomMove) {
                 this.openSwitch = false;
                 let wangzi = this.selfScene['UIMain'].Wangzi;
@@ -3532,6 +3527,7 @@
                 if (lwg.Global._gameLevel === 1 && this.selfScene['Finger'] && this.selfScene['Wangzi']['UIMain_Wangzi'].belongRoom !== this.selfScene['Gongzhu']['UIMain_Gongzhu'].belongRoom) {
                     if (this.selfScene['Finger']) {
                         this.selfScene['Finger'].alpha = 1;
+                        this.selfScene['guideRoom'].alpha = 0.3;
                     }
                 }
             }
@@ -3541,6 +3537,7 @@
                 if (lwg.Global._gameLevel === 1 && this.selfScene['Finger']) {
                     if (this.selfScene['Finger']) {
                         this.selfScene['Finger'].alpha = 0;
+                        this.selfScene['guideRoom'].alpha = 0;
                     }
                 }
             }
@@ -4045,7 +4042,14 @@
         }
         noMoveDirection() {
             if (!this.moveDirection) {
-                this.moveDirection = lwg.Enum.PersonDir.left;
+                if (this.belongRoom) {
+                    if (this.self.x > this.belongRoom.x) {
+                        this.moveDirection = lwg.Enum.PersonDir.left;
+                    }
+                    else {
+                        this.moveDirection = lwg.Enum.PersonDir.right;
+                    }
+                }
             }
         }
         positionOffset() {
@@ -4598,6 +4602,8 @@
             this.self['UIMain_Room'] = this;
             this.rig = this.self.getComponent(Laya.RigidBody);
             this.rig.setVelocity({ x: 0, y: 0 });
+            this.fX = this.self.x;
+            this.fY = this.self.y;
             this.btnOnClick();
             this.collisionNodeFollow();
         }
@@ -4654,6 +4660,11 @@
             this.diffY = null;
         }
         onUpdate() {
+            if (lwg.Global._gameLevel === 1 && this.self.name === 'Room2') {
+                this.self.x = this.fX;
+                this.self.y = this.fY;
+                return;
+            }
         }
         onDisable() {
         }
@@ -5370,10 +5381,14 @@
         }
         getGoldAniFunc() {
             if (Number(this.LvNum.value) >= 3) {
-                lwg.Admin._openScene('UIPassHint', null, null, null);
+                lwg.Admin._openScene('UIPassHint', null, null, f => {
+                    console.log('下一关');
+                });
             }
-            lwg.Admin._nextCustomScene(2);
-            lwg.LocalStorage.addData();
+            else {
+                lwg.Admin._nextCustomScene(2);
+                lwg.LocalStorage.addData();
+            }
             this.self.close();
         }
         btnGoldAdvUp(event) {
@@ -5381,7 +5396,6 @@
             event.currentTarget.scale(1, 1);
             ADManager.ShowReward(() => {
                 this.btnGoldAdvUpFunc();
-                lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
             });
         }
         btnGoldAdvUpFunc() {
@@ -5391,19 +5405,18 @@
             iconpic.skin = 'UI_new/Victory/icon_adv_h.png';
             this.btnOffClick();
             let goldNum = this.GetGold.getChildByName('GoldNum');
-            let level = lwg.Global._gameLevel;
             goldNum.value = 'x' + 75;
+            let Num = lwg.Global.GoldNumNode.getChildByName('Num');
+            Num.value = (Number(Num.value) + 60).toString();
             this.goldAdv_3Get = true;
             this.getGoldAni(15, fun => {
-                lwg.Global._goldNum = +25 * 2;
+                lwg.Global._goldNum += 25 * 2;
                 lwg.LocalStorage.addData();
                 lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
                 lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
                 lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
+                goldNum.value = 'x' + 0;
             });
-            lwg.Global._goldNum += 35;
-            let Num = lwg.Global.GoldNumNode.getChildByName('Num');
-            Num.value = (Number(Num.value) + 35).toString();
         }
         btnBackUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADticketbt_success');

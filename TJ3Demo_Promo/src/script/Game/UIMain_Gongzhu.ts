@@ -591,11 +591,20 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
             this.rig.setVelocity({ x: 0, y: 6 });
         }
     }
-    
-    /**防止没有方向*/
+
+    /**
+     * 防止没有方向
+     * 如果没有方向了，在房子的左边则右方向，如果在右边则左方向
+    */
     noMoveDirection(): void {
         if (!this.moveDirection) {
-            this.moveDirection = lwg.Enum.PersonDir.left;
+            if (this.belongRoom) {
+                if (this.self.x > this.belongRoom.x) {
+                    this.moveDirection = lwg.Enum.PersonDir.left;
+                } else {
+                    this.moveDirection = lwg.Enum.PersonDir.right;
+                }
+            }
         }
     }
 
@@ -664,6 +673,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
             this.positionOffsetXY();
         }
     }
+    
     /**
      * 固定角色的最终范围，一直处于当前房间内
      * 这样使角色不会掉下去

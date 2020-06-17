@@ -10,6 +10,10 @@ export default class UIMain_Room extends Laya.Script {
     /**物理组件*/
     private rig: Laya.RigidBody;
 
+    /**初始坐标*/
+    fX;
+    fY;
+
     constructor() { super(); }
 
     onEnable(): void {
@@ -18,6 +22,8 @@ export default class UIMain_Room extends Laya.Script {
         this.self['UIMain_Room'] = this;
         this.rig = this.self.getComponent(Laya.RigidBody) as Laya.RigidBody;
         this.rig.setVelocity({ x: 0, y: 0 });
+        this.fX = this.self.x;
+        this.fY = this.self.y;
         // this.aisleInit();
         this.btnOnClick();
         this.collisionNodeFollow();
@@ -101,6 +107,12 @@ export default class UIMain_Room extends Laya.Script {
     }
 
     onUpdate(): void {
+        // 第一关的新手引导中，第二个房间不可以移动
+        if (lwg.Global._gameLevel === 1 && this.self.name === 'Room2') {
+            this.self.x = this.fX;
+            this.self.y = this.fY;
+            return;
+        }
     }
 
     onDisable(): void {

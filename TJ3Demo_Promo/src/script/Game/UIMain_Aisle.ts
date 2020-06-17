@@ -133,6 +133,7 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
 
         // 距离太远并不会被吸附，是个bug未解决，现在只是做预防
         if ((Math.abs(diffX) > 100 || Math.abs(diffY) > 100)) {
+
             return;
         }
         // 如果自己是被手触摸的那个房间，则移动过去
@@ -147,20 +148,10 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
             parent['UIMain_Room']._roomMove = false;
             // 只吸附一次。
             lwg.Global._roomPickup = null;
-            // this.oppositeAisle['UIMain_Aisle'].openSwitch = true;
-            // this.openSwitch = true;
-            // this.gzAndWzConnect();
-            // console.log('打开连接');
-            lwg.Effects.createCommonExplosion(Laya.stage, 15, posX, posY);
-        } else if (parent['UIMain_Room']._roomMove || Math.abs(diffX) > 15 || Math.abs(diffY) > 15) {
-            // this.openSwitch = false;
-            // this.oppositeAisle['UIMain_Aisle'].openSwitch = false;
-            // let wangzi = this.selfScene['UIMain'].Wangzi;
-            // wangzi['UIMain_Wangzi'].gzConnect = false;
-            // console.log('断开连接！');
-            // console.log((Math.abs(diffX) > 10 || Math.abs(diffY) > 10), '距离');
-            // console.log(parent['UIMain_Room']._roomMove, '_roomMove');
 
+            lwg.Effects.createCommonExplosion(Laya.stage, 15, posX, posY);
+
+            this.interactionPicStyle('exit');
         }
         // 如果距离太远则断开连接状态
         // 可以分开控制开关，通过判断通道是上下还是左右,因为上下的时候是X轴距离大些，左右的时候Y轴距离错开点也不会断开，比较人性化
@@ -172,6 +163,7 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
             if (lwg.Global._gameLevel === 1 && this.selfScene['Finger'] && this.selfScene['Wangzi']['UIMain_Wangzi'].belongRoom !== this.selfScene['Gongzhu']['UIMain_Gongzhu'].belongRoom) {
                 if (this.selfScene['Finger']) {
                     this.selfScene['Finger'].alpha = 1;
+                    this.selfScene['guideRoom'].alpha = 0.3;
                 }
             }
             // console.log('断开连接！');
@@ -182,6 +174,7 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
             if (lwg.Global._gameLevel === 1 && this.selfScene['Finger']) {
                 if (this.selfScene['Finger']) {
                     this.selfScene['Finger'].alpha = 0;
+                    this.selfScene['guideRoom'].alpha = 0;
                 }
             }
         }
