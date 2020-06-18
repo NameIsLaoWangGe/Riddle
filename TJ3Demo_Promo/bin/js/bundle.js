@@ -1294,6 +1294,8 @@
                     '_hotShareTime': lwg.Global._hotShareTime,
                     '_addExHours': lwg.Global._addExHours,
                     '_addMinutes': lwg.Global._addMinutes,
+                    '_currentPifu': lwg.Global._currentPifu,
+                    '_havePifu': lwg.Global._havePifu,
                 };
                 let data = JSON.stringify(storageData);
                 Laya.LocalStorage.setJSON('storageData', data);
@@ -1318,6 +1320,8 @@
                     lwg.Global._hotShareTime = null;
                     lwg.Global._addExHours = (new Date).getHours();
                     lwg.Global._addMinutes = (new Date).getMinutes();
+                    lwg.Global._currentPifu = Enum.PifuAllName[0];
+                    lwg.Global._havePifu = ['01_gongzhu'];
                     return null;
                 }
             }
@@ -1546,10 +1550,13 @@
                     this.gameState(this.calssName);
                     this.self[this.calssName] = this;
                     this.lwgInit();
+                    this.selfVars();
                     this.btnOnClick();
                     this.adaptive();
                     this.openAni();
                     printPoint('on', this.calssName);
+                }
+                selfVars() {
                 }
                 gameState(calssName) {
                     switch (calssName) {
@@ -2089,27 +2096,27 @@
             })(PifuAllName = Enum.PifuAllName || (Enum.PifuAllName = {}));
             let PifuSkin;
             (function (PifuSkin) {
-                PifuSkin[PifuSkin["pifu/pifu_01_gongzhu.png"] = 0] = "pifu/pifu_01_gongzhu.png";
-                PifuSkin[PifuSkin["pifu/pifu_02_chiji.png"] = 1] = "pifu/pifu_02_chiji.png";
-                PifuSkin[PifuSkin["pifu/pifu_03_change.png"] = 2] = "pifu/pifu_03_change.png";
-                PifuSkin[PifuSkin["pifu/pifu_04_huiguniang.png"] = 3] = "pifu/pifu_04_huiguniang.png";
-                PifuSkin[PifuSkin["pifu/pifu_05_tianshi.png"] = 4] = "pifu/pifu_05_tianshi.png";
-                PifuSkin[PifuSkin["pifu/pifu_06_xiaohongmao.png"] = 5] = "pifu/pifu_06_xiaohongmao.png";
-                PifuSkin[PifuSkin["pifu/pifu_07_xiaohuangya.png"] = 6] = "pifu/pifu_07_xiaohuangya.png";
-                PifuSkin[PifuSkin["pifu/pifu_08_zhenzi.png"] = 7] = "pifu/pifu_08_zhenzi.png";
-                PifuSkin[PifuSkin["pifu/pifu_09_aisha.png"] = 8] = "pifu/pifu_09_aisha.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_01_gongzhu.png"] = 0] = "UI_new/Pifu/pifu_01_gongzhu.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_02_chiji.png"] = 1] = "UI_new/Pifu/pifu_02_chiji.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_03_change.png"] = 2] = "UI_new/Pifu/pifu_03_change.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_04_huiguniang.png"] = 3] = "UI_new/Pifu/pifu_04_huiguniang.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_05_tianshi.png"] = 4] = "UI_new/Pifu/pifu_05_tianshi.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_06_xiaohongmao.png"] = 5] = "UI_new/Pifu/pifu_06_xiaohongmao.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_07_xiaohuangya.png"] = 6] = "UI_new/Pifu/pifu_07_xiaohuangya.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_08_zhenzi.png"] = 7] = "UI_new/Pifu/pifu_08_zhenzi.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_09_aisha.png"] = 8] = "UI_new/Pifu/pifu_09_aisha.png";
             })(PifuSkin = Enum.PifuSkin || (Enum.PifuSkin = {}));
             let PifuSkin_No;
             (function (PifuSkin_No) {
-                PifuSkin_No[PifuSkin_No["pifu/pifu_01_gongzhu_h.png"] = 0] = "pifu/pifu_01_gongzhu_h.png";
-                PifuSkin_No[PifuSkin_No["pifu/pifu_02_chiji_h.png"] = 1] = "pifu/pifu_02_chiji_h.png";
-                PifuSkin_No[PifuSkin_No["pifu/pifu_03_change_h.png"] = 2] = "pifu/pifu_03_change_h.png";
-                PifuSkin_No[PifuSkin_No["pifu/pifu_04_huiguniang_h.png"] = 3] = "pifu/pifu_04_huiguniang_h.png";
-                PifuSkin_No[PifuSkin_No["pifu/pifu_05_tianshi_h.png"] = 4] = "pifu/pifu_05_tianshi_h.png";
-                PifuSkin_No[PifuSkin_No["pifu/pifu_06_xiaohongmao_h.png"] = 5] = "pifu/pifu_06_xiaohongmao_h.png";
-                PifuSkin_No[PifuSkin_No["pifu/pifu_07_xiaohuangya_h.png"] = 6] = "pifu/pifu_07_xiaohuangya_h.png";
-                PifuSkin_No[PifuSkin_No["pifu/pifu_08_lzhenzi_h.png"] = 7] = "pifu/pifu_08_lzhenzi_h.png";
-                PifuSkin_No[PifuSkin_No["pifu/pifu_09_aisha_h.png"] = 8] = "pifu/pifu_09_aisha_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_01_gongzhu_h.png"] = 0] = "UI_new/Pifu/pifu_01_gongzhu_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_02_chiji_h.png"] = 1] = "UI_new/Pifu/pifu_02_chiji_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_03_change_h.png"] = 2] = "UI_new/Pifu/pifu_03_change_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_04_huiguniang_h.png"] = 3] = "UI_new/Pifu/pifu_04_huiguniang_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_05_tianshi_h.png"] = 4] = "UI_new/Pifu/pifu_05_tianshi_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_06_xiaohongmao_h.png"] = 5] = "UI_new/Pifu/pifu_06_xiaohongmao_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_07_xiaohuangya_h.png"] = 6] = "UI_new/Pifu/pifu_07_xiaohuangya_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_08_zhenzi_h.png"] = 7] = "UI_new/Pifu/pifu_08_zhenzi_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_09_aisha_h.png"] = 8] = "UI_new/Pifu/pifu_09_aisha_h.png";
             })(PifuSkin_No = Enum.PifuSkin_No || (Enum.PifuSkin_No = {}));
             let voiceUrl;
             (function (voiceUrl) {
@@ -3424,6 +3431,10 @@
             this.lodeUserInfo();
             this.dataLoading();
         }
+        adaptive() {
+            this.self['Logo'].y = Laya.stage.height * 0.242;
+            this.self['Progress'].y = Laya.stage.height * 0.811;
+        }
         dataLoading() {
             Laya.loader.load("Data/HintDec.json", Laya.Handler.create(this, this.levelsOnLoaded), null, Laya.Loader.JSON);
         }
@@ -3478,6 +3489,8 @@
                 }
                 lwg.Global._addExHours = data._addExHours;
                 lwg.Global._addMinutes = data._addMinutes;
+                lwg.Global._havePifu = data._havePifu;
+                lwg.Global._currentPifu = data._currentPifu;
             }
             lwg.Global._createGoldNum(Laya.stage);
             lwg.Global._createExecutionNum(Laya.stage);
@@ -4878,45 +4891,36 @@
         }
     }
 
-    class UIPifu extends Laya.Script {
+    class UIPifu extends lwg.Admin.Scene {
         constructor() {
             super();
             this.moveSwitch = false;
             this.listFirstIndex = lwg.Enum.PifuAllName[lwg.Global._currentPifu];
             this.noHaveIndex = 0;
         }
-        onEnable() {
-            this.self = this.owner;
+        lwgInit() {
             this.BtnBack = this.self['BtnBack'];
             this.BtnBuy = this.self['BtnBuy'];
             this.BtnSelect = this.self['BtnSelect'];
             this.PifuParent = this.self['PifuParent'];
             this.PifuList = this.self['PifuList'];
-            this.PifuName = this.self['PifuName'];
-            this.GoldRes = this.self['GoldRes'];
-            this.PifuNum = this.self['PifuNum'];
             this.background = this.self['background'];
-            this.noHaveSubChaoren();
-            this.btnClickOn();
+            lwg.Global.ExecutionNumNode.alpha = 0;
+            lwg.Global._stageClick = false;
             this.createPifuList();
-            this.goldRes();
-            this.pifuNum();
-            this.priceDisplay();
-            this.adaptive();
-            this.openAni();
+        }
+        adaptive() {
+            this.self['TowBtn'].y = Laya.stage.height * 0.720;
+            this.self['PifuName'].y = Laya.stage.height * 0.185;
+            this.self['MatchDot'].y = Laya.stage.height * 0.634;
+            this.self['background_01'].height = Laya.stage.height;
+            this.PifuList.y = Laya.stage.height * 0.442;
+            this.self['BtnBack'].y = Laya.stage.height * 0.83;
         }
         priceDisplay() {
             let price = 250 * lwg.Global._buyNum - 150;
             let num = this.BtnBuy.getChildByName('Num');
             num.text = price.toString();
-        }
-        goldRes() {
-            let goldLebel = this.GoldRes.getChildByName('Num');
-            goldLebel.text = (lwg.Global._goldNum).toString();
-        }
-        pifuNum() {
-            let pifuNumLebel = this.PifuNum.getChildByName('Num');
-            pifuNumLebel.text = lwg.Global._havePifu.length + '/' + lwg.Global._allPifu.length;
         }
         noHaveSubChaoren() {
             let allArray = [];
@@ -4944,12 +4948,8 @@
                 console.log(lwg.Global._notHavePifuSubChaoren);
             }
         }
-        adaptive() {
-            this.self['TowBtn'].y = Laya.stage.height * 0.822;
-            this.PifuList.y = Laya.stage.height * 0.534;
-            this.PifuName.y = Laya.stage.height * 0.264;
-        }
         openAni() {
+            return;
             let delayed = 100;
             let time = 200;
             let y2 = this.background.y;
@@ -4957,17 +4957,10 @@
             });
             let x1 = this.BtnBack.x;
             lwg.Animation.move_Deform_X(this.BtnBack, -200, 30, x1, -0.1, 0.2, time, delayed * 4, f => { });
-            let x2 = this.GoldRes.x;
-            lwg.Animation.move_Deform_X(this.GoldRes, 920, 30, x2, 0.2, -0.15, time, delayed * 3, f => { });
-            let x3 = this.PifuName.x;
-            lwg.Animation.move_Deform_X(this.PifuName, x3, 0, x3, 0.2, -0.15, time, delayed * 4, f => { });
             let x4 = this.BtnBuy.x;
             lwg.Animation.move_Deform_X(this.BtnBuy, x4, 0, x4, 0.2, -0.15, time, delayed * 4, f => { });
             let x5 = this.BtnSelect.x;
             lwg.Animation.move_Deform_X(this.BtnSelect, x5, 0, x5, 0.2, -0.15, time, delayed * 4, f => { });
-            let y1 = this.PifuNum.y;
-            lwg.Animation.move_Deform_Y(this.PifuNum, -300, -15, y1, -0.1, 0.2, time, delayed * 2, f => {
-            });
             lwg.Animation.fadeOut(this.PifuList, 0, 1, time, delayed, f => {
                 this.listOpenAni();
             });
@@ -4977,7 +4970,7 @@
             this.PifuList.selectHandler = new Laya.Handler(this, this.onSelect_List);
             this.PifuList.renderHandler = new Laya.Handler(this, this.updateItem);
             this.refreshListData();
-            this.pifuNameRefresh();
+            this.matchDotStaly();
         }
         listOpenAni() {
             if (0 <= this.listFirstIndex && this.listFirstIndex <= 4) {
@@ -5006,23 +4999,19 @@
                     }
                 }
                 let pifuUrl;
-                let lock;
                 if (have) {
                     pifuUrl = lwg.Enum.PifuSkin[m];
-                    lock = false;
                 }
                 else {
                     pifuUrl = lwg.Enum.PifuSkin_No[m];
-                    lock = true;
                 }
-                let select;
+                let selectWord;
                 if (lwg.Global._currentPifu === lwg.Enum.PifuAllName[m]) {
-                    select = true;
+                    selectWord = true;
                 }
                 else {
-                    select = false;
+                    selectWord = false;
                 }
-                let shadowUrl = 'pifu/ui_shadow.png';
                 let scale;
                 if (m === this.listFirstIndex) {
                     scale = 1;
@@ -5031,12 +5020,9 @@
                     scale = 0.8;
                 }
                 data.push({
-                    name,
                     have,
                     pifuUrl,
-                    lock,
-                    select,
-                    shadowUrl,
+                    selectWord,
                     scale
                 });
             }
@@ -5047,14 +5033,8 @@
         updateItem(cell, index) {
             let dataSource = cell.dataSource;
             let pifuImg = cell.getChildByName('PifuImg');
-            let lock = cell.getChildByName('Lock');
             let select = cell.getChildByName('Select');
-            let shadow = cell.getChildByName('Shadow');
-            cell.name = dataSource.name;
             pifuImg.skin = dataSource.pifuUrl;
-            lock.visible = dataSource.lock;
-            select.visible = dataSource.select;
-            shadow.skin = dataSource.shadowUrl;
             cell.scale(dataSource.scale, dataSource.scale);
         }
         onStageMouseDown() {
@@ -5067,35 +5047,42 @@
                 return;
             }
             let diffX = x - this.firstX;
-            if (diffX > 100) {
+            if (diffX > 80) {
                 this.listFirstIndex -= 1;
                 if (this.listFirstIndex < 0) {
                     this.listFirstIndex = 0;
                 }
             }
-            else if (diffX < -100) {
+            else if (diffX < -80) {
                 this.listFirstIndex += 1;
                 if (this.listFirstIndex > 8) {
                     this.listFirstIndex = 8;
                 }
             }
             this.moveSwitch = false;
-            this.PifuList.tweenTo(this.listFirstIndex, 100, Laya.Handler.create(this, this.moveCompelet));
+            this.PifuList.tweenTo(this.listFirstIndex, 50, Laya.Handler.create(this, this.moveCompelet));
         }
         moveCompelet() {
-            this.pifuNameRefresh();
             this.refreshListData();
+            this.matchDotStaly();
             this.whetherHaveThisPifu();
         }
-        pifuNameRefresh() {
-            let name = this.PifuName.getChildAt(0);
-            let num = this.listFirstIndex;
-            if (lwg.Enum.PifuAllName[num]) {
-                name.text = lwg.Enum.PifuAllName_Ch[num];
+        matchDotStaly() {
+            let MatchDot = this.self['MatchDot'];
+            for (let index = 0; index < MatchDot.numChildren; index++) {
+                const element = MatchDot.getChildAt(index);
+                if (element.name === this.listFirstIndex.toString()) {
+                    element.getChildAt(0)['visible'] = false;
+                    element.getChildAt(1)['visible'] = true;
+                }
+                else {
+                    element.getChildAt(1)['visible'] = false;
+                    element.getChildAt(0)['visible'] = true;
+                }
             }
         }
         whetherHaveThisPifu() {
-            let cell = this.PifuList.getCell(this.listFirstIndex + 1);
+            let cell = this.PifuList.getCell(this.listFirstIndex);
             let boo = false;
             for (let index = 0; index < lwg.Global._havePifu.length; index++) {
                 const pifuName = lwg.Global._havePifu[index];
@@ -5105,43 +5092,40 @@
             }
             if (boo) {
                 this.showSelect = true;
-                this.BtnSelect.skin = 'pifu/select_btn1.png';
+                this.BtnSelect.skin = 'UI_new/Victory/green_btn.png';
             }
             else {
                 this.showSelect = false;
-                this.BtnSelect.skin = 'pifu/select_btn2.png';
+                this.BtnSelect.skin = 'UI_new/Victory/rede_btn_01.png';
             }
         }
-        btnClickOn() {
-            lwg.Click.on('largen', null, this.BtnBack, this, null, null, this.btnBackClickUP, null);
-            lwg.Click.on('largen', null, this.BtnBuy, this, null, null, this.btnBuyClickUP, null);
-            lwg.Click.on('largen', null, this.BtnSelect, this, null, null, this.btnSelectClickUP, null);
+        btnOnClick() {
+            lwg.Click.on('largen', null, this.BtnBack, this, null, null, this.btnBackUp, null);
+            lwg.Click.on('largen', null, this.BtnBuy, this, null, null, this.btnBuyUp, null);
+            lwg.Click.on('largen', null, this.BtnSelect, this, null, null, this.btnSelectUp, null);
         }
-        btnBackClickUP(event) {
+        btnBackUp(event) {
             event.stopPropagation();
             event.currentTarget.scale(1, 1);
             this.self.close();
-            lwg.Global.UIMain['UIMain'].currentPifuSet();
-            lwg.Global.UIStart['UIStart'].goldRes();
             lwg.LocalStorage.addData();
         }
-        btnBuyClickUP(event) {
+        btnBuyUp(event) {
             event.currentTarget.scale(1, 1);
             event.stopPropagation();
             let price = 250 * lwg.Global._buyNum - 150;
             if (lwg.Global._goldNum < price || lwg.Global._notHavePifuSubChaoren.length <= 0) {
                 if (lwg.Global._goldNum < price) {
-                    lwg.Global._createHint(lwg.Enum.HintType.nogold, Laya.stage.width / 2, Laya.stage.height / 2);
+                    lwg.Global._createHint_01(lwg.Enum.HintType.noGold);
                 }
                 else if (lwg.Global._notHavePifuSubChaoren.length <= 0) {
-                    lwg.Global._createHint(lwg.Enum.HintType.nopifu, Laya.stage.width / 2, Laya.stage.height / 2);
+                    lwg.Global._createHint_01(lwg.Enum.HintType.noPifu);
                 }
                 return;
             }
             else {
                 lwg.Global._goldNum -= price;
                 lwg.Global._buyNum++;
-                this.goldRes();
                 let random = Math.floor(Math.random() * lwg.Global._notHavePifuSubChaoren.length);
                 this.buyIndex = lwg.Enum.PifuAllName[lwg.Global._notHavePifuSubChaoren[random]];
                 console.log('购买了第' + this.buyIndex + '位置的皮肤');
@@ -5156,7 +5140,6 @@
                 index = lwg.Enum.PifuAllName[noHavePifu_00];
                 this.listFirstIndex = index;
                 this.refreshListData();
-                this.pifuNameRefresh();
                 this.PifuList.tweenTo(index, 200, Laya.Handler.create(this, function () {
                     this.noHaveIndex++;
                     this.nohavePifuAni();
@@ -5176,15 +5159,13 @@
         buyCompelet() {
             lwg.Global._havePifu.push(lwg.Enum.PifuAllName[this.buyIndex]);
             this.noHaveSubChaoren();
-            this.pifuNum();
-            this.pifuNameRefresh();
             this.refreshListData();
             this.whetherHaveThisPifu();
             this.priceDisplay();
             lwg.LocalStorage.addData();
             console.log('购买完成！');
         }
-        btnSelectClickUP(event) {
+        btnSelectUp(event) {
             event.currentTarget.scale(1, 1);
             event.stopPropagation();
             let cell = this.PifuList.getCell(this.listFirstIndex + 1);
@@ -5198,7 +5179,9 @@
                 }
             }
         }
-        onDisable() {
+        lwgDisable() {
+            lwg.Global._stageClick = true;
+            lwg.Global.ExecutionNumNode.alpha = 1;
         }
     }
 
@@ -5504,7 +5487,6 @@
             this.BtnStart = this.self['BtnStart'];
             this.CustomsList = this.self['CustomsList'];
             this.BtnPifu = this.self['BtnPifu'];
-            this.BtnPifu.visible = false;
             this.BtnLocation = this.self['BtnLocation'];
             this.BtnLocation.visible = false;
             this.SceneContent = this.self['SceneContent'];
@@ -5820,7 +5802,7 @@
         }
         btnPifuClickUp(event) {
             event.currentTarget.scale(1, 1);
-            lwg.Global._createHint_01(lwg.Enum.HintType.noPifu);
+            lwg.Admin._openScene('UIPifu', null, null, null);
         }
         btnLocationUp(event) {
             event.currentTarget.scale(1, 1);

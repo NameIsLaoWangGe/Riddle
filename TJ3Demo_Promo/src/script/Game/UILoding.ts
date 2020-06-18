@@ -2,12 +2,6 @@ import UIMain from './UIMain';
 import { lwg } from '../Lwg_Template/lwg';
 import ADManager, { TaT } from '../../TJ/Admanager';
 export default class UILoding extends lwg.Admin.Scene {
-    /**游戏加载进度条*/
-    private Progress: Laya.Sprite;
-    /**logo*/
-    private Logo: Laya.Sprite;
-    /**进度条*/
-    private ProgressBar: Laya.Sprite;
     /**进度条遮罩*/
     private Mask: Laya.Image;
 
@@ -22,6 +16,11 @@ export default class UILoding extends lwg.Admin.Scene {
         lwg.Sk.skLoding();
         this.lodeUserInfo();
         this.dataLoading();
+    }
+
+    adaptive(): void {
+        this.self['Logo'].y = Laya.stage.height * 0.242;
+        this.self['Progress'].y = Laya.stage.height * 0.811;
     }
 
     /**优先加载数据表*/
@@ -97,7 +96,8 @@ export default class UILoding extends lwg.Admin.Scene {
 
             lwg.Global._addExHours = data._addExHours;
             lwg.Global._addMinutes = data._addMinutes;
-            // lwg.Global._havePifu = data._havePifu;
+            lwg.Global._havePifu = data._havePifu;
+            lwg.Global._currentPifu = data._currentPifu;
             // lwg.Global._watchAdsNum = data._watchAdsNum;
             // lwg.Global._gameOverAdvModel = data._gameOverAdvModel;
             // lwg.Global._whetherAdv = data._whetherAdv;

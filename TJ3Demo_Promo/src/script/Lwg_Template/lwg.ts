@@ -31,8 +31,6 @@ export module lwg {
         export let _addMinutes: number;
 
 
-
-
         /**最后一次被拾取的房间，用于被吸附到另一个房间*/
         export let _roomPickup: Laya.Image;
         /**关卡总数*/
@@ -469,8 +467,8 @@ export module lwg {
                 '_addMinutes': lwg.Global._addMinutes,
 
                 // '_buyNum': lwg.Global._buyNum,
-                // '_currentPifu': lwg.Global._currentPifu,
-                // '_havePifu': lwg.Global._havePifu,
+                '_currentPifu': lwg.Global._currentPifu,
+                '_havePifu': lwg.Global._havePifu,
                 // '_watchAdsNum': lwg.Global._watchAdsNum,
                 // '_gameOverAdvModel': lwg.Global._gameOverAdvModel,
             }
@@ -501,8 +499,8 @@ export module lwg {
                 lwg.Global._addExHours = (new Date).getHours();
                 lwg.Global._addMinutes = (new Date).getMinutes();
                 // lwg.Global._buyNum = 1;
-                // lwg.Global._currentPifu = Enum.PifuAllName[0];
-                // lwg.Global._havePifu = ['01_xiaofu'];
+                lwg.Global._currentPifu = Enum.PifuAllName[0];
+                lwg.Global._havePifu = ['01_gongzhu'];
                 // lwg.Global._watchAdsNum = 0;
                 // lwg.Global._gameOverAdvModel = 1;
                 // lwg.Global._whetherAdv = false;
@@ -799,10 +797,14 @@ export module lwg {
                 // 组件变为的self属性
                 this.self[this.calssName] = this;
                 this.lwgInit();
+                this.selfVars();
                 this.btnOnClick();
                 this.adaptive();
                 this.openAni();
                 printPoint('on', this.calssName);
+            }
+            /**场景背部全局变量*/
+            selfVars(): void {
             }
             /**游戏当前的状态*/
             gameState(calssName): void {
@@ -1450,28 +1452,28 @@ export module lwg {
         }
         /**皮肤图片顺序对应的地址*/
         export enum PifuSkin {
-            'pifu/pifu_01_gongzhu.png',
-            'pifu/pifu_02_chiji.png',
-            'pifu/pifu_03_change.png',
-            'pifu/pifu_04_huiguniang.png',
-            'pifu/pifu_05_tianshi.png',
-            'pifu/pifu_06_xiaohongmao.png',
-            'pifu/pifu_07_xiaohuangya.png',
-            'pifu/pifu_08_zhenzi.png',
-            'pifu/pifu_09_aisha.png'
+            'UI_new/Pifu/pifu_01_gongzhu.png',
+            'UI_new/Pifu/pifu_02_chiji.png',
+            'UI_new/Pifu/pifu_03_change.png',
+            'UI_new/Pifu/pifu_04_huiguniang.png',
+            'UI_new/Pifu/pifu_05_tianshi.png',
+            'UI_new/Pifu/pifu_06_xiaohongmao.png',
+            'UI_new/Pifu/pifu_07_xiaohuangya.png',
+            'UI_new/Pifu/pifu_08_zhenzi.png',
+            'UI_new/Pifu/pifu_09_aisha.png'
         }
 
         /**灰色皮肤顺序对应的地址*/
         export enum PifuSkin_No {
-            'pifu/pifu_01_gongzhu_h.png',
-            'pifu/pifu_02_chiji_h.png',
-            'pifu/pifu_03_change_h.png',
-            'pifu/pifu_04_huiguniang_h.png',
-            'pifu/pifu_05_tianshi_h.png',
-            'pifu/pifu_06_xiaohongmao_h.png',
-            'pifu/pifu_07_xiaohuangya_h.png',
-            'pifu/pifu_08_lzhenzi_h.png',
-            'pifu/pifu_09_aisha_h.png'
+            'UI_new/Pifu/pifu_01_gongzhu_h.png',
+            'UI_new/Pifu/pifu_02_chiji_h.png',
+            'UI_new/Pifu/pifu_03_change_h.png',
+            'UI_new/Pifu/pifu_04_huiguniang_h.png',
+            'UI_new/Pifu/pifu_05_tianshi_h.png',
+            'UI_new/Pifu/pifu_06_xiaohongmao_h.png',
+            'UI_new/Pifu/pifu_07_xiaohuangya_h.png',
+            'UI_new/Pifu/pifu_08_zhenzi_h.png',
+            'UI_new/Pifu/pifu_09_aisha_h.png'
         }
 
         // /**点击事件类型*/

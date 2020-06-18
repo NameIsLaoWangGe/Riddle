@@ -375,6 +375,7 @@ export default class UIStart extends lwg.Admin.Scene {
             }
         }
     }
+    
     /**打开游戏场景*/
     openPlayScene(): void {
         lwg.Global._execution -= 2;

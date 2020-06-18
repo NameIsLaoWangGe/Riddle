@@ -1,8 +1,6 @@
 import { lwg } from "../Lwg_Template/lwg";
 
-export default class UIPifu extends Laya.Script {
-    /**挂载当前脚本的节点*/
-    private self: Laya.Scene;
+export default class UIPifu extends lwg.Admin.Scene {
     /**返回按钮*/
     private BtnBack: Laya.Sprite;
     /**购买按钮*/
@@ -13,37 +11,37 @@ export default class UIPifu extends Laya.Script {
     private PifuParent: Laya.Sprite;
     /**list列表*/
     private PifuList: Laya.List;
-    /**皮肤名称*/
-    private PifuName: Laya.Sprite;
-    /**金币*/
-    private GoldRes: Laya.Sprite;
-    /**皮肤数量显示*/
-    private PifuNum: Laya.Sprite;
     /**背景图*/
     private background: Laya.Image;
 
     constructor() { super(); }
 
-    onEnable(): void {
-        this.self = this.owner as Laya.Scene;
+    lwgInit(): void {
         this.BtnBack = this.self['BtnBack'];
         this.BtnBuy = this.self['BtnBuy'];
         this.BtnSelect = this.self['BtnSelect'];
         this.PifuParent = this.self['PifuParent'];
         this.PifuList = this.self['PifuList'];
-        this.PifuName = this.self['PifuName'];
-        this.GoldRes = this.self['GoldRes'];
-        this.PifuNum = this.self['PifuNum'];
         this.background = this.self['background'];
 
-        this.noHaveSubChaoren();
-        this.btnClickOn();
+        lwg.Global.ExecutionNumNode.alpha = 0;
+        lwg.Global._stageClick = false;
+
+        // this.noHaveSubChaoren();
         this.createPifuList();
-        this.goldRes();
-        this.pifuNum();
-        this.priceDisplay();
-        this.adaptive();
-        this.openAni();
+        // this.priceDisplay();
+        // this.adaptive();
+        // this.openAni();
+    }
+
+    /**一些节点的适配*/
+    adaptive(): void {
+        this.self['TowBtn'].y = Laya.stage.height * 0.720;
+        this.self['PifuName'].y = Laya.stage.height * 0.185;
+        this.self['MatchDot'].y = Laya.stage.height * 0.634;
+        this.self['background_01'].height = Laya.stage.height;
+        this.PifuList.y = Laya.stage.height * 0.442;
+        this.self['BtnBack'].y = Laya.stage.height * 0.83;
     }
 
     /**金币按钮上的所需购买金币显示*/
@@ -51,21 +49,6 @@ export default class UIPifu extends Laya.Script {
         let price = 250 * lwg.Global._buyNum - 150;
         let num = this.BtnBuy.getChildByName('Num') as Laya.Label;
         num.text = price.toString();
-        // console.log(price);
-    }
-
-    /**金币资源初始化*/
-    goldRes(): void {
-        let goldLebel = this.GoldRes.getChildByName('Num') as Laya.Label;
-        goldLebel.text = (lwg.Global._goldNum).toString();
-        // console.log(goldLebel.text);
-    }
-
-    /**皮肤数量显示初始化*/
-    pifuNum(): void {
-        let pifuNumLebel = this.PifuNum.getChildByName('Num') as Laya.Label;
-        pifuNumLebel.text = lwg.Global._havePifu.length + '/' + lwg.Global._allPifu.length;
-        // console.log(pifuNumLebel.text);
     }
 
     /**找出还没有获得的皮肤,不包括超人*/
@@ -99,16 +82,9 @@ export default class UIPifu extends Laya.Script {
         }
     }
 
-    /**一些节点的适配*/
-    adaptive(): void {
-        this.self['TowBtn'].y = Laya.stage.height * 0.822;
-        this.PifuList.y = Laya.stage.height * 0.534;
-        this.PifuName.y = Laya.stage.height * 0.264;
-    }
-
-
-    /**开场动画*/
     openAni(): void {
+        return;
+
         let delayed = 100;
         let time = 200;
 
@@ -119,21 +95,11 @@ export default class UIPifu extends Laya.Script {
         let x1 = this.BtnBack.x;
         lwg.Animation.move_Deform_X(this.BtnBack, -200, 30, x1, -0.1, 0.2, time, delayed * 4, f => { });
 
-        let x2 = this.GoldRes.x;
-        lwg.Animation.move_Deform_X(this.GoldRes, 920, 30, x2, 0.2, -0.15, time, delayed * 3, f => { });
-
-        let x3 = this.PifuName.x;
-        lwg.Animation.move_Deform_X(this.PifuName, x3, 0, x3, 0.2, -0.15, time, delayed * 4, f => { });
-
         let x4 = this.BtnBuy.x;
         lwg.Animation.move_Deform_X(this.BtnBuy, x4, 0, x4, 0.2, -0.15, time, delayed * 4, f => { });
 
         let x5 = this.BtnSelect.x;
         lwg.Animation.move_Deform_X(this.BtnSelect, x5, 0, x5, 0.2, -0.15, time, delayed * 4, f => { });
-
-        let y1 = this.PifuNum.y;
-        lwg.Animation.move_Deform_Y(this.PifuNum, -300, -15, y1, -0.1, 0.2, time, delayed * 2, f => {
-        });
 
         lwg.Animation.fadeOut(this.PifuList, 0, 1, time, delayed, f => {
             this.listOpenAni()
@@ -149,17 +115,16 @@ export default class UIPifu extends Laya.Script {
         this.PifuList.selectHandler = new Laya.Handler(this, this.onSelect_List);
         this.PifuList.renderHandler = new Laya.Handler(this, this.updateItem);
         this.refreshListData();
-        // 将当前选中的那个皮肤放中间
-        this.pifuNameRefresh();
+        this.matchDotStaly();
     }
 
     /**
-   * list列表出场动画
-   * 规则如下
-   * 1.判断当前选中位置是在什么位置
-   * 2.如果在1234位置，那么动画从后往前播放，如果在56789位置，那么动画从前往后播放
-   * 3.设置初始位置要在较远的地方也就是1或者9的位置,然后通过动画移动到选中位置
-   * */
+     * list列表出场动画
+     * 规则如下
+     * 1.判断当前选中位置是在什么位置
+     * 2.如果在1234位置，那么动画从后往前播放，如果在56789位置，那么动画从前往后播放
+     * 3.设置初始位置要在较远的地方也就是1或者9的位置,然后通过动画移动到选中位置
+     * */
     listOpenAni(): void {
         if (0 <= this.listFirstIndex && this.listFirstIndex <= 4) {
             this.PifuList.scrollTo(this.PifuList.length - 1);
@@ -194,23 +159,18 @@ export default class UIPifu extends Laya.Script {
             }
             // 有了这个皮肤，那么是皮肤图片是亮的，如果没有，那么是暗的,并且上面有个锁的图片
             let pifuUrl;
-            let lock;
             if (have) {
                 pifuUrl = lwg.Enum.PifuSkin[m];
-                lock = false;
             } else {
                 pifuUrl = lwg.Enum.PifuSkin_No[m];
-                lock = true;
             }
             // 在已经拥有的皮肤当中，判断当前选中的是哪一个
-            let select;
+            let selectWord;
             if (lwg.Global._currentPifu === lwg.Enum.PifuAllName[m]) {
-                select = true;
+                selectWord = true;
             } else {
-                select = false;
+                selectWord = false;
             }
-            // 影子的地址
-            let shadowUrl = 'pifu/ui_shadow.png';
             // 缩放大小，不在中心位置的则缩小
             let scale;
             if (m === this.listFirstIndex) {
@@ -220,12 +180,9 @@ export default class UIPifu extends Laya.Script {
             }
             // push全部信息
             data.push({
-                name,
                 have,
                 pifuUrl,
-                lock,
-                select,
-                shadowUrl,
+                selectWord,
                 scale
             });
         }
@@ -244,16 +201,10 @@ export default class UIPifu extends Laya.Script {
         let dataSource = cell.dataSource;
 
         let pifuImg = cell.getChildByName('PifuImg') as Laya.Image;
-        let lock = cell.getChildByName('Lock') as Laya.Sprite;
         let select = cell.getChildByName('Select') as Laya.Sprite;
-        let shadow = cell.getChildByName('Shadow') as Laya.Image;
 
         // 信息赋值
-        cell.name = dataSource.name;
         pifuImg.skin = dataSource.pifuUrl;
-        lock.visible = dataSource.lock;
-        select.visible = dataSource.select;
-        shadow.skin = dataSource.shadowUrl;
         cell.scale(dataSource.scale, dataSource.scale);
     }
 
@@ -274,13 +225,13 @@ export default class UIPifu extends Laya.Script {
         }
         let diffX = x - this.firstX;
 
-        if (diffX > 100) {
+        if (diffX > 80) {
             // console.log('向左滑动');
             this.listFirstIndex -= 1;
             if (this.listFirstIndex < 0) {
                 this.listFirstIndex = 0;
             }
-        } else if (diffX < -100) {
+        } else if (diffX < -80) {
             // console.log('向右滑动');
             this.listFirstIndex += 1;
             if (this.listFirstIndex > 8) {
@@ -288,23 +239,29 @@ export default class UIPifu extends Laya.Script {
             }
         }
         this.moveSwitch = false;
-        this.PifuList.tweenTo(this.listFirstIndex, 100, Laya.Handler.create(this, this.moveCompelet));
+        this.PifuList.tweenTo(this.listFirstIndex, 50, Laya.Handler.create(this, this.moveCompelet));
     }
 
     /**移动结束回调*/
     moveCompelet(): void {
-        this.pifuNameRefresh();
         this.refreshListData();
+        this.matchDotStaly();
         this.whetherHaveThisPifu();
     }
 
-    /**皮肤名字显示位置的名字刷新*/
-    pifuNameRefresh(): void {
-        let name = this.PifuName.getChildAt(0) as Laya.Label;
-        // this.listFirstIndex是从1开始的恰好是lwg.Enum.PifuAllName_Ch[num]；
-        let num = this.listFirstIndex;
-        if (lwg.Enum.PifuAllName[num]) {
-            name.text = lwg.Enum.PifuAllName_Ch[num];
+    /**灰点的样式*/
+    matchDotStaly(): void {
+        let MatchDot = this.self['MatchDot'] as Laya.Sprite;
+        for (let index = 0; index < MatchDot.numChildren; index++) {
+            const element = MatchDot.getChildAt(index) as Laya.Sprite;
+            if (element.name === this.listFirstIndex.toString()) {
+                element.getChildAt(0)['visible'] = false;
+                element.getChildAt(1)['visible'] = true;
+            } else {
+                element.getChildAt(1)['visible'] = false;
+                element.getChildAt(0)['visible'] = true;
+            }
+
         }
     }
 
@@ -322,27 +279,26 @@ export default class UIPifu extends Laya.Script {
         }
         if (boo) {
             this.showSelect = true;
-            this.BtnSelect.skin = 'pifu/select_btn1.png';
+            this.BtnSelect.skin = 'UI_new/Victory/green_btn.png';
         } else {
             this.showSelect = false;
-            this.BtnSelect.skin = 'pifu/select_btn2.png';
+            this.BtnSelect.skin = 'UI_new/Victory/rede_btn_01.png';
         }
     }
 
-    /**游戏开始按钮*/
-    btnClickOn(): void {
-        lwg.Click.on('largen', null, this.BtnBack, this, null, null, this.btnBackClickUP, null);
-        lwg.Click.on('largen', null, this.BtnBuy, this, null, null, this.btnBuyClickUP, null);
-        lwg.Click.on('largen', null, this.BtnSelect, this, null, null, this.btnSelectClickUP, null);
+    btnOnClick(): void {
+        lwg.Click.on('largen', null, this.BtnBack, this, null, null, this.btnBackUp, null);
+        lwg.Click.on('largen', null, this.BtnBuy, this, null, null, this.btnBuyUp, null);
+        lwg.Click.on('largen', null, this.BtnSelect, this, null, null, this.btnSelectUp, null);
     }
 
     /**返回按钮抬起*/
-    btnBackClickUP(event): void {
+    btnBackUp(event): void {
         event.stopPropagation();//防止事件穿透到舞台
         event.currentTarget.scale(1, 1);
         this.self.close();
-        lwg.Global.UIMain['UIMain'].currentPifuSet();//更换皮肤
-        lwg.Global.UIStart['UIStart'].goldRes();//金币重制
+        // lwg.Global.UIMain['UIMain'].currentPifuSet();//更换皮肤
+        // lwg.Global.UIStart['UIStart'].goldRes();//金币重制
 
         lwg.LocalStorage.addData();
     }
@@ -353,7 +309,7 @@ export default class UIPifu extends Laya.Script {
      * 购买按钮按钮抬起
      * 点击后从还没有获得的皮肤中随机给予一个皮肤
     */
-    btnBuyClickUP(event): void {
+    btnBuyUp(event): void {
         event.currentTarget.scale(1, 1);
         event.stopPropagation();//防止事件穿透到舞台
         // 查看金币数量是否足够,查看皮肤是否全部拥有
@@ -361,16 +317,15 @@ export default class UIPifu extends Laya.Script {
         if (lwg.Global._goldNum < price || lwg.Global._notHavePifuSubChaoren.length <= 0) {
             if (lwg.Global._goldNum < price) {
                 // 金币不够了
-                lwg.Global._createHint(lwg.Enum.HintType.nogold, Laya.stage.width / 2, Laya.stage.height / 2);
+                lwg.Global._createHint_01(lwg.Enum.HintType.noGold);
             } else if (lwg.Global._notHavePifuSubChaoren.length <= 0) {
                 // 除了超人皮肤已经卖完了
-                lwg.Global._createHint(lwg.Enum.HintType.nopifu, Laya.stage.width / 2, Laya.stage.height / 2);
+                lwg.Global._createHint_01(lwg.Enum.HintType.noPifu);
             }
             return;
         } else {
             lwg.Global._goldNum -= price;
             lwg.Global._buyNum++;
-            this.goldRes();
             // 从没有获得的皮肤中随机一个还没有获得的皮肤
             let random = Math.floor(Math.random() * lwg.Global._notHavePifuSubChaoren.length);
             // 求这个皮肤在所有皮肤中的索引值
@@ -402,7 +357,6 @@ export default class UIPifu extends Laya.Script {
             // 名字和大小变化
             this.listFirstIndex = index;
             this.refreshListData();
-            this.pifuNameRefresh();
             // 递归移动
             this.PifuList.tweenTo(index, 200, Laya.Handler.create(this, function () {
                 this.noHaveIndex++;
@@ -426,9 +380,6 @@ export default class UIPifu extends Laya.Script {
         // 将购买的皮肤添加到数据中
         lwg.Global._havePifu.push(lwg.Enum.PifuAllName[this.buyIndex]);
         this.noHaveSubChaoren();
-
-        this.pifuNum();
-        this.pifuNameRefresh();
         this.refreshListData();
         this.whetherHaveThisPifu();
         this.priceDisplay();
@@ -438,7 +389,7 @@ export default class UIPifu extends Laya.Script {
     }
 
     /**选中按钮抬起*/
-    btnSelectClickUP(event: Laya.Event): void {
+    btnSelectUp(event: Laya.Event): void {
         event.currentTarget.scale(1, 1);
         event.stopPropagation();//防止事件穿透到舞台
         let cell = this.PifuList.getCell(this.listFirstIndex + 1);//注意+1
@@ -457,7 +408,8 @@ export default class UIPifu extends Laya.Script {
         }
     }
 
-    onDisable(): void {
-
+    lwgDisable(): void {
+        lwg.Global._stageClick = true;
+        lwg.Global.ExecutionNumNode.alpha = 1;
     }
 }
