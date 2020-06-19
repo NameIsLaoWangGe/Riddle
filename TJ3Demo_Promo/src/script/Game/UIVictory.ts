@@ -160,10 +160,13 @@ export default class UIVictory extends lwg.Admin.Scene {
         //         console.log('下一关');
         //     });
         // } else {
-        //     lwg.Admin._nextCustomScene(2);
+            // lwg.Admin._nextCustomScene(2);
         //     lwg.LocalStorage.addData();
         // }
         lwg.Admin._closeCustomScene();
+        if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
+            lwg.Global._gameLevel++;
+        }
         lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => {
             if (lwg.Global._watchAdsNum < 3) {
                 lwg.Admin._openScene(lwg.Admin.SceneName.UIXDpifu, null, null, null);

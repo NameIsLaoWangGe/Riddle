@@ -1429,7 +1429,6 @@
                     sceneName = 'UIMain_0' + num;
                 }
                 Admin.openCustomName = sceneName;
-                console.log('打开' + sceneName);
                 _openScene(sceneName, null, null, f => {
                     lwg.Global._gameStart = true;
                     if (lwg.Global._yuanpifu !== null) {
@@ -1562,8 +1561,8 @@
                     this.calssName = this['__proto__']['constructor'].name;
                     this.gameState(this.calssName);
                     this.self[this.calssName] = this;
-                    this.lwgInit();
                     this.selfVars();
+                    this.lwgInit();
                     this.btnOnClick();
                     this.adaptive();
                     this.openAni();
@@ -2065,6 +2064,7 @@
                 HintDec[HintDec["\u6D88\u80172\u70B9\u4F53\u529B\uFF01"] = 11] = "\u6D88\u80172\u70B9\u4F53\u529B\uFF01";
                 HintDec[HintDec["\u4ECA\u65E5\u4F53\u529B\u798F\u5229\u5DF2\u9886\u53D6\uFF01"] = 12] = "\u4ECA\u65E5\u4F53\u529B\u798F\u5229\u5DF2\u9886\u53D6\uFF01";
                 HintDec[HintDec["\u5206\u4EAB\u6210\u529F\uFF0C\u83B7\u5F97125\u91D1\u5E01\uFF01"] = 13] = "\u5206\u4EAB\u6210\u529F\uFF0C\u83B7\u5F97125\u91D1\u5E01\uFF01";
+                HintDec[HintDec["\u9650\u5B9A\u76AE\u80A4\u5DF2\u7ECF\u83B7\u5F97\uFF0C\u8BF7\u524D\u5F80\u5546\u5E97\u67E5\u770B\u3002"] = 14] = "\u9650\u5B9A\u76AE\u80A4\u5DF2\u7ECF\u83B7\u5F97\uFF0C\u8BF7\u524D\u5F80\u5546\u5E97\u67E5\u770B\u3002";
             })(HintDec = Enum.HintDec || (Enum.HintDec = {}));
             let HintType;
             (function (HintType) {
@@ -2082,6 +2082,7 @@
                 HintType[HintType["consumeEx"] = 11] = "consumeEx";
                 HintType[HintType["no_exemptExTime"] = 12] = "no_exemptExTime";
                 HintType[HintType["shareyes"] = 13] = "shareyes";
+                HintType[HintType["getXD"] = 14] = "getXD";
             })(HintType = Enum.HintType || (Enum.HintType = {}));
             let PifuOrder;
             (function (PifuOrder) {
@@ -2569,6 +2570,19 @@
                 }), delayed);
             }
             Animation.move_Scale = move_Scale;
+            function rotate_Scale(target, fRotate, fScaleX, fScaleY, eRotate, eScaleX, eScaleY, time, delayed, func) {
+                target.scaleX = fScaleX;
+                target.scaleY = fScaleY;
+                target.rotation = fRotate;
+                Laya.Tween.to(target, { rotation: eRotate, scaleX: eScaleX, scaleY: eScaleY }, time, null, Laya.Handler.create(this, function () {
+                    Laya.Tween.to(target, { rotation: 0, scaleX: 1, scaleY: 1 }, time / 2, null, Laya.Handler.create(this, function () {
+                        if (func !== null) {
+                            func();
+                        }
+                    }), delayed);
+                }), 0);
+            }
+            Animation.rotate_Scale = rotate_Scale;
             function drop_Simple(node, targetY, rotation, time, delayed, func) {
                 Laya.Tween.to(node, { y: targetY, rotation: rotation }, time, Laya.Ease.expoIn, Laya.Handler.create(this, function () {
                     if (func !== null) {
@@ -3528,7 +3542,7 @@
                     lwg.LocalStorage.addData();
                 }
                 else {
-                    lwg.Global._buyNum = data._buyNum;
+                    lwg.Global._watchAdsNum = data._watchAdsNum;
                 }
             }
             lwg.Global._createGoldNum(Laya.stage);
@@ -5307,7 +5321,9 @@
         }
         btnAdvUp(event) {
             event.currentTarget.scale(1, 1);
-            this.btnAdvFunc();
+            ADManager.ShowReward(() => {
+                this.btnAdvFunc();
+            });
         }
         btnBackUp() {
             this.self.close();
@@ -5486,13 +5502,18 @@
             this.listWPos = new Laya.Point();
             this.moveSwitch = false;
         }
-        lwgInit() {
+        selfVars() {
             this.BtnStart = this.self['BtnStart'];
             this.CustomsList = this.self['CustomsList'];
             this.BtnPifu = this.self['BtnPifu'];
             this.BtnLocation = this.self['BtnLocation'];
-            this.BtnLocation.visible = false;
             this.SceneContent = this.self['SceneContent'];
+        }
+        lwgInit() {
+            this.BtnLocation.visible = false;
+            if (lwg.Global._watchAdsNum >= 3) {
+                this.self['BtnXD'].removeSelf();
+            }
             this.listWPos.x = this.CustomsList.x + this.SceneContent.x - this.SceneContent.width / 2;
             this.listWPos.y = this.CustomsList.y + this.SceneContent.y - this.SceneContent.height / 2;
             this.createCustomsList();
@@ -5502,6 +5523,17 @@
         adaptive() {
             this.self['P204'].y = Laya.stage.height - 130;
             this.SceneContent.y = this.self['P204'].y - 80 - this.SceneContent.height / 2;
+        }
+        openAni() {
+            if (this.self['BtnXD'].visible) {
+                let wordXd = this.self['BtnXD'].getChildByName('wordXd');
+                lwg.Animation.move_Scale(wordXd, 1, 200, 75, 99, 59, 2, 300, 200, f => {
+                    lwg.Animation.move_Scale(wordXd, wordXd.scaleX, wordXd.x, wordXd.y, 68, 73, 1, 100, 0, f => {
+                        wordXd.removeSelf();
+                        lwg.Animation.rotate_Scale(this.self['BtnXD'], 0, 1, 1, 2, 0.88, 0.88, 120, 0, f => { });
+                    });
+                });
+            }
         }
         createCustomsList() {
             this.CustomsList.selectEnable = false;
@@ -5616,8 +5648,7 @@
                 }
             }
             this.moveSwitch = false;
-            this.CustomsList.tweenTo(this.listFirstIndex, 100, Laya.Handler.create(this, f => {
-            }));
+            this.CustomsList.tweenTo(this.listFirstIndex, 100, Laya.Handler.create(this, f => { }));
         }
         createAddHouse() {
             let time = 600;
@@ -5951,6 +5982,9 @@
         }
         getGoldAniFunc() {
             lwg.Admin._closeCustomScene();
+            if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
+                lwg.Global._gameLevel++;
+            }
             lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => {
                 if (lwg.Global._watchAdsNum < 3) {
                     lwg.Admin._openScene(lwg.Admin.SceneName.UIXDpifu, null, null, null);
@@ -6068,11 +6102,13 @@
             lwg.Global._watchAdsNum += 1;
             this.btnGetNum();
             if (lwg.Global._watchAdsNum >= 3) {
-                lwg.Global._havePifu.push('09_chaoren');
+                lwg.Global._havePifu.push('09_aisha');
                 lwg.Global._currentPifu = lwg.Enum.PifuAllName[8];
-                lwg.LocalStorage.addData();
                 this.self.close();
+                lwg.Global._createHint_01(lwg.Enum.HintType.getXD);
+                lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].self['BtnXD'].removeSelf();
             }
+            lwg.LocalStorage.addData();
         }
         lwgDisable() {
             lwg.Global._stageClick = true;

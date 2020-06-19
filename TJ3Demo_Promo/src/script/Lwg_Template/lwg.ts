@@ -628,7 +628,6 @@ export module lwg {
                 sceneName = 'UIMain_0' + num;
             }
             openCustomName = sceneName;
-            console.log('打开' + sceneName);
             _openScene(sceneName, null, null, f => {
                 lwg.Global._gameStart = true;
 
@@ -799,8 +798,8 @@ export module lwg {
                 this.gameState(this.calssName);
                 // 组件变为的self属性
                 this.self[this.calssName] = this;
-                this.lwgInit();
                 this.selfVars();
+                this.lwgInit();
                 this.btnOnClick();
                 this.adaptive();
                 this.openAni();
@@ -1427,6 +1426,7 @@ export module lwg {
             '消耗2点体力！',
             '今日体力福利已领取！',
             '分享成功，获得125金币！',
+            '限定皮肤已经获得，请前往商店查看。',
         }
 
         /**提示类型*/
@@ -1444,7 +1444,8 @@ export module lwg {
             'novideo',
             'consumeEx',
             'no_exemptExTime',
-            'shareyes'
+            'shareyes',
+            "getXD"
         }
         /**皮肤的顺序以及名称*/
         export enum PifuOrder {
@@ -2124,13 +2125,14 @@ export module lwg {
         }
 
         /**
-         * 移动+缩放，起始位置都是0，最终位置都是1
+         * 移动+缩放,等比缩放
          * @param node 节点
          * @param fScale 初始大小
          * @param fX 初始x位置
          * @param fY 初始y位置
-         * @param tX x轴移动位置
-         * @param tY y轴移动位置
+         * @param tX x轴目标位置
+         * @param tY y轴目标位置
+         * @param eScale 最终大小
          * @param time 花费时间
          * @param delayed 延时
          * @param func 回调函数
@@ -2145,6 +2147,32 @@ export module lwg {
                     func();
                 }
             }), delayed)
+        }
+
+        /**
+         * 旋转形变 旋转+放大缩小 ，类似于纸板被击中倾斜后恢复
+         * @param target 目标节点
+         * @param fRotate 初始角度
+         * @param fScaleX 初始X缩放
+         * @param fScaleY 初始Y缩放
+         * @param eRotate 中间角度
+         * @param eScaleX 最终X缩放
+         * @param eScaleY 最终Y缩放
+         * @param time 花费时间
+         * @param delayed 延迟时间
+         * @param func 回调函数
+         */
+        export function rotate_Scale(target: Laya.Image, fRotate, fScaleX, fScaleY, eRotate, eScaleX, eScaleY, time, delayed, func): void {
+            target.scaleX = fScaleX;
+            target.scaleY = fScaleY;
+            target.rotation = fRotate;
+            Laya.Tween.to(target, { rotation: eRotate, scaleX: eScaleX, scaleY: eScaleY }, time, null, Laya.Handler.create(this, function () {
+                Laya.Tween.to(target, { rotation: 0, scaleX: 1, scaleY: 1 }, time / 2, null, Laya.Handler.create(this, function () {
+                    if (func !== null) {
+                        func();
+                    }
+                }), delayed)
+            }), 0)
         }
 
         /**

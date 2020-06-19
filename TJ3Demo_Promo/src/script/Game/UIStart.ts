@@ -25,32 +25,45 @@ export default class UIStart extends lwg.Admin.Scene {
     SceneContent: Laya.Sprite;
 
     constructor() { super(); }
-    lwgInit(): void {
-
+    selfVars(): void {
         this.BtnStart = this.self['BtnStart'];
         this.CustomsList = this.self['CustomsList'];
         this.BtnPifu = this.self['BtnPifu'];
         this.BtnLocation = this.self['BtnLocation'];
-        this.BtnLocation.visible = false;
         this.SceneContent = this.self['SceneContent'];
+    }
 
+    lwgInit(): void {
+        this.BtnLocation.visible = false;
+        if (lwg.Global._watchAdsNum >= 3) {
+            this.self['BtnXD'].removeSelf();
+        }
         this.listWPos.x = this.CustomsList.x + this.SceneContent.x - this.SceneContent.width / 2;
         this.listWPos.y = this.CustomsList.y + this.SceneContent.y - this.SceneContent.height / 2;
-
-
         this.createCustomsList();
-
         ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
-
         ADManager.ShowBanner();
-
     }
 
     adaptive(): void {
         this.self['P204'].y = Laya.stage.height - 130;
         this.SceneContent.y = this.self['P204'].y - 80 - this.SceneContent.height / 2;
     }
-    /**创建皮肤list*/
+
+    openAni(): void {
+        //皮肤限定盖章动画
+        if (this.self['BtnXD'].visible) {
+            let wordXd = this.self['BtnXD'].getChildByName('wordXd') as Laya.Sprite;
+            lwg.Animation.move_Scale(wordXd, 1, 200, 75, 99, 59, 2, 300, 200, f => {
+                lwg.Animation.move_Scale(wordXd, wordXd.scaleX, wordXd.x, wordXd.y, 68, 73, 1, 100, 0, f => {
+                    wordXd.removeSelf();
+                    lwg.Animation.rotate_Scale(this.self['BtnXD'], 0, 1, 1, 2, 0.88, 0.88, 120, 0, f => { });
+                })
+            })
+        }
+    }
+
+    /**创建关卡list*/
     createCustomsList(): void {
         this.CustomsList.selectEnable = false;
         this.CustomsList.vScrollBarSkin = "";
@@ -199,10 +212,7 @@ export default class UIStart extends lwg.Admin.Scene {
             }
         }
         this.moveSwitch = false;
-        this.CustomsList.tweenTo(this.listFirstIndex, 100, Laya.Handler.create(this, f => {
-            // console.log(this.CustomsList.startIndex);
-            // console.log(this.listFirstIndex);
-        }));
+        this.CustomsList.tweenTo(this.listFirstIndex, 100, Laya.Handler.create(this, f => { }));
     }
 
     /**创建一个增加房子的动画*/

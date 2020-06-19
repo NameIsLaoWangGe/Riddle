@@ -1,3 +1,18 @@
-2020/06/18-17:04:07.810 1384 Reusing MANIFEST D:\Game\project\Riddle\Riddle1\TJ3Demo_Promo\.laya\chrome\Default\Local Storage\leveldb/MANIFEST-000001
-2020/06/18-17:04:07.811 1384 Recovering log #12
-2020/06/18-17:04:07.811 1384 Reusing old log D:\Game\project\Riddle\Riddle1\TJ3Demo_Promo\.laya\chrome\Default\Local Storage\leveldb/000012.log 
+2020/06/18-17:20:20.892 3a24 Reusing MANIFEST D:\Game\project\Riddle\Riddle1\TJ3Demo_Promo\.laya\chrome\Default\Local Storage\leveldb/MANIFEST-000001
+2020/06/18-17:20:20.892 3a24 Recovering log #12
+2020/06/18-17:20:20.893 3a24 Reusing old log D:\Game\project\Riddle\Riddle1\TJ3Demo_Promo\.laya\chrome\Default\Local Storage\leveldb/000012.log 
+2020/06/18-18:03:07.790 437c Level-0 table #16: started
+2020/06/18-18:03:07.824 437c Level-0 table #16: 11024 bytes OK
+2020/06/18-18:03:07.871 437c Delete type=0 #12
+2020/06/18-20:15:42.036 437c Level-0 table #18: started
+2020/06/18-20:15:42.156 437c Level-0 table #18: 10254 bytes OK
+2020/06/18-20:15:42.204 437c Delete type=0 #15
+2020/06/18-20:15:42.205 437c Compacting 4@0 + 1@1 files
+2020/06/18-20:15:42.237 437c Generated table #19@0: 6 keys, 1085 bytes
+2020/06/18-20:15:42.237 437c Compacted 4@0 + 1@1 files => 1085 bytes
+2020/06/18-20:15:42.273 437c compacted to: files[ 0 1 1 0 0 0 0 ]
+2020/06/18-20:15:42.273 437c Delete type=2 #8
+2020/06/18-20:15:42.273 437c Delete type=2 #11
+2020/06/18-20:15:42.274 437c Delete type=2 #13
+2020/06/18-20:15:42.274 437c Delete type=2 #16
+2020/06/18-20:15:42.274 437c Delete type=2 #18

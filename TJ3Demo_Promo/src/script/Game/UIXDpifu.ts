@@ -73,11 +73,13 @@ export default class UIXDpifu extends lwg.Admin.Scene {
         lwg.Global._watchAdsNum += 1;
         this.btnGetNum();
         if (lwg.Global._watchAdsNum >= 3) {
-            lwg.Global._havePifu.push('09_chaoren');
+            lwg.Global._havePifu.push('09_aisha');
             lwg.Global._currentPifu = lwg.Enum.PifuAllName[8];
-            lwg.LocalStorage.addData();
             this.self.close();
+            lwg.Global._createHint_01(lwg.Enum.HintType.getXD);
+            lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].self['BtnXD'].removeSelf();
         }
+        lwg.LocalStorage.addData();
     }
 
     lwgDisable(): void {

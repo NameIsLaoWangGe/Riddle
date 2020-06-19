@@ -89,14 +89,17 @@ export default class UIMain extends lwg.Admin.Scene {
         }
     }
 
+    vanishAni():void{
+    //   
+        
+    }
+
     lwgDisable(): void {
         if (this.victory) {
             ADManager.TAPoint(TaT.LevelFinish, this.self.name);
         } else {
             ADManager.TAPoint(TaT.LevelFail, this.self.name);
         }
-
-      
     }
 
 }
