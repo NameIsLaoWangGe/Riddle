@@ -3171,13 +3171,9 @@
             this.BtnShare = this.self['BtnShare'];
             this.LvNum = this.self['LvNum'];
             this.LvNumDisplay();
-            if (lwg.Global._elect) {
-                this.self['P201_01'].visible = true;
-                this.self['P201_02'].visible = true;
-            }
-            else {
-                this.self['P201_01'].visible = false;
-                this.self['P201_02'].visible = false;
+            if (!lwg.Global._elect) {
+                this.self['P201_01'].removeSelf();
+                this.self['P201_02'].removeSelf();
             }
         }
         adaptive() {
@@ -3281,13 +3277,9 @@
         lwgInit() {
             ADManager.ShowBanner();
             lwg.Global._stageClick = false;
-            if (lwg.Global._elect) {
-                this.self['P201_01'].visible = true;
-                this.self['P201_02'].visible = true;
-            }
-            else {
-                this.self['P201_01'].visible = false;
-                this.self['P201_02'].visible = false;
+            if (!lwg.Global._elect) {
+                this.self['P201_01'].removeSelf();
+                this.self['P201_02'].removeSelf();
             }
         }
         adaptive() {
@@ -3437,6 +3429,7 @@
             }
         }
         victoryAni() {
+            lwg.Global._gameStart = false;
             let self = this.self;
             let i = Laya.Physics.I;
             i.worldRoot = self;
@@ -3705,7 +3698,6 @@
                 parent['UIMain_Room']._roomMove = false;
                 lwg.Global._roomPickup = null;
                 lwg.Effects.createCommonExplosion(Laya.stage, 15, posX, posY);
-                this.interactionPicStyle('exit');
             }
             if ((Math.abs(diffX) > 10 || Math.abs(diffY) > 10) || parent['UIMain_Room']._roomMove) {
                 this.openSwitch = false;
@@ -3773,6 +3765,9 @@
         onUpdate() {
             if (this.connectRoom && this.oppositeAisle) {
                 this.roomAdsorption();
+            }
+            else {
+                this.interactionPicStyle('exit');
             }
             this.styleChanges();
         }
@@ -4324,14 +4319,14 @@
                 if (this.self.x > this.belongRoom.x + this.belongRoom.width / 2 + 30) {
                     this.self.x = this.belongRoom.x + this.belongRoom.width / 2 + 30;
                 }
-                if (this.self.x < this.belongRoom.x - this.belongRoom.width / 2 - 30) {
-                    this.self.x = this.belongRoom.x - this.belongRoom.width / 2 - 30;
+                if (this.self.x < this.belongRoom.x - this.belongRoom.width / 2 - 28) {
+                    this.self.x = this.belongRoom.x - this.belongRoom.width / 2 - 28;
                 }
-                if (this.self.y > this.belongRoom.y + this.belongRoom.height / 2 + 30) {
-                    this.self.y = this.belongRoom.y + this.belongRoom.height / 2 + 30;
+                if (this.self.y > this.belongRoom.y + this.belongRoom.height / 2 + 15) {
+                    this.self.y = this.belongRoom.y + this.belongRoom.height / 2 + 15;
                 }
-                if (this.self.y < this.belongRoom.y - this.belongRoom.height / 2 - 30) {
-                    this.self.y = this.belongRoom.y - this.belongRoom.height / 2 - 30;
+                if (this.self.y < this.belongRoom.y - this.belongRoom.height / 2 - 15) {
+                    this.self.y = this.belongRoom.y - this.belongRoom.height / 2 - 15;
                 }
             }
         }
@@ -4842,6 +4837,9 @@
             lwg.Click.on('noEffect', null, this.self, this, this.houseDwon, null, null, null);
         }
         houseDwon() {
+            if (!lwg.Global._gameStart) {
+                return;
+            }
             if (lwg.Global._gameLevel === 1 && this.self.name === 'Room2') {
                 return;
             }
@@ -5944,13 +5942,9 @@
             if (lwg.Global._hotShare && lwg.Global._gameLevel !== 1) {
                 lwg.Admin._openScene(lwg.Admin.SceneName.UIShare, null, null, null);
             }
-            if (lwg.Global._elect) {
-                this.self['P201_01'].visible = true;
-                this.self['P201_02'].visible = true;
-            }
-            else {
-                this.self['P201_01'].visible = false;
-                this.self['P201_02'].visible = false;
+            if (!lwg.Global._elect) {
+                this.self['P201_01'].removeSelf();
+                this.self['P201_02'].removeSelf();
             }
         }
         adaptive() {
@@ -6016,22 +6010,17 @@
         btnNextUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'nextword_success');
             event.currentTarget.scale(1, 1);
-            if (lwg.Global._execution < 2) {
-                lwg.Admin._openScene('UIExecutionHint', null, null, null);
+            this.btnOffClick();
+            if (this.goldAdv_3Get) {
+                this.getGoldAniFunc();
             }
             else {
-                this.btnOffClick();
-                if (this.goldAdv_3Get) {
+                this.getGoldAni(15, f => {
                     this.getGoldAniFunc();
-                }
-                else {
-                    this.getGoldAni(15, f => {
-                        this.getGoldAniFunc();
-                        lwg.Global._goldNum += 10;
-                        let Num = lwg.Global.GoldNumNode.getChildByName('Num');
-                        Num.value = (Number(Num.value) + 10).toString();
-                    });
-                }
+                    lwg.Global._goldNum += 10;
+                    let Num = lwg.Global.GoldNumNode.getChildByName('Num');
+                    Num.value = (Number(Num.value) + 10).toString();
+                });
             }
         }
         getGoldAniFunc() {

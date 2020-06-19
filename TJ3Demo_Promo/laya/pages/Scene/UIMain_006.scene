@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":2,
-    "selecteID":15,
+    "selectedBox":185,
+    "selecteID":488,
     "searchKey":"View,UIMain_006",
     "props":{"width":720,"sceneColor":"#000000","name":"UIMain_006","height":1280},
     "nodeParent":-1,
@@ -443,13 +443,14 @@
                     "props":{"y":98,"x":226,"width":71,"pivotY":96,"pivotX":36,"name":"ladder_01","height":132},
                     "nodeParent":185,
                     "label":"ladder_01",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":488,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":37,"x":12,"texture":"Room/ui_ladder.png"},
@@ -463,6 +464,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":-1,"x":12,"texture":"Room/ui_ladder.png"},
@@ -477,6 +479,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":73,"x":12,"texture":"Room/ui_ladder.png"},
@@ -490,6 +493,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":111,"x":12,"texture":"Room/ui_ladder.png"},
@@ -503,11 +507,12 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"BoxCollider",
                             "switchAble":true,
                             "searchKey":"BoxCollider",
                             "removeAble":true,
-                            "props":{"y":-1,"x":29,"width":14,"label":"ladder","isSensor":true,"height":143},
+                            "props":{"y":-1,"x":25,"width":21,"label":"ladder","isSensor":true,"height":143},
                             "nodeParent":488,
                             "label":"BoxCollider",
                             "isDirectory":false,
@@ -518,6 +523,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"RigidBody",
                             "switchAble":true,
                             "searchKey":"RigidBody",

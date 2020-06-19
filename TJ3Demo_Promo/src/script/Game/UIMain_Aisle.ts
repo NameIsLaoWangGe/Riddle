@@ -133,7 +133,6 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
 
         // 距离太远并不会被吸附，是个bug未解决，现在只是做预防
         if ((Math.abs(diffX) > 100 || Math.abs(diffY) > 100)) {
-
             return;
         }
         // 如果自己是被手触摸的那个房间，则移动过去
@@ -151,7 +150,6 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
 
             lwg.Effects.createCommonExplosion(Laya.stage, 15, posX, posY);
 
-            this.interactionPicStyle('exit');
         }
         // 如果距离太远则断开连接状态
         // 可以分开控制开关，通过判断通道是上下还是左右,因为上下的时候是X轴距离大些，左右的时候Y轴距离错开点也不会断开，比较人性化
@@ -238,6 +236,8 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
     onUpdate(): void {
         if (this.connectRoom && this.oppositeAisle) {
             this.roomAdsorption();
+        } else {
+            this.interactionPicStyle('exit');
         }
         this.styleChanges();
     }

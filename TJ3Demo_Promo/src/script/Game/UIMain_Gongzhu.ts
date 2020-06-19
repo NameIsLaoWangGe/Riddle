@@ -721,14 +721,14 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
             if (this.self.x > this.belongRoom.x + this.belongRoom.width / 2 + 30) {
                 this.self.x = this.belongRoom.x + this.belongRoom.width / 2 + 30;
             }
-            if (this.self.x < this.belongRoom.x - this.belongRoom.width / 2 - 30) {
-                this.self.x = this.belongRoom.x - this.belongRoom.width / 2 - 30;
+            if (this.self.x < this.belongRoom.x - this.belongRoom.width / 2 - 28) {
+                this.self.x = this.belongRoom.x - this.belongRoom.width / 2 - 28;
             }
-            if (this.self.y > this.belongRoom.y + this.belongRoom.height / 2 + 30) {
-                this.self.y = this.belongRoom.y + this.belongRoom.height / 2 + 30;
+            if (this.self.y > this.belongRoom.y + this.belongRoom.height / 2 + 15) {
+                this.self.y = this.belongRoom.y + this.belongRoom.height / 2 + 15;
             }
-            if (this.self.y < this.belongRoom.y - this.belongRoom.height / 2 - 30) {
-                this.self.y = this.belongRoom.y - this.belongRoom.height / 2 - 30;
+            if (this.self.y < this.belongRoom.y - this.belongRoom.height / 2 - 15) {
+                this.self.y = this.belongRoom.y - this.belongRoom.height / 2 - 15;
             }
         }
     }

@@ -40,12 +40,9 @@ export default class UIVictory extends lwg.Admin.Scene {
             lwg.Admin._openScene(lwg.Admin.SceneName.UIShare, null, null, null);
         }
 
-        if (lwg.Global._elect) {
-            this.self['P201_01'].visible = true;
-            this.self['P201_02'].visible = true;
-        }else{
-            this.self['P201_01'].visible = false;
-            this.self['P201_02'].visible = false;
+        if (!lwg.Global._elect) {
+            this.self['P201_01'].removeSelf();
+            this.self['P201_02'].removeSelf();
         }
     }
 
@@ -140,23 +137,21 @@ export default class UIVictory extends lwg.Admin.Scene {
     btnNextUp(event) {
         ADManager.TAPoint(TaT.BtnClick, 'nextword_success');
         event.currentTarget.scale(1, 1);
-
-        if (lwg.Global._execution < 2) {
-            lwg.Admin._openScene('UIExecutionHint', null, null, null);
+        // if (lwg.Global._execution < 2) {
+        //     lwg.Admin._openScene('UIExecutionHint', null, null, null);
+        // } else {
+        this.btnOffClick();
+        if (this.goldAdv_3Get) {
+            this.getGoldAniFunc();
         } else {
-            this.btnOffClick();
-            if (this.goldAdv_3Get) {
+            this.getGoldAni(15, f => {
                 this.getGoldAniFunc();
-            } else {
-                this.getGoldAni(15, f => {
-                    this.getGoldAniFunc();
-                    lwg.Global._goldNum += 10;
-                    let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
-                    Num.value = (Number(Num.value) + 10).toString();
-                })
-            }
-
+                lwg.Global._goldNum += 10;
+                let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
+                Num.value = (Number(Num.value) + 10).toString();
+            })
         }
+        // }
     }
     /**领取金币动画后回调*/
     getGoldAniFunc(): void {

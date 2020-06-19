@@ -83,7 +83,6 @@ export default class UIMain_Wangzi extends UIMain_Gongzhu {
         }
     }
 
-
     onUpdate(): void {
         if (!lwg.Global._gameStart) {
             this.rig.setVelocity({ x: 0, y: 0 });

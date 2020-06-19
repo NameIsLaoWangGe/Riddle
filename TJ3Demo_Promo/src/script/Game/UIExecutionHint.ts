@@ -7,12 +7,9 @@ export default class UIExecutionHint extends lwg.Admin.Scene {
         ADManager.ShowBanner();
         lwg.Global._stageClick = false;
         
-        if (lwg.Global._elect) {
-            this.self['P201_01'].visible = true;
-            this.self['P201_02'].visible = true;
-        }else{
-            this.self['P201_01'].visible = false;
-            this.self['P201_02'].visible = false;
+        if (!lwg.Global._elect) {
+            this.self['P201_01'].removeSelf();
+            this.self['P201_02'].removeSelf();
         }
     }
     adaptive() {

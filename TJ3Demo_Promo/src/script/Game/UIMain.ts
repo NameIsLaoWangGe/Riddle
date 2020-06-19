@@ -39,7 +39,7 @@ export default class UIMain extends lwg.Admin.Scene {
         lwg.Global._createBtnAgain(this.self);
         lwg.Global._createBtnPause(this.self);
         lwg.Global._createBtnHint(this.self);
-        
+
         if (lwg.Global._elect) {
             lwg.Global._createP201_01(this.self);
         }
@@ -74,6 +74,7 @@ export default class UIMain extends lwg.Admin.Scene {
     }
 
     victoryAni(): void {
+        lwg.Global._gameStart = false;
         // 修改物理组件的父容器为当前场景，否则放大当前场景不会改变子节点物理组件
         let self = this.self as Laya.View;
         let i = Laya.Physics.I;
