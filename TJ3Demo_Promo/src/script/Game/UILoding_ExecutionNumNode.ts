@@ -15,19 +15,25 @@ export default class UILoding_ExecutionNumNode extends lwg.Admin.Object {
 
         // 获取上次的体力
         let d = new Date;
-        if (d.getHours() === lwg.Global._addExHours) {
-            lwg.Global._execution += (d.getMinutes() - lwg.Global._addMinutes);
-            if (lwg.Global._execution > 15) {
+        if (d.getDate() !== lwg.Global._addExDate) {
+            lwg.Global._execution = 15;
+        } else {
+            if (d.getHours() === lwg.Global._addExHours) {
+                lwg.Global._execution += (d.getMinutes() - lwg.Global._addMinutes);
+                if (lwg.Global._execution > 15) {
+                    lwg.Global._execution = 15;
+                }
+            } else {
                 lwg.Global._execution = 15;
             }
-        } else {
-            lwg.Global._execution = 15;
         }
         this.Num.value = lwg.Global._execution.toString();
+        lwg.Global._addExDate = d.getDate();
         lwg.Global._addExHours = d.getHours();
         lwg.Global._addMinutes = d.getMinutes();
         lwg.LocalStorage.addData();
     }
+
 
     /**计时器*/
     time: number = 0;

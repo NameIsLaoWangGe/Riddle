@@ -346,6 +346,11 @@ export default class UIStart extends lwg.Admin.Scene {
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnPifu, this, null, null, this.btnPifuClickUp, null);
         lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.BtnLocation, this, null, null, this.btnLocationUp, null);
         lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.CustomsList, this, null, null, this.customsListUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnXD'], this, null, null, this.btnXDUp, null);
+    }
+
+    btnXDUp(): void {
+        lwg.Admin._openScene(lwg.Admin.SceneName.UIXDpifu, null, null, null);
     }
 
     btnStartClickUp(event): void {
@@ -359,7 +364,21 @@ export default class UIStart extends lwg.Admin.Scene {
             if (lwg.Global._execution < 2) {
                 lwg.Admin._openScene('UIExecutionHint', null, null, null);
             } else {
-                if (this.listFirstIndex >= 4) {
+                // if (this.listFirstIndex >= 4) {
+                //     // 格式
+                //     if (this.listFirstIndex <= 9) {
+                //         lwg.Admin.openCustomName = 'UIMain_00' + this.listFirstIndex;
+                //     } else if (9 < this.listFirstIndex || this.listFirstIndex <= 99) {
+                //         lwg.Admin.openCustomName = 'UIMain_0' + this.listFirstIndex;
+                //     }
+                //     lwg.Admin.openLevelNum = this.listFirstIndex;
+                //     lwg.Admin._openScene('UIPassHint', null, null, null);
+                // } else {
+                //     // console.log(this.listFirstIndex);
+                //     this.openPlayScene();
+                // }
+                // console.log(lwg.Global._havePifu);
+                if (lwg.Global._havePifu.length < 7) {
                     // 格式
                     if (this.listFirstIndex <= 9) {
                         lwg.Admin.openCustomName = 'UIMain_00' + this.listFirstIndex;
@@ -367,7 +386,7 @@ export default class UIStart extends lwg.Admin.Scene {
                         lwg.Admin.openCustomName = 'UIMain_0' + this.listFirstIndex;
                     }
                     lwg.Admin.openLevelNum = this.listFirstIndex;
-                    lwg.Admin._openScene('UIPassHint', null, null, null);
+                    lwg.Admin._openScene(lwg.Admin.SceneName.UIPifuTry, null, null, null);
                 } else {
                     // console.log(this.listFirstIndex);
                     this.openPlayScene();
@@ -375,7 +394,7 @@ export default class UIStart extends lwg.Admin.Scene {
             }
         }
     }
-    
+
     /**打开游戏场景*/
     openPlayScene(): void {
         lwg.Global._execution -= 2;
@@ -383,10 +402,10 @@ export default class UIStart extends lwg.Admin.Scene {
         num.value = lwg.Global._execution.toString();
         lwg.Global._createHint_01(lwg.Enum.HintType.consumeEx);
         lwg.Global.createConsumeEx(null);
+
         lwg.LocalStorage.addData();
 
         lwg.Admin._openNumCustom(this.listFirstIndex);
-
 
         this.self.close();
     }
@@ -400,7 +419,7 @@ export default class UIStart extends lwg.Admin.Scene {
         event.currentTarget.scale(1, 1);
         lwg.Admin._openScene('UIPifu', null, null, null);
     }
-    
+
     btnLocationUp(event): void {
         event.currentTarget.scale(1, 1);
         this.listFirstIndex = lwg.Global._gameLevel;

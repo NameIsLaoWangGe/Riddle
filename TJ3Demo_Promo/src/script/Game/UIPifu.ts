@@ -27,9 +27,9 @@ export default class UIPifu extends lwg.Admin.Scene {
         lwg.Global.ExecutionNumNode.alpha = 0;
         lwg.Global._stageClick = false;
 
-        // this.noHaveSubChaoren();
+        this.notHavePifuSubXD();
         this.createPifuList();
-        // this.priceDisplay();
+        this.priceDisplay();
         // this.adaptive();
         // this.openAni();
     }
@@ -48,11 +48,11 @@ export default class UIPifu extends lwg.Admin.Scene {
     priceDisplay(): void {
         let price = 250 * lwg.Global._buyNum - 150;
         let num = this.BtnBuy.getChildByName('Num') as Laya.Label;
-        num.text = price.toString();
+        num.text = 'x' + price.toString();
     }
 
     /**找出还没有获得的皮肤,不包括超人*/
-    noHaveSubChaoren(): void {
+    notHavePifuSubXD(): void {
         // 所有皮肤赋值给新数组
         let allArray = [];
         for (let i = 0; i < lwg.Global._allPifu.length; i++) {
@@ -74,36 +74,15 @@ export default class UIPifu extends lwg.Admin.Scene {
         // 去除超人皮肤
         for (let k = 0; k < allArray.length; k++) {
             const element = allArray[k];
-            if (element === '09_chaoren') {
+            if (element === '09_aisha') {
                 allArray.splice(k, 1);
             }
-            lwg.Global._notHavePifuSubChaoren = allArray;
-            console.log(lwg.Global._notHavePifuSubChaoren);
+            lwg.Global._notHavePifuSubXD = allArray;
         }
+        console.log(lwg.Global._notHavePifuSubXD);
     }
 
     openAni(): void {
-        return;
-
-        let delayed = 100;
-        let time = 200;
-
-        let y2 = this.background.y;
-        lwg.Animation.move_Deform_Y(this.background, -300, -15, y2, -0.1, 0.2, time, delayed * 1, f => {
-        });
-
-        let x1 = this.BtnBack.x;
-        lwg.Animation.move_Deform_X(this.BtnBack, -200, 30, x1, -0.1, 0.2, time, delayed * 4, f => { });
-
-        let x4 = this.BtnBuy.x;
-        lwg.Animation.move_Deform_X(this.BtnBuy, x4, 0, x4, 0.2, -0.15, time, delayed * 4, f => { });
-
-        let x5 = this.BtnSelect.x;
-        lwg.Animation.move_Deform_X(this.BtnSelect, x5, 0, x5, 0.2, -0.15, time, delayed * 4, f => { });
-
-        lwg.Animation.fadeOut(this.PifuList, 0, 1, time, delayed, f => {
-            this.listOpenAni()
-        });
     }
 
     /**创建皮肤list*/
@@ -116,6 +95,8 @@ export default class UIPifu extends lwg.Admin.Scene {
         this.PifuList.renderHandler = new Laya.Handler(this, this.updateItem);
         this.refreshListData();
         this.matchDotStaly();
+        this.selectPifuStyle();
+        this.listOpenAni();
     }
 
     /**
@@ -164,6 +145,7 @@ export default class UIPifu extends lwg.Admin.Scene {
             } else {
                 pifuUrl = lwg.Enum.PifuSkin_No[m];
             }
+
             // 在已经拥有的皮肤当中，判断当前选中的是哪一个
             let selectWord;
             if (lwg.Global._currentPifu === lwg.Enum.PifuAllName[m]) {
@@ -176,7 +158,7 @@ export default class UIPifu extends lwg.Admin.Scene {
             if (m === this.listFirstIndex) {
                 scale = 1;
             } else {
-                scale = 0.8;
+                scale = 0.7;
             }
             // push全部信息
             data.push({
@@ -206,12 +188,13 @@ export default class UIPifu extends lwg.Admin.Scene {
         // 信息赋值
         pifuImg.skin = dataSource.pifuUrl;
         cell.scale(dataSource.scale, dataSource.scale);
+
     }
 
     /**滑动设置，滑动一段，走一格*/
     private moveSwitch: boolean = false;
     private firstX: number;
-    /**list列表第一个第几个单元，因为0位置是空位，所以标记从1开始，而不是0置*/
+    /**list列表第一个第几个单元*/
     private listFirstIndex: number = lwg.Enum.PifuAllName[lwg.Global._currentPifu];
     onStageMouseDown() {
         // console.log('点击了舞台！');
@@ -247,6 +230,17 @@ export default class UIPifu extends lwg.Admin.Scene {
         this.refreshListData();
         this.matchDotStaly();
         this.whetherHaveThisPifu();
+        this.selectPifuStyle();
+    }
+
+    /**当前位置是否是被选中的那个皮肤,是的话改变样式*/
+    selectPifuStyle(): void {
+        let wordpic = this.BtnSelect.getChildByName('wordpic') as Laya.Image;
+        if (this.PifuList.array[this.listFirstIndex + 1].selectWord) {
+            wordpic.skin = 'UI_new/Pifu/word_scelet_02.png';
+        } else {
+            wordpic.skin = 'UI_new/Pifu/word_scelet_01.png';
+        }
     }
 
     /**灰点的样式*/
@@ -261,7 +255,6 @@ export default class UIPifu extends lwg.Admin.Scene {
                 element.getChildAt(1)['visible'] = false;
                 element.getChildAt(0)['visible'] = true;
             }
-
         }
     }
 
@@ -270,20 +263,16 @@ export default class UIPifu extends lwg.Admin.Scene {
     /**判断当前在中间的皮肤是否拥有，如果拥有那么可以点击选择，如果不拥有，那么选择变灰*/
     whetherHaveThisPifu(): void {
         let cell = this.PifuList.getCell(this.listFirstIndex + 1);//注意+1
-        let boo = false;
-        for (let index = 0; index < lwg.Global._havePifu.length; index++) {
-            const pifuName = lwg.Global._havePifu[index];
-            if (cell.name === pifuName) {
-                boo = true;
-            }
-        }
-        if (boo) {
+        if (cell.dataSource.have) {
             this.showSelect = true;
             this.BtnSelect.skin = 'UI_new/Victory/green_btn.png';
         } else {
             this.showSelect = false;
             this.BtnSelect.skin = 'UI_new/Victory/rede_btn_01.png';
         }
+
+        // console.log(this.PifuList.array);
+        // console.log(cell['_dataSource']);
     }
 
     btnOnClick(): void {
@@ -314,27 +303,33 @@ export default class UIPifu extends lwg.Admin.Scene {
         event.stopPropagation();//防止事件穿透到舞台
         // 查看金币数量是否足够,查看皮肤是否全部拥有
         let price = 250 * lwg.Global._buyNum - 150;
-        if (lwg.Global._goldNum < price || lwg.Global._notHavePifuSubChaoren.length <= 0) {
+        if (lwg.Global._goldNum < price || lwg.Global._notHavePifuSubXD.length <= 0) {
             if (lwg.Global._goldNum < price) {
                 // 金币不够了
                 lwg.Global._createHint_01(lwg.Enum.HintType.noGold);
-            } else if (lwg.Global._notHavePifuSubChaoren.length <= 0) {
-                // 除了超人皮肤已经卖完了
-                lwg.Global._createHint_01(lwg.Enum.HintType.noPifu);
+            } else if (lwg.Global._notHavePifuSubXD.length <= 0) {
+                // 除了限定皮肤已经卖完了
+                lwg.Global._createHint_01(lwg.Enum.HintType.noGetPifu);
             }
             return;
         } else {
             lwg.Global._goldNum -= price;
+            // 表现上加上
+            let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
+            Num.value = (Number(Num.value) + 60).toString();
+
             lwg.Global._buyNum++;
             // 从没有获得的皮肤中随机一个还没有获得的皮肤
-            let random = Math.floor(Math.random() * lwg.Global._notHavePifuSubChaoren.length);
+            let random = Math.floor(Math.random() * lwg.Global._notHavePifuSubXD.length);
             // 求这个皮肤在所有皮肤中的索引值
-            this.buyIndex = lwg.Enum.PifuAllName[lwg.Global._notHavePifuSubChaoren[random]];
+            this.buyIndex = lwg.Enum.PifuAllName[lwg.Global._notHavePifuSubXD[random]];
             console.log('购买了第' + this.buyIndex + '位置的皮肤');
             this.nohavePifuAni();
         }
     }
 
+    /**还没有购买的皮肤记录*/
+    private noHaveIndex: number = 0;
     /**
      * 购买动画
      * 规则如下：
@@ -345,11 +340,9 @@ export default class UIPifu extends lwg.Admin.Scene {
      * 5.如果购买的恰好是第一个，那么第一步也没有动画。
      * 6.一旦点击购买了，那么会完成购买，无论动画有没有播放完毕
      * */
-    /**还没有购买的皮肤记录*/
-    private noHaveIndex: number = 0;
     /**在还没有够买的这些皮肤中，一个一个播放,停顿后放大，并且排除已购买皮肤,从第一个开始，或者从最后一个开始*/
     nohavePifuAni(): void {
-        let noHavePifu_00 = lwg.Global._notHavePifuSubChaoren[this.noHaveIndex];
+        let noHavePifu_00 = lwg.Global._notHavePifuSubXD[this.noHaveIndex];
         console.log(noHavePifu_00);
         let index;
         if (noHavePifu_00) {
@@ -361,7 +354,6 @@ export default class UIPifu extends lwg.Admin.Scene {
             this.PifuList.tweenTo(index, 200, Laya.Handler.create(this, function () {
                 this.noHaveIndex++;
                 this.nohavePifuAni();
-                this.pifuNameRefresh();
             }));
         } else {
             console.log('循环完毕，准备循环到被购买的那个皮肤', this.buyIndex);
@@ -379,36 +371,30 @@ export default class UIPifu extends lwg.Admin.Scene {
     buyCompelet(): void {
         // 将购买的皮肤添加到数据中
         lwg.Global._havePifu.push(lwg.Enum.PifuAllName[this.buyIndex]);
-        this.noHaveSubChaoren();
+        this.notHavePifuSubXD();
         this.refreshListData();
-        this.whetherHaveThisPifu();
         this.priceDisplay();
-
+        this.selectPifuStyle();
         lwg.LocalStorage.addData();
         console.log('购买完成！');
     }
 
     /**选中按钮抬起*/
     btnSelectUp(event: Laya.Event): void {
-        event.currentTarget.scale(1, 1);
         event.stopPropagation();//防止事件穿透到舞台
-        let cell = this.PifuList.getCell(this.listFirstIndex + 1);//注意+1
-        let lock = cell.getChildByName('Lock') as Laya.Sprite;
-        // 如果没有被锁住，那么可以选择他
+        event.currentTarget.scale(1, 1);
+        this.whetherHaveThisPifu();
+        // 如果没有被锁住，那么可以选中
         if (this.showSelect) {
-            if (!lock.visible) {
-                // 关掉原来的选中
-                let select1 = cell.getChildByName('Select') as Laya.Sprite;
-                select1.visible = false;
-                // 更换选择
-                lwg.Global._currentPifu = lwg.Global._allPifu[this.listFirstIndex];
-                // console.log(lwg.Global._currentPifu);
-                this.refreshListData();
-            }
+            // 更换选择
+            lwg.Global._currentPifu = lwg.Global._allPifu[this.listFirstIndex];
+            this.refreshListData();
+            this.selectPifuStyle();
         }
     }
 
     lwgDisable(): void {
+        lwg.LocalStorage.addData();
         lwg.Global._stageClick = true;
         lwg.Global.ExecutionNumNode.alpha = 1;
     }

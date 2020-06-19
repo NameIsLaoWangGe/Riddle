@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":2,
-    "selecteID":87,
+    "selectedBox":87,
+    "selecteID":93,
     "searchKey":"View",
     "props":{"width":720,"sceneColor":"#000000","height":1280},
     "nodeParent":-1,
-    "maxID":89,
+    "maxID":99,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -92,14 +92,13 @@
                     "props":{"y":76,"x":369,"width":314,"var":"CustomsList","spaceY":-115,"selectEnable":false,"repeatY":4,"repeatX":1,"pivotX":157,"name":"CustomsList","mouseEnabled":false,"height":667},
                     "nodeParent":87,
                     "label":"CustomsList",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":24,
                     "child":[
                         {
-                            "x":45,
                             "type":"Box",
                             "searchKey":"Box",
                             "props":{"y":0,"x":157,"width":289,"renderType":"render","pivotX":145,"height":257},
@@ -112,7 +111,6 @@
                             "compId":28,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,pic",
                                     "props":{"y":136,"x":145,"width":288,"skin":"UI_new/GameStart/icon_box01.png","pivotY":133,"pivotX":144,"name":"pic","height":266},
@@ -125,7 +123,6 @@
                                     "compId":33,
                                     "child":[
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,lock",
                                             "props":{"y":163,"x":212,"width":100,"skin":"UI_new/GameStart/icon_unlock.png","pivotY":54,"pivotX":50,"name":"lock","height":107},
@@ -139,7 +136,6 @@
                                                 ]
                                         },
                                         {
-                                            "x":75,
                                             "type":"FontClip",
                                             "searchKey":"FontClip,LvNum",
                                             "props":{"zOrder":10,"y":182,"x":219,"width":228,"value":"22","spaceX":-25,"skin":"UI_new/wrod/word_customs_02.png","skewY":-28,"skewX":0,"sheet":"0123456789","scaleY":0.6,"scaleX":0.6,"pivotY":27,"pivotX":114,"name":"LvNum","height":53,"align":"center"},
@@ -152,7 +148,6 @@
                                             "compId":47,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Sprite",
                                                     "searchKey":"Sprite",
                                                     "props":{"y":0,"x":31,"texture":"UI_new/wrod/di.png","alpha":0},
@@ -166,7 +161,6 @@
                                                         ]
                                                 },
                                                 {
-                                                    "x":90,
                                                     "type":"Sprite",
                                                     "searchKey":"Sprite",
                                                     "props":{"y":0,"x":154,"texture":"UI_new/wrod/guan.png","alpha":0},
@@ -182,7 +176,6 @@
                                         }]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Script",
                                     "switchAble":true,
                                     "source":"src/script/Game/UIStart_House.ts",
@@ -218,7 +211,7 @@
                     "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,BtnPifu,BtnPifu",
-                    "props":{"y":466,"x":648,"width":89,"var":"BtnPifu","pivotY":45,"pivotX":45,"name":"BtnPifu","height":89},
+                    "props":{"y":356,"x":631,"width":89,"visible":true,"var":"BtnPifu","pivotY":45,"pivotX":45,"name":"BtnPifu","height":89},
                     "nodeParent":87,
                     "label":"BtnPifu",
                     "isOpen":false,
@@ -265,7 +258,8 @@
                             "compId":32,
                             "child":[
                                 ]
-                        }]
+                        }],
+                    "$HIDDEN":false
                 },
                 {
                     "x":30,
@@ -274,14 +268,13 @@
                     "props":{"y":834,"x":361,"width":235,"var":"BtnStart","pivotY":59,"pivotX":118,"name":"BtnStart","height":118,"alpha":1},
                     "nodeParent":87,
                     "label":"BtnStart",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":5,
                     "child":[
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":0,"x":0,"texture":"UI_new/GameStart/start_btn.png","name":"","alpha":1},
@@ -295,7 +288,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":35,"x":43.5,"texture":"UI_new/GameStart/word_start.png","name":""},
@@ -308,6 +300,63 @@
                             "child":[
                                 ]
                         }]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite,BtnXD,BtnXD",
+                    "props":{"y":502,"x":631.5,"width":89,"visible":true,"var":"BtnXD","pivotY":45,"pivotX":45,"name":"BtnXD","height":89},
+                    "nodeParent":87,
+                    "label":"BtnXD",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":93,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Sprite",
+                            "searchKey":"Sprite",
+                            "props":{"y":43,"x":46,"width":98,"texture":"UI_new/GameStart/board_01_btn.png","pivotY":49,"pivotX":49,"height":98,"alpha":1},
+                            "nodeParent":93,
+                            "label":"Sprite",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":94,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Sprite",
+                            "searchKey":"Sprite",
+                            "props":{"y":-37,"x":11,"texture":"UI_new/Pifu/pifu_09_aisha.png","scaleY":0.25,"scaleX":0.25},
+                            "nodeParent":93,
+                            "label":"Sprite",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":97,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Sprite",
+                            "searchKey":"Sprite",
+                            "props":{"y":41,"x":16,"texture":"UI_new/PifuXd/ui_xd_01.png"},
+                            "nodeParent":93,
+                            "label":"Sprite",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":98,
+                            "child":[
+                                ]
+                        }],
+                    "$HIDDEN":false
                 }]
         },
         {

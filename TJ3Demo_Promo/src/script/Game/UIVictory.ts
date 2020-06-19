@@ -40,6 +40,7 @@ export default class UIVictory extends lwg.Admin.Scene {
             lwg.Admin._openScene(lwg.Admin.SceneName.UIShare, null, null, null);
         }
 
+
     }
 
     adaptive(): void {
@@ -60,9 +61,9 @@ export default class UIVictory extends lwg.Admin.Scene {
         }, 3000);
 
         this.self['BtnBack'].visible = false;
-        setTimeout(() => {
-            this.self['BtnBack'].visible = true;
-        }, 3000);
+        // setTimeout(() => {
+        //     this.self['BtnBack'].visible = true;
+        // }, 3000);
     }
 
     /**
@@ -117,14 +118,14 @@ export default class UIVictory extends lwg.Admin.Scene {
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnGoldAdv, this, null, null, this.btnGoldAdvUp, null);
 
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
-        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
+        // lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
     }
 
     btnOffClick(): void {
         lwg.Click.off(lwg.Click.ClickType.largen, this.BtnNext, this, null, null, this.btnNextUp, null);
         lwg.Click.off(lwg.Click.ClickType.largen, this.BtnGoldAdv, this, null, null, this.btnGoldAdvUp, null);
-        lwg.Click.off(lwg.Click.ClickType.largen, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
+        // lwg.Click.off(lwg.Click.ClickType.largen, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
         lwg.Click.off(lwg.Click.ClickType.largen, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
     }
 
@@ -154,14 +155,20 @@ export default class UIVictory extends lwg.Admin.Scene {
     }
     /**领取金币动画后回调*/
     getGoldAniFunc(): void {
-        if (Number(this.LvNum.value) >= 3) {
-            lwg.Admin._openScene('UIPassHint', null, null, f => {
-                console.log('下一关');
-            });
-        } else {
-            lwg.Admin._nextCustomScene(2);
-            lwg.LocalStorage.addData();
-        }
+        // if (Number(this.LvNum.value) >= 3) {
+        //     lwg.Admin._openScene('UIPassHint', null, null, f => {
+        //         console.log('下一关');
+        //     });
+        // } else {
+        //     lwg.Admin._nextCustomScene(2);
+        //     lwg.LocalStorage.addData();
+        // }
+        lwg.Admin._closeCustomScene();
+        lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => {
+            if (lwg.Global._watchAdsNum < 3) {
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIXDpifu, null, null, null);
+            }
+        });
         this.self.close();
     }
 

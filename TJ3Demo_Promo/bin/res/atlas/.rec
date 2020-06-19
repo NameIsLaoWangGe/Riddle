@@ -329,24 +329,24 @@ P 0A40FA13 yes_btn.png
 D UI_new/Pifu
 P D6D76169 icon_lock.png
 P DE115A9E logo.png
-P F8F4DD23 pifu_01_gongzhu.png
-P 4B4D2E37 pifu_01_gongzhu_h.png
-P 8F6366E5 pifu_02_chiji.png
-P DB527397 pifu_02_chiji_h.png
-P DE0A86BF pifu_03_change.png
-P 9E0307CC pifu_03_change_h.png
-P DF93F1E2 pifu_04_huiguniang.png
-P B2B3E40F pifu_04_huiguniang_h.png
-P 039D44ED pifu_05_tianshi.png
-P F1594758 pifu_05_tianshi_h.png
-P 068FE9FC pifu_06_xiaohongmao.png
-P DB16E8A1 pifu_06_xiaohongmao_h.png
-P 5EE13225 pifu_07_xiaohuangya.png
-P F13B5359 pifu_07_xiaohuangya_h.png
-P 90B5AC3A pifu_08_zhenzi.png
-P 8D2E81C4 pifu_08_zhenzi_h.png
-P 55D87F40 pifu_09_aisha.png
-P 865BE7D5 pifu_09_aisha_h.png
+P 3F36BB5C pifu_01_gongzhu.png
+P AE0E9889 pifu_01_gongzhu_h.png
+P 439DAD79 pifu_02_chiji.png
+P 7AFA16F8 pifu_02_chiji_h.png
+P 9484A33F pifu_03_change.png
+P 3C895015 pifu_03_change_h.png
+P E86B36A2 pifu_04_huiguniang.png
+P A2FD4962 pifu_04_huiguniang_h.png
+P 916B06B5 pifu_05_tianshi.png
+P 32F5B9E6 pifu_05_tianshi_h.png
+P 5B9BBEE0 pifu_06_xiaohongmao.png
+P A2BC559B pifu_06_xiaohongmao_h.png
+P 003D9285 pifu_07_xiaohuangya.png
+P 4570C416 pifu_07_xiaohuangya_h.png
+P 8ABB3DE4 pifu_08_zhenzi.png
+P BB652E6D pifu_08_zhenzi_h.png
+P AD051EC0 pifu_09_aisha.png
+P 7EDD6C4B pifu_09_aisha_h.png
 P 1C114509 UI_board_01.png
 P D495C5C0 ui_dot_01.png
 P B9064BDA ui_dot_02.png
@@ -367,6 +367,8 @@ D UI_new/PifuXd
 P CC3D2631 adv_btn.png
 P 5F864DD3 logo.png
 P 0BDDE69D logo_board.png
+P 34FDE184 ui_xd_01.png
+P 0DBAE84F ui_xd_02.png
 P B08325C6 word_dec.png
 R EA2537B5 xiaoguotu.jpg
 D UI_new/Share
@@ -378,6 +380,15 @@ P AE818E6A word_award.png
 P 5E431E8D word_share.png
 P 88509320 word_share_btn.png
 R 9CEC2355 xiaoguotu.jpg
+D UI_new/SmallHint
+P 0BDFB07B bai.png
+P 33F1CDEF queding.png
+P 677F2574 quxiao.png
+P 60C760E9 txt_shuoming.png
+P ED7A90CF txt_tishi.png
+P 9DC2995A txt_tishi2.png
+P 78FBCED9 txtshuoming2.png
+R 83AAAE51 xiaoguotu.png
 D UI_new/Victory
 P 1F78459A green_btn.png
 P 1DF9AE7D icon_adv_green.png

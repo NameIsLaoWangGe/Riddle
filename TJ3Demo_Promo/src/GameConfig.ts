@@ -27,6 +27,7 @@ import UIPifu from "./script/Game/UIPifu"
 import UIPifuTry from "./script/Game/UIPifuTry"
 import UISet from "./script/Game/UISet"
 import UIShare from "./script/Game/UIShare"
+import UISmallHint from "./script/Game/UISmallHint"
 import UIStart from "./script/Game/UIStart"
 import UIStart_House from "./script/Game/UIStart_House"
 import UIVictory from "./script/Game/UIVictory"
@@ -79,6 +80,7 @@ export default class GameConfig{
         reg("script/Game/UIPifuTry.ts",UIPifuTry);
         reg("script/Game/UISet.ts",UISet);
         reg("script/Game/UIShare.ts",UIShare);
+        reg("script/Game/UISmallHint.ts",UISmallHint);
         reg("script/Game/UIStart.ts",UIStart);
         reg("script/Game/UIStart_House.ts",UIStart_House);
         reg("script/Game/UIVictory.ts",UIVictory);

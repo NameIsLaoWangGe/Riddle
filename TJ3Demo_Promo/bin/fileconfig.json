@@ -392,13 +392,28 @@
             "word_freetry.png"
         ]
     ],
-    "res/atlas/UI_new/PifuXD.atlas": [
-        "UI_new/PifuXD/",
+    "res/atlas/UI_new/PifuXd.atlas": [
+        "UI_new/PifuXd/",
         [
             "adv_btn.png",
             "logo_board.png",
             "logo.png",
-            "word_dec.png"
+            "word_dec.png",
+            "ui_xd_01.png",
+            "ui_xd_02.png"
+        ]
+    ],
+    "res/atlas/UI_new/SmallHint.atlas": [
+        "UI_new/SmallHint/",
+        [
+            "bai.png",
+            "queding.png",
+            "quxiao.png",
+            "txt_shuoming.png",
+            "txt_tishi.png",
+            "txt_tishi2.png",
+            "txtshuoming2.png"
         ]
     ]
+
 }

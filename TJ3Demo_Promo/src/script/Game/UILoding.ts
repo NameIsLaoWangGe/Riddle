@@ -94,10 +94,36 @@ export default class UILoding extends lwg.Admin.Scene {
                 console.log('今天没有热门分享的机会！');
             }
 
+            lwg.Global._addExDate = data._addExDate;
             lwg.Global._addExHours = data._addExHours;
             lwg.Global._addMinutes = data._addMinutes;
-            lwg.Global._havePifu = data._havePifu;
-            lwg.Global._currentPifu = data._currentPifu;
+
+            if (!data._currentPifu) {
+                lwg.LocalStorage.addData();
+            } else {
+                lwg.Global._currentPifu = data._currentPifu;
+            }
+
+            if (!data._havePifu) {
+                lwg.LocalStorage.addData();
+            } else {
+                lwg.Global._havePifu = data._havePifu;
+            }
+
+            if (!data._buyNum) {
+                lwg.LocalStorage.addData();
+            } else {
+                lwg.Global._buyNum = data._buyNum;
+            }
+
+            if (!data._watchAdsNum) {
+                lwg.LocalStorage.addData();
+            } else {
+                lwg.Global._buyNum = data._buyNum;
+            }
+
+            // lwg.Global._havePifu = ['01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao'];
+            // lwg.Global._currentPifu = data._currentPifu;
             // lwg.Global._watchAdsNum = data._watchAdsNum;
             // lwg.Global._gameOverAdvModel = data._gameOverAdvModel;
             // lwg.Global._whetherAdv = data._whetherAdv;

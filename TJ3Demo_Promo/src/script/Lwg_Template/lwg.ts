@@ -7,6 +7,8 @@ export module lwg {
     export module Global {
         /**当前的关卡是第几关*/
         export let _gameLevel: number = 1;
+        /**当前的关卡是第几关*/
+        export let _yuanpifu: string = null;
         /**游戏是否处于开始状态*/
         export let _gameStart = false;
         /**当前剩余行动力的数量*/
@@ -27,9 +29,9 @@ export module lwg {
         export let _freetHint: boolean = true;
 
         /**记录上传体力的时间，用于对比下次进入游戏时时间差，补偿多少体力*/
+        export let _addExDate: number;
         export let _addExHours: number;
         export let _addMinutes: number;
-
 
         /**最后一次被拾取的房间，用于被吸附到另一个房间*/
         export let _roomPickup: Laya.Image;
@@ -55,24 +57,21 @@ export module lwg {
         export let _shakeSwitch: boolean = true;
 
         /**当前选中的皮肤样式*/
-        export let _currentPifu: string;
+        export let _currentPifu: string = '01_gongzhu';
         /**当前拥有的皮肤名称集合*/
-        export let _havePifu: Array<string>;
+        export let _havePifu: Array<string> = ['01_gongzhu'];
         /**当前未拥有皮肤名称集合*/
         export let _notHavePifu: Array<string>;
-        /**当前未拥有皮肤名称，删除超人的皮肤*/
-        export let _notHavePifuSubChaoren: Array<string>;
+        /**当前未拥有皮肤名称，删除限定的皮肤，是最后一个皮肤*/
+        export let _notHavePifuSubXD: Array<string>;
         /**所有的皮肤的和排列顺序*/
         export let _allPifu: Array<string> = ['01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha'];
 
         /**购买次数,随着购买次数的增加，消耗金币也会增加,超人皮肤是看广告获得，暂时不可买到*/
-        export let _buyNum: number;
+        export let _buyNum: number = 1;
 
         /**限定皮肤剩余点击看广告的次数*/
-        export let _watchAdsNum: number;
-
-        /**是否接入了广告*/
-        export let _whetherAdv: boolean;
+        export let _watchAdsNum: number = 0;
 
         /**当前在游戏结束后，看广告的模式*/
         export let _gameOverAdvModel: number;
@@ -258,12 +257,8 @@ export module lwg {
             event.currentTarget.scale(1, 1);
             event.stopPropagation();
 
-            ADManager.ShowReward(() => {
-                Admin._openScene(Admin.SceneName.UIPassHint, null, null, f => {
-                    lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = 'UIMain';
-                    lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].setStyle();
-                });
-            })
+            Admin._openScene(Admin.SceneName.UISmallHint, null, null, f => { });
+
         }
 
         /**指代当前界面的重来按钮*/
@@ -402,7 +397,6 @@ export module lwg {
             });
         }
 
-
         /**
          * 创建金币prefab
          * @param type 类型，用在什么情况下
@@ -463,13 +457,13 @@ export module lwg {
                 '_exemptExTime': lwg.Global._exemptExTime,
                 '_freeHintTime': lwg.Global._freeHintTime,
                 '_hotShareTime': lwg.Global._hotShareTime,
+                '_addExDate': lwg.Global._addExDate,
                 '_addExHours': lwg.Global._addExHours,
                 '_addMinutes': lwg.Global._addMinutes,
-
-                // '_buyNum': lwg.Global._buyNum,
+                '_buyNum': lwg.Global._buyNum,
                 '_currentPifu': lwg.Global._currentPifu,
                 '_havePifu': lwg.Global._havePifu,
-                // '_watchAdsNum': lwg.Global._watchAdsNum,
+                '_watchAdsNum': lwg.Global._watchAdsNum,
                 // '_gameOverAdvModel': lwg.Global._gameOverAdvModel,
             }
             // 转换成字符串上传
@@ -496,12 +490,13 @@ export module lwg {
                 lwg.Global._exemptExTime = null;
                 lwg.Global._freeHintTime = null;
                 lwg.Global._hotShareTime = null;
+                lwg.Global._addExDate = (new Date).getDate();
                 lwg.Global._addExHours = (new Date).getHours();
                 lwg.Global._addMinutes = (new Date).getMinutes();
-                // lwg.Global._buyNum = 1;
+                lwg.Global._buyNum = 1;
                 lwg.Global._currentPifu = Enum.PifuAllName[0];
                 lwg.Global._havePifu = ['01_gongzhu'];
-                // lwg.Global._watchAdsNum = 0;
+                lwg.Global._watchAdsNum = 0;
                 // lwg.Global._gameOverAdvModel = 1;
                 // lwg.Global._whetherAdv = false;
                 return null;
@@ -529,6 +524,9 @@ export module lwg {
             UIPifu = 'UIPifu',
             UIPuase = 'UIPuase',
             UIShare = 'UIShare',
+            UISmallHint = 'UISmallHint',
+            UIXDpifu = 'UIXDpifu',
+            UIPifuTry = 'UIPifuTry',
         }
         /**游戏当前的状态*/
         export enum GameState {
@@ -633,6 +631,11 @@ export module lwg {
             console.log('打开' + sceneName);
             _openScene(sceneName, null, null, f => {
                 lwg.Global._gameStart = true;
+
+                if (lwg.Global._yuanpifu !== null) {
+                    Global._currentPifu = lwg.Global._yuanpifu;
+                    lwg.Global._yuanpifu = null;
+                }
             });
         }
 
@@ -1323,6 +1326,7 @@ export module lwg {
             gongzhuTem.on(Laya.Event.COMPLETE, this, onCompelet);
             gongzhuTem.on(Laya.Event.ERROR, this, onError);
             gongzhuTem.loadAni("SK/gongzhu.sk");
+
         }
         export function createAishaTem(): void {
             aishaTem.on(Laya.Event.COMPLETE, this, onCompelet);
@@ -1410,7 +1414,7 @@ export module lwg {
         /**提示文字的类型描述*/
         export enum HintDec {
             '金币不够了！',
-            '没有可以卖的皮肤了！',
+            '没有可以购买的皮肤了！',
             '暂时没有广告，过会儿再试试吧！',
             '暂无皮肤!',
             '暂无分享!',
@@ -1449,6 +1453,18 @@ export module lwg {
         /**皮肤的顺序以及名称*/
         export enum PifuAllName {
             '01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha'
+        }
+        /**皮肤的顺序以及名称*/
+        export enum PifuMatching {
+            gongzhu = '01_gongzhu',
+            chiji = '02_chiji',
+            change = '03_change',
+            huiguniang = '04_huiguniang',
+            tianshi = '05_tianshi',
+            xiaohongmao = '06_xiaohongmao',
+            xiaohuangya = '07_xiaohuangya',
+            zhenzi = '08_zhenzi',
+            aisha = '09_aisha'
         }
         /**皮肤图片顺序对应的地址*/
         export enum PifuSkin {
@@ -1530,15 +1546,7 @@ export module lwg {
             right = 'right',
         }
 
-        /**当前所有场景的名称*/
-        export enum SceneName {
-            UILoding = 'UILoding',
-            UIMain = 'UIMain',
-            UIStart = 'UIStart',
-            UITask = 'UITask',
-            UIVictory = 'UIVictory',
-            UIDefeated = 'UIDefeated'
-        }
+
 
         /**游戏当前的状态*/
         export enum GameState {

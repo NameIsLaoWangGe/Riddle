@@ -37,7 +37,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
     createPlaint(): void {
         let img = new Laya.Image();
         img.skin = this.signSkin;
-        img.y = -50;
+        img.y = -60;
         img.x = this.self.width / 2 - 8 - img.width / 2;
         this.self.addChild(img);
         img.zOrder = 10;
@@ -57,7 +57,48 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
 
     /**骨骼动画*/
     createskeleton(): void {
-        this.skeleton = lwg.Sk.gongzhuTem.buildArmature(0);
+
+        switch (lwg.Global._currentPifu) {
+            case lwg.Enum.PifuMatching.gongzhu:
+                this.skeleton = lwg.Sk.gongzhuTem.buildArmature(0);
+                break;
+
+            case lwg.Enum.PifuMatching.chiji:
+                this.skeleton = lwg.Sk.chijiTem.buildArmature(0);
+
+                break;
+            case lwg.Enum.PifuMatching.change:
+                this.skeleton = lwg.Sk.changeTem.buildArmature(0);
+                break;
+
+            case lwg.Enum.PifuMatching.huiguniang:
+                this.skeleton = lwg.Sk.huiguniangTem.buildArmature(0);
+                break;
+
+            case lwg.Enum.PifuMatching.tianshi:
+                this.skeleton = lwg.Sk.tianshiTem.buildArmature(0);
+                break;
+
+            case lwg.Enum.PifuMatching.xiaohongmao:
+                this.skeleton = lwg.Sk.xiaohongmaoTem.buildArmature(0);
+                break;
+
+            case lwg.Enum.PifuMatching.xiaohuangya:
+                this.skeleton = lwg.Sk.xiaohuangyaTem.buildArmature(0);
+                break;
+
+            case lwg.Enum.PifuMatching.zhenzi:
+                this.skeleton = lwg.Sk.zhenziTem.buildArmature(0);
+                break;
+
+            case lwg.Enum.PifuMatching.aisha:
+                this.skeleton = lwg.Sk.aishaTem.buildArmature(0);
+                break;
+            default:
+                break;
+        }
+        console.log(this.skeleton);
+
         this.self.addChild(this.skeleton);
         this.skeleton.pos(this.self.width / 2, this.self.height - 8);
         let pic = this.self.getChildByName('pic') as Laya.Sprite;
@@ -221,6 +262,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
             });
         });
     }
+
     /**加速符和角色碰撞*/
     speedAndPerson(other, self): void {
         let otherOwner = other.owner as Laya.Sprite;
@@ -358,7 +400,6 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         // 延时出现胜利界面
         Laya.timer.frameOnce(60, this, f => {
             this.selfScene['UIMain'].victory = true;
-
             lwg.Admin._openScene('UIVictory', null, null, null);
         });
     }
@@ -673,7 +714,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
             this.positionOffsetXY();
         }
     }
-    
+
     /**
      * 固定角色的最终范围，一直处于当前房间内
      * 这样使角色不会掉下去

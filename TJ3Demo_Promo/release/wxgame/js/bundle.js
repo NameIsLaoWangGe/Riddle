@@ -1021,7 +1021,7 @@
             Global._goldNum = 0;
             Global._voiceSwitch = true;
             Global._shakeSwitch = true;
-            Global._allPifu = ['01_xiaofu', '02_konglong', '03_xueren', '04_qipao', '05_qianxun', '06_lvyifu', '07_maozi', '08_lufei', '09_chaoren'];
+            Global._allPifu = ['01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha'];
             Global.pingceV = true;
             function _vibratingScreen() {
             }
@@ -1065,7 +1065,7 @@
                     parent.addChild(sp);
                     sp.pos(671, 273);
                     sp.zOrder = 0;
-                    Click.on(Enum.ClickType.largen, null, sp, null, null, null, btnSetUp, null);
+                    Click.on(Click.ClickType.largen, null, sp, null, null, null, btnSetUp, null);
                     Global.BtnSetNode = sp;
                     Global.BtnSetNode.name = 'BtnSetNode';
                 }));
@@ -1117,7 +1117,7 @@
                     sp.zOrder = 0;
                     Global.BtnPauseNode = sp;
                     Global.BtnPauseNode.name = 'BtnPauseNode';
-                    Click.on(Enum.ClickType.largen, null, sp, null, null, null, btnPauseUp, null);
+                    Click.on(Click.ClickType.largen, null, sp, null, null, null, btnPauseUp, null);
                 }));
             }
             Global._createBtnPause = _createBtnPause;
@@ -1138,19 +1138,14 @@
                     sp.zOrder = 0;
                     Global.BtnHintNode = sp;
                     Global.BtnHintNode.name = 'BtnHintNode';
-                    Click.on(Enum.ClickType.largen, null, sp, null, null, null, btnHintUp, null);
+                    Click.on(Click.ClickType.largen, null, sp, null, null, null, btnHintUp, null);
                 }));
             }
             Global._createBtnHint = _createBtnHint;
             function btnHintUp(event) {
                 event.currentTarget.scale(1, 1);
                 event.stopPropagation();
-                ADManager.ShowReward(() => {
-                    Admin._openScene(Admin.SceneName.UIPassHint, null, null, f => {
-                        lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = 'UIMain';
-                        lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].setStyle();
-                    });
-                });
+                Admin._openScene(Admin.SceneName.UISmallHint, null, null, f => { });
             }
             Global.btnHintUp = btnHintUp;
             function _createBtnAgain(parent) {
@@ -1162,7 +1157,7 @@
                     parent.addChild(sp);
                     sp.pos(645, 404);
                     sp.zOrder = 0;
-                    Click.on(Enum.ClickType.largen, null, sp, null, btnAgainUp, null, null, null);
+                    Click.on(Click.ClickType.largen, null, sp, null, btnAgainUp, null, null, null);
                     Global.BtnAgainNode = sp;
                 }));
             }
@@ -1292,6 +1287,7 @@
                     '_exemptExTime': lwg.Global._exemptExTime,
                     '_freeHintTime': lwg.Global._freeHintTime,
                     '_hotShareTime': lwg.Global._hotShareTime,
+                    '_addExDate': lwg.Global._addExDate,
                     '_addExHours': lwg.Global._addExHours,
                     '_addMinutes': lwg.Global._addMinutes,
                 };
@@ -1316,6 +1312,7 @@
                     lwg.Global._exemptExTime = null;
                     lwg.Global._freeHintTime = null;
                     lwg.Global._hotShareTime = null;
+                    lwg.Global._addExDate = (new Date).getDate();
                     lwg.Global._addExHours = (new Date).getHours();
                     lwg.Global._addMinutes = (new Date).getMinutes();
                     return null;
@@ -1339,6 +1336,7 @@
                 SceneName["UIPifu"] = "UIPifu";
                 SceneName["UIPuase"] = "UIPuase";
                 SceneName["UIShare"] = "UIShare";
+                SceneName["UISmallHint"] = "UISmallHint";
             })(SceneName = Admin.SceneName || (Admin.SceneName = {}));
             let GameState;
             (function (GameState) {
@@ -1546,10 +1544,13 @@
                     this.gameState(this.calssName);
                     this.self[this.calssName] = this;
                     this.lwgInit();
+                    this.selfVars();
                     this.btnOnClick();
                     this.adaptive();
                     this.openAni();
                     printPoint('on', this.calssName);
+                }
+                selfVars() {
                 }
                 gameState(calssName) {
                     switch (calssName) {
@@ -1896,74 +1897,134 @@
         let Sk;
         (function (Sk) {
             Sk.gongzhuTem = new Laya.Templet();
+            Sk.aishaTem = new Laya.Templet();
+            Sk.changeTem = new Laya.Templet();
+            Sk.chijiTem = new Laya.Templet();
+            Sk.huiguniangTem = new Laya.Templet();
+            Sk.tianshiTem = new Laya.Templet();
+            Sk.xiaohongmaoTem = new Laya.Templet();
+            Sk.xiaohuangyaTem = new Laya.Templet();
+            Sk.zhenziTem = new Laya.Templet();
             Sk.wangziTem = new Laya.Templet();
             Sk.gouTem = new Laya.Templet();
             Sk.qingdi_01Tem = new Laya.Templet();
             Sk.qingdi_02Tem = new Laya.Templet();
             Sk.houmaTem = new Laya.Templet();
             Sk.houziTem = new Laya.Templet();
-            Sk.houseTem = new Laya.Templet();
             function skLoding() {
                 createGongzhuTem();
+                createAishaTem();
+                createChijiTem();
+                createChangeTem();
+                createHuiguniangTem();
+                createTianshiTem();
+                createXiaohongmaoTem();
+                createXiaohuangyaTem();
+                createZhenziTem();
                 createWangziTem();
                 createGouTem();
                 createQingdi_01Tem();
                 createQingdi_02Tem();
                 createHoumaTem();
                 createHouziTem();
-                createHouseTem();
             }
             Sk.skLoding = skLoding;
             function createGongzhuTem() {
-                Sk.gongzhuTem.on(Laya.Event.COMPLETE, this, null);
+                Sk.gongzhuTem.on(Laya.Event.COMPLETE, this, onCompelet);
                 Sk.gongzhuTem.on(Laya.Event.ERROR, this, onError);
                 Sk.gongzhuTem.loadAni("SK/gongzhu.sk");
             }
             Sk.createGongzhuTem = createGongzhuTem;
+            function createAishaTem() {
+                Sk.aishaTem.on(Laya.Event.COMPLETE, this, onCompelet);
+                Sk.aishaTem.on(Laya.Event.ERROR, this, onError);
+                Sk.aishaTem.loadAni("SK/aisha.sk");
+            }
+            Sk.createAishaTem = createAishaTem;
+            function createChangeTem() {
+                Sk.changeTem.on(Laya.Event.COMPLETE, this, onCompelet);
+                Sk.changeTem.on(Laya.Event.ERROR, this, onError);
+                Sk.changeTem.loadAni("SK/change.sk");
+            }
+            Sk.createChangeTem = createChangeTem;
+            function createChijiTem() {
+                Sk.chijiTem.on(Laya.Event.COMPLETE, this, onCompelet);
+                Sk.chijiTem.on(Laya.Event.ERROR, this, onError);
+                Sk.chijiTem.loadAni("SK/chiji.sk");
+            }
+            Sk.createChijiTem = createChijiTem;
+            function createHuiguniangTem() {
+                Sk.huiguniangTem.on(Laya.Event.COMPLETE, this, onCompelet);
+                Sk.huiguniangTem.on(Laya.Event.ERROR, this, onError);
+                Sk.huiguniangTem.loadAni("SK/huiguniang.sk");
+            }
+            Sk.createHuiguniangTem = createHuiguniangTem;
+            function createTianshiTem() {
+                Sk.tianshiTem.on(Laya.Event.COMPLETE, this, onCompelet);
+                Sk.tianshiTem.on(Laya.Event.ERROR, this, onError);
+                Sk.tianshiTem.loadAni("SK/tianshi.sk");
+            }
+            Sk.createTianshiTem = createTianshiTem;
+            function createXiaohongmaoTem() {
+                Sk.xiaohongmaoTem.on(Laya.Event.COMPLETE, this, onCompelet);
+                Sk.xiaohongmaoTem.on(Laya.Event.ERROR, this, onError);
+                Sk.xiaohongmaoTem.loadAni("SK/xiaohongmao.sk");
+            }
+            Sk.createXiaohongmaoTem = createXiaohongmaoTem;
+            function createXiaohuangyaTem() {
+                Sk.xiaohuangyaTem.on(Laya.Event.COMPLETE, this, onCompelet);
+                Sk.xiaohuangyaTem.on(Laya.Event.ERROR, this, onError);
+                Sk.xiaohuangyaTem.loadAni("SK/xiaohuangya.sk");
+            }
+            Sk.createXiaohuangyaTem = createXiaohuangyaTem;
+            function createZhenziTem() {
+                Sk.zhenziTem.on(Laya.Event.COMPLETE, this, onCompelet);
+                Sk.zhenziTem.on(Laya.Event.ERROR, this, onError);
+                Sk.zhenziTem.loadAni("SK/zhenzi.sk");
+            }
+            Sk.createZhenziTem = createZhenziTem;
             function createWangziTem() {
-                Sk.wangziTem.on(Laya.Event.COMPLETE, this, null);
+                Sk.wangziTem.on(Laya.Event.COMPLETE, this, onCompelet);
                 Sk.wangziTem.on(Laya.Event.ERROR, this, onError);
                 Sk.wangziTem.loadAni("SK/wangzi.sk");
             }
             Sk.createWangziTem = createWangziTem;
             function createGouTem() {
-                Sk.gouTem.on(Laya.Event.COMPLETE, this, null);
+                Sk.gouTem.on(Laya.Event.COMPLETE, this, onCompelet);
                 Sk.gouTem.on(Laya.Event.ERROR, this, onError);
                 Sk.gouTem.loadAni("SK/gou.sk");
             }
             Sk.createGouTem = createGouTem;
             function createQingdi_01Tem() {
-                Sk.qingdi_01Tem.on(Laya.Event.COMPLETE, this, null);
+                Sk.qingdi_01Tem.on(Laya.Event.COMPLETE, this, onCompelet);
                 Sk.qingdi_01Tem.on(Laya.Event.ERROR, this, onError);
                 Sk.qingdi_01Tem.loadAni("SK/qingdi.sk");
             }
             Sk.createQingdi_01Tem = createQingdi_01Tem;
             function createQingdi_02Tem() {
-                Sk.qingdi_02Tem.on(Laya.Event.COMPLETE, this, null);
+                Sk.qingdi_02Tem.on(Laya.Event.COMPLETE, this, onCompelet);
                 Sk.qingdi_02Tem.on(Laya.Event.ERROR, this, onError);
                 Sk.qingdi_02Tem.loadAni("SK/qingdi1.sk");
             }
             Sk.createQingdi_02Tem = createQingdi_02Tem;
             function createHoumaTem() {
-                Sk.houmaTem.on(Laya.Event.COMPLETE, this, null);
+                Sk.houmaTem.on(Laya.Event.COMPLETE, this, onCompelet);
                 Sk.houmaTem.on(Laya.Event.ERROR, this, onError);
                 Sk.houmaTem.loadAni("SK/houma.sk");
             }
             Sk.createHoumaTem = createHoumaTem;
             function createHouziTem() {
-                Sk.houziTem.on(Laya.Event.COMPLETE, this, null);
+                Sk.houziTem.on(Laya.Event.COMPLETE, this, onCompelet);
                 Sk.houziTem.on(Laya.Event.ERROR, this, onError);
                 Sk.houziTem.loadAni("SK/houzi.sk");
             }
             Sk.createHouziTem = createHouziTem;
-            function createHouseTem() {
-                Sk.houseTem.on(Laya.Event.COMPLETE, this, null);
-                Sk.houseTem.on(Laya.Event.ERROR, this, onError);
-                Sk.houseTem.loadAni("SK/house.sk");
+            function onCompelet(tem) {
+                console.log(tem['_skBufferUrl'], '加载成功');
             }
-            Sk.createHouseTem = createHouseTem;
-            function onError() {
-                console.log('加载失败！');
+            Sk.onCompelet = onCompelet;
+            function onError(url) {
+                console.log(url, '加载失败！');
             }
             Sk.onError = onError;
         })(Sk = lwg.Sk || (lwg.Sk = {}));
@@ -2005,23 +2066,52 @@
             })(HintType = Enum.HintType || (Enum.HintType = {}));
             let PifuOrder;
             (function (PifuOrder) {
-                PifuOrder[PifuOrder["01_xiaofu"] = 0] = "01_xiaofu";
-                PifuOrder[PifuOrder["02_konglong"] = 1] = "02_konglong";
-                PifuOrder[PifuOrder["03_xueren"] = 2] = "03_xueren";
-                PifuOrder[PifuOrder["04_qipao"] = 3] = "04_qipao";
-                PifuOrder[PifuOrder["05_qianxun"] = 4] = "05_qianxun";
-                PifuOrder[PifuOrder["06_lvyifu"] = 5] = "06_lvyifu";
-                PifuOrder[PifuOrder["07_maozi"] = 6] = "07_maozi";
-                PifuOrder[PifuOrder["08_lufei"] = 7] = "08_lufei";
-                PifuOrder[PifuOrder["09_chaoren"] = 8] = "09_chaoren";
+                PifuOrder[PifuOrder["01_gongzhu"] = 0] = "01_gongzhu";
+                PifuOrder[PifuOrder["02_chiji"] = 1] = "02_chiji";
+                PifuOrder[PifuOrder["03_change"] = 2] = "03_change";
+                PifuOrder[PifuOrder["04_huiguniang"] = 3] = "04_huiguniang";
+                PifuOrder[PifuOrder["05_tianshi"] = 4] = "05_tianshi";
+                PifuOrder[PifuOrder["06_xiaohongmao"] = 5] = "06_xiaohongmao";
+                PifuOrder[PifuOrder["07_xiaohuangya"] = 6] = "07_xiaohuangya";
+                PifuOrder[PifuOrder["08_zhenzi"] = 7] = "08_zhenzi";
+                PifuOrder[PifuOrder["09_aisha"] = 8] = "09_aisha";
             })(PifuOrder = Enum.PifuOrder || (Enum.PifuOrder = {}));
-            let ClickType;
-            (function (ClickType) {
-                ClickType["noEffect"] = "noEffect";
-                ClickType["largen"] = "largen";
-                ClickType["balloon"] = "balloon";
-                ClickType["beetle"] = "beetle";
-            })(ClickType = Enum.ClickType || (Enum.ClickType = {}));
+            let PifuAllName;
+            (function (PifuAllName) {
+                PifuAllName[PifuAllName["01_gongzhu"] = 0] = "01_gongzhu";
+                PifuAllName[PifuAllName["02_chiji"] = 1] = "02_chiji";
+                PifuAllName[PifuAllName["03_change"] = 2] = "03_change";
+                PifuAllName[PifuAllName["04_huiguniang"] = 3] = "04_huiguniang";
+                PifuAllName[PifuAllName["05_tianshi"] = 4] = "05_tianshi";
+                PifuAllName[PifuAllName["06_xiaohongmao"] = 5] = "06_xiaohongmao";
+                PifuAllName[PifuAllName["07_xiaohuangya"] = 6] = "07_xiaohuangya";
+                PifuAllName[PifuAllName["08_zhenzi"] = 7] = "08_zhenzi";
+                PifuAllName[PifuAllName["09_aisha"] = 8] = "09_aisha";
+            })(PifuAllName = Enum.PifuAllName || (Enum.PifuAllName = {}));
+            let PifuSkin;
+            (function (PifuSkin) {
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_01_gongzhu.png"] = 0] = "UI_new/Pifu/pifu_01_gongzhu.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_02_chiji.png"] = 1] = "UI_new/Pifu/pifu_02_chiji.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_03_change.png"] = 2] = "UI_new/Pifu/pifu_03_change.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_04_huiguniang.png"] = 3] = "UI_new/Pifu/pifu_04_huiguniang.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_05_tianshi.png"] = 4] = "UI_new/Pifu/pifu_05_tianshi.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_06_xiaohongmao.png"] = 5] = "UI_new/Pifu/pifu_06_xiaohongmao.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_07_xiaohuangya.png"] = 6] = "UI_new/Pifu/pifu_07_xiaohuangya.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_08_zhenzi.png"] = 7] = "UI_new/Pifu/pifu_08_zhenzi.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_09_aisha.png"] = 8] = "UI_new/Pifu/pifu_09_aisha.png";
+            })(PifuSkin = Enum.PifuSkin || (Enum.PifuSkin = {}));
+            let PifuSkin_No;
+            (function (PifuSkin_No) {
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_01_gongzhu_h.png"] = 0] = "UI_new/Pifu/pifu_01_gongzhu_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_02_chiji_h.png"] = 1] = "UI_new/Pifu/pifu_02_chiji_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_03_change_h.png"] = 2] = "UI_new/Pifu/pifu_03_change_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_04_huiguniang_h.png"] = 3] = "UI_new/Pifu/pifu_04_huiguniang_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_05_tianshi_h.png"] = 4] = "UI_new/Pifu/pifu_05_tianshi_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_06_xiaohongmao_h.png"] = 5] = "UI_new/Pifu/pifu_06_xiaohongmao_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_07_xiaohuangya_h.png"] = 6] = "UI_new/Pifu/pifu_07_xiaohuangya_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_08_zhenzi_h.png"] = 7] = "UI_new/Pifu/pifu_08_zhenzi_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_09_aisha_h.png"] = 8] = "UI_new/Pifu/pifu_09_aisha_h.png";
+            })(PifuSkin_No = Enum.PifuSkin_No || (Enum.PifuSkin_No = {}));
             let voiceUrl;
             (function (voiceUrl) {
                 voiceUrl["btn"] = "voice/btn.wav";
@@ -2029,18 +2119,6 @@
                 voiceUrl["victory"] = "voice/guoguan.wav";
                 voiceUrl["defeated"] = "voice/wancheng.wav";
             })(voiceUrl = Enum.voiceUrl || (Enum.voiceUrl = {}));
-            let PifuAllName;
-            (function (PifuAllName) {
-                PifuAllName[PifuAllName["01_xiaofu"] = 0] = "01_xiaofu";
-                PifuAllName[PifuAllName["02_konglong"] = 1] = "02_konglong";
-                PifuAllName[PifuAllName["03_xueren"] = 2] = "03_xueren";
-                PifuAllName[PifuAllName["04_qipao"] = 3] = "04_qipao";
-                PifuAllName[PifuAllName["05_qianxun"] = 4] = "05_qianxun";
-                PifuAllName[PifuAllName["06_lvyifu"] = 5] = "06_lvyifu";
-                PifuAllName[PifuAllName["07_maozi"] = 6] = "07_maozi";
-                PifuAllName[PifuAllName["08_lufei"] = 7] = "08_lufei";
-                PifuAllName[PifuAllName["09_chaoren"] = 8] = "09_chaoren";
-            })(PifuAllName = Enum.PifuAllName || (Enum.PifuAllName = {}));
             let PifuAllName_Ch;
             (function (PifuAllName_Ch) {
                 PifuAllName_Ch[PifuAllName_Ch["\u540C\u684C"] = 0] = "\u540C\u684C";
@@ -2053,30 +2131,6 @@
                 PifuAllName_Ch[PifuAllName_Ch["\u9646\u80A5"] = 7] = "\u9646\u80A5";
                 PifuAllName_Ch[PifuAllName_Ch["\u82F1\u96C4"] = 8] = "\u82F1\u96C4";
             })(PifuAllName_Ch = Enum.PifuAllName_Ch || (Enum.PifuAllName_Ch = {}));
-            let PifuSkin;
-            (function (PifuSkin) {
-                PifuSkin[PifuSkin["pifu/pifu_01_xiaofu.png"] = 0] = "pifu/pifu_01_xiaofu.png";
-                PifuSkin[PifuSkin["pifu/pifu_02_konglong.png"] = 1] = "pifu/pifu_02_konglong.png";
-                PifuSkin[PifuSkin["pifu/pifu_03_xueren.png"] = 2] = "pifu/pifu_03_xueren.png";
-                PifuSkin[PifuSkin["pifu/pifu_04_qipao.png"] = 3] = "pifu/pifu_04_qipao.png";
-                PifuSkin[PifuSkin["pifu/pifu_05_qianxun.png"] = 4] = "pifu/pifu_05_qianxun.png";
-                PifuSkin[PifuSkin["pifu/pifu_06_lvyifu.png"] = 5] = "pifu/pifu_06_lvyifu.png";
-                PifuSkin[PifuSkin["pifu/pifu_07_maozi.png"] = 6] = "pifu/pifu_07_maozi.png";
-                PifuSkin[PifuSkin["pifu/pifu_08_lufei.png"] = 7] = "pifu/pifu_08_lufei.png";
-                PifuSkin[PifuSkin["pifu/pifu_09_chaoren.png"] = 8] = "pifu/pifu_09_chaoren.png";
-            })(PifuSkin = Enum.PifuSkin || (Enum.PifuSkin = {}));
-            let PifuSkin_No;
-            (function (PifuSkin_No) {
-                PifuSkin_No[PifuSkin_No["pifu/pifu_01_xiaofu_h.png"] = 0] = "pifu/pifu_01_xiaofu_h.png";
-                PifuSkin_No[PifuSkin_No["pifu/pifu_02_konglong_h.png"] = 1] = "pifu/pifu_02_konglong_h.png";
-                PifuSkin_No[PifuSkin_No["pifu/pifu_03_xueren_h.png"] = 2] = "pifu/pifu_03_xueren_h.png";
-                PifuSkin_No[PifuSkin_No["pifu/pifu_04_qipao_h.png"] = 3] = "pifu/pifu_04_qipao_h.png";
-                PifuSkin_No[PifuSkin_No["pifu/pifu_05_qianxun_h.png"] = 4] = "pifu/pifu_05_qianxun_h.png";
-                PifuSkin_No[PifuSkin_No["pifu/pifu_06_lvyifu_h.png"] = 5] = "pifu/pifu_06_lvyifu_h.png";
-                PifuSkin_No[PifuSkin_No["pifu/pifu_07_maozi_h.png"] = 6] = "pifu/pifu_07_maozi_h.png";
-                PifuSkin_No[PifuSkin_No["pifu/pifu_08_lufei_h.png"] = 7] = "pifu/pifu_08_lufei_h.png";
-                PifuSkin_No[PifuSkin_No["pifu/pifu_09_chaoren_h.png"] = 8] = "pifu/pifu_09_chaoren_h.png";
-            })(PifuSkin_No = Enum.PifuSkin_No || (Enum.PifuSkin_No = {}));
             let TaskType;
             (function (TaskType) {
                 TaskType["topUp"] = "topUp";
@@ -2202,6 +2256,13 @@
         })(Enum = lwg.Enum || (lwg.Enum = {}));
         let Click;
         (function (Click) {
+            let ClickType;
+            (function (ClickType) {
+                ClickType["noEffect"] = "noEffect";
+                ClickType["largen"] = "largen";
+                ClickType["balloon"] = "balloon";
+                ClickType["beetle"] = "beetle";
+            })(ClickType = Click.ClickType || (Click.ClickType = {}));
             function on(effect, audioUrl, target, caller, down, move, up, out) {
                 let btnEffect;
                 if (audioUrl) {
@@ -2211,16 +2272,16 @@
                     Click.audioUrl = Enum.voiceUrl.btn;
                 }
                 switch (effect) {
-                    case 'noEffect':
+                    case ClickType.noEffect:
                         btnEffect = new Btn_NoEffect();
                         break;
-                    case 'largen':
+                    case ClickType.largen:
                         btnEffect = new Btn_LargenEffect();
                         break;
-                    case 'balloon':
+                    case ClickType.balloon:
                         btnEffect = new Btn_Balloon();
                         break;
-                    case 'beetle':
+                    case ClickType.balloon:
                         btnEffect = new Btn_Beetle();
                         break;
                     default:
@@ -3182,9 +3243,9 @@
         btnOnClick() {
             ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_noticket');
             ADManager.TAPoint(TaT.BtnShow, 'close_noticket');
-            lwg.Click.on(lwg.Enum.ClickType.noEffect, null, this.self['BtnGet'], this, null, null, this.btnGetUp, null);
-            lwg.Click.on(lwg.Enum.ClickType.noEffect, null, this.self['BtnClose'], this, this.btnCloseDown, null, this.btnCloseUp, this.btnCloseOut);
-            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['Btn'], this, null, null, null, null);
+            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnGet'], this, null, null, this.btnGetUp, null);
+            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnClose'], this, this.btnCloseDown, null, this.btnCloseUp, this.btnCloseOut);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['Btn'], this, null, null, null, null);
         }
         btnGetUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_noticket');
@@ -3364,6 +3425,10 @@
             this.lodeUserInfo();
             this.dataLoading();
         }
+        adaptive() {
+            this.self['Logo'].y = Laya.stage.height * 0.242;
+            this.self['Progress'].y = Laya.stage.height * 0.811;
+        }
         dataLoading() {
             Laya.loader.load("Data/HintDec.json", Laya.Handler.create(this, this.levelsOnLoaded), null, Laya.Loader.JSON);
         }
@@ -3416,6 +3481,7 @@
                     lwg.Global._hotShare = false;
                     console.log('今天没有热门分享的机会！');
                 }
+                lwg.Global._addExDate = data._addExDate;
                 lwg.Global._addExHours = data._addExHours;
                 lwg.Global._addMinutes = data._addMinutes;
             }
@@ -4718,8 +4784,8 @@
         btnOnClick() {
             ADManager.TAPoint(TaT.BtnShow, 'ADrewordbt_freegift');
             ADManager.TAPoint(TaT.BtnShow, 'closeword_freegift');
-            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnYse'], this, null, null, this.btnYseUp, null);
-            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnYse'], this, null, null, this.btnYseUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
         }
         btnYseUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADrewordbt_freegift');
@@ -4740,14 +4806,13 @@
             if (this.intoScene === lwg.Admin.SceneName.UIDefeated) {
                 this.self['Pic'].skin = 'UI_new/Defeated/word_freereplay.png';
                 this.self['Pic'].x -= 30;
-                this.self['BtnNo'].visible = false;
             }
             else {
                 this.self['Pic'].skin = 'UI_new/PassHint/word_yes.png';
                 this.self['Pic'].x = this.self['BtnYse'].width / 2 + 10;
                 this.self['Pic'].y -= 3;
-                this.self['BtnNo'].visible = false;
             }
+            this.self['BtnNo'].visible = false;
             this.self['iconAdv'].visible = false;
             let num = lwg.Admin.openCustomName.substring(lwg.Admin.openCustomName.length - 3, lwg.Admin.openCustomName.length);
             this.self['Dec'].text = '  ' + lwg.Global._hintDec[Number(num) - 1]['dec'];
@@ -4801,8 +4866,8 @@
         btnOnClick() {
             ADManager.TAPoint(TaT.BtnShow, 'home_pause');
             ADManager.TAPoint(TaT.BtnShow, 'continue_pause');
-            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnUIStart, this, null, null, this.BtnUIStartUp, null);
-            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnContinue, this, null, null, this.BtnContinueUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnUIStart, this, null, null, this.BtnUIStartUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnContinue, this, null, null, this.BtnContinueUp, null);
         }
         BtnUIStartUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'home_pause');
@@ -4819,45 +4884,37 @@
         }
     }
 
-    class UIPifu extends Laya.Script {
+    class UIPifu extends lwg.Admin.Scene {
         constructor() {
             super();
             this.moveSwitch = false;
             this.listFirstIndex = lwg.Enum.PifuAllName[lwg.Global._currentPifu];
             this.noHaveIndex = 0;
         }
-        onEnable() {
-            this.self = this.owner;
+        lwgInit() {
             this.BtnBack = this.self['BtnBack'];
             this.BtnBuy = this.self['BtnBuy'];
             this.BtnSelect = this.self['BtnSelect'];
             this.PifuParent = this.self['PifuParent'];
             this.PifuList = this.self['PifuList'];
-            this.PifuName = this.self['PifuName'];
-            this.GoldRes = this.self['GoldRes'];
-            this.PifuNum = this.self['PifuNum'];
             this.background = this.self['background'];
+            lwg.Global.ExecutionNumNode.alpha = 0;
+            lwg.Global._stageClick = false;
             this.noHaveSubChaoren();
-            this.btnClickOn();
             this.createPifuList();
-            this.goldRes();
-            this.pifuNum();
-            this.priceDisplay();
-            this.adaptive();
-            this.openAni();
+        }
+        adaptive() {
+            this.self['TowBtn'].y = Laya.stage.height * 0.720;
+            this.self['PifuName'].y = Laya.stage.height * 0.185;
+            this.self['MatchDot'].y = Laya.stage.height * 0.634;
+            this.self['background_01'].height = Laya.stage.height;
+            this.PifuList.y = Laya.stage.height * 0.442;
+            this.self['BtnBack'].y = Laya.stage.height * 0.83;
         }
         priceDisplay() {
             let price = 250 * lwg.Global._buyNum - 150;
             let num = this.BtnBuy.getChildByName('Num');
             num.text = price.toString();
-        }
-        goldRes() {
-            let goldLebel = this.GoldRes.getChildByName('Num');
-            goldLebel.text = (lwg.Global._goldNum).toString();
-        }
-        pifuNum() {
-            let pifuNumLebel = this.PifuNum.getChildByName('Num');
-            pifuNumLebel.text = lwg.Global._havePifu.length + '/' + lwg.Global._allPifu.length;
         }
         noHaveSubChaoren() {
             let allArray = [];
@@ -4885,12 +4942,8 @@
                 console.log(lwg.Global._notHavePifuSubChaoren);
             }
         }
-        adaptive() {
-            this.self['TowBtn'].y = Laya.stage.height * 0.822;
-            this.PifuList.y = Laya.stage.height * 0.534;
-            this.PifuName.y = Laya.stage.height * 0.264;
-        }
         openAni() {
+            return;
             let delayed = 100;
             let time = 200;
             let y2 = this.background.y;
@@ -4898,19 +4951,11 @@
             });
             let x1 = this.BtnBack.x;
             lwg.Animation.move_Deform_X(this.BtnBack, -200, 30, x1, -0.1, 0.2, time, delayed * 4, f => { });
-            let x2 = this.GoldRes.x;
-            lwg.Animation.move_Deform_X(this.GoldRes, 920, 30, x2, 0.2, -0.15, time, delayed * 3, f => { });
-            let x3 = this.PifuName.x;
-            lwg.Animation.move_Deform_X(this.PifuName, x3, 0, x3, 0.2, -0.15, time, delayed * 4, f => { });
             let x4 = this.BtnBuy.x;
             lwg.Animation.move_Deform_X(this.BtnBuy, x4, 0, x4, 0.2, -0.15, time, delayed * 4, f => { });
             let x5 = this.BtnSelect.x;
             lwg.Animation.move_Deform_X(this.BtnSelect, x5, 0, x5, 0.2, -0.15, time, delayed * 4, f => { });
-            let y1 = this.PifuNum.y;
-            lwg.Animation.move_Deform_Y(this.PifuNum, -300, -15, y1, -0.1, 0.2, time, delayed * 2, f => {
-            });
             lwg.Animation.fadeOut(this.PifuList, 0, 1, time, delayed, f => {
-                this.listOpenAni();
             });
         }
         createPifuList() {
@@ -4918,7 +4963,9 @@
             this.PifuList.selectHandler = new Laya.Handler(this, this.onSelect_List);
             this.PifuList.renderHandler = new Laya.Handler(this, this.updateItem);
             this.refreshListData();
-            this.pifuNameRefresh();
+            this.matchDotStaly();
+            this.selectPifu();
+            this.listOpenAni();
         }
         listOpenAni() {
             if (0 <= this.listFirstIndex && this.listFirstIndex <= 4) {
@@ -4947,37 +4994,30 @@
                     }
                 }
                 let pifuUrl;
-                let lock;
                 if (have) {
                     pifuUrl = lwg.Enum.PifuSkin[m];
-                    lock = false;
                 }
                 else {
                     pifuUrl = lwg.Enum.PifuSkin_No[m];
-                    lock = true;
                 }
-                let select;
+                let selectWord;
                 if (lwg.Global._currentPifu === lwg.Enum.PifuAllName[m]) {
-                    select = true;
+                    selectWord = true;
                 }
                 else {
-                    select = false;
+                    selectWord = false;
                 }
-                let shadowUrl = 'pifu/ui_shadow.png';
                 let scale;
                 if (m === this.listFirstIndex) {
                     scale = 1;
                 }
                 else {
-                    scale = 0.8;
+                    scale = 0.7;
                 }
                 data.push({
-                    name,
                     have,
                     pifuUrl,
-                    lock,
-                    select,
-                    shadowUrl,
+                    selectWord,
                     scale
                 });
             }
@@ -4988,14 +5028,8 @@
         updateItem(cell, index) {
             let dataSource = cell.dataSource;
             let pifuImg = cell.getChildByName('PifuImg');
-            let lock = cell.getChildByName('Lock');
             let select = cell.getChildByName('Select');
-            let shadow = cell.getChildByName('Shadow');
-            cell.name = dataSource.name;
             pifuImg.skin = dataSource.pifuUrl;
-            lock.visible = dataSource.lock;
-            select.visible = dataSource.select;
-            shadow.skin = dataSource.shadowUrl;
             cell.scale(dataSource.scale, dataSource.scale);
         }
         onStageMouseDown() {
@@ -5008,81 +5042,88 @@
                 return;
             }
             let diffX = x - this.firstX;
-            if (diffX > 100) {
+            if (diffX > 80) {
                 this.listFirstIndex -= 1;
                 if (this.listFirstIndex < 0) {
                     this.listFirstIndex = 0;
                 }
             }
-            else if (diffX < -100) {
+            else if (diffX < -80) {
                 this.listFirstIndex += 1;
                 if (this.listFirstIndex > 8) {
                     this.listFirstIndex = 8;
                 }
             }
             this.moveSwitch = false;
-            this.PifuList.tweenTo(this.listFirstIndex, 100, Laya.Handler.create(this, this.moveCompelet));
+            this.PifuList.tweenTo(this.listFirstIndex, 50, Laya.Handler.create(this, this.moveCompelet));
         }
         moveCompelet() {
-            this.pifuNameRefresh();
             this.refreshListData();
+            this.matchDotStaly();
             this.whetherHaveThisPifu();
+            this.selectPifu();
         }
-        pifuNameRefresh() {
-            let name = this.PifuName.getChildAt(0);
-            let num = this.listFirstIndex;
-            if (lwg.Enum.PifuAllName[num]) {
-                name.text = lwg.Enum.PifuAllName_Ch[num];
+        selectPifu() {
+            let wordpic = this.BtnSelect.getChildByName('wordpic');
+            if (this.PifuList.array[this.listFirstIndex + 1].selectWord) {
+                wordpic.skin = 'UI_new/Pifu/word_scelet_02.png';
+            }
+            else {
+                wordpic.skin = 'UI_new/Pifu/word_scelet_01.png';
+            }
+        }
+        matchDotStaly() {
+            let MatchDot = this.self['MatchDot'];
+            for (let index = 0; index < MatchDot.numChildren; index++) {
+                const element = MatchDot.getChildAt(index);
+                if (element.name === this.listFirstIndex.toString()) {
+                    element.getChildAt(0)['visible'] = false;
+                    element.getChildAt(1)['visible'] = true;
+                }
+                else {
+                    element.getChildAt(1)['visible'] = false;
+                    element.getChildAt(0)['visible'] = true;
+                }
             }
         }
         whetherHaveThisPifu() {
             let cell = this.PifuList.getCell(this.listFirstIndex + 1);
-            let boo = false;
-            for (let index = 0; index < lwg.Global._havePifu.length; index++) {
-                const pifuName = lwg.Global._havePifu[index];
-                if (cell.name === pifuName) {
-                    boo = true;
-                }
-            }
-            if (boo) {
+            if (cell.dataSource.have) {
                 this.showSelect = true;
-                this.BtnSelect.skin = 'pifu/select_btn1.png';
+                this.BtnSelect.skin = 'UI_new/Victory/green_btn.png';
             }
             else {
                 this.showSelect = false;
-                this.BtnSelect.skin = 'pifu/select_btn2.png';
+                this.BtnSelect.skin = 'UI_new/Victory/rede_btn_01.png';
             }
         }
-        btnClickOn() {
-            lwg.Click.on('largen', null, this.BtnBack, this, null, null, this.btnBackClickUP, null);
-            lwg.Click.on('largen', null, this.BtnBuy, this, null, null, this.btnBuyClickUP, null);
-            lwg.Click.on('largen', null, this.BtnSelect, this, null, null, this.btnSelectClickUP, null);
+        btnOnClick() {
+            lwg.Click.on('largen', null, this.BtnBack, this, null, null, this.btnBackUp, null);
+            lwg.Click.on('largen', null, this.BtnBuy, this, null, null, this.btnBuyUp, null);
+            lwg.Click.on('largen', null, this.BtnSelect, this, null, null, this.btnSelectUp, null);
         }
-        btnBackClickUP(event) {
+        btnBackUp(event) {
             event.stopPropagation();
             event.currentTarget.scale(1, 1);
             this.self.close();
-            lwg.Global.UIMain['UIMain'].currentPifuSet();
-            lwg.Global.UIStart['UIStart'].goldRes();
             lwg.LocalStorage.addData();
         }
-        btnBuyClickUP(event) {
+        btnBuyUp(event) {
             event.currentTarget.scale(1, 1);
             event.stopPropagation();
             let price = 250 * lwg.Global._buyNum - 150;
             if (lwg.Global._goldNum < price || lwg.Global._notHavePifuSubChaoren.length <= 0) {
                 if (lwg.Global._goldNum < price) {
-                    lwg.Global._createHint(lwg.Enum.HintType.nogold, Laya.stage.width / 2, Laya.stage.height / 2);
+                    lwg.Global._createHint_01(lwg.Enum.HintType.noGold);
                 }
                 else if (lwg.Global._notHavePifuSubChaoren.length <= 0) {
-                    lwg.Global._createHint(lwg.Enum.HintType.nopifu, Laya.stage.width / 2, Laya.stage.height / 2);
+                    lwg.Global._createHint_01(lwg.Enum.HintType.noPifu);
                 }
                 return;
             }
             else {
                 lwg.Global._goldNum -= price;
                 lwg.Global._buyNum++;
-                this.goldRes();
                 let random = Math.floor(Math.random() * lwg.Global._notHavePifuSubChaoren.length);
                 this.buyIndex = lwg.Enum.PifuAllName[lwg.Global._notHavePifuSubChaoren[random]];
                 console.log('购买了第' + this.buyIndex + '位置的皮肤');
@@ -5097,7 +5138,6 @@
                 index = lwg.Enum.PifuAllName[noHavePifu_00];
                 this.listFirstIndex = index;
                 this.refreshListData();
-                this.pifuNameRefresh();
                 this.PifuList.tweenTo(index, 200, Laya.Handler.create(this, function () {
                     this.noHaveIndex++;
                     this.nohavePifuAni();
@@ -5117,29 +5157,25 @@
         buyCompelet() {
             lwg.Global._havePifu.push(lwg.Enum.PifuAllName[this.buyIndex]);
             this.noHaveSubChaoren();
-            this.pifuNum();
-            this.pifuNameRefresh();
             this.refreshListData();
             this.whetherHaveThisPifu();
             this.priceDisplay();
             lwg.LocalStorage.addData();
             console.log('购买完成！');
         }
-        btnSelectClickUP(event) {
-            event.currentTarget.scale(1, 1);
+        btnSelectUp(event) {
             event.stopPropagation();
-            let cell = this.PifuList.getCell(this.listFirstIndex + 1);
-            let lock = cell.getChildByName('Lock');
+            event.currentTarget.scale(1, 1);
             if (this.showSelect) {
-                if (!lock.visible) {
-                    let select1 = cell.getChildByName('Select');
-                    select1.visible = false;
-                    lwg.Global._currentPifu = lwg.Global._allPifu[this.listFirstIndex];
-                    this.refreshListData();
-                }
+                lwg.Global._currentPifu = lwg.Global._allPifu[this.listFirstIndex];
+                this.refreshListData();
+                this.selectPifu();
             }
         }
-        onDisable() {
+        lwgDisable() {
+            lwg.LocalStorage.addData();
+            lwg.Global._stageClick = true;
+            lwg.Global.ExecutionNumNode.alpha = 1;
         }
     }
 
@@ -5384,9 +5420,9 @@
         btnOnClick() {
             ADManager.TAPoint(TaT.BtnShow, 'home_pause');
             ADManager.TAPoint(TaT.BtnShow, 'continue_pause');
-            lwg.Click.on(lwg.Enum.ClickType.noEffect, null, this.self['background'], this, null, null, this.backgroundUp, null);
-            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnNoShare'], this, null, null, this.btnNoShareUp, null);
-            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
+            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['background'], this, null, null, this.backgroundUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnNoShare'], this, null, null, this.btnNoShareUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
         }
         backgroundUp(event) {
             console.log('点击背景也是分享！');
@@ -5435,6 +5471,28 @@
         }
     }
 
+    class UISmallHint extends lwg.Admin.Scene {
+        adaptive() {
+            this.self['SceneContent'].y = Laya.stage.height / 2;
+        }
+        btnOnClick() {
+            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnYes'], this, null, null, this.btnYesUp, null);
+            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
+        }
+        btnYesUp() {
+            ADManager.ShowReward(() => {
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIPassHint, null, null, f => {
+                    lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = 'UIMain';
+                    lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].setStyle();
+                    this.self.close();
+                });
+            });
+        }
+        btnNoUp() {
+            this.self.close();
+        }
+    }
+
     class UIStart extends lwg.Admin.Scene {
         constructor() {
             super();
@@ -5445,7 +5503,6 @@
             this.BtnStart = this.self['BtnStart'];
             this.CustomsList = this.self['CustomsList'];
             this.BtnPifu = this.self['BtnPifu'];
-            this.BtnPifu.visible = false;
             this.BtnLocation = this.self['BtnLocation'];
             this.BtnLocation.visible = false;
             this.SceneContent = this.self['SceneContent'];
@@ -5713,10 +5770,10 @@
         }
         btnOnClick() {
             ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
-            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnStart, this, null, null, this.btnStartClickUp, null);
-            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnPifu, this, null, null, this.btnPifuClickUp, null);
-            lwg.Click.on(lwg.Enum.ClickType.noEffect, null, this.BtnLocation, this, null, null, this.btnLocationUp, null);
-            lwg.Click.on(lwg.Enum.ClickType.noEffect, null, this.CustomsList, this, null, null, this.customsListUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnStart, this, null, null, this.btnStartClickUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnPifu, this, null, null, this.btnPifuClickUp, null);
+            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.BtnLocation, this, null, null, this.btnLocationUp, null);
+            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.CustomsList, this, null, null, this.customsListUp, null);
         }
         btnStartClickUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'startbt_main');
@@ -5761,7 +5818,7 @@
         }
         btnPifuClickUp(event) {
             event.currentTarget.scale(1, 1);
-            lwg.Global._createHint_01(lwg.Enum.HintType.noPifu);
+            lwg.Admin._openScene('UIPifu', null, null, null);
         }
         btnLocationUp(event) {
             event.currentTarget.scale(1, 1);
@@ -5874,16 +5931,16 @@
             ADManager.TAPoint(TaT.BtnShow, 'Share_success');
             ADManager.TAPoint(TaT.BtnShow, 'nextword_success');
             ADManager.TAPoint(TaT.BtnShow, 'ADticketbt_success');
-            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnGoldAdv, this, null, null, this.btnGoldAdvUp, null);
-            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
-            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
-            lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnGoldAdv, this, null, null, this.btnGoldAdvUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
         }
         btnOffClick() {
-            lwg.Click.off(lwg.Enum.ClickType.largen, this.BtnNext, this, null, null, this.btnNextUp, null);
-            lwg.Click.off(lwg.Enum.ClickType.largen, this.BtnGoldAdv, this, null, null, this.btnGoldAdvUp, null);
-            lwg.Click.off(lwg.Enum.ClickType.largen, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
-            lwg.Click.off(lwg.Enum.ClickType.largen, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
+            lwg.Click.off(lwg.Click.ClickType.largen, this.BtnNext, this, null, null, this.btnNextUp, null);
+            lwg.Click.off(lwg.Click.ClickType.largen, this.BtnGoldAdv, this, null, null, this.btnGoldAdvUp, null);
+            lwg.Click.off(lwg.Click.ClickType.largen, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
+            lwg.Click.off(lwg.Click.ClickType.largen, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
         }
         btnNextUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'nextword_success');
@@ -5939,9 +5996,9 @@
             this.getGoldAni(15, fun => {
                 lwg.Global._goldNum += 25 * 2;
                 lwg.LocalStorage.addData();
-                lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
-                lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
-                lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
+                lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
+                lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
+                lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
                 goldNum.value = 'x' + 0;
             });
         }
@@ -6074,16 +6131,22 @@
             this.CountDown.text = '00:' + this.countNum;
             this.CountDown_board.text = this.CountDown.text;
             let d = new Date;
-            if (d.getHours() === lwg.Global._addExHours) {
-                lwg.Global._execution += (d.getMinutes() - lwg.Global._addMinutes);
-                if (lwg.Global._execution > 15) {
+            if (d.getDate() !== lwg.Global._addExDate) {
+                lwg.Global._execution = 15;
+            }
+            else {
+                if (d.getHours() === lwg.Global._addExHours) {
+                    lwg.Global._execution += (d.getMinutes() - lwg.Global._addMinutes);
+                    if (lwg.Global._execution > 15) {
+                        lwg.Global._execution = 15;
+                    }
+                }
+                else {
                     lwg.Global._execution = 15;
                 }
             }
-            else {
-                lwg.Global._execution = 15;
-            }
             this.Num.value = lwg.Global._execution.toString();
+            lwg.Global._addExDate = d.getDate();
             lwg.Global._addExHours = d.getHours();
             lwg.Global._addMinutes = d.getMinutes();
             lwg.LocalStorage.addData();
@@ -6164,6 +6227,7 @@
             reg("script/Game/UIPifuTry.ts", UIPifuTry);
             reg("script/Game/UISet.ts", UISet);
             reg("script/Game/UIShare.ts", UIShare);
+            reg("script/Game/UISmallHint.ts", UISmallHint);
             reg("script/Game/UIStart.ts", UIStart);
             reg("script/Game/UIStart_House.ts", UIStart_House);
             reg("script/Game/UIVictory.ts", UIVictory);

@@ -17,8 +17,8 @@ export default class UIPuase extends lwg.Admin.Scene {
         ADManager.TAPoint(TaT.BtnShow, 'home_pause');
         ADManager.TAPoint(TaT.BtnShow, 'continue_pause');
 
-        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnUIStart, this, null, null, this.BtnUIStartUp, null);
-        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnContinue, this, null, null, this.BtnContinueUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnUIStart, this, null, null, this.BtnUIStartUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnContinue, this, null, null, this.BtnContinueUp, null);
     }
     BtnUIStartUp(event): void {
         ADManager.TAPoint(TaT.BtnClick, 'home_pause');
