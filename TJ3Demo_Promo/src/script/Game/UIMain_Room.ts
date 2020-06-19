@@ -24,7 +24,6 @@ export default class UIMain_Room extends Laya.Script {
         this.rig.setVelocity({ x: 0, y: 0 });
         this.fX = this.self.x;
         this.fY = this.self.y;
-        // this.aisleInit();
         this.btnOnClick();
         this.collisionNodeFollow();
     }

@@ -322,8 +322,8 @@
         {
             "x":15,
             "type":"Box",
-            "searchKey":"Box,P201",
-            "props":{"width":112,"visible":true,"name":"P201","height":138,"centerY":-470,"centerX":-231,"anchorY":0.5,"anchorX":0.5},
+            "searchKey":"Box,P201,P201_02",
+            "props":{"width":112,"visible":true,"var":"P201_02","name":"P201","height":138,"centerY":-470,"centerX":-231,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"P201",
             "isOpen":false,
@@ -468,8 +468,8 @@
         {
             "x":15,
             "type":"Box",
-            "searchKey":"Box,P201",
-            "props":{"width":112,"visible":true,"name":"P201","height":138,"centerY":-470,"centerX":228,"anchorY":0.5,"anchorX":0.5},
+            "searchKey":"Box,P201,P201_01",
+            "props":{"width":112,"visible":true,"var":"P201_01","name":"P201","height":138,"centerY":-470,"centerX":228,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"P201",
             "isOpen":false,

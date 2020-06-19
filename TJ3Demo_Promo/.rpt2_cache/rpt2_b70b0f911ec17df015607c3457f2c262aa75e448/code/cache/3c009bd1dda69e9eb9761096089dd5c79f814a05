@@ -1,6 +1,0 @@
-{
-  "code": "import { lwg } from \"../Lwg_Template/lwg\";\r\nexport default class UIMain_Puase extends lwg.Admin.Scene {\r\n    lwgInit() {\r\n        this.BtnUIStart = this.self['BtnUIStart'];\r\n        this.BtnContinue = this.self['BtnContinue'];\r\n    }\r\n    btnOnClick() {\r\n        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnUIStart, this, null, null, this.BtnUIStartUp, null);\r\n        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.BtnContinue, this, null, null, this.BtnContinueUp, null);\r\n    }\r\n    BtnUIStartUp() {\r\n        lwg.Admin._openScene('UIStart', null, this.self, null);\r\n        lwg.Admin._closeScene(lwg.Global._gameLevel);\r\n    }\r\n    BtnContinueUp() {\r\n        this.self.close();\r\n    }\r\n}\r\n",
-  "references": [
-    "C:/Users/tomato/Desktop/TJ3Demo_Promo/src/script/Lwg_Template/lwg.ts"
-  ]
-}

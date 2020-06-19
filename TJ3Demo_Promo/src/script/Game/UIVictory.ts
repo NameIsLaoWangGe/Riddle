@@ -40,7 +40,13 @@ export default class UIVictory extends lwg.Admin.Scene {
             lwg.Admin._openScene(lwg.Admin.SceneName.UIShare, null, null, null);
         }
 
-
+        if (lwg.Global._elect) {
+            this.self['P201_01'].visible = true;
+            this.self['P201_02'].visible = true;
+        }else{
+            this.self['P201_01'].visible = false;
+            this.self['P201_02'].visible = false;
+        }
     }
 
     adaptive(): void {
@@ -53,7 +59,6 @@ export default class UIVictory extends lwg.Admin.Scene {
 
         lwg.Effects.createLeftOrRightJet(this.self['sceneContent'], 'right', 30, 582, 141.5);
         lwg.Effects.createLeftOrRightJet(this.self['sceneContent'], 'left', 30, -21.5, 141.5);
-
 
         this.BtnNext.visible = false;
         setTimeout(() => {
@@ -75,7 +80,7 @@ export default class UIVictory extends lwg.Admin.Scene {
         let x = this.self['GetGold'].x + this.self['sceneContent'].x - this.self['sceneContent'].width / 2;
         let y = this.self['GetGold'].y + this.self['sceneContent'].y - this.self['sceneContent'].height / 2;
         for (let index = 0; index < number; index++) {
-            lwg.Effects.createAddGold(Laya.stage, index, x, y, lwg.Global.GoldNumNode.x, lwg.Global.GoldNumNode.y, f => {
+            lwg.Effects.createAddGold(Laya.stage, index, x, y, lwg.Global.GoldNumNode.x - 53, lwg.Global.GoldNumNode.y - 12, f => {
                 let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
                 Num.value = (Number(Num.value) + 1).toString();
 
@@ -160,18 +165,18 @@ export default class UIVictory extends lwg.Admin.Scene {
         //         console.log('下一关');
         //     });
         // } else {
-            // lwg.Admin._nextCustomScene(2);
+        // lwg.Admin._nextCustomScene(2);
         //     lwg.LocalStorage.addData();
         // }
         lwg.Admin._closeCustomScene();
         if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
             lwg.Global._gameLevel++;
         }
-        lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => {
-            if (lwg.Global._watchAdsNum < 3) {
-                lwg.Admin._openScene(lwg.Admin.SceneName.UIXDpifu, null, null, null);
-            }
-        });
+        if (lwg.Global._watchAdsNum < 3) {
+            lwg.Admin._openScene(lwg.Admin.SceneName.UIXDpifu, null, null, null);
+        } else {
+            lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => { });
+        }
         this.self.close();
     }
 

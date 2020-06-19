@@ -43,14 +43,16 @@ export module lwg {
         /**在体力提示界面中，用于判断在失败界面时，判断从哪个按钮进去，是通过重来按钮还是下一关按钮进来的*/
         export let intoBtn: string;
 
-
         /**当前金币总数数量*/
         export let _goldNum = 0;
         /**关卡数据表*/
         export let _levelsData: any;
+        /**提示内容结合*/
+        export let _hintDec: any;
 
-        /**过关提示的描述*/
-        export let _hintDec: any
+        /**互推开关*/
+        export let _elect: boolean = false;
+
         /**声音开关*/
         export let _voiceSwitch: boolean = true;
         /**手机震动开关*/
@@ -63,7 +65,7 @@ export module lwg {
         /**当前未拥有皮肤名称集合*/
         export let _notHavePifu: Array<string>;
         /**当前未拥有皮肤名称，删除限定的皮肤，是最后一个皮肤*/
-        export let _notHavePifuSubXD: Array<string>;
+        export let _notHavePifuSubXD: Array<string> = [];
         /**所有的皮肤的和排列顺序*/
         export let _allPifu: Array<string> = ['01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha'];
 
@@ -1142,7 +1144,7 @@ export module lwg {
                 if (this.moveSwitch) {
                     this.timer++;
                     if (this.timer > 0) {
-                        lwg.Animation.move_Simple(this.self, this.self.x, this.self.y, this.targetX, this.targetY, 250, 0, f => {
+                        lwg.Animation.move_Scale(this.self, 1, this.self.x, this.self.y, this.targetX, this.targetY, 0.35, 250, 0, f => {
                             this.self.removeSelf();
                             if (this.func !== null) {
                                 this.func();
@@ -1156,7 +1158,7 @@ export module lwg {
 
 
         /**
-          * 创建普通爆炸动画，四周爆炸随机散开
+          * 创建类似于烟花爆炸动画，四周爆炸随机散开
           * @param parent 父节点
           * @param quantity 数量
           * @param x X轴位置
@@ -1195,7 +1197,7 @@ export module lwg {
                 if (this.timer >= this.vanishTime) {
                     this.self.removeSelf();
                 } else {
-                    this.commonSpeedXYByAngle(this.startAngle, this.startSpeed + this.accelerated);
+                    this.commonSpeedXYByAngle(this.startAngle, this.startSpeed);
                 }
                 if (this.self.scaleX < 0) {
                     this.self.scaleX += 0.01;
@@ -1258,8 +1260,8 @@ export module lwg {
                 if (this.timer >= this.vanishTime) {
                     this.self.removeSelf();
                 } else {
-                    this.commonSpeedXYByAngle(this.startAngle, this.startSpeed + this.accelerated);
-                    this.self.y += this.accelerated * 10;
+                    this.commonSpeedXYByAngle(this.startAngle, this.startSpeed);
+                    // this.self.y += this.accelerated * 10;
                 }
 
                 this.self.rotation += this.randomRotate;

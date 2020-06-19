@@ -1,6 +1,0 @@
-{
-  "code": "import { lwg } from \"../Lwg_Template/lwg\";\r\nexport default class UIMain_Follow extends lwg.Admin.Object {\r\n    constructor() {\r\n        super();\r\n        this.firstPos = new Laya.Point();\r\n    }\r\n    lwgInit() {\r\n        this.self = this.owner;\r\n        let parent = this.self.parent;\r\n        this.firstPos.y = this.self.y;\r\n        this.firstPos.x = this.self.x;\r\n    }\r\n    createskeleton_StaticDog() {\r\n        this.skeleton = lwg.Sk.gouTem.buildArmature(0);\r\n        this.self.addChild(this.skeleton);\r\n        this.skeleton.x = this.self.width / 2;\r\n        this.skeleton.y = this.self.height - 5;\r\n        let pic = this.self.getChildByName('pic');\r\n        pic.visible = false;\r\n        this.skeleton.play(lwg.Enum.dogAni.standby, true);\r\n    }\r\n    onUpdate() {\r\n        if (this.self.name !== 'Person') {\r\n            this.self.x = this.firstPos.x;\r\n            this.self.y = this.firstPos.y;\r\n        }\r\n    }\r\n    onDisable() {\r\n    }\r\n}\r\n",
-  "references": [
-    "C:/Users/tomato/Desktop/TJ3Demo_Promo/src/script/Lwg_Template/lwg.ts"
-  ]
-}

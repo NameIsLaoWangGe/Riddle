@@ -39,13 +39,18 @@ export default class UIMain extends lwg.Admin.Scene {
         lwg.Global._createBtnAgain(this.self);
         lwg.Global._createBtnPause(this.self);
         lwg.Global._createBtnHint(this.self);
-        lwg.Global._createP201_01(this.self);
+        
+        if (lwg.Global._elect) {
+            lwg.Global._createP201_01(this.self);
+        }
 
-        // console.log(this.self.name);
         if (this.self.name === 'UIMain_001' && lwg.Global._gameLevel !== 1) {
             this.self['Finger'].visible = false;
             this.self['guideRoom'].visible = false;
         }
+    }
+
+    openAni(): void {
     }
 
     btnOnClick(): void {
@@ -68,9 +73,38 @@ export default class UIMain extends lwg.Admin.Scene {
         }
     }
 
+    victoryAni(): void {
+        // 修改物理组件的父容器为当前场景，否则放大当前场景不会改变子节点物理组件
+        let self = this.self as Laya.View;
+        let i = Laya.Physics.I;
+        i.worldRoot = self;
+        // 王子和公主的中间位置为放大的目标位置
+        let targetX = (this.Wangzi.x + this.Gongzhu.x) / 2;
+        let targetY = (this.Wangzi.y + this.Gongzhu.y) / 2;
+        // 将锚点设置为目标位置，并且补上修改锚点带来的位置偏移
+        self.x += targetX;
+        self.y += targetY;
+        self.anchorX = targetX / self.width;
+        self.anchorY = targetY / self.height;
+        // 将背景图放大防止穿帮
+        this.self['background'].width = 5000;
+        this.self['background'].height = 5000;
+        this.self['background'].x -= 2500;
+        this.self['background'].y -= 2500;
+        // 利用动画来进行放大移动操作
+        lwg.Animation.move_Scale(self, 1, self.x, self.y, Laya.stage.width / 2, Laya.stage.height / 2, 2, 500, 100, f => {
+            // lwg.Effects.createFireworks()
+            Laya.timer.frameOnce(90, this, f => {
+                lwg.Admin._openScene('UIVictory', null, null, null);
+            });
+        });
+    }
+
     /**计时器*/
     timer: number = 0;
     onUpdate(): void {
+        // this.self.scaleX += 0.001;
+        // this.self.scaleY += 0.001;
         this.timer++;
         if (this.self.name === 'UIMain_001') {
             if (lwg.Global._gameLevel === 1) {
@@ -89,17 +123,16 @@ export default class UIMain extends lwg.Admin.Scene {
         }
     }
 
-    vanishAni():void{
-    //   
-        
-    }
-
     lwgDisable(): void {
         if (this.victory) {
             ADManager.TAPoint(TaT.LevelFinish, this.self.name);
         } else {
             ADManager.TAPoint(TaT.LevelFail, this.self.name);
         }
+
+        Laya.timer.clearAll(this);
+        Laya.Tween.clearAll(this);
+
     }
 
 }

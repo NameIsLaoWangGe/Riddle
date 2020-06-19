@@ -1,7 +1,0 @@
-{
-  "code": "import { lwg } from \"../Lwg_Template/lwg\";\r\nimport RecordManager from \"../../TJ/RecordManager\";\r\nexport default class UIMain extends lwg.Admin.Scene {\r\n    constructor() {\r\n        super();\r\n    }\r\n    lwgInit() {\r\n        RecordManager.startAutoRecord();\r\n        Laya.MouseManager.multiTouchEnabled = false;\r\n        this.BtnAgain = this.self['BtnAgain'];\r\n        this.Wangzi = this.self['Wangzi'];\r\n        this.KeyNum = this.self['KeyNum'];\r\n        this.Gongzhu = this.self['Gongzhu'];\r\n        lwg.Global._gameStart = true;\r\n        if (lwg.Global._execution <= 0) {\r\n            lwg.Global._execution = 0;\r\n        }\r\n        lwg.Global._createGoldNum(this.self);\r\n        lwg.Global._createExecutionNum(this.self);\r\n        lwg.Global._createBtnAgain(this.self);\r\n        lwg.Global._createBtnPause(this.self);\r\n        lwg.Global._createBtnHint(this.self);\r\n    }\r\n    BtnAgainUp(event) {\r\n        lwg.Admin._refreshScene();\r\n    }\r\n    onUpdate() {\r\n    }\r\n    onDisable() {\r\n    }\r\n}\r\n",
-  "references": [
-    "D:/Game/project/Riddle/Riddle1/TJ3Demo_Promo/src/script/Lwg_Template/lwg.ts",
-    "D:/Game/project/Riddle/Riddle1/TJ3Demo_Promo/src/TJ/RecordManager.ts"
-  ]
-}

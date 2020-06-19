@@ -1,4 +1,0 @@
-{
-  "code": "export default class UIXDpifu extends Laya.Script {\r\n    constructor() { super(); }\r\n    onEnable() {\r\n    }\r\n    onDisable() {\r\n    }\r\n}\r\n",
-  "references": []
-}

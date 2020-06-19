@@ -6,6 +6,14 @@ export default class UIExecutionHint extends lwg.Admin.Scene {
     lwgInit() {
         ADManager.ShowBanner();
         lwg.Global._stageClick = false;
+        
+        if (lwg.Global._elect) {
+            this.self['P201_01'].visible = true;
+            this.self['P201_02'].visible = true;
+        }else{
+            this.self['P201_01'].visible = false;
+            this.self['P201_02'].visible = false;
+        }
     }
     adaptive() {
         this.self['sceneContent'].y = Laya.stage.height * 0.481;

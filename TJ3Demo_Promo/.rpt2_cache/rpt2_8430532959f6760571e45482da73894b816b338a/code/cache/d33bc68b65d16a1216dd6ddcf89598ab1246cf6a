@@ -1,7 +1,0 @@
-{
-  "code": "import * as tslib_1 from \"tslib\";\r\nimport { lwg } from \"../Lwg_Template/lwg\";\r\nimport RecordManager from \"../../TJ/RecordManager\";\r\nvar UIMain = (function (_super) {\r\n    tslib_1.__extends(UIMain, _super);\r\n    function UIMain() {\r\n        return _super.call(this) || this;\r\n    }\r\n    UIMain.prototype.lwgInit = function () {\r\n        RecordManager.startAutoRecord();\r\n        Laya.MouseManager.multiTouchEnabled = false;\r\n        this.BtnAgain = this.self['BtnAgain'];\r\n        this.Wangzi = this.self['Wangzi'];\r\n        this.KeyNum = this.self['KeyNum'];\r\n        this.Gongzhu = this.self['Gongzhu'];\r\n        lwg.Global._gameStart = true;\r\n        if (lwg.Global._execution <= 0) {\r\n            lwg.Global._execution = 0;\r\n        }\r\n        lwg.Global._createGoldNum(this.self);\r\n        lwg.Global._createExecutionNum(this.self);\r\n        lwg.Global._createBtnAgain(this.self);\r\n        lwg.Global._createBtnPause(this.self);\r\n        lwg.Global._createBtnHint(this.self);\r\n    };\r\n    UIMain.prototype.BtnAgainUp = function (event) {\r\n        lwg.Admin._refreshScene();\r\n    };\r\n    UIMain.prototype.onUpdate = function () {\r\n    };\r\n    UIMain.prototype.onDisable = function () {\r\n    };\r\n    return UIMain;\r\n}(lwg.Admin.Scene));\r\nexport default UIMain;\r\n",
-  "references": [
-    "D:/Game/project/Riddle/Riddle1/TJ3Demo_Promo/src/script/Lwg_Template/lwg.ts",
-    "D:/Game/project/Riddle/Riddle1/TJ3Demo_Promo/src/TJ/RecordManager.ts"
-  ]
-}

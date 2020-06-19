@@ -1020,10 +1020,12 @@
             Global._CustomsNum = 999;
             Global._stageClick = true;
             Global._goldNum = 0;
+            Global._elect = false;
             Global._voiceSwitch = true;
             Global._shakeSwitch = true;
             Global._currentPifu = '01_gongzhu';
             Global._havePifu = ['01_gongzhu'];
+            Global._notHavePifuSubXD = [];
             Global._allPifu = ['01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha'];
             Global._buyNum = 1;
             Global._watchAdsNum = 0;
@@ -1796,7 +1798,7 @@
                     if (this.moveSwitch) {
                         this.timer++;
                         if (this.timer > 0) {
-                            lwg.Animation.move_Simple(this.self, this.self.x, this.self.y, this.targetX, this.targetY, 250, 0, f => {
+                            lwg.Animation.move_Scale(this.self, 1, this.self.x, this.self.y, this.targetX, this.targetY, 0.35, 250, 0, f => {
                                 this.self.removeSelf();
                                 if (this.func !== null) {
                                     this.func();
@@ -1841,7 +1843,7 @@
                         this.self.removeSelf();
                     }
                     else {
-                        this.commonSpeedXYByAngle(this.startAngle, this.startSpeed + this.accelerated);
+                        this.commonSpeedXYByAngle(this.startAngle, this.startSpeed);
                     }
                     if (this.self.scaleX < 0) {
                         this.self.scaleX += 0.01;
@@ -1898,8 +1900,7 @@
                         this.self.removeSelf();
                     }
                     else {
-                        this.commonSpeedXYByAngle(this.startAngle, this.startSpeed + this.accelerated);
-                        this.self.y += this.accelerated * 10;
+                        this.commonSpeedXYByAngle(this.startAngle, this.startSpeed);
                     }
                     this.self.rotation += this.randomRotate;
                     if (this.self.scaleX < 0) {
@@ -3170,6 +3171,14 @@
             this.BtnShare = this.self['BtnShare'];
             this.LvNum = this.self['LvNum'];
             this.LvNumDisplay();
+            if (lwg.Global._elect) {
+                this.self['P201_01'].visible = true;
+                this.self['P201_02'].visible = true;
+            }
+            else {
+                this.self['P201_01'].visible = false;
+                this.self['P201_02'].visible = false;
+            }
         }
         adaptive() {
             this.self['sceneContent'].y = Laya.stage.height / 2;
@@ -3272,6 +3281,14 @@
         lwgInit() {
             ADManager.ShowBanner();
             lwg.Global._stageClick = false;
+            if (lwg.Global._elect) {
+                this.self['P201_01'].visible = true;
+                this.self['P201_02'].visible = true;
+            }
+            else {
+                this.self['P201_01'].visible = false;
+                this.self['P201_02'].visible = false;
+            }
         }
         adaptive() {
             this.self['sceneContent'].y = Laya.stage.height * 0.481;
@@ -3389,11 +3406,15 @@
             lwg.Global._createBtnAgain(this.self);
             lwg.Global._createBtnPause(this.self);
             lwg.Global._createBtnHint(this.self);
-            lwg.Global._createP201_01(this.self);
+            if (lwg.Global._elect) {
+                lwg.Global._createP201_01(this.self);
+            }
             if (this.self.name === 'UIMain_001' && lwg.Global._gameLevel !== 1) {
                 this.self['Finger'].visible = false;
                 this.self['guideRoom'].visible = false;
             }
+        }
+        openAni() {
         }
         btnOnClick() {
             this.self.on(Laya.Event.DOUBLE_CLICK, this, this.stageDB);
@@ -3414,6 +3435,26 @@
             else {
                 console.log('第1关和第29关不会出现免费提示！');
             }
+        }
+        victoryAni() {
+            let self = this.self;
+            let i = Laya.Physics.I;
+            i.worldRoot = self;
+            let targetX = (this.Wangzi.x + this.Gongzhu.x) / 2;
+            let targetY = (this.Wangzi.y + this.Gongzhu.y) / 2;
+            self.x += targetX;
+            self.y += targetY;
+            self.anchorX = targetX / self.width;
+            self.anchorY = targetY / self.height;
+            this.self['background'].width = 5000;
+            this.self['background'].height = 5000;
+            this.self['background'].x -= 2500;
+            this.self['background'].y -= 2500;
+            lwg.Animation.move_Scale(self, 1, self.x, self.y, Laya.stage.width / 2, Laya.stage.height / 2, 2, 500, 100, f => {
+                Laya.timer.frameOnce(90, this, f => {
+                    lwg.Admin._openScene('UIVictory', null, null, null);
+                });
+            });
         }
         onUpdate() {
             this.timer++;
@@ -3441,6 +3482,8 @@
             else {
                 ADManager.TAPoint(TaT.LevelFail, this.self.name);
             }
+            Laya.timer.clearAll(this);
+            Laya.Tween.clearAll(this);
         }
     }
 
@@ -4035,10 +4078,7 @@
             this.targetP.y = this.self.y;
             otherOwner['UIMain_Wangzi'].skeleton.play(lwg.Enum.wangziAni.win, true);
             this.skeleton.play(lwg.Enum.gongzhuAni.win, true);
-            Laya.timer.frameOnce(60, this, f => {
-                this.selfScene['UIMain'].victory = true;
-                lwg.Admin._openScene('UIVictory', null, null, null);
-            });
+            this.selfScene['UIMain'].victoryAni();
         }
         floorAndPerson(other, self) {
             let otherOwner = other.owner;
@@ -5030,8 +5070,8 @@
                 if (element === '09_aisha') {
                     allArray.splice(k, 1);
                 }
-                lwg.Global._notHavePifuSubXD = allArray;
             }
+            lwg.Global._notHavePifuSubXD = allArray;
             console.log(lwg.Global._notHavePifuSubXD);
         }
         openAni() {
@@ -5202,7 +5242,7 @@
             else {
                 lwg.Global._goldNum -= price;
                 let Num = lwg.Global.GoldNumNode.getChildByName('Num');
-                Num.value = (Number(Num.value) + 60).toString();
+                Num.value = lwg.Global._goldNum.toString();
                 lwg.Global._buyNum++;
                 let random = Math.floor(Math.random() * lwg.Global._notHavePifuSubXD.length);
                 this.buyIndex = lwg.Enum.PifuAllName[lwg.Global._notHavePifuSubXD[random]];
@@ -5321,9 +5361,7 @@
         }
         btnAdvUp(event) {
             event.currentTarget.scale(1, 1);
-            ADManager.ShowReward(() => {
-                this.btnAdvFunc();
-            });
+            this.btnAdvFunc();
         }
         btnBackUp() {
             this.self.close();
@@ -5519,6 +5557,11 @@
             this.createCustomsList();
             ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
             ADManager.ShowBanner();
+            if (!lwg.Global._elect) {
+                this.self['P201_01'].removeSelf();
+                this.self['P201_02'].removeSelf();
+                this.self['P204'].removeSelf();
+            }
         }
         adaptive() {
             this.self['P204'].y = Laya.stage.height - 130;
@@ -5527,10 +5570,13 @@
         openAni() {
             if (this.self['BtnXD'].visible) {
                 let wordXd = this.self['BtnXD'].getChildByName('wordXd');
+                let wordXd_01 = this.self['BtnXD'].getChildByName('wordXd_01');
+                wordXd_01.alpha = 0;
                 lwg.Animation.move_Scale(wordXd, 1, 200, 75, 99, 59, 2, 300, 200, f => {
                     lwg.Animation.move_Scale(wordXd, wordXd.scaleX, wordXd.x, wordXd.y, 68, 73, 1, 100, 0, f => {
                         wordXd.removeSelf();
-                        lwg.Animation.rotate_Scale(this.self['BtnXD'], 0, 1, 1, 2, 0.88, 0.88, 120, 0, f => { });
+                        wordXd_01.alpha = 1;
+                        lwg.Animation.rotate_Scale(this.self['BtnXD'], 0, 1, 1, 0, 0.88, 0.88, 120, 0, f => { });
                     });
                 });
             }
@@ -5898,6 +5944,14 @@
             if (lwg.Global._hotShare && lwg.Global._gameLevel !== 1) {
                 lwg.Admin._openScene(lwg.Admin.SceneName.UIShare, null, null, null);
             }
+            if (lwg.Global._elect) {
+                this.self['P201_01'].visible = true;
+                this.self['P201_02'].visible = true;
+            }
+            else {
+                this.self['P201_01'].visible = false;
+                this.self['P201_02'].visible = false;
+            }
         }
         adaptive() {
             this.self['sceneContent'].y = Laya.stage.height / 2;
@@ -5917,7 +5971,7 @@
             let x = this.self['GetGold'].x + this.self['sceneContent'].x - this.self['sceneContent'].width / 2;
             let y = this.self['GetGold'].y + this.self['sceneContent'].y - this.self['sceneContent'].height / 2;
             for (let index = 0; index < number; index++) {
-                lwg.Effects.createAddGold(Laya.stage, index, x, y, lwg.Global.GoldNumNode.x, lwg.Global.GoldNumNode.y, f => {
+                lwg.Effects.createAddGold(Laya.stage, index, x, y, lwg.Global.GoldNumNode.x - 53, lwg.Global.GoldNumNode.y - 12, f => {
                     let Num = lwg.Global.GoldNumNode.getChildByName('Num');
                     Num.value = (Number(Num.value) + 1).toString();
                     let goldNum = this.self['GoldNum'];
@@ -5985,11 +6039,12 @@
             if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
                 lwg.Global._gameLevel++;
             }
-            lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => {
-                if (lwg.Global._watchAdsNum < 3) {
-                    lwg.Admin._openScene(lwg.Admin.SceneName.UIXDpifu, null, null, null);
-                }
-            });
+            if (lwg.Global._watchAdsNum < 3) {
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIXDpifu, null, null, null);
+            }
+            else {
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => { });
+            }
             this.self.close();
         }
         btnGoldAdvUp(event) {
@@ -6090,13 +6145,14 @@
         }
         btnBackUp(event) {
             event.currentTarget.scale(1, 1);
+            lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => {
+                console.log(lwg.Admin._sceneControl);
+            });
             this.self.close();
         }
         btnGetUp(event) {
             event.currentTarget.scale(1, 1);
-            ADManager.ShowReward(() => {
-                this.btnGetFunc();
-            });
+            this.btnGetFunc();
         }
         btnGetFunc() {
             lwg.Global._watchAdsNum += 1;
@@ -6104,9 +6160,11 @@
             if (lwg.Global._watchAdsNum >= 3) {
                 lwg.Global._havePifu.push('09_aisha');
                 lwg.Global._currentPifu = lwg.Enum.PifuAllName[8];
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => {
+                    lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].self['BtnXD'].removeSelf();
+                });
                 this.self.close();
                 lwg.Global._createHint_01(lwg.Enum.HintType.getXD);
-                lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].self['BtnXD'].removeSelf();
             }
             lwg.LocalStorage.addData();
         }

@@ -1,6 +1,0 @@
-{
-  "code": "import { lwg } from \"../Lwg_Template/lwg\";\r\nexport default class UIExecutionHint extends lwg.Admin.Scene {\r\n    lwgInit() {\r\n        lwg.Global._stageClick = false;\r\n    }\r\n    adaptive() {\r\n        this.self['sceneContent'].y = Laya.stage.height * 0.481;\r\n    }\r\n    btnOnClick() {\r\n        lwg.Click.on(lwg.Enum.ClickType.noEffect, null, this.self['BtnGet'], this, null, null, this.btnGetUp, null);\r\n        lwg.Click.on(lwg.Enum.ClickType.noEffect, null, this.self['BtnClose'], this, null, null, this.btnCloseUp, null);\r\n        lwg.Click.on(lwg.Enum.ClickType.largen, null, this.self['Btn'], this, null, null, null, null);\r\n    }\r\n    btnGetUp(event) {\r\n        this.btnGetUp_advFunc();\r\n    }\r\n    btnGetUp_advFunc() {\r\n        lwg.Global._execution += 5;\r\n        let num = lwg.Global.ExecutionNumNode.getChildByName('Num');\r\n        num.value = (Number(num.value) + 5).toString();\r\n        lwg.LocalStorage.addData();\r\n        lwg.Global._stageClick = true;\r\n        this.self.close();\r\n    }\r\n    btnCloseUp(event) {\r\n        lwg.Global._stageClick = true;\r\n        this.self.close();\r\n    }\r\n}\r\n",
-  "references": [
-    "C:/Users/tomato/Desktop/TJ3Demo_Promo/src/script/Lwg_Template/lwg.ts"
-  ]
-}

@@ -77,8 +77,8 @@ export default class UIPifu extends lwg.Admin.Scene {
             if (element === '09_aisha') {
                 allArray.splice(k, 1);
             }
-            lwg.Global._notHavePifuSubXD = allArray;
         }
+        lwg.Global._notHavePifuSubXD = allArray;
         console.log(lwg.Global._notHavePifuSubXD);
     }
 
@@ -316,7 +316,7 @@ export default class UIPifu extends lwg.Admin.Scene {
             lwg.Global._goldNum -= price;
             // 表现上加上
             let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
-            Num.value = (Number(Num.value) + 60).toString();
+            Num.value = lwg.Global._goldNum.toString();
 
             lwg.Global._buyNum++;
             // 从没有获得的皮肤中随机一个还没有获得的皮肤

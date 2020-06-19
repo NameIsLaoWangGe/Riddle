@@ -43,6 +43,12 @@ export default class UIStart extends lwg.Admin.Scene {
         this.createCustomsList();
         ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
         ADManager.ShowBanner();
+
+        if (!lwg.Global._elect) {
+            this.self['P201_01'].removeSelf();
+            this.self['P201_02'].removeSelf();
+            this.self['P204'].removeSelf();
+        }
     }
 
     adaptive(): void {
@@ -54,10 +60,13 @@ export default class UIStart extends lwg.Admin.Scene {
         //皮肤限定盖章动画
         if (this.self['BtnXD'].visible) {
             let wordXd = this.self['BtnXD'].getChildByName('wordXd') as Laya.Sprite;
+            let wordXd_01 = this.self['BtnXD'].getChildByName('wordXd_01') as Laya.Sprite;
+            wordXd_01.alpha = 0;
             lwg.Animation.move_Scale(wordXd, 1, 200, 75, 99, 59, 2, 300, 200, f => {
                 lwg.Animation.move_Scale(wordXd, wordXd.scaleX, wordXd.x, wordXd.y, 68, 73, 1, 100, 0, f => {
                     wordXd.removeSelf();
-                    lwg.Animation.rotate_Scale(this.self['BtnXD'], 0, 1, 1, 2, 0.88, 0.88, 120, 0, f => { });
+                    wordXd_01.alpha = 1;
+                    lwg.Animation.rotate_Scale(this.self['BtnXD'], 0, 1, 1, 0, 0.88, 0.88, 120, 0, f => { });
                 })
             })
         }

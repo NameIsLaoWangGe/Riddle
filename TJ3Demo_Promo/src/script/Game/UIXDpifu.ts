@@ -56,6 +56,9 @@ export default class UIXDpifu extends lwg.Admin.Scene {
     /**返回按钮抬起*/
     btnBackUp(event): void {
         event.currentTarget.scale(1, 1);
+        lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f=>{
+            console.log(lwg.Admin._sceneControl)
+        });
         this.self.close();
     }
 
@@ -63,9 +66,9 @@ export default class UIXDpifu extends lwg.Admin.Scene {
     btnGetUp(event): void {
         event.currentTarget.scale(1, 1);
 
-        ADManager.ShowReward(() => {
-            this.btnGetFunc();
-        })
+        // ADManager.ShowReward(() => {
+        this.btnGetFunc();
+        // })
     }
 
     /**看完广告的返回函数*/
@@ -75,9 +78,11 @@ export default class UIXDpifu extends lwg.Admin.Scene {
         if (lwg.Global._watchAdsNum >= 3) {
             lwg.Global._havePifu.push('09_aisha');
             lwg.Global._currentPifu = lwg.Enum.PifuAllName[8];
+            lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => {
+                lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].self['BtnXD'].removeSelf();
+            });
             this.self.close();
             lwg.Global._createHint_01(lwg.Enum.HintType.getXD);
-            lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].self['BtnXD'].removeSelf();
         }
         lwg.LocalStorage.addData();
     }

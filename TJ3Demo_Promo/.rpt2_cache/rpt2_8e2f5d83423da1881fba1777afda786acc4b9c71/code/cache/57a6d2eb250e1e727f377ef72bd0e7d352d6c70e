@@ -1,6 +1,0 @@
-{
-  "code": "import { lwg } from \"../Lwg_Template/lwg\";\r\nexport default class UILoding_Time extends lwg.Admin.Object {\r\n    lwgInit() {\r\n    }\r\n}\r\n",
-  "references": [
-    "D:/Game/project/Riddle/Riddle1/TJ3Demo_Promo/src/script/Lwg_Template/lwg.ts"
-  ]
-}

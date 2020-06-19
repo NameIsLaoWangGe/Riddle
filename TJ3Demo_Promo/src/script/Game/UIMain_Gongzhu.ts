@@ -398,10 +398,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         otherOwner['UIMain_Wangzi'].skeleton.play(lwg.Enum.wangziAni.win, true);
         this.skeleton.play(lwg.Enum.gongzhuAni.win, true);
         // 延时出现胜利界面
-        Laya.timer.frameOnce(60, this, f => {
-            this.selfScene['UIMain'].victory = true;
-            lwg.Admin._openScene('UIVictory', null, null, null);
-        });
+        this.selfScene['UIMain'].victoryAni();
     }
 
     /**人和地板的碰撞*/

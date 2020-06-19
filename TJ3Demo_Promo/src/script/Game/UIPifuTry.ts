@@ -84,9 +84,9 @@ export default class UIPifuTry extends lwg.Admin.Scene {
 
     btnAdvUp(event): void {
         event.currentTarget.scale(1, 1);
-        ADManager.ShowReward(() => {
-            this.btnAdvFunc();
-        })
+        // ADManager.ShowReward(() => {
+        this.btnAdvFunc();
+        // })
     }
     btnBackUp(): void {
         this.self.close();
