@@ -91,7 +91,7 @@ export default class UIStart extends lwg.Admin.Scene {
       * 规则是从第一关到当前的关卡
       * */
     listOpenAni(): void {
-        this.CustomsList.tweenTo(this.listFirstIndex, 100, Laya.Handler.create(this, f => {
+        this.CustomsList.tweenTo(this.listFirstIndex, 0, Laya.Handler.create(this, f => {
             let cell = this.CustomsList.getCell(this.listFirstIndex);
             cell.alpha = 1;
             let pic = cell.getChildByName('pic') as Laya.Image;

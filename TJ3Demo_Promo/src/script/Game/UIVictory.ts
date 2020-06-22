@@ -44,6 +44,11 @@ export default class UIVictory extends lwg.Admin.Scene {
             this.self['P201_01'].removeSelf();
             this.self['P201_02'].removeSelf();
         }
+
+        if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
+            lwg.Global._gameLevel++;
+            lwg.LocalStorage.addData();
+        }
     }
 
     adaptive(): void {
@@ -60,12 +65,9 @@ export default class UIVictory extends lwg.Admin.Scene {
         this.BtnNext.visible = false;
         setTimeout(() => {
             this.BtnNext.visible = true;
-        }, 3000);
+        }, lwg.Global._btnDelayed);
 
         this.self['BtnBack'].visible = false;
-        // setTimeout(() => {
-        //     this.self['BtnBack'].visible = true;
-        // }, 3000);
     }
 
     /**
@@ -84,9 +86,9 @@ export default class UIVictory extends lwg.Admin.Scene {
                 let goldNum = this.self['GoldNum'] as Laya.FontClip;
                 goldNum.value = 'x' + (number - index - 2);
                 if (index === number - 1) {
+
                     if (thisFunc !== null) {
                         thisFunc();
-
                     }
                 }
             });
@@ -96,7 +98,6 @@ export default class UIVictory extends lwg.Admin.Scene {
     /**显示本关获得金币显示,此时已经获得获得，但是总数位置并没有显示*/
     getGoldDisplay(): void {
         let goldNum = this.GetGold.getChildByName('GoldNum') as Laya.FontClip;
-        let level = lwg.Global._gameLevel;
         goldNum.value = 'x' + 25;
         lwg.Global._goldNum += 25;
         lwg.LocalStorage.addData();
@@ -118,16 +119,13 @@ export default class UIVictory extends lwg.Admin.Scene {
         ADManager.TAPoint(TaT.BtnShow, 'ADticketbt_success');
 
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnGoldAdv, this, null, null, this.btnGoldAdvUp, null);
-
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
-        // lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
     }
 
     btnOffClick(): void {
         lwg.Click.off(lwg.Click.ClickType.largen, this.BtnNext, this, null, null, this.btnNextUp, null);
         lwg.Click.off(lwg.Click.ClickType.largen, this.BtnGoldAdv, this, null, null, this.btnGoldAdvUp, null);
-        // lwg.Click.off(lwg.Click.ClickType.largen, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
         lwg.Click.off(lwg.Click.ClickType.largen, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
     }
 
@@ -137,36 +135,22 @@ export default class UIVictory extends lwg.Admin.Scene {
     btnNextUp(event) {
         ADManager.TAPoint(TaT.BtnClick, 'nextword_success');
         event.currentTarget.scale(1, 1);
-        // if (lwg.Global._execution < 2) {
-        //     lwg.Admin._openScene('UIExecutionHint', null, null, null);
-        // } else {
         this.btnOffClick();
         if (this.goldAdv_3Get) {
             this.getGoldAniFunc();
         } else {
             this.getGoldAni(15, f => {
                 this.getGoldAniFunc();
-                lwg.Global._goldNum += 10;
                 let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
                 Num.value = (Number(Num.value) + 10).toString();
             })
         }
-        // }
     }
+
     /**领取金币动画后回调*/
     getGoldAniFunc(): void {
-        // if (Number(this.LvNum.value) >= 3) {
-        //     lwg.Admin._openScene('UIPassHint', null, null, f => {
-        //         console.log('下一关');
-        //     });
-        // } else {
-        // lwg.Admin._nextCustomScene(2);
-        //     lwg.LocalStorage.addData();
-        // }
         lwg.Admin._closeCustomScene();
-        if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
-            lwg.Global._gameLevel++;
-        }
+
         if (lwg.Global._watchAdsNum < 3) {
             lwg.Admin._openScene(lwg.Admin.SceneName.UIXDpifu, null, null, null);
         } else {
@@ -180,9 +164,9 @@ export default class UIVictory extends lwg.Admin.Scene {
         ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_success');
         event.currentTarget.scale(1, 1);
 
-        ADManager.ShowReward(() => {
-            this.btnGoldAdvUpFunc();
-        })
+        // ADManager.ShowReward(() => {
+        this.btnGoldAdvUpFunc();
+        // })
     }
 
     btnGoldAdvUpFunc(): void {
@@ -225,7 +209,6 @@ export default class UIVictory extends lwg.Admin.Scene {
         } else {
             this.getGoldAni(15, f => {
                 this.btnBackUpFunc();
-                lwg.Global._goldNum += 10;
                 let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
                 Num.value = (Number(Num.value) + 10).toString();
             })
@@ -237,7 +220,6 @@ export default class UIVictory extends lwg.Admin.Scene {
         lwg.Admin._closeCustomScene();
         lwg.LocalStorage.addData();
         this.self.close();
-        lwg.Global._gameLevel++;
         lwg.LocalStorage.addData();
     }
 
@@ -245,7 +227,7 @@ export default class UIVictory extends lwg.Admin.Scene {
         ADManager.TAPoint(TaT.BtnClick, 'Share_success');
         event.currentTarget.scale(1, 1);
 
-        RecordManager._share(() => {
+        RecordManager._share('noAward', () => {
             this.btnShareUpFunc();
         })
     }

@@ -13,8 +13,9 @@ export default class UIPifuTry extends lwg.Admin.Scene {
         this.self = this.owner as Laya.Scene;
         this.BtnAdv = this.self['BtnAdv'];
 
-        this.noHaveSubChaoren();
+        lwg.Global.notHavePifuSubXD();
         this.randomNoHave();
+
     }
     adaptive(): void {
         this.self['SceneContent'].y = Laya.stage.height / 2;
@@ -22,38 +23,10 @@ export default class UIPifuTry extends lwg.Admin.Scene {
     }
 
     openAni(): void {
-    }
-
-    /**找出还没有获得的皮肤,不包括超人*/
-    noHaveSubChaoren(): void {
-        // 所有皮肤赋值给新数组
-        let allArray = [];
-        for (let i = 0; i < lwg.Global._allPifu.length; i++) {
-            const element = lwg.Global._allPifu[i];
-            allArray.push(element);
-        }
-        // 删除已经有的皮肤，得出还没有的皮肤
-        for (let j = 0; j < allArray.length; j++) {
-            let element1 = allArray[j];
-            for (let k = 0; k < lwg.Global._havePifu.length; k++) {
-                let element2 = lwg.Global._havePifu[k];
-                if (element1 === element2) {
-                    allArray.splice(j, 1);
-                    j--;
-                }
-            }
-        }
-
-        lwg.Global._notHavePifu = allArray;
-        // 去除超人皮肤
-        for (let k = 0; k < allArray.length; k++) {
-            const element = allArray[k];
-            if (element === '09_aisha') {
-                allArray.splice(k, 1);
-            }
-            lwg.Global._notHavePifuSubXD = allArray;
-        }
-        console.log(lwg.Global._notHavePifuSubXD);
+        this.self['BtnNo'].visible = false;
+        setTimeout(() => {
+            this.self['BtnNo'].visible = true;
+        }, lwg.Global._btnDelayed);
     }
 
     /**随机出一个还没有获得的皮肤放在皮肤加载位置*/
@@ -78,15 +51,15 @@ export default class UIPifuTry extends lwg.Admin.Scene {
 
     btnOnClick(): void {
         lwg.Click.on('largen', null, this.BtnAdv, this, null, null, this.btnAdvUp, null);
-        lwg.Click.on('largen', null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
+        // lwg.Click.on('largen', null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
         lwg.Click.on('largen', null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
     }
 
     btnAdvUp(event): void {
         event.currentTarget.scale(1, 1);
-        // ADManager.ShowReward(() => {
-        this.btnAdvFunc();
-        // })
+        ADManager.ShowReward(() => {
+            this.btnAdvFunc();
+        })
     }
     btnBackUp(): void {
         this.self.close();

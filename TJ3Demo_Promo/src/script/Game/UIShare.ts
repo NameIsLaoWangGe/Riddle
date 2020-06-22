@@ -21,7 +21,7 @@ export default class UIShare extends lwg.Admin.Scene {
     }
     backgroundUp(event): void {
         console.log('点击背景也是分享！');
-        RecordManager._share(() => {
+        RecordManager._share('award', () => {
             this.btnShareUpFunc();
         })
     }
@@ -32,7 +32,7 @@ export default class UIShare extends lwg.Admin.Scene {
     btnShareUp(event): void {
         console.log('点击按钮的分享！');
         event.currentTarget.scale(1, 1);
-        RecordManager._share(() => {
+        RecordManager._share('award', () => {
             this.btnShareUpFunc();
         })
     }
@@ -55,29 +55,4 @@ export default class UIShare extends lwg.Admin.Scene {
         lwg.Global._hotShareTime = d.getDate();
     }
 
-
-    /**
-   * 创建金币领取动画，领取完毕后进行下一步操作
-   * @param number 金币数量
-   * @param thisFunc 回调函数
-   * */
-    getGoldAni(number, thisFunc): void {
-        let x = this.self['GetGold'].x + this.self['sceneContent'].x - this.self['sceneContent'].width / 2;
-        let y = this.self['GetGold'].y + this.self['sceneContent'].y - this.self['sceneContent'].height / 2;
-        for (let index = 0; index < number; index++) {
-            lwg.Effects.createAddGold(Laya.stage, index, x, y, lwg.Global.GoldNumNode.x, lwg.Global.GoldNumNode.y, f => {
-                let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
-                Num.value = (Number(Num.value) + 1).toString();
-
-                let goldNum = this.self['GoldNum'] as Laya.FontClip;
-                goldNum.value = 'x' + (number - index - 2);
-                if (index === number - 1) {
-                    if (thisFunc !== null) {
-                        thisFunc();
-
-                    }
-                }
-            });
-        }
-    }
 }

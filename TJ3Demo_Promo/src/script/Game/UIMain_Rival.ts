@@ -70,8 +70,10 @@ export default class UIMain_Rival extends UIMain_Gongzhu {
         // 延时出现失败界面
         Laya.timer.frameOnce(100, this, f => {
             this.selfScene['UIMain'].victory = false;
+            lwg.Admin._openScene('UIPassHint', null, null, f => {
+                lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = lwg.Admin.SceneName.UIDefeated;
+            });
 
-            lwg.Admin._openScene('UIPassHint', null, null, null);
         });
     }
 }

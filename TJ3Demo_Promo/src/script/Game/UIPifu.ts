@@ -27,21 +27,23 @@ export default class UIPifu extends lwg.Admin.Scene {
         lwg.Global.ExecutionNumNode.alpha = 0;
         lwg.Global._stageClick = false;
 
-        this.notHavePifuSubXD();
+        lwg.Global.notHavePifuSubXD();
         this.createPifuList();
         this.priceDisplay();
+
         // this.adaptive();
         // this.openAni();
     }
 
     /**一些节点的适配*/
     adaptive(): void {
-        this.self['TowBtn'].y = Laya.stage.height * 0.720;
-        this.self['PifuName'].y = Laya.stage.height * 0.185;
-        this.self['MatchDot'].y = Laya.stage.height * 0.634;
+        this.self['TowBtn'].y = Laya.stage.height * 0.766;
+        this.self['PifuLogo'].y = Laya.stage.height * 0.160;
+        this.self['PifuName'].y = Laya.stage.height * 0.261;
+        this.self['MatchDot'].y = Laya.stage.height * 0.684;
         this.self['background_01'].height = Laya.stage.height;
-        this.PifuList.y = Laya.stage.height * 0.442;
-        this.self['BtnBack'].y = Laya.stage.height * 0.83;
+        this.self['BtnBack'].y = Laya.stage.height * 0.883;
+        this.PifuList.y = Laya.stage.height * 0.471;
     }
 
     /**金币按钮上的所需购买金币显示*/
@@ -51,36 +53,7 @@ export default class UIPifu extends lwg.Admin.Scene {
         num.text = 'x' + price.toString();
     }
 
-    /**找出还没有获得的皮肤,不包括超人*/
-    notHavePifuSubXD(): void {
-        // 所有皮肤赋值给新数组
-        let allArray = [];
-        for (let i = 0; i < lwg.Global._allPifu.length; i++) {
-            const element = lwg.Global._allPifu[i];
-            allArray.push(element);
-        }
-        // 删除已经有的皮肤，得出还没有的皮肤
-        for (let j = 0; j < allArray.length; j++) {
-            let element1 = allArray[j];
-            for (let k = 0; k < lwg.Global._havePifu.length; k++) {
-                let element2 = lwg.Global._havePifu[k];
-                if (element1 === element2) {
-                    allArray.splice(j, 1);
-                    j--;
-                }
-            }
-        }
-        lwg.Global._notHavePifu = allArray;
-        // 去除超人皮肤
-        for (let k = 0; k < allArray.length; k++) {
-            const element = allArray[k];
-            if (element === '09_aisha') {
-                allArray.splice(k, 1);
-            }
-        }
-        lwg.Global._notHavePifuSubXD = allArray;
-        console.log(lwg.Global._notHavePifuSubXD);
-    }
+
 
     openAni(): void {
     }
@@ -238,12 +211,14 @@ export default class UIPifu extends lwg.Admin.Scene {
         let wordpic = this.BtnSelect.getChildByName('wordpic') as Laya.Image;
         if (this.PifuList.array[this.listFirstIndex + 1].selectWord) {
             wordpic.skin = 'UI_new/Pifu/word_scelet_02.png';
+            wordpic.x = 67;
         } else {
             wordpic.skin = 'UI_new/Pifu/word_scelet_01.png';
+            wordpic.x = 87;
         }
     }
 
-    /**灰点的样式*/
+    /**灰点位置，和名称的样式*/
     matchDotStaly(): void {
         let MatchDot = this.self['MatchDot'] as Laya.Sprite;
         for (let index = 0; index < MatchDot.numChildren; index++) {
@@ -256,6 +231,11 @@ export default class UIPifu extends lwg.Admin.Scene {
                 element.getChildAt(0)['visible'] = true;
             }
         }
+
+        let namePic = this.self['PifuName'].getChildByName('namePic') as Laya.Image;
+        namePic.skin = lwg.Enum.PifuNameSkin[this.listFirstIndex];
+        namePic.pivotX = namePic.width / 2;
+        namePic.x = this.self['PifuName'].width / 2;
     }
 
     /**当前展示的皮肤可否选择*/
@@ -371,7 +351,7 @@ export default class UIPifu extends lwg.Admin.Scene {
     buyCompelet(): void {
         // 将购买的皮肤添加到数据中
         lwg.Global._havePifu.push(lwg.Enum.PifuAllName[this.buyIndex]);
-        this.notHavePifuSubXD();
+        lwg.Global.notHavePifuSubXD();
         this.refreshListData();
         this.priceDisplay();
         this.selectPifuStyle();

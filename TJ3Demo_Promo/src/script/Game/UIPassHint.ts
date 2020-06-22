@@ -22,7 +22,7 @@ export default class UIPassHint extends lwg.Admin.Scene {
             } else {
                 this.self['BtnNo'].visible = true;
             }
-        }, 3000);
+        }, lwg.Global._btnDelayed);
     }
 
     /**用于免费提示彩蛋中弹出的界面样式*/

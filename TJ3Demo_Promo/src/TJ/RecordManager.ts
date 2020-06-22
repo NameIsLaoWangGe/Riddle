@@ -5,7 +5,7 @@ import { lwg } from "../script/Lwg_Template/lwg";
 
 
 export default class RecordManager {
-    static Init()  {
+    static Init() {
         RecordManager.grv = new TJ.Platform.AppRt.DevKit.TT.GameRecorderVideo();
     }
     static recording = false;
@@ -16,7 +16,7 @@ export default class RecordManager {
     private isVideoRecord: boolean = false;      //是否录屏突破记录
     private videoRecordTimer: number = 0;
     private isHasVideoRecord: boolean = false;      //是否已存在录制
-    public static startAutoRecord()  {
+    public static startAutoRecord() {
         if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt) return;
         if (RecordManager.grv == null)
             RecordManager.Init();
@@ -30,28 +30,28 @@ export default class RecordManager {
         RecordManager.lastRecordTime = Date.now();
     }
 
-    public static stopAutoRecord(): boolean  {
+    public static stopAutoRecord(): boolean {
         if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt) return;
-        if (!RecordManager.autoRecording)  {
+        if (!RecordManager.autoRecording) {
             console.log("RecordManager.autoRecording", RecordManager.autoRecording);
             return false;
         }
         RecordManager.autoRecording = false;
         RecordManager._end(false);
-        if (Date.now() - RecordManager.lastRecordTime > 6000)  {
+        if (Date.now() - RecordManager.lastRecordTime > 6000) {
             return true;
         }
-        if (Date.now() - RecordManager.lastRecordTime < 3000)  {
+        if (Date.now() - RecordManager.lastRecordTime < 3000) {
             console.log("小于3秒");
             return false;
         }
         return true;
     }
 
-    public static startRecord()  {
+    public static startRecord() {
 
         if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt) return;
-        if (RecordManager.autoRecording)  {
+        if (RecordManager.autoRecording) {
             this.stopAutoRecord();
         }
         RecordManager.recording = true;
@@ -59,10 +59,10 @@ export default class RecordManager {
         RecordManager.lastRecordTime = Date.now();
     }
 
-    public static stopRecord(): boolean  {
+    public static stopRecord(): boolean {
         if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt) return;
         console.log("time:" + (Date.now() - RecordManager.lastRecordTime));
-        if (Date.now() - RecordManager.lastRecordTime <= 3000)  {
+        if (Date.now() - RecordManager.lastRecordTime <= 3000) {
             return false;
         }
 
@@ -74,20 +74,20 @@ export default class RecordManager {
 
     static grv: TJ.Platform.AppRt.DevKit.TT.GameRecorderVideo;
 
-    public static _start()  {
+    public static _start() {
         if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt) return;
         console.log("******************180s  ？？？？？");
         RecordManager.grv.Start(180);//录屏开始
     }
-    public static _end(share: boolean)  {
+    public static _end(share: boolean) {
         if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt) return;
         console.log("******************180结束 ？？？？？");
         RecordManager.grv.Stop(share);//结束录屏，是否自动调起分享
     }
-    public static _share(successedAc: Function, completedAc: Function = null, failAc: Function = null)  {
+    public static _share(type: string, successedAc: Function, completedAc: Function = null, failAc: Function = null) {
         if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt) return;
         console.log("******************吊起分享 ？？？？？", RecordManager.grv, RecordManager.grv.videoPath);
-        if (RecordManager.grv.videoPath)  {
+        if (RecordManager.grv.videoPath) {
             let p = new TJ.Platform.AppRt.Extern.TT.ShareAppMessageParam();
             p.extra.videoTopics = ["甩锅给队友", "回来吧刺激战场", "番茄小游戏", "抖音小游戏"]
             p.channel = "video";
@@ -96,12 +96,16 @@ export default class RecordManager {
                 successedAc();
             };
             p.fail = () => {
-                lwg.Global._createHint_01(lwg.Enum.HintType.sharefail);
+                if (type === 'noAward') {
+                    lwg.Global._createHint_01(lwg.Enum.HintType.sharefailNoAward);
+                } else {
+                    lwg.Global._createHint_01(lwg.Enum.HintType.sharefail);
+                }
                 failAc();
             }
             RecordManager.grv.Share(p);
         }
-        else  {
+        else {
             lwg.Global._createHint_01(lwg.Enum.HintType.novideo);
             // UIMgr.tip("暂无录屏，玩一局游戏可以分享");
         }

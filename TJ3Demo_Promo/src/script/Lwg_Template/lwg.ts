@@ -51,12 +51,15 @@ export module lwg {
         export let _hintDec: any;
 
         /**互推开关*/
-        export let _elect: boolean = false;
+        export let _elect: boolean = true;
 
         /**声音开关*/
         export let _voiceSwitch: boolean = true;
         /**手机震动开关*/
         export let _shakeSwitch: boolean = true;
+
+        /**按钮延迟出现时间*/
+        export let _btnDelayed: number = 2000;
 
         /**当前选中的皮肤样式*/
         export let _currentPifu: string = '01_gongzhu';
@@ -84,6 +87,36 @@ export module lwg {
         /**屏幕震动*/
         export function _vibratingScreen(): void {
 
+        }
+        /**找出还没有获得的皮肤,不包括限定皮肤*/
+        export function notHavePifuSubXD(): void {
+            // 所有皮肤赋值给新数组
+            let allArray = [];
+            for (let i = 0; i < lwg.Global._allPifu.length; i++) {
+                const element = lwg.Global._allPifu[i];
+                allArray.push(element);
+            }
+            // 删除已经有的皮肤，得出还没有的皮肤
+            for (let j = 0; j < allArray.length; j++) {
+                let element1 = allArray[j];
+                for (let k = 0; k < lwg.Global._havePifu.length; k++) {
+                    let element2 = lwg.Global._havePifu[k];
+                    if (element1 === element2) {
+                        allArray.splice(j, 1);
+                        j--;
+                    }
+                }
+            }
+            lwg.Global._notHavePifu = allArray;
+            // 去除超人皮肤
+            for (let k = 0; k < allArray.length; k++) {
+                const element = allArray[k];
+                if (element === '09_aisha') {
+                    allArray.splice(k, 1);
+                }
+            }
+            lwg.Global._notHavePifuSubXD = allArray;
+            // console.log(lwg.Global._notHavePifuSubXD);
         }
 
         /**指代当前界面的等级节点*/
@@ -222,7 +255,7 @@ export module lwg {
                 _prefab.json = prefab;
                 sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
                 parent.addChild(sp);
-                sp.pos(645, 137);
+                sp.pos(645, 167);
                 sp.zOrder = 0;
                 BtnPauseNode = sp;
                 BtnPauseNode.name = 'BtnPauseNode';
@@ -248,7 +281,7 @@ export module lwg {
                 _prefab.json = prefab;
                 sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
                 parent.addChild(sp);
-                sp.pos(645, 273);
+                sp.pos(645, 293);
                 sp.zOrder = 0;
                 BtnHintNode = sp;
                 BtnHintNode.name = 'BtnHintNode';
@@ -286,7 +319,7 @@ export module lwg {
                 _prefab.json = prefab;
                 sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
                 parent.addChild(sp);
-                sp.pos(645, 404);
+                sp.pos(645, 409);
                 sp.zOrder = 0;
                 Click.on(Click.ClickType.largen, null, sp, null, btnAgainUp, null, null, null);
                 BtnAgainNode = sp;
@@ -1104,6 +1137,7 @@ export module lwg {
             ele.name = 'addGold';//标识符和名称一样
             let num = Math.floor(Math.random() * 12);
             ele.alpha = 1;
+            ele.scale(1, 1);
             ele.skin = SkinUrl[24];
             parent.addChild(ele);
             ele.zOrder = 60;
@@ -1421,7 +1455,7 @@ export module lwg {
             '暂无分享!',
             '暂无提示机会!',
             '观看完整广告才能获取奖励哦！',
-            '没有过关哦，再接再厉！',
+            '通关上一关才能解锁本关！',
             '分享成功后才能获取奖励！',
             '分享成功',
             '暂无视频，玩一局游戏之后分享！',
@@ -1429,6 +1463,7 @@ export module lwg {
             '今日体力福利已领取！',
             '分享成功，获得125金币！',
             '限定皮肤已经获得，请前往商店查看。',
+            '分享失败！',
         }
 
         /**提示类型*/
@@ -1447,7 +1482,8 @@ export module lwg {
             'consumeEx',
             'no_exemptExTime',
             'shareyes',
-            "getXD"
+            "getXD",
+            "sharefailNoAward"
         }
         /**皮肤的顺序以及名称*/
         export enum PifuOrder {
@@ -1493,6 +1529,19 @@ export module lwg {
             'UI_new/Pifu/pifu_07_xiaohuangya_h.png',
             'UI_new/Pifu/pifu_08_zhenzi_h.png',
             'UI_new/Pifu/pifu_09_aisha_h.png'
+        }
+
+        /**名称图片对应地址*/
+        export enum PifuNameSkin {
+            'UI_new/Pifu/word_xueer.png',
+            'UI_new/Pifu/word_jingying.png',
+            'UI_new/Pifu/word_change.png',
+            'UI_new/Pifu/word_hui.png',
+            'UI_new/Pifu/word_tianshi.png',
+            'UI_new/Pifu/wrod_hongmao.png',
+            'UI_new/Pifu/word_huangya.png',
+            'UI_new/Pifu/word_changfa.png',
+            'UI_new/Pifu/word_bingjing.png'
         }
 
         // /**点击事件类型*/

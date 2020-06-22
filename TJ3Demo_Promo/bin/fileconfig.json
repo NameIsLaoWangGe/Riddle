@@ -377,7 +377,17 @@
             "pifu_06_xiaohongmao_h.png",
             "pifu_07_xiaohuangya_h.png",
             "pifu_08_zhenzi_h.png",
-            "pifu_09_aisha_h.png"
+            "pifu_09_aisha_h.png",
+            "word_xueer.png",
+            "word_jingying.png",
+            "word_change.png",
+            "word_hui.png",
+            "word_tianshi.png",
+            "wrod_hongmao.png",
+            "word_huangya.png",
+            "word_changfa.png",
+            "word_bingjing.png",
+            "ui_board_02.png"
         ]
     ],
     "res/atlas/UI_new/PifuTry.atlas": [
@@ -415,5 +425,4 @@
             "txtshuoming2.png"
         ]
     ]
-
 }

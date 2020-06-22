@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":5,
-    "selecteID":26,
+    "selectedBox":2,
+    "selecteID":5,
     "searchKey":"View",
     "props":{"width":720,"sceneColor":"#000000","height":1280},
     "nodeParent":-1,
@@ -164,20 +164,6 @@
                             "child":[
                                 ]
                         }]
-                },
-                {
-                    "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite,BtnBack,BtnBack",
-                    "props":{"y":911,"x":282,"width":94,"visible":true,"var":"BtnBack","texture":"UI_new/conmmon/word_back.png","pivotY":23,"pivotX":47,"name":"BtnBack","height":45},
-                    "nodeParent":5,
-                    "label":"BtnBack",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":38,
-                    "child":[
-                        ]
                 },
                 {
                     "x":30,

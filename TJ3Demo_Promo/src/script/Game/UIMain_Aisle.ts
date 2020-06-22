@@ -236,9 +236,7 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
     onUpdate(): void {
         if (this.connectRoom && this.oppositeAisle) {
             this.roomAdsorption();
-        } else {
-            this.interactionPicStyle('exit');
-        }
+        } 
         this.styleChanges();
     }
 

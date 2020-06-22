@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":10,
-    "selecteID":23,
+    "selectedBox":2,
+    "selecteID":10,
     "searchKey":"View",
     "props":{"y":0,"x":0,"width":720,"sceneColor":"#000000","scaleY":1,"height":1280,"anchorY":0,"anchorX":0},
     "nodeParent":-1,
-    "maxID":85,
+    "maxID":89,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -46,7 +46,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,BtnBack,BtnBack",
-            "props":{"y":1062.5,"x":356,"width":94,"var":"BtnBack","texture":"UI_new/conmmon/word_back.png","pivotY":23,"pivotX":47,"name":"BtnBack","height":45},
+            "props":{"y":1131.5,"x":356,"width":94,"var":"BtnBack","texture":"UI_new/conmmon/word_back.png","pivotY":23,"pivotX":47,"name":"BtnBack","height":45},
             "nodeParent":2,
             "label":"BtnBack",
             "isDirectory":false,
@@ -59,18 +59,17 @@
         {
             "x":15,
             "type":"Sprite",
-            "searchKey":"Sprite,PifuName,PifuName",
-            "props":{"y":238,"x":360,"width":428,"var":"PifuName","texture":"UI_new/Pifu/UI_board_01.png","pivotY":92,"pivotX":214,"name":"PifuName","height":183},
+            "searchKey":"Sprite,PifuLogo,PifuLogo",
+            "props":{"y":206,"x":360,"width":428,"var":"PifuLogo","texture":"UI_new/Pifu/UI_board_01.png","pivotY":92,"pivotX":214,"name":"PifuLogo","height":183},
             "nodeParent":2,
-            "label":"PifuName",
-            "isOpen":true,
+            "label":"PifuLogo",
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":7,
             "child":[
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":46.5,"x":106,"texture":"UI_new/Pifu/logo.png"},
@@ -88,17 +87,16 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,TowBtn,TowBtn",
-            "props":{"y":922,"x":360,"width":553,"var":"TowBtn","pivotY":78,"pivotX":277,"name":"TowBtn","height":155},
+            "props":{"y":981,"x":360,"width":553,"var":"TowBtn","pivotY":78,"pivotX":277,"name":"TowBtn","height":155},
             "nodeParent":2,
             "label":"TowBtn",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":40,
             "child":[
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,BtnBuy,BtnBuy",
                     "props":{"y":71,"x":138,"var":"BtnBuy","texture":"UI_new/Victory/rede_btn.png","pivotY":52,"pivotX":133,"name":"BtnBuy","alpha":1},
@@ -111,7 +109,6 @@
                     "compId":8,
                     "child":[
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":20,"x":58,"texture":"UI_new/Pifu/word_goldjs.png","scaleY":0.9,"scaleX":0.9},
@@ -125,7 +122,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":78,"x":82,"width":42,"texture":"UI_new/conmmon/icon_gold.png","scaleY":0.9,"scaleX":0.9,"pivotY":21,"pivotX":21,"height":42},
@@ -139,7 +135,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Label",
                             "searchKey":"Label,Num",
                             "props":{"y":78,"x":141,"width":78,"valign":"middle","text":"x1000","pivotY":14,"pivotX":39,"name":"Num","italic":false,"height":27,"fontSize":26,"color":"#ffffff","bold":true,"align":"center"},
@@ -154,7 +149,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,BtnSelect,BtnSelect",
                     "props":{"y":71,"x":442,"var":"BtnSelect","skin":"UI_new/Victory/green_btn.png","pivotY":49,"pivotX":133,"name":"BtnSelect"},
@@ -167,10 +161,9 @@
                     "compId":9,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,wordpic",
-                            "props":{"y":40.5,"x":87,"skin":"UI_new/Pifu/word_scelet_01.png","name":"wordpic"},
+                            "props":{"y":40.5,"x":67,"skin":"UI_new/Pifu/word_scelet_02.png","name":"wordpic"},
                             "nodeParent":9,
                             "label":"wordpic",
                             "isDirectory":false,
@@ -186,17 +179,16 @@
             "x":15,
             "type":"List",
             "searchKey":"List,PifuList,PifuList",
-            "props":{"y":537,"x":346,"width":830,"var":"PifuList","spaceX":70,"repeatY":1,"pivotY":228,"pivotX":415,"name":"PifuList","height":514},
+            "props":{"y":604,"x":327,"width":830,"var":"PifuList","spaceX":70,"repeatY":1,"pivotY":248,"pivotX":415,"name":"PifuList","height":514},
             "nodeParent":2,
             "label":"PifuList",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":10,
             "child":[
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box",
                     "props":{"y":460,"x":130,"width":231,"renderType":"render","pivotY":409,"pivotX":116,"height":409},
@@ -209,7 +201,6 @@
                     "compId":23,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,PifuImg",
                             "props":{"y":416,"x":135,"width":300,"skin":"UI_new/Pifu/pifu_01_gongzhu.png","pivotY":456,"pivotX":150,"name":"PifuImg","height":456},
@@ -228,18 +219,59 @@
         {
             "x":15,
             "type":"Sprite",
+            "searchKey":"Sprite,PifuName,PifuName",
+            "props":{"y":335,"x":360,"width":155,"var":"PifuName","pivotY":24,"pivotX":78,"name":"PifuName","height":48},
+            "nodeParent":2,
+            "label":"PifuName",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":85,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"texture":"UI_new/Pifu/ui_board_02.png"},
+                    "nodeParent":85,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":86,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,namePic",
+                    "props":{"y":24,"x":78,"skin":"UI_new/Pifu/word_bingjing.png","pivotY":14,"pivotX":62,"name":"namePic"},
+                    "nodeParent":85,
+                    "label":"namePic",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":88,
+                    "child":[
+                        ]
+                }]
+        },
+        {
+            "x":15,
+            "type":"Sprite",
             "searchKey":"Sprite,MatchDot,MatchDot",
-            "props":{"y":811,"x":366,"var":"MatchDot","pivotY":6,"pivotX":157,"name":"MatchDot"},
+            "props":{"y":876,"x":366,"var":"MatchDot","pivotY":6,"pivotX":157,"name":"MatchDot"},
             "nodeParent":2,
             "label":"MatchDot",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":44,
             "child":[
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,0",
                     "props":{"y":6,"x":8,"width":36,"url":"UI_new/Pifu/ui_dot_01.png","pivotY":6,"pivotX":18,"name":"0","height":12},
@@ -279,7 +311,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,1",
                     "props":{"y":6,"x":44,"width":36,"url":"UI_new/Pifu/ui_dot_01.png","pivotY":6,"pivotX":18,"name":"1","height":12},
@@ -319,7 +350,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,2",
                     "props":{"y":6,"x":79,"width":36,"url":"UI_new/Pifu/ui_dot_01.png","pivotY":6,"pivotX":18,"name":"2","height":12},
@@ -359,7 +389,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,3",
                     "props":{"y":6,"x":115,"width":36,"url":"UI_new/Pifu/ui_dot_01.png","pivotY":6,"pivotX":18,"name":"3","height":12},
@@ -399,7 +428,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,4",
                     "props":{"y":6,"x":151,"width":36,"url":"UI_new/Pifu/ui_dot_01.png","pivotY":6,"pivotX":18,"name":"4","height":12},
@@ -439,7 +467,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,5",
                     "props":{"y":6,"x":187,"width":36,"url":"UI_new/Pifu/ui_dot_01.png","pivotY":6,"pivotX":18,"name":"5","height":12},
@@ -479,7 +506,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,6",
                     "props":{"y":6,"x":223,"width":36,"url":"UI_new/Pifu/ui_dot_01.png","pivotY":6,"pivotX":18,"name":"6","height":12},
@@ -519,7 +545,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,7",
                     "props":{"y":6,"x":259,"width":36,"url":"UI_new/Pifu/ui_dot_01.png","pivotY":6,"pivotX":18,"name":"7","height":12},
@@ -559,7 +584,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,8",
                     "props":{"y":6,"x":295,"width":36,"url":"UI_new/Pifu/ui_dot_01.png","pivotY":6,"pivotX":18,"name":"8","height":12},

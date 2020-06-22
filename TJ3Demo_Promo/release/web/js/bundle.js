@@ -1020,6 +1020,7 @@
             Global._CustomsNum = 999;
             Global._stageClick = true;
             Global._goldNum = 0;
+            Global._elect = false;
             Global._voiceSwitch = true;
             Global._shakeSwitch = true;
             Global._currentPifu = '01_gongzhu';
@@ -1119,7 +1120,7 @@
                     _prefab.json = prefab;
                     sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
                     parent.addChild(sp);
-                    sp.pos(645, 137);
+                    sp.pos(645, 162);
                     sp.zOrder = 0;
                     Global.BtnPauseNode = sp;
                     Global.BtnPauseNode.name = 'BtnPauseNode';
@@ -1140,7 +1141,7 @@
                     _prefab.json = prefab;
                     sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
                     parent.addChild(sp);
-                    sp.pos(645, 273);
+                    sp.pos(645, 288);
                     sp.zOrder = 0;
                     Global.BtnHintNode = sp;
                     Global.BtnHintNode.name = 'BtnHintNode';
@@ -1161,7 +1162,7 @@
                     _prefab.json = prefab;
                     sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
                     parent.addChild(sp);
-                    sp.pos(645, 404);
+                    sp.pos(645, 409);
                     sp.zOrder = 0;
                     Click.on(Click.ClickType.largen, null, sp, null, btnAgainUp, null, null, null);
                     Global.BtnAgainNode = sp;
@@ -1797,7 +1798,7 @@
                     if (this.moveSwitch) {
                         this.timer++;
                         if (this.timer > 0) {
-                            lwg.Animation.move_Simple(this.self, this.self.x, this.self.y, this.targetX, this.targetY, 250, 0, f => {
+                            lwg.Animation.move_Scale(this.self, 1, this.self.x, this.self.y, this.targetX, this.targetY, 0.35, 250, 0, f => {
                                 this.self.removeSelf();
                                 if (this.func !== null) {
                                     this.func();
@@ -1842,7 +1843,7 @@
                         this.self.removeSelf();
                     }
                     else {
-                        this.commonSpeedXYByAngle(this.startAngle, this.startSpeed + this.accelerated);
+                        this.commonSpeedXYByAngle(this.startAngle, this.startSpeed);
                     }
                     if (this.self.scaleX < 0) {
                         this.self.scaleX += 0.01;
@@ -1899,8 +1900,7 @@
                         this.self.removeSelf();
                     }
                     else {
-                        this.commonSpeedXYByAngle(this.startAngle, this.startSpeed + this.accelerated);
-                        this.self.y += this.accelerated * 10;
+                        this.commonSpeedXYByAngle(this.startAngle, this.startSpeed);
                     }
                     this.self.rotation += this.randomRotate;
                     if (this.self.scaleX < 0) {
@@ -2058,7 +2058,7 @@
                 HintDec[HintDec["\u6682\u65E0\u5206\u4EAB!"] = 4] = "\u6682\u65E0\u5206\u4EAB!";
                 HintDec[HintDec["\u6682\u65E0\u63D0\u793A\u673A\u4F1A!"] = 5] = "\u6682\u65E0\u63D0\u793A\u673A\u4F1A!";
                 HintDec[HintDec["\u89C2\u770B\u5B8C\u6574\u5E7F\u544A\u624D\u80FD\u83B7\u53D6\u5956\u52B1\u54E6\uFF01"] = 6] = "\u89C2\u770B\u5B8C\u6574\u5E7F\u544A\u624D\u80FD\u83B7\u53D6\u5956\u52B1\u54E6\uFF01";
-                HintDec[HintDec["\u6CA1\u6709\u8FC7\u5173\u54E6\uFF0C\u518D\u63A5\u518D\u5389\uFF01"] = 7] = "\u6CA1\u6709\u8FC7\u5173\u54E6\uFF0C\u518D\u63A5\u518D\u5389\uFF01";
+                HintDec[HintDec["\u901A\u5173\u4E0A\u4E00\u5173\u624D\u80FD\u89E3\u9501\u672C\u5173\uFF01"] = 7] = "\u901A\u5173\u4E0A\u4E00\u5173\u624D\u80FD\u89E3\u9501\u672C\u5173\uFF01";
                 HintDec[HintDec["\u5206\u4EAB\u6210\u529F\u540E\u624D\u80FD\u83B7\u53D6\u5956\u52B1\uFF01"] = 8] = "\u5206\u4EAB\u6210\u529F\u540E\u624D\u80FD\u83B7\u53D6\u5956\u52B1\uFF01";
                 HintDec[HintDec["\u5206\u4EAB\u6210\u529F"] = 9] = "\u5206\u4EAB\u6210\u529F";
                 HintDec[HintDec["\u6682\u65E0\u89C6\u9891\uFF0C\u73A9\u4E00\u5C40\u6E38\u620F\u4E4B\u540E\u5206\u4EAB\uFF01"] = 10] = "\u6682\u65E0\u89C6\u9891\uFF0C\u73A9\u4E00\u5C40\u6E38\u620F\u4E4B\u540E\u5206\u4EAB\uFF01";
@@ -2066,6 +2066,7 @@
                 HintDec[HintDec["\u4ECA\u65E5\u4F53\u529B\u798F\u5229\u5DF2\u9886\u53D6\uFF01"] = 12] = "\u4ECA\u65E5\u4F53\u529B\u798F\u5229\u5DF2\u9886\u53D6\uFF01";
                 HintDec[HintDec["\u5206\u4EAB\u6210\u529F\uFF0C\u83B7\u5F97125\u91D1\u5E01\uFF01"] = 13] = "\u5206\u4EAB\u6210\u529F\uFF0C\u83B7\u5F97125\u91D1\u5E01\uFF01";
                 HintDec[HintDec["\u9650\u5B9A\u76AE\u80A4\u5DF2\u7ECF\u83B7\u5F97\uFF0C\u8BF7\u524D\u5F80\u5546\u5E97\u67E5\u770B\u3002"] = 14] = "\u9650\u5B9A\u76AE\u80A4\u5DF2\u7ECF\u83B7\u5F97\uFF0C\u8BF7\u524D\u5F80\u5546\u5E97\u67E5\u770B\u3002";
+                HintDec[HintDec["\u5206\u4EAB\u5931\u8D25\uFF01"] = 15] = "\u5206\u4EAB\u5931\u8D25\uFF01";
             })(HintDec = Enum.HintDec || (Enum.HintDec = {}));
             let HintType;
             (function (HintType) {
@@ -2084,6 +2085,7 @@
                 HintType[HintType["no_exemptExTime"] = 12] = "no_exemptExTime";
                 HintType[HintType["shareyes"] = 13] = "shareyes";
                 HintType[HintType["getXD"] = 14] = "getXD";
+                HintType[HintType["sharefailNoAward"] = 15] = "sharefailNoAward";
             })(HintType = Enum.HintType || (Enum.HintType = {}));
             let PifuOrder;
             (function (PifuOrder) {
@@ -3135,7 +3137,7 @@
             console.log("******************180结束 ？？？？？");
             RecordManager.grv.Stop(share);
         }
-        static _share(successedAc, completedAc = null, failAc = null) {
+        static _share(type = null, successedAc, completedAc = null, failAc = null) {
             if (TJ.API.AppInfo.Channel() != TJ.Define.Channel.AppRt.ZJTD_AppRt)
                 return;
             console.log("******************吊起分享 ？？？？？", RecordManager.grv, RecordManager.grv.videoPath);
@@ -3144,7 +3146,12 @@
                 p.extra.videoTopics = ["甩锅给队友", "回来吧刺激战场", "番茄小游戏", "抖音小游戏"];
                 p.channel = "video";
                 p.success = () => {
-                    lwg.Global._createHint_01(lwg.Enum.HintType.sharesuccess);
+                    if (type === 'noAward') {
+                        lwg.Global._createHint_01(lwg.Enum.HintType.sharefailNoAward);
+                    }
+                    else {
+                        lwg.Global._createHint_01(lwg.Enum.HintType.sharesuccess);
+                    }
                     successedAc();
                 };
                 p.fail = () => {
@@ -3171,6 +3178,10 @@
             this.BtnShare = this.self['BtnShare'];
             this.LvNum = this.self['LvNum'];
             this.LvNumDisplay();
+            if (!lwg.Global._elect) {
+                this.self['P201_01'].removeSelf();
+                this.self['P201_02'].removeSelf();
+            }
         }
         adaptive() {
             this.self['sceneContent'].y = Laya.stage.height / 2;
@@ -3245,7 +3256,7 @@
         btnShareUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'Share_fail');
             event.currentTarget.scale(1, 1);
-            RecordManager._share(() => {
+            RecordManager._share('noAward', () => {
                 this.btnShareUpFunc();
             });
         }
@@ -3273,6 +3284,10 @@
         lwgInit() {
             ADManager.ShowBanner();
             lwg.Global._stageClick = false;
+            if (!lwg.Global._elect) {
+                this.self['P201_01'].removeSelf();
+                this.self['P201_02'].removeSelf();
+            }
         }
         adaptive() {
             this.self['sceneContent'].y = Laya.stage.height * 0.481;
@@ -3390,6 +3405,9 @@
             lwg.Global._createBtnAgain(this.self);
             lwg.Global._createBtnPause(this.self);
             lwg.Global._createBtnHint(this.self);
+            if (lwg.Global._elect) {
+                lwg.Global._createP201_01(this.self);
+            }
             if (this.self.name === 'UIMain_001' && lwg.Global._gameLevel !== 1) {
                 this.self['Finger'].visible = false;
                 this.self['guideRoom'].visible = false;
@@ -3418,6 +3436,7 @@
             }
         }
         victoryAni() {
+            lwg.Global._gameStart = false;
             let self = this.self;
             let i = Laya.Physics.I;
             i.worldRoot = self;
@@ -3686,7 +3705,6 @@
                 parent['UIMain_Room']._roomMove = false;
                 lwg.Global._roomPickup = null;
                 lwg.Effects.createCommonExplosion(Laya.stage, 15, posX, posY);
-                this.interactionPicStyle('exit');
             }
             if ((Math.abs(diffX) > 10 || Math.abs(diffY) > 10) || parent['UIMain_Room']._roomMove) {
                 this.openSwitch = false;
@@ -3837,7 +3855,7 @@
             }
             console.log(this.skeleton);
             this.self.addChild(this.skeleton);
-            this.skeleton.pos(this.self.width / 2, this.self.height - 8);
+            this.skeleton.pos(this.self.width / 2, this.self.height - 9);
             let pic = this.self.getChildByName('pic');
             pic.visible = false;
             this.skeleton.play(lwg.Enum.gongzhuAni.walk, true);
@@ -4305,14 +4323,14 @@
                 if (this.self.x > this.belongRoom.x + this.belongRoom.width / 2 + 30) {
                     this.self.x = this.belongRoom.x + this.belongRoom.width / 2 + 30;
                 }
-                if (this.self.x < this.belongRoom.x - this.belongRoom.width / 2 - 30) {
-                    this.self.x = this.belongRoom.x - this.belongRoom.width / 2 - 30;
+                if (this.self.x < this.belongRoom.x - this.belongRoom.width / 2 - 28) {
+                    this.self.x = this.belongRoom.x - this.belongRoom.width / 2 - 28;
                 }
-                if (this.self.y > this.belongRoom.y + this.belongRoom.height / 2 + 30) {
-                    this.self.y = this.belongRoom.y + this.belongRoom.height / 2 + 30;
+                if (this.self.y > this.belongRoom.y + this.belongRoom.height / 2 + 15) {
+                    this.self.y = this.belongRoom.y + this.belongRoom.height / 2 + 15;
                 }
-                if (this.self.y < this.belongRoom.y - this.belongRoom.height / 2 - 30) {
-                    this.self.y = this.belongRoom.y - this.belongRoom.height / 2 - 30;
+                if (this.self.y < this.belongRoom.y - this.belongRoom.height / 2 - 15) {
+                    this.self.y = this.belongRoom.y - this.belongRoom.height / 2 - 15;
                 }
             }
         }
@@ -4823,6 +4841,9 @@
             lwg.Click.on('noEffect', null, this.self, this, this.houseDwon, null, null, null);
         }
         houseDwon() {
+            if (!lwg.Global._gameStart) {
+                return;
+            }
             if (lwg.Global._gameLevel === 1 && this.self.name === 'Room2') {
                 return;
             }
@@ -5293,6 +5314,10 @@
             this.self['background_01'].height = Laya.stage.height;
         }
         openAni() {
+            this.self['BtnNo'].visible = false;
+            setTimeout(() => {
+                this.self['BtnNo'].visible = true;
+            }, 3000);
         }
         noHaveSubChaoren() {
             let allArray = [];
@@ -5337,12 +5362,13 @@
         }
         btnOnClick() {
             lwg.Click.on('largen', null, this.BtnAdv, this, null, null, this.btnAdvUp, null);
-            lwg.Click.on('largen', null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
             lwg.Click.on('largen', null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
         }
         btnAdvUp(event) {
             event.currentTarget.scale(1, 1);
-            this.btnAdvFunc();
+            ADManager.ShowReward(() => {
+                this.btnAdvFunc();
+            });
         }
         btnBackUp() {
             this.self.close();
@@ -5448,7 +5474,7 @@
         }
         backgroundUp(event) {
             console.log('点击背景也是分享！');
-            RecordManager._share(() => {
+            RecordManager._share('award', () => {
                 this.btnShareUpFunc();
             });
         }
@@ -5459,7 +5485,7 @@
         btnShareUp(event) {
             console.log('点击按钮的分享！');
             event.currentTarget.scale(1, 1);
-            RecordManager._share(() => {
+            RecordManager._share('award', () => {
                 this.btnShareUpFunc();
             });
         }
@@ -5538,6 +5564,11 @@
             this.createCustomsList();
             ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
             ADManager.ShowBanner();
+            if (!lwg.Global._elect) {
+                this.self['P201_01'].removeSelf();
+                this.self['P201_02'].removeSelf();
+                this.self['P204'].removeSelf();
+            }
         }
         adaptive() {
             this.self['P204'].y = Laya.stage.height - 130;
@@ -5920,6 +5951,10 @@
             if (lwg.Global._hotShare && lwg.Global._gameLevel !== 1) {
                 lwg.Admin._openScene(lwg.Admin.SceneName.UIShare, null, null, null);
             }
+            if (!lwg.Global._elect) {
+                this.self['P201_01'].removeSelf();
+                this.self['P201_02'].removeSelf();
+            }
         }
         adaptive() {
             this.self['sceneContent'].y = Laya.stage.height / 2;
@@ -5939,7 +5974,7 @@
             let x = this.self['GetGold'].x + this.self['sceneContent'].x - this.self['sceneContent'].width / 2;
             let y = this.self['GetGold'].y + this.self['sceneContent'].y - this.self['sceneContent'].height / 2;
             for (let index = 0; index < number; index++) {
-                lwg.Effects.createAddGold(Laya.stage, index, x, y, lwg.Global.GoldNumNode.x, lwg.Global.GoldNumNode.y, f => {
+                lwg.Effects.createAddGold(Laya.stage, index, x, y, lwg.Global.GoldNumNode.x - 53, lwg.Global.GoldNumNode.y - 12, f => {
                     let Num = lwg.Global.GoldNumNode.getChildByName('Num');
                     Num.value = (Number(Num.value) + 1).toString();
                     let goldNum = this.self['GoldNum'];
@@ -5984,22 +6019,17 @@
         btnNextUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'nextword_success');
             event.currentTarget.scale(1, 1);
-            if (lwg.Global._execution < 2) {
-                lwg.Admin._openScene('UIExecutionHint', null, null, null);
+            this.btnOffClick();
+            if (this.goldAdv_3Get) {
+                this.getGoldAniFunc();
             }
             else {
-                this.btnOffClick();
-                if (this.goldAdv_3Get) {
+                this.getGoldAni(15, f => {
                     this.getGoldAniFunc();
-                }
-                else {
-                    this.getGoldAni(15, f => {
-                        this.getGoldAniFunc();
-                        lwg.Global._goldNum += 10;
-                        let Num = lwg.Global.GoldNumNode.getChildByName('Num');
-                        Num.value = (Number(Num.value) + 10).toString();
-                    });
-                }
+                    lwg.Global._goldNum += 10;
+                    let Num = lwg.Global.GoldNumNode.getChildByName('Num');
+                    Num.value = (Number(Num.value) + 10).toString();
+                });
             }
         }
         getGoldAniFunc() {
@@ -6069,7 +6099,7 @@
         btnShareUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'Share_success');
             event.currentTarget.scale(1, 1);
-            RecordManager._share(() => {
+            RecordManager._share('noAward', () => {
                 this.btnShareUpFunc();
             });
         }
@@ -6120,7 +6150,9 @@
         }
         btnGetUp(event) {
             event.currentTarget.scale(1, 1);
-            this.btnGetFunc();
+            ADManager.ShowReward(() => {
+                this.btnGetFunc();
+            });
         }
         btnGetFunc() {
             lwg.Global._watchAdsNum += 1;
@@ -6129,9 +6161,9 @@
                 lwg.Global._havePifu.push('09_aisha');
                 lwg.Global._currentPifu = lwg.Enum.PifuAllName[8];
                 lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => {
+                    this.self.close();
                     lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].self['BtnXD'].removeSelf();
                 });
-                this.self.close();
                 lwg.Global._createHint_01(lwg.Enum.HintType.getXD);
             }
             lwg.LocalStorage.addData();

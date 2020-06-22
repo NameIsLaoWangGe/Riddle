@@ -285,6 +285,7 @@ P 143D5828 icon_hint.png
 P 9BEEDB20 icon_lookadv.png
 P 48C2C147 icon_pause.png
 P 76321D6F icon_start.png
+R 67F79E62 Screenshot_2020-06-22-11-34-53-58.png
 R 4C1D8DD2 ui_board_01.png
 P AAEB5B2E ui_board_02.png
 P 888C1E4E word_pause.png
@@ -348,11 +349,21 @@ P BB652E6D pifu_08_zhenzi_h.png
 P AD051EC0 pifu_09_aisha.png
 P 7EDD6C4B pifu_09_aisha_h.png
 P 1C114509 UI_board_01.png
+P E806D1D4 ui_board_02.png
 P D495C5C0 ui_dot_01.png
 P B9064BDA ui_dot_02.png
+P 65675DC6 word_bingjing.png
+P 21B8AB59 word_change.png
+P 39B17A9D word_changfa.png
 P CA15D227 word_goldjs.png
+P 67253FEB word_huangya.png
+P E3456E22 word_hui.png
+P 9F7FEF93 word_jingying.png
 P 285C3D2B word_scelet_01.png
-P 40BEFF44 word_scelet_02.png
+P 033B334E word_scelet_02.png
+P ECD8B169 word_tianshi.png
+P A5DEC702 word_xueer.png
+P 2A5D0E53 wrod_hongmao.png
 R 5ADCDE8D xiaoguotu.jpg
 D UI_new/PifuTry
 P AF97CBCD free_btn1.png
@@ -375,7 +386,7 @@ D UI_new/Share
 P 7753590B noshare_btn.png
 P 3249E887 share_btn.png
 P E2CCC02C ui_board_01.png
-P D9D69CFC ui_board_02.png
+P 6D0D3A51 ui_board_02.png
 P AE818E6A word_award.png
 P 5E431E8D word_share.png
 P 88509320 word_share_btn.png

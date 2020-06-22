@@ -18,7 +18,7 @@ export default class UIDefeated extends lwg.Admin.Scene {
 
     lwgInit(): void {
         RecordManager.stopAutoRecord();
-        this.self = this.owner as Laya.Scene;
+        
         this.BtnAgain = this.self['BtnAgain'];
         this.BtnLast = this.self['BtnLast'];
         this.BtnShare = this.self['BtnShare'];
@@ -39,7 +39,7 @@ export default class UIDefeated extends lwg.Admin.Scene {
         this.self['BtnBack'].visible = false;
         setTimeout(() => {
             this.self['BtnBack'].visible = true;
-        }, 3000);
+        }, lwg.Global._btnDelayed);
     }
 
     /**关卡数显示，有两种情况，一种是显示当前真实关卡，一种是重玩以前的关卡*/
@@ -116,7 +116,7 @@ export default class UIDefeated extends lwg.Admin.Scene {
         ADManager.TAPoint(TaT.BtnClick, 'Share_fail');
         event.currentTarget.scale(1, 1);
 
-        RecordManager._share(() => {
+        RecordManager._share('noAward', () => {
             this.btnShareUpFunc();
         })
     }
@@ -130,7 +130,6 @@ export default class UIDefeated extends lwg.Admin.Scene {
 
         lwg.Admin._openScene('UIStart', null, null, null);
         lwg.Admin._closeCustomScene();
-        lwg.Global._goldNum += 25;
         lwg.LocalStorage.addData();
         this.self.close();
     }

@@ -100,7 +100,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         console.log(this.skeleton);
 
         this.self.addChild(this.skeleton);
-        this.skeleton.pos(this.self.width / 2, this.self.height - 8);
+        this.skeleton.pos(this.self.width / 2, this.self.height - 9);
         let pic = this.self.getChildByName('pic') as Laya.Sprite;
         pic.visible = false;
         this.skeleton.play(lwg.Enum.gongzhuAni.walk, true);
