@@ -82,7 +82,6 @@ export default class UIStart extends lwg.Admin.Scene {
         this.CustomsList.renderHandler = new Laya.Handler(this, this.updateItem);
         this.listFirstIndex = lwg.Global._gameLevel;
         this.refreshListData();
-        this.CustomsList.scrollTo(lwg.Global._CustomsNum);
         this.listOpenAni();
     }
 
@@ -91,15 +90,10 @@ export default class UIStart extends lwg.Admin.Scene {
       * 规则是从第一关到当前的关卡
       * */
     listOpenAni(): void {
-        this.CustomsList.tweenTo(this.listFirstIndex, 0, Laya.Handler.create(this, f => {
+        this.CustomsList.scrollTo(lwg.Global._CustomsNum);
+        this.CustomsList.tweenTo(this.listFirstIndex, 100, Laya.Handler.create(this, f => {
             let cell = this.CustomsList.getCell(this.listFirstIndex);
             cell.alpha = 1;
-            let pic = cell.getChildByName('pic') as Laya.Image;
-            if (this.listFirstIndex % 2 == 0) {
-                pic.skin = 'UI_new/GameStart/icon_box01_open.png';
-            } else {
-                pic.skin = 'UI_new/GameStart/icon_box02_open.png';
-            }
         }));
     }
 
@@ -186,7 +180,7 @@ export default class UIStart extends lwg.Admin.Scene {
     /**list列表第一个第几个单元，因为0位置是空位，所以标记从1开始，而不是0置*/
     private listFirstIndex: number;
     onStageMouseDown() {
-        if (!lwg.Global._stageClick) {
+        if (!lwg.Global._stageClick || lwg.Global._openXD) {
             return;
         }
         // console.log('点击了舞台！');

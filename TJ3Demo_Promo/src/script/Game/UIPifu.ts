@@ -266,9 +266,6 @@ export default class UIPifu extends lwg.Admin.Scene {
         event.stopPropagation();//防止事件穿透到舞台
         event.currentTarget.scale(1, 1);
         this.self.close();
-        // lwg.Global.UIMain['UIMain'].currentPifuSet();//更换皮肤
-        // lwg.Global.UIStart['UIStart'].goldRes();//金币重制
-
         lwg.LocalStorage.addData();
     }
 
@@ -355,6 +352,7 @@ export default class UIPifu extends lwg.Admin.Scene {
         this.refreshListData();
         this.priceDisplay();
         this.selectPifuStyle();
+        this.matchDotStaly();
         lwg.LocalStorage.addData();
         console.log('购买完成！');
     }

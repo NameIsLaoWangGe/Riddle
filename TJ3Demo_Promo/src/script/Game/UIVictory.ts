@@ -152,9 +152,14 @@ export default class UIVictory extends lwg.Admin.Scene {
         lwg.Admin._closeCustomScene();
 
         if (lwg.Global._watchAdsNum < 3) {
-            lwg.Admin._openScene(lwg.Admin.SceneName.UIXDpifu, null, null, null);
+            lwg.Admin._openScene(lwg.Admin.SceneName.UIXDpifu, null, null, f => {
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, 1, null, f => {
+                    lwg.Admin._sceneControl['UIXDpifu']['_zOrder'] = 1;
+                    lwg.Admin._sceneControl['UIStart']['_zOrder'] = 0;
+                });
+            });
         } else {
-            lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => { });
+            lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, 0, null, f => { });
         }
         this.self.close();
     }
@@ -164,9 +169,9 @@ export default class UIVictory extends lwg.Admin.Scene {
         ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_success');
         event.currentTarget.scale(1, 1);
 
-        // ADManager.ShowReward(() => {
-        this.btnGoldAdvUpFunc();
-        // })
+        ADManager.ShowReward(() => {
+            this.btnGoldAdvUpFunc();
+        })
     }
 
     btnGoldAdvUpFunc(): void {

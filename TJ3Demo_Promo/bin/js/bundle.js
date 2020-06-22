@@ -1019,6 +1019,7 @@
             Global._freetHint = true;
             Global._CustomsNum = 999;
             Global._stageClick = true;
+            Global._openXD = false;
             Global._goldNum = 0;
             Global._elect = true;
             Global._voiceSwitch = true;
@@ -5302,6 +5303,7 @@
             this.refreshListData();
             this.priceDisplay();
             this.selectPifuStyle();
+            this.matchDotStaly();
             lwg.LocalStorage.addData();
             console.log('购买完成！');
         }
@@ -5573,21 +5575,13 @@
             this.CustomsList.renderHandler = new Laya.Handler(this, this.updateItem);
             this.listFirstIndex = lwg.Global._gameLevel;
             this.refreshListData();
-            this.CustomsList.scrollTo(lwg.Global._CustomsNum);
             this.listOpenAni();
         }
         listOpenAni() {
-            lwg.Global._stageClick = false;
-            this.CustomsList.tweenTo(this.listFirstIndex, 0, Laya.Handler.create(this, f => {
+            this.CustomsList.scrollTo(lwg.Global._CustomsNum);
+            this.CustomsList.tweenTo(this.listFirstIndex, 100, Laya.Handler.create(this, f => {
                 let cell = this.CustomsList.getCell(this.listFirstIndex);
                 cell.alpha = 1;
-                let pic = cell.getChildByName('pic');
-                if (this.listFirstIndex % 2 == 0) {
-                    pic.skin = 'UI_new/GameStart/icon_box01_open.png';
-                }
-                else {
-                    pic.skin = 'UI_new/GameStart/icon_box02_open.png';
-                }
             }));
         }
         refreshListData() {
@@ -5649,7 +5643,7 @@
             }
         }
         onStageMouseDown() {
-            if (!lwg.Global._stageClick) {
+            if (!lwg.Global._stageClick || lwg.Global._openXD) {
                 return;
             }
             this.firstY = Laya.MouseManager.instance.mouseY;
@@ -6016,17 +6010,24 @@
         getGoldAniFunc() {
             lwg.Admin._closeCustomScene();
             if (lwg.Global._watchAdsNum < 3) {
-                lwg.Admin._openScene(lwg.Admin.SceneName.UIXDpifu, null, null, null);
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIXDpifu, null, null, f => {
+                    lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, 1, null, f => {
+                        lwg.Admin._sceneControl['UIXDpifu']['_zOrder'] = 1;
+                        lwg.Admin._sceneControl['UIStart']['_zOrder'] = 0;
+                    });
+                });
             }
             else {
-                lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => { });
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, 0, null, f => { });
             }
             this.self.close();
         }
         btnGoldAdvUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_success');
             event.currentTarget.scale(1, 1);
-            this.btnGoldAdvUpFunc();
+            ADManager.ShowReward(() => {
+                this.btnGoldAdvUpFunc();
+            });
         }
         btnGoldAdvUpFunc() {
             let btnpic = this.BtnGoldAdv.getChildByName('btnpic');
@@ -6089,7 +6090,7 @@
     class UIXDpifu extends lwg.Admin.Scene {
         constructor() { super(); }
         lwgInit() {
-            lwg.Global._stageClick = false;
+            lwg.Global._openXD = true;
             lwg.Global.GoldNumNode.alpha = 0;
             lwg.Global.ExecutionNumNode.alpha = 0;
             this.BtnBack = this.self['BtnBack'];
@@ -6117,9 +6118,6 @@
         }
         btnBackUp(event) {
             event.currentTarget.scale(1, 1);
-            lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => {
-                console.log(lwg.Admin._sceneControl);
-            });
             this.self.close();
         }
         btnGetUp(event) {
@@ -6132,16 +6130,14 @@
             if (lwg.Global._watchAdsNum >= 3) {
                 lwg.Global._havePifu.push('09_aisha');
                 lwg.Global._currentPifu = lwg.Enum.PifuAllName[8];
-                lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => {
-                    this.self.close();
-                    lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].self['BtnXD'].removeSelf();
-                });
+                this.self.close();
+                lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].self['BtnXD'].removeSelf();
                 lwg.Global._createHint_01(lwg.Enum.HintType.getXD);
             }
             lwg.LocalStorage.addData();
         }
         lwgDisable() {
-            lwg.Global._stageClick = true;
+            lwg.Global._openXD = false;
             lwg.Global.GoldNumNode.alpha = 1;
             lwg.Global.ExecutionNumNode.alpha = 1;
         }

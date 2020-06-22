@@ -19,7 +19,7 @@ export default class UIXDpifu extends lwg.Admin.Scene {
     constructor() { super(); }
 
     lwgInit(): void {
-        lwg.Global._stageClick = false;
+        lwg.Global._openXD = true;
         lwg.Global.GoldNumNode.alpha = 0;
         lwg.Global.ExecutionNumNode.alpha = 0;
         this.BtnBack = this.self['BtnBack'];
@@ -56,9 +56,9 @@ export default class UIXDpifu extends lwg.Admin.Scene {
     /**返回按钮抬起*/
     btnBackUp(event): void {
         event.currentTarget.scale(1, 1);
-        lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => {
-            console.log(lwg.Admin._sceneControl)
-        });
+        // lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => {
+        //     console.log(lwg.Admin._sceneControl);
+        // });
         this.self.close();
     }
 
@@ -78,17 +78,15 @@ export default class UIXDpifu extends lwg.Admin.Scene {
         if (lwg.Global._watchAdsNum >= 3) {
             lwg.Global._havePifu.push('09_aisha');
             lwg.Global._currentPifu = lwg.Enum.PifuAllName[8];
-            lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => {
-                this.self.close();
-                lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].self['BtnXD'].removeSelf();
-            });
+            this.self.close();
+            lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].self['BtnXD'].removeSelf();
             lwg.Global._createHint_01(lwg.Enum.HintType.getXD);
         }
         lwg.LocalStorage.addData();
     }
 
     lwgDisable(): void {
-        lwg.Global._stageClick = true;
+        lwg.Global._openXD = false;
         lwg.Global.GoldNumNode.alpha = 1;
         lwg.Global.ExecutionNumNode.alpha = 1;
     }

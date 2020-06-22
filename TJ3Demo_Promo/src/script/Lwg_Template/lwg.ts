@@ -39,6 +39,8 @@ export module lwg {
         export let _CustomsNum: number = 999;
         /**关闭舞台点击事件*/
         export let _stageClick: boolean = true;
+        /**限定皮肤界面是否打开了*/ 
+        export let _openXD: boolean = false;
 
         /**在体力提示界面中，用于判断在失败界面时，判断从哪个按钮进去，是通过重来按钮还是下一关按钮进来的*/
         export let intoBtn: string;
