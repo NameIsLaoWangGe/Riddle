@@ -38,7 +38,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         let img = new Laya.Image();
         img.skin = this.signSkin;
         img.y = -60;
-        img.x = this.self.width / 2 - 8 - img.width / 2;
+        img.x = this.self.width / 2 - 6 - img.width / 2;
         this.self.addChild(img);
         img.zOrder = 10;
         this.plaint = img;
@@ -383,7 +383,9 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
     wallAndPerson(other, self): void {
         // 左右改变方向，并且是当前房间的
         if (this.moveDirection === lwg.Enum.PersonDir.left || this.moveDirection === lwg.Enum.PersonDir.right) {
-            this.changeDirection();
+            if (this.belongRoom === other.owner.parent) {
+                this.changeDirection();
+            }
         }
     }
 
@@ -475,7 +477,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         }
     }
 
-    /** 和通道的碰撞规则*/
+    /**和通道的碰撞规则*/
     aisleAndPerson(other, self): void {
         let otherOwner: Laya.Sprite = other.owner as Laya.Sprite;
         let otherName: string = otherOwner.name;
@@ -486,14 +488,22 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         let selfDir = this.moveDirection.substring(0, 1);
         // 上下和左右方向执行的结果不相同
         if (otherDir === 'l' || otherDir === 'r') {
-            if (openSwitch === false) {
+            let oppositeAisle = otherOwner['UIMain_Aisle'].oppositeAisle;
+            if (!openSwitch) {
                 // 必须是当前房间的通道才可以换方向
                 let lrAisle = this.belongRoom.getChildByName(otherOwner.name);
-                // console.log(otherOwner,lrAisle);
                 if (otherOwner === lrAisle) {
                     this.changeDirection();
                 }
             } else {
+                // 如果另一间屋子被连接，但是通道关起来了，也不会进去
+                if (oppositeAisle) {
+                    let openSwitch_02 = oppositeAisle['UIMain_Aisle'].openSwitch;
+                    if (!openSwitch_02) {
+                        this.changeDirection();
+                        return;
+                    }
+                }
                 // 当前方向相同的这个通道是当前房间的通道，此时交换房间，但是因为两边都通，所以不改变方向
                 // 给予空状态的原因是为了让碰到第二个房价地板的时候是自然状态，同时也为了防止另一种情况，那就是下落。
                 // 方向必须一样，因为至于碰到自己当前房间的通道判断，另一个房间的通道是一直通行
@@ -506,7 +516,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
                         // console.log('换房子', this.belongRoom.name);
                     }
                 } else {
-                    // 如果方向不相同则说明是另外一间屋子，则不作任何事情
+                    // 如果方向不相同则说明是另外一间屋子，则不作判断
                 }
             }
         } else if (otherDir === 'd' || otherDir === 'u') {
@@ -630,21 +640,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         }
     }
 
-    /**
-     * 防止没有方向
-     * 如果没有方向了，在房子的左边则右方向，如果在右边则左方向
-    */
-    noMoveDirection(): void {
-        if (!this.moveDirection) {
-            if (this.belongRoom) {
-                if (this.self.x > this.belongRoom.x) {
-                    this.moveDirection = lwg.Enum.PersonDir.left;
-                } else {
-                    this.moveDirection = lwg.Enum.PersonDir.right;
-                }
-            }
-        }
-    }
+
 
     /**记录上一帧的参照房间的X位置，角色在当前帧需要补上这个偏移量*/
     _belongX: number = null;
@@ -713,16 +709,32 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
     }
 
     /**
+    * 防止没有方向
+    * 如果没有方向了，在房子的左边则右方向，如果在右边则左方向
+   */
+    noMoveDirection(): void {
+        if (!this.moveDirection) {
+            if (this.belongRoom) {
+                if (this.self.x > this.belongRoom.x) {
+                    this.moveDirection = lwg.Enum.PersonDir.left;
+                } else {
+                    this.moveDirection = lwg.Enum.PersonDir.right;
+                }
+            }
+        }
+    }
+
+    /**
      * 固定角色的最终范围，一直处于当前房间内
      * 这样使角色不会掉下去
      * */
     scopeControl(): void {
         if (this.belongRoom) {
-            if (this.self.x > this.belongRoom.x + this.belongRoom.width / 2 + 30) {
-                this.self.x = this.belongRoom.x + this.belongRoom.width / 2 + 30;
+            if (this.self.x > this.belongRoom.x + this.belongRoom.width / 2 + 25) {
+                this.self.x = this.belongRoom.x + this.belongRoom.width / 2 + 25;
             }
-            if (this.self.x < this.belongRoom.x - this.belongRoom.width / 2 - 28) {
-                this.self.x = this.belongRoom.x - this.belongRoom.width / 2 - 28;
+            if (this.self.x < this.belongRoom.x - this.belongRoom.width / 2 - 25) {
+                this.self.x = this.belongRoom.x - this.belongRoom.width / 2 - 25;
             }
             if (this.self.y > this.belongRoom.y + this.belongRoom.height / 2 + 15) {
                 this.self.y = this.belongRoom.y + this.belongRoom.height / 2 + 15;

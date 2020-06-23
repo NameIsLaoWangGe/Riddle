@@ -10,11 +10,10 @@ export default class ADManager {
 
     }
 
-
     public static ShowBanner() {
-        if (TJ.API.AppInfo.Channel() == TJ.Define.Channel.AppRt.ZJTD_AppRt) {
-            return;
-        }
+        // if (TJ.API.AppInfo.Channel() == TJ.Define.Channel.AppRt.ZJTD_AppRt) {
+        //     return;
+        // }
         let p = new TJ.ADS.Param();
         p.place = TJ.ADS.Place.BOTTOM | TJ.ADS.Place.CENTER;
         TJ.ADS.Api.ShowBanner(p);

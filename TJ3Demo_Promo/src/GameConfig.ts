@@ -7,6 +7,7 @@ import P202 from "./TJ/Promo/script/P202"
 import P204 from "./TJ/Promo/script/P204"
 import P205 from "./TJ/Promo/script/P205"
 import P106 from "./TJ/Promo/script/P106"
+import UIAnchorXD from "./script/Game/UIAnchorXD"
 import UIDefeated from "./script/Game/UIDefeated"
 import UIExecutionHint from "./script/Game/UIExecutionHint"
 import UILoding from "./script/Game/UILoding"
@@ -25,6 +26,7 @@ import UIPassHint from "./script/Game/UIPassHint"
 import UIPuase from "./script/Game/UIPuase"
 import UIPifu from "./script/Game/UIPifu"
 import UIPifuTry from "./script/Game/UIPifuTry"
+import UIRedeem from "./script/Game/UIRedeem"
 import UISet from "./script/Game/UISet"
 import UIShare from "./script/Game/UIShare"
 import UISmallHint from "./script/Game/UISmallHint"
@@ -60,6 +62,7 @@ export default class GameConfig{
         reg("TJ/Promo/script/P204.ts",P204);
         reg("TJ/Promo/script/P205.ts",P205);
         reg("TJ/Promo/script/P106.ts",P106);
+        reg("script/Game/UIAnchorXD.ts",UIAnchorXD);
         reg("script/Game/UIDefeated.ts",UIDefeated);
         reg("script/Game/UIExecutionHint.ts",UIExecutionHint);
         reg("script/Game/UILoding.ts",UILoding);
@@ -78,6 +81,7 @@ export default class GameConfig{
         reg("script/Game/UIPuase.ts",UIPuase);
         reg("script/Game/UIPifu.ts",UIPifu);
         reg("script/Game/UIPifuTry.ts",UIPifuTry);
+        reg("script/Game/UIRedeem.ts",UIRedeem);
         reg("script/Game/UISet.ts",UISet);
         reg("script/Game/UIShare.ts",UIShare);
         reg("script/Game/UISmallHint.ts",UISmallHint);

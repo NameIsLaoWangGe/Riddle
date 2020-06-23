@@ -10,9 +10,7 @@ export default class UILoding extends lwg.Admin.Scene {
 
         this.Mask = this.self['Mask'];
         lwg.Global._gameLevel = 1;
-        if (lwg.Global._voiceSwitch) {
-            lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
-        }
+        lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
         lwg.Sk.skLoding();
         this.lodeUserInfo();
         this.dataLoading();

@@ -424,5 +424,17 @@
             "txt_tishi2.png",
             "txtshuoming2.png"
         ]
+    ],
+    "res/atlas/UI_new/Set.atlas": [
+        "UI_new/Set/",
+        [
+            "close_btn.png",
+            "icon_shake_off.png",
+            "icon_shake_on.png",
+            "icon_voice_off.png",
+            "icon_voice_on.png",
+            "logo.png",
+            "ui_board_01.png"
+        ]
     ]
 }

@@ -104,8 +104,9 @@ export default class UIMain extends lwg.Admin.Scene {
     /**计时器*/
     timer: number = 0;
     onUpdate(): void {
-        // this.self.scaleX += 0.001;
-        // this.self.scaleY += 0.001;
+        if (!lwg.Global._gameStart) {
+            return;
+        }
         this.timer++;
         if (this.self.name === 'UIMain_001') {
             if (lwg.Global._gameLevel === 1) {

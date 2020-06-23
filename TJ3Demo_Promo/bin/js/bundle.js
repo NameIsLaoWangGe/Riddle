@@ -876,9 +876,6 @@
         constructor() {
         }
         static ShowBanner() {
-            if (TJ.API.AppInfo.Channel() == TJ.Define.Channel.AppRt.ZJTD_AppRt) {
-                return;
-            }
             let p = new TJ.ADS.Param();
             p.place = TJ.ADS.Place.BOTTOM | TJ.ADS.Place.CENTER;
             TJ.ADS.Api.ShowBanner(p);
@@ -1030,8 +1027,7 @@
             Global._stageClick = true;
             Global._openXD = false;
             Global._goldNum = 0;
-            Global._elect = true;
-            Global._voiceSwitch = true;
+            Global._elect = false;
             Global._shakeSwitch = true;
             Global._btnDelayed = 2000;
             Global._currentPifu = '01_gongzhu';
@@ -1208,8 +1204,11 @@
             Global._createBtnAgain = _createBtnAgain;
             function btnAgainUp(event) {
                 event.stopPropagation();
-                Global.refreshNum++;
                 event.currentTarget.scale(1, 1);
+                if (!Global._gameStart) {
+                    return;
+                }
+                Global.refreshNum++;
                 Admin._refreshScene();
             }
             Global.btnAgainUp = btnAgainUp;
@@ -1391,6 +1390,8 @@
                 SceneName["UISmallHint"] = "UISmallHint";
                 SceneName["UIXDpifu"] = "UIXDpifu";
                 SceneName["UIPifuTry"] = "UIPifuTry";
+                SceneName["UIRedeem"] = "UIRedeem";
+                SceneName["UIAnchorXD"] = "UIAnchorXD";
             })(SceneName = Admin.SceneName || (Admin.SceneName = {}));
             let GameState;
             (function (GameState) {
@@ -2137,6 +2138,7 @@
                 HintDec[HintDec["\u5206\u4EAB\u6210\u529F\uFF0C\u83B7\u5F97125\u91D1\u5E01\uFF01"] = 13] = "\u5206\u4EAB\u6210\u529F\uFF0C\u83B7\u5F97125\u91D1\u5E01\uFF01";
                 HintDec[HintDec["\u9650\u5B9A\u76AE\u80A4\u5DF2\u7ECF\u83B7\u5F97\uFF0C\u8BF7\u524D\u5F80\u5546\u5E97\u67E5\u770B\u3002"] = 14] = "\u9650\u5B9A\u76AE\u80A4\u5DF2\u7ECF\u83B7\u5F97\uFF0C\u8BF7\u524D\u5F80\u5546\u5E97\u67E5\u770B\u3002";
                 HintDec[HintDec["\u5206\u4EAB\u5931\u8D25\uFF01"] = 15] = "\u5206\u4EAB\u5931\u8D25\uFF01";
+                HintDec[HintDec["\u5151\u6362\u7801\u9519\u8BEF\uFF01"] = 16] = "\u5151\u6362\u7801\u9519\u8BEF\uFF01";
             })(HintDec = Enum.HintDec || (Enum.HintDec = {}));
             let HintType;
             (function (HintType) {
@@ -2156,6 +2158,7 @@
                 HintType[HintType["shareyes"] = 13] = "shareyes";
                 HintType[HintType["getXD"] = 14] = "getXD";
                 HintType[HintType["sharefailNoAward"] = 15] = "sharefailNoAward";
+                HintType[HintType["inputerr"] = 16] = "inputerr";
             })(HintType = Enum.HintType || (Enum.HintType = {}));
             let PifuOrder;
             (function (PifuOrder) {
@@ -2475,7 +2478,7 @@
             }
             down(event) {
                 event.currentTarget.scale(1.1, 1.1);
-                if (lwg.Global._voiceSwitch) {
+                if (lwg.PalyAudio._voiceSwitch) {
                     Laya.SoundManager.playSound(Click.audioUrl, 1, Laya.Handler.create(this, function () { }));
                 }
             }
@@ -2956,12 +2959,17 @@
         })(Animation = lwg.Animation || (lwg.Animation = {}));
         let PalyAudio;
         (function (PalyAudio) {
+            PalyAudio._voiceSwitch = true;
             function playSound(url, number) {
-                Laya.SoundManager.playSound(url, number, Laya.Handler.create(this, function () { }));
+                if (PalyAudio._voiceSwitch) {
+                    Laya.SoundManager.playSound(url, number, Laya.Handler.create(this, function () { }));
+                }
             }
             PalyAudio.playSound = playSound;
             function playMusic(url, number, deley) {
-                Laya.SoundManager.playMusic(url, number, Laya.Handler.create(this, function () { }), deley);
+                if (PalyAudio._voiceSwitch) {
+                    Laya.SoundManager.playMusic(url, number, Laya.Handler.create(this, function () { }), deley);
+                }
             }
             PalyAudio.playMusic = playMusic;
             function stopMusic() {
@@ -3144,6 +3152,26 @@
             Tools.converteNum = converteNum;
         })(Tools = lwg.Tools || (lwg.Tools = {}));
     })(lwg || (lwg = {}));
+
+    class UIAnchorXD extends lwg.Admin.Scene {
+        btnOnClick() {
+            lwg.Click.on('largen', null, this.self['BtnYes'], this, null, null, this.btnYesClickUP, null);
+            lwg.Click.on('largen', null, this.self['BtnNo'], this, null, null, this.btnNoClickUP, null);
+        }
+        btnYesClickUP(event) {
+            event.currentTarget.scale(1, 1);
+            ADManager.ShowReward(() => {
+                this.btnYesFunc();
+            });
+        }
+        btnYesFunc() {
+            console.log('获得了一个主播限定皮肤！');
+        }
+        btnNoClickUP(event) {
+            event.currentTarget.scale(1, 1);
+            this.self.close();
+        }
+    }
 
     class RecordManager {
         constructor() {
@@ -3536,6 +3564,9 @@
             });
         }
         onUpdate() {
+            if (!lwg.Global._gameStart) {
+                return;
+            }
             this.timer++;
             if (this.self.name === 'UIMain_001') {
                 if (lwg.Global._gameLevel === 1) {
@@ -3576,9 +3607,7 @@
             ADManager.TAPoint(TaT.PageEnter, 'UIPreload');
             this.Mask = this.self['Mask'];
             lwg.Global._gameLevel = 1;
-            if (lwg.Global._voiceSwitch) {
-                lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
-            }
+            lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
             lwg.Sk.skLoding();
             this.lodeUserInfo();
             this.dataLoading();
@@ -3886,7 +3915,7 @@
             let img = new Laya.Image();
             img.skin = this.signSkin;
             img.y = -60;
-            img.x = this.self.width / 2 - 8 - img.width / 2;
+            img.x = this.self.width / 2 - 6 - img.width / 2;
             this.self.addChild(img);
             img.zOrder = 10;
             this.plaint = img;
@@ -4145,7 +4174,9 @@
         }
         wallAndPerson(other, self) {
             if (this.moveDirection === lwg.Enum.PersonDir.left || this.moveDirection === lwg.Enum.PersonDir.right) {
-                this.changeDirection();
+                if (this.belongRoom === other.owner.parent) {
+                    this.changeDirection();
+                }
             }
         }
         wangziAndPerson(other, self) {
@@ -4224,13 +4255,21 @@
             let otherDir = otherName.substring(0, 1);
             let selfDir = this.moveDirection.substring(0, 1);
             if (otherDir === 'l' || otherDir === 'r') {
-                if (openSwitch === false) {
+                let oppositeAisle = otherOwner['UIMain_Aisle'].oppositeAisle;
+                if (!openSwitch) {
                     let lrAisle = this.belongRoom.getChildByName(otherOwner.name);
                     if (otherOwner === lrAisle) {
                         this.changeDirection();
                     }
                 }
                 else {
+                    if (oppositeAisle) {
+                        let openSwitch_02 = oppositeAisle['UIMain_Aisle'].openSwitch;
+                        if (!openSwitch_02) {
+                            this.changeDirection();
+                            return;
+                        }
+                    }
                     if (otherDir === selfDir) {
                         if (this.belongRoom !== connectRoom) {
                             this.belongRoom = connectRoom;
@@ -4333,18 +4372,6 @@
                 this.rig.setVelocity({ x: 0, y: 6 });
             }
         }
-        noMoveDirection() {
-            if (!this.moveDirection) {
-                if (this.belongRoom) {
-                    if (this.self.x > this.belongRoom.x) {
-                        this.moveDirection = lwg.Enum.PersonDir.left;
-                    }
-                    else {
-                        this.moveDirection = lwg.Enum.PersonDir.right;
-                    }
-                }
-            }
-        }
         positionOffset() {
             if (this.belongRoom) {
                 switch (this.personState) {
@@ -4397,13 +4424,25 @@
                 this.positionOffsetXY();
             }
         }
+        noMoveDirection() {
+            if (!this.moveDirection) {
+                if (this.belongRoom) {
+                    if (this.self.x > this.belongRoom.x) {
+                        this.moveDirection = lwg.Enum.PersonDir.left;
+                    }
+                    else {
+                        this.moveDirection = lwg.Enum.PersonDir.right;
+                    }
+                }
+            }
+        }
         scopeControl() {
             if (this.belongRoom) {
-                if (this.self.x > this.belongRoom.x + this.belongRoom.width / 2 + 30) {
-                    this.self.x = this.belongRoom.x + this.belongRoom.width / 2 + 30;
+                if (this.self.x > this.belongRoom.x + this.belongRoom.width / 2 + 25) {
+                    this.self.x = this.belongRoom.x + this.belongRoom.width / 2 + 25;
                 }
-                if (this.self.x < this.belongRoom.x - this.belongRoom.width / 2 - 28) {
-                    this.self.x = this.belongRoom.x - this.belongRoom.width / 2 - 28;
+                if (this.self.x < this.belongRoom.x - this.belongRoom.width / 2 - 25) {
+                    this.self.x = this.belongRoom.x - this.belongRoom.width / 2 - 25;
                 }
                 if (this.self.y > this.belongRoom.y + this.belongRoom.height / 2 + 15) {
                     this.self.y = this.belongRoom.y + this.belongRoom.height / 2 + 15;
@@ -5071,6 +5110,8 @@
 
     class UIPuase extends lwg.Admin.Scene {
         lwgInit() {
+            Laya.timer.pause();
+            lwg.Global._gameStart = false;
             this.BtnUIStart = this.self['BtnUIStart'];
             this.BtnContinue = this.self['BtnContinue'];
         }
@@ -5096,6 +5137,10 @@
             event.currentTarget.scale(1, 1);
             this.self.close();
         }
+        lwgDisable() {
+            Laya.timer.resume();
+            lwg.Global._gameStart = true;
+        }
     }
 
     class UIPifu extends lwg.Admin.Scene {
@@ -5106,6 +5151,7 @@
             this.noHaveIndex = 0;
         }
         selfVars() {
+            ADManager.CloseBanner();
             this.PifuList = this.self['PifuList'];
             this.BtnBack = this.self['BtnBack'];
             this.BtnBuy = this.self['BtnBuy'];
@@ -5145,7 +5191,7 @@
             this.PifuList.hScrollBarSkin = "";
             this.PifuList.selectHandler = new Laya.Handler(this, this.onSelect_List);
             this.PifuList.renderHandler = new Laya.Handler(this, this.updateItem);
-            this.refreshListData();
+            this.refreshListData(null);
             this.matchDotStaly();
             this.selectPifuStyle();
             this.listOpenAni();
@@ -5159,7 +5205,7 @@
             }
             this.PifuList.tweenTo(this.listFirstIndex, 600);
         }
-        refreshListData() {
+        refreshListData(func) {
             var data = [];
             for (var m = -1; m < 10; m++) {
                 if (m === -1 || m === 9) {
@@ -5205,6 +5251,9 @@
                 });
             }
             this.PifuList.array = data;
+            if (func !== null) {
+                func();
+            }
         }
         onSelect_List(index) {
         }
@@ -5241,7 +5290,7 @@
             this.PifuList.tweenTo(this.listFirstIndex, 50, Laya.Handler.create(this, this.moveCompelet));
         }
         moveCompelet() {
-            this.refreshListData();
+            this.refreshListData(null);
             this.matchDotStaly();
             this.whetherHaveThisPifu();
             this.selectPifuStyle();
@@ -5329,7 +5378,7 @@
             if (noHavePifu_00) {
                 index = lwg.Enum.PifuAllName[noHavePifu_00];
                 this.listFirstIndex = index;
-                this.refreshListData();
+                this.refreshListData(null);
                 this.PifuList.tweenTo(index, 200, Laya.Handler.create(this, function () {
                     this.noHaveIndex++;
                     this.nohavePifuAni();
@@ -5337,7 +5386,6 @@
             }
             else {
                 console.log('循环完毕，准备循环到被购买的那个皮肤', this.buyIndex);
-                let time = this.buyIndex;
                 this.PifuList.tweenTo(this.buyIndex, (11 - this.buyIndex) * 100, Laya.Handler.create(this, function () {
                     this.noHaveIndex = 0;
                     this.listFirstIndex = this.buyIndex;
@@ -5348,11 +5396,12 @@
         buyCompelet() {
             lwg.Global._havePifu.push(lwg.Enum.PifuAllName[this.buyIndex]);
             lwg.Global.notHavePifuSubXD();
-            this.refreshListData();
-            this.priceDisplay();
-            this.selectPifuStyle();
-            this.matchDotStaly();
-            lwg.LocalStorage.addData();
+            this.refreshListData(f => {
+                this.priceDisplay();
+                this.selectPifuStyle();
+                this.matchDotStaly();
+                lwg.LocalStorage.addData();
+            });
             console.log('购买完成！');
         }
         btnSelectUp(event) {
@@ -5362,7 +5411,7 @@
             this.whetherHaveThisPifu();
             if (this.showSelect) {
                 lwg.Global._currentPifu = lwg.Global._allPifu[this.listFirstIndex];
-                this.refreshListData();
+                this.refreshListData(null);
                 this.selectPifuStyle();
             }
         }
@@ -5370,6 +5419,7 @@
             lwg.LocalStorage.addData();
             lwg.Global._stageClick = true;
             lwg.Global.ExecutionNumNode.alpha = 1;
+            ADManager.ShowBanner();
         }
     }
 
@@ -5443,29 +5493,61 @@
         }
     }
 
-    class UISet extends Laya.Script {
-        constructor() { super(); }
-        onEnable() {
+    class UIRedeem extends lwg.Admin.Scene {
+        selfVars() {
+            this.TextInput = this.self['TextInput'];
+        }
+        adaptive() {
+            this.self['SceneContent'].y = Laya.stage.height * 0.478;
+        }
+        btnOnClick() {
+            lwg.Click.on('largen', null, this.self['BtnYes'], this, null, null, this.btnYesClickUP, null);
+            lwg.Click.on('largen', null, this.self['BtnNo'], this, null, null, this.btnNoClickUP, null);
+        }
+        btnYesClickUP(event) {
+            let input = this.TextInput.getChildAt(0);
+            if (input.text === '23332333') {
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIAnchorXD, null, this.self, null);
+            }
+            else {
+                lwg.Global._createHint_01(lwg.Enum.HintType.inputerr);
+            }
+            event.currentTarget.scale(1, 1);
+        }
+        btnNoClickUP(event) {
+            event.currentTarget.scale(1, 1);
+            this.self.close();
+        }
+    }
+
+    class UISet extends lwg.Admin.Scene {
+        lwgInit() {
             this.self = this.owner;
             this.BtnVoice = this.self['BtnVoice'];
             this.BtnShake = this.self['BtnShake'];
             this.BtnClose = this.self['BtnClose'];
             this.btnVoiceAndBtnShake();
-            this.btnClickOn();
+            if (!lwg.Global._elect) {
+                this.self['P204'].visible = false;
+            }
+        }
+        adaptive() {
+            this.self['P204'].y = Laya.stage.height * 0.130;
+            this.self['SceneContent'].y = Laya.stage.height * 0.471;
         }
         btnVoiceAndBtnShake() {
             let voiceImg = this.BtnVoice.getChildAt(0);
-            let voiceUrl1 = 'shezhi/icon_voiceon.png';
-            let voiceUrl2 = 'shezhi/icon_voiceoff.png';
-            if (lwg.Global._voiceSwitch) {
+            let voiceUrl1 = 'UI_new/Set/icon_voice_on.png';
+            let voiceUrl2 = 'UI_new/Set/icon_voice_off.png';
+            if (lwg.PalyAudio._voiceSwitch) {
                 voiceImg.skin = voiceUrl1;
             }
             else {
                 voiceImg.skin = voiceUrl2;
             }
             let shakeImg = this.BtnShake.getChildAt(0);
-            let shakeUrl1 = 'shezhi/shake_on.png';
-            let shakeUrl2 = 'shezhi/shake_off.png';
+            let shakeUrl1 = 'UI_new/Set/icon_shake_on.png';
+            let shakeUrl2 = 'UI_new/Set/icon_shake_off.png';
             if (lwg.Global._shakeSwitch) {
                 shakeImg.skin = shakeUrl1;
             }
@@ -5473,31 +5555,37 @@
                 shakeImg.skin = shakeUrl2;
             }
         }
-        btnClickOn() {
+        btnOnClick() {
             lwg.Click.on('largen', null, this.BtnVoice, this, null, null, this.btnVoiceClickUP, null);
             lwg.Click.on('largen', null, this.BtnShake, this, null, null, this.btnShakeClickUP, null);
             lwg.Click.on('largen', null, this.BtnClose, this, null, null, this.btnCloseClickUP, null);
+            lwg.Click.on('largen', null, this.self['BtnRedeem'], this, null, null, this.btnRedeemClickUP, null);
+        }
+        btnRedeemClickUP(event) {
+            event.currentTarget.scale(1, 1);
+            lwg.Admin._openScene(lwg.Admin.SceneName.UIRedeem, null, null, null);
         }
         btnVoiceClickUP(event) {
+            event.currentTarget.scale(1, 1);
             let voiceImg = this.BtnVoice.getChildAt(0);
-            let voiceUrl1 = 'shezhi/icon_voiceon.png';
-            let voiceUrl2 = 'shezhi/icon_voiceoff.png';
+            let voiceUrl1 = 'UI_new/Set/icon_voice_on.png';
+            let voiceUrl2 = 'UI_new/Set/icon_voice_off.png';
             if (voiceImg.skin === voiceUrl1) {
                 voiceImg.skin = voiceUrl2;
-                lwg.Global._voiceSwitch = false;
+                lwg.PalyAudio._voiceSwitch = false;
                 lwg.PalyAudio.stopMusic();
             }
             else if (voiceImg.skin === voiceUrl2) {
                 voiceImg.skin = voiceUrl1;
-                lwg.Global._voiceSwitch = true;
+                lwg.PalyAudio._voiceSwitch = true;
                 lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 0);
             }
         }
         btnShakeClickUP(event) {
             event.currentTarget.scale(1, 1);
             let img = this.BtnShake.getChildAt(0);
-            let url1 = 'shezhi/shake_on.png';
-            let url2 = 'shezhi/shake_off.png';
+            let url1 = 'UI_new/Set/icon_shake_on.png';
+            let url2 = 'UI_new/Set/icon_shake_off.png';
             if (img.skin === url1) {
                 img.skin = url2;
                 lwg.Global._shakeSwitch = false;
@@ -5640,6 +5728,13 @@
             this.CustomsList.tweenTo(this.listFirstIndex, 100, Laya.Handler.create(this, f => {
                 let cell = this.CustomsList.getCell(this.listFirstIndex);
                 cell.alpha = 1;
+                let pic = cell.getChildByName('pic');
+                if (this.listFirstIndex % 2 == 0) {
+                    pic.skin = 'UI_new/GameStart/icon_box01_open.png';
+                }
+                else {
+                    pic.skin = 'UI_new/GameStart/icon_box02_open.png';
+                }
             }));
         }
         refreshListData() {
@@ -5876,6 +5971,10 @@
             lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.BtnLocation, this, null, null, this.btnLocationUp, null);
             lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.CustomsList, this, null, null, this.customsListUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnXD'], this, null, null, this.btnXDUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnSet'], this, null, null, this.btnSetUp, null);
+        }
+        btnSetUp() {
+            lwg.Admin._openScene(lwg.Admin.SceneName.UISet, null, null, null);
         }
         btnXDUp() {
             lwg.Admin._openScene(lwg.Admin.SceneName.UIXDpifu, null, null, null);
@@ -6297,6 +6396,7 @@
             reg("TJ/Promo/script/P204.ts", P204);
             reg("TJ/Promo/script/P205.ts", P205);
             reg("TJ/Promo/script/P106.ts", P106);
+            reg("script/Game/UIAnchorXD.ts", UIAnchorXD);
             reg("script/Game/UIDefeated.ts", UIDefeated);
             reg("script/Game/UIExecutionHint.ts", UIExecutionHint);
             reg("script/Game/UILoding.ts", UILoding);
@@ -6315,6 +6415,7 @@
             reg("script/Game/UIPuase.ts", UIPuase);
             reg("script/Game/UIPifu.ts", UIPifu);
             reg("script/Game/UIPifuTry.ts", UIPifuTry);
+            reg("script/Game/UIRedeem.ts", UIRedeem);
             reg("script/Game/UISet.ts", UISet);
             reg("script/Game/UIShare.ts", UIShare);
             reg("script/Game/UISmallHint.ts", UISmallHint);

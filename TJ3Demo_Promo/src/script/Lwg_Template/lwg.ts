@@ -47,20 +47,16 @@ export module lwg {
 
         /**当前金币总数数量*/
         export let _goldNum = 0;
-        /**关卡数据表*/
-        export let _levelsData: any;
         /**提示内容结合*/
         export let _hintDec: any;
 
         /**互推开关*/
-        export let _elect: boolean = true;
+        export let _elect: boolean = false;
 
-        /**声音开关*/
-        export let _voiceSwitch: boolean = true;
         /**手机震动开关*/
         export let _shakeSwitch: boolean = true;
 
-        /**按钮延迟出现时间*/
+        /**某些按钮延迟出现时间*/
         export let _btnDelayed: number = 2000;
 
         /**当前选中的皮肤样式*/
@@ -329,8 +325,11 @@ export module lwg {
         }
         export function btnAgainUp(event): void {
             event.stopPropagation();
-            refreshNum++;
             event.currentTarget.scale(1, 1);
+            if (!_gameStart) {
+                return;
+            }
+            refreshNum++;
             Admin._refreshScene();
         }
 
@@ -564,6 +563,8 @@ export module lwg {
             UISmallHint = 'UISmallHint',
             UIXDpifu = 'UIXDpifu',
             UIPifuTry = 'UIPifuTry',
+            UIRedeem = 'UIRedeem',
+            UIAnchorXD = 'UIAnchorXD'
 
         }
         /**游戏当前的状态*/
@@ -856,7 +857,7 @@ export module lwg {
                 this.openAni();
                 printPoint('on', this.calssName);
             }
-            /**场景背部全局变量*/
+            /**场景内全局节点*/
             selfVars(): void {
             }
             /**游戏当前的状态*/
@@ -1480,6 +1481,7 @@ export module lwg {
             '分享成功，获得125金币！',
             '限定皮肤已经获得，请前往商店查看。',
             '分享失败！',
+            '兑换码错误！'
         }
 
         /**提示类型*/
@@ -1499,7 +1501,8 @@ export module lwg {
             'no_exemptExTime',
             'shareyes',
             "getXD",
-            "sharefailNoAward"
+            "sharefailNoAward",
+            "inputerr"
         }
         /**皮肤的顺序以及名称*/
         export enum PifuOrder {
@@ -1915,7 +1918,7 @@ export module lwg {
         /**按下*/
         down(event): void {
             event.currentTarget.scale(1.1, 1.1);
-            if (lwg.Global._voiceSwitch) {
+            if (lwg.PalyAudio._voiceSwitch) {
                 Laya.SoundManager.playSound(Click.audioUrl, 1, Laya.Handler.create(this, function () { }));
             }
         }
@@ -2834,12 +2837,16 @@ export module lwg {
         //     Laya.SoundManager.playSound('音效/点击错误.mp3', number, Laya.Handler.create(this, function () { }));
         // }
 
+        /**音效开关*/
+        export let _voiceSwitch = true;
         /**通用音效播放
          * @param url 音效地址
          * @param number 播放次数
          */
         export function playSound(url, number) {
-            Laya.SoundManager.playSound(url, number, Laya.Handler.create(this, function () { }));
+            if (_voiceSwitch) {
+                Laya.SoundManager.playSound(url, number, Laya.Handler.create(this, function () { }));
+            }
         }
 
         /**通用背景音乐播放
@@ -2848,7 +2855,9 @@ export module lwg {
         * @param deley 延时时间
         */
         export function playMusic(url, number, deley) {
-            Laya.SoundManager.playMusic(url, number, Laya.Handler.create(this, function () { }), deley);
+            if (_voiceSwitch) {
+                Laya.SoundManager.playMusic(url, number, Laya.Handler.create(this, function () { }), deley);
+            }
         }
 
         /**停止播放背景音乐*/

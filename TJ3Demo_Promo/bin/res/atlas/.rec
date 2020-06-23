@@ -382,6 +382,15 @@ P 34FDE184 ui_xd_01.png
 P 0DBAE84F ui_xd_02.png
 P B08325C6 word_dec.png
 R EA2537B5 xiaoguotu.jpg
+D UI_new/Set
+P 8712C52D close_btn.png
+P E29F17B4 icon_shake_off.png
+P 5F09BFC3 icon_shake_on.png
+P C53770FA icon_voice_off.png
+P ABACB3F1 icon_voice_on.png
+P 30C1EBAA logo.png
+P 4C1D8DD2 ui_board_01.png
+R EF60C321 xiaoguotu.jpg
 D UI_new/Share
 P 7753590B noshare_btn.png
 P 3249E887 share_btn.png

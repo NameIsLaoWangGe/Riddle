@@ -96,6 +96,12 @@ export default class UIStart extends lwg.Admin.Scene {
         this.CustomsList.tweenTo(this.listFirstIndex, 100, Laya.Handler.create(this, f => {
             let cell = this.CustomsList.getCell(this.listFirstIndex);
             cell.alpha = 1;
+            let pic = cell.getChildByName('pic') as Laya.Image;
+            if (this.listFirstIndex % 2 == 0) {
+                pic.skin = 'UI_new/GameStart/icon_box01_open.png';
+            } else {
+                pic.skin = 'UI_new/GameStart/icon_box02_open.png';
+            }
         }));
     }
 
@@ -361,6 +367,11 @@ export default class UIStart extends lwg.Admin.Scene {
         lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.BtnLocation, this, null, null, this.btnLocationUp, null);
         lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.CustomsList, this, null, null, this.customsListUp, null);
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnXD'], this, null, null, this.btnXDUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnSet'], this, null, null, this.btnSetUp, null);
+    }
+
+    btnSetUp(): void {
+        lwg.Admin._openScene(lwg.Admin.SceneName.UISet, null, null, null);
     }
 
     btnXDUp(): void {

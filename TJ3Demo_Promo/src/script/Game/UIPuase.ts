@@ -7,6 +7,9 @@ export default class UIPuase extends lwg.Admin.Scene {
     /**继续游戏按钮*/
     BtnContinue: Laya.Sprite;
     lwgInit(): void {
+        Laya.timer.pause();
+        lwg.Global._gameStart = false;
+
         this.BtnUIStart = this.self['BtnUIStart'];
         this.BtnContinue = this.self['BtnContinue'];
     }
@@ -34,5 +37,10 @@ export default class UIPuase extends lwg.Admin.Scene {
         event.currentTarget.scale(1, 1);
 
         this.self.close();
+    }
+
+    lwgDisable():void{
+        Laya.timer.resume();
+        lwg.Global._gameStart = true;
     }
 }

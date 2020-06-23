@@ -876,7 +876,6 @@
         constructor() {
         }
         static ShowBanner() {
-            if (TJ.API.AppInfo.Channel() == TJ.Define.Channel.AppRt.ZJTD_AppRt) ;
             let p = new TJ.ADS.Param();
             p.place = TJ.ADS.Place.BOTTOM | TJ.ADS.Place.CENTER;
             TJ.ADS.Api.ShowBanner(p);
@@ -892,29 +891,35 @@
         static showNormal2() {
             TJ.API.AdService.ShowNormal(new TJ.API.AdService.Param());
         }
-        static ShowReward(rewardAction) {
-            lwg.PalyAudio.stopMusic();
-            console.log("?????");
-            let p = new TJ.ADS.Param();
-            p.extraAd = true;
-            let getReward = false;
-            p.cbi.Add(TJ.Define.Event.Reward, () => {
-                getReward = true;
-                lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
-                if (rewardAction != null)
-                    rewardAction();
-            });
-            p.cbi.Add(TJ.Define.Event.Close, () => {
-                if (!getReward) {
+        static ShowReward(rewardAction, CDTime = 500) {
+            if (ADManager.CanShowCD) {
+                lwg.PalyAudio.stopMusic();
+                console.log("?????");
+                let p = new TJ.ADS.Param();
+                p.extraAd = true;
+                let getReward = false;
+                p.cbi.Add(TJ.Define.Event.Reward, () => {
+                    getReward = true;
                     lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
-                    lwg.Global._createHint_01(lwg.Enum.HintType.lookend);
-                }
-            });
-            p.cbi.Add(TJ.Define.Event.NoAds, () => {
-                lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
-                lwg.Global._createHint_01(lwg.Enum.HintType.noAdv);
-            });
-            TJ.ADS.Api.ShowReward(p);
+                    if (rewardAction != null)
+                        rewardAction();
+                });
+                p.cbi.Add(TJ.Define.Event.Close, () => {
+                    if (!getReward) {
+                        lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
+                        lwg.Global._createHint_01(lwg.Enum.HintType.lookend);
+                    }
+                });
+                p.cbi.Add(TJ.Define.Event.NoAds, () => {
+                    lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
+                    lwg.Global._createHint_01(lwg.Enum.HintType.noAdv);
+                });
+                TJ.ADS.Api.ShowReward(p);
+                ADManager.CanShowCD = false;
+                setTimeout(() => {
+                    ADManager.CanShowCD = true;
+                }, CDTime);
+            }
         }
         static Event(param, value) {
             console.log("Param:>" + param + "Value:>" + value);
@@ -991,6 +996,7 @@
             }
         }
     }
+    ADManager.CanShowCD = true;
     ADManager.wx = Laya.Browser.window.wx;
     ADManager.shareImgUrl = "http://image.tomatojoy.cn/6847506204006681a5d5fa0cd91ce408";
     ADManager.shareContent = "快把锅甩给队友！";
@@ -1019,9 +1025,9 @@
             Global._freetHint = true;
             Global._CustomsNum = 999;
             Global._stageClick = true;
+            Global._openXD = false;
             Global._goldNum = 0;
             Global._elect = true;
-            Global._voiceSwitch = true;
             Global._shakeSwitch = true;
             Global._btnDelayed = 2000;
             Global._currentPifu = '01_gongzhu';
@@ -1198,8 +1204,11 @@
             Global._createBtnAgain = _createBtnAgain;
             function btnAgainUp(event) {
                 event.stopPropagation();
-                Global.refreshNum++;
                 event.currentTarget.scale(1, 1);
+                if (!Global._gameStart) {
+                    return;
+                }
+                Global.refreshNum++;
                 Admin._refreshScene();
             }
             Global.btnAgainUp = btnAgainUp;
@@ -1381,6 +1390,8 @@
                 SceneName["UISmallHint"] = "UISmallHint";
                 SceneName["UIXDpifu"] = "UIXDpifu";
                 SceneName["UIPifuTry"] = "UIPifuTry";
+                SceneName["UIRedeem"] = "UIRedeem";
+                SceneName["UIAnchorXD"] = "UIAnchorXD";
             })(SceneName = Admin.SceneName || (Admin.SceneName = {}));
             let GameState;
             (function (GameState) {
@@ -1574,6 +1585,38 @@
                         }
                         else if (type === 'dis') {
                             ADManager.TAPoint(TaT.PageLeave, 'pausepage');
+                        }
+                        break;
+                    case SceneName.UIShare:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'sharepage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'sharepage');
+                        }
+                        break;
+                    case SceneName.UIPifu:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'skinpage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'skinpage');
+                        }
+                        break;
+                    case SceneName.UIPifuTry:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'skintrypage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'skintrypage');
+                        }
+                        break;
+                    case SceneName.UIXDpifu:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'limitskinpage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'limitskinpage');
                         }
                         break;
                     default:
@@ -2095,6 +2138,7 @@
                 HintDec[HintDec["\u5206\u4EAB\u6210\u529F\uFF0C\u83B7\u5F97125\u91D1\u5E01\uFF01"] = 13] = "\u5206\u4EAB\u6210\u529F\uFF0C\u83B7\u5F97125\u91D1\u5E01\uFF01";
                 HintDec[HintDec["\u9650\u5B9A\u76AE\u80A4\u5DF2\u7ECF\u83B7\u5F97\uFF0C\u8BF7\u524D\u5F80\u5546\u5E97\u67E5\u770B\u3002"] = 14] = "\u9650\u5B9A\u76AE\u80A4\u5DF2\u7ECF\u83B7\u5F97\uFF0C\u8BF7\u524D\u5F80\u5546\u5E97\u67E5\u770B\u3002";
                 HintDec[HintDec["\u5206\u4EAB\u5931\u8D25\uFF01"] = 15] = "\u5206\u4EAB\u5931\u8D25\uFF01";
+                HintDec[HintDec["\u5151\u6362\u7801\u9519\u8BEF\uFF01"] = 16] = "\u5151\u6362\u7801\u9519\u8BEF\uFF01";
             })(HintDec = Enum.HintDec || (Enum.HintDec = {}));
             let HintType;
             (function (HintType) {
@@ -2114,6 +2158,7 @@
                 HintType[HintType["shareyes"] = 13] = "shareyes";
                 HintType[HintType["getXD"] = 14] = "getXD";
                 HintType[HintType["sharefailNoAward"] = 15] = "sharefailNoAward";
+                HintType[HintType["inputerr"] = 16] = "inputerr";
             })(HintType = Enum.HintType || (Enum.HintType = {}));
             let PifuOrder;
             (function (PifuOrder) {
@@ -2433,7 +2478,7 @@
             }
             down(event) {
                 event.currentTarget.scale(1.1, 1.1);
-                if (lwg.Global._voiceSwitch) {
+                if (lwg.PalyAudio._voiceSwitch) {
                     Laya.SoundManager.playSound(Click.audioUrl, 1, Laya.Handler.create(this, function () { }));
                 }
             }
@@ -2914,12 +2959,17 @@
         })(Animation = lwg.Animation || (lwg.Animation = {}));
         let PalyAudio;
         (function (PalyAudio) {
+            PalyAudio._voiceSwitch = true;
             function playSound(url, number) {
-                Laya.SoundManager.playSound(url, number, Laya.Handler.create(this, function () { }));
+                if (PalyAudio._voiceSwitch) {
+                    Laya.SoundManager.playSound(url, number, Laya.Handler.create(this, function () { }));
+                }
             }
             PalyAudio.playSound = playSound;
             function playMusic(url, number, deley) {
-                Laya.SoundManager.playMusic(url, number, Laya.Handler.create(this, function () { }), deley);
+                if (PalyAudio._voiceSwitch) {
+                    Laya.SoundManager.playMusic(url, number, Laya.Handler.create(this, function () { }), deley);
+                }
             }
             PalyAudio.playMusic = playMusic;
             function stopMusic() {
@@ -3103,6 +3153,20 @@
         })(Tools = lwg.Tools || (lwg.Tools = {}));
     })(lwg || (lwg = {}));
 
+    class UIAnchorXD extends lwg.Admin.Scene {
+        btnOnClick() {
+            lwg.Click.on('largen', null, this.self['BtnYes'], this, null, null, this.btnYesClickUP, null);
+            lwg.Click.on('largen', null, this.self['BtnNo'], this, null, null, this.btnNoClickUP, null);
+        }
+        btnYesClickUP(event) {
+            event.currentTarget.scale(1, 1);
+        }
+        btnNoClickUP(event) {
+            event.currentTarget.scale(1, 1);
+            this.self.close();
+        }
+    }
+
     class RecordManager {
         constructor() {
             this.GRV = null;
@@ -3212,15 +3276,13 @@
         constructor() { super(); }
         lwgInit() {
             RecordManager.stopAutoRecord();
-            this.self = this.owner;
             this.BtnAgain = this.self['BtnAgain'];
             this.BtnLast = this.self['BtnLast'];
             this.BtnShare = this.self['BtnShare'];
             this.LvNum = this.self['LvNum'];
             this.LvNumDisplay();
             if (!lwg.Global._elect) {
-                this.self['P201_01'].removeSelf();
-                this.self['P201_02'].removeSelf();
+                this.self['P201'].visible = false;
             }
         }
         adaptive() {
@@ -3308,7 +3370,6 @@
             event.currentTarget.scale(1, 1);
             lwg.Admin._openScene('UIStart', null, null, null);
             lwg.Admin._closeCustomScene();
-            lwg.Global._goldNum += 25;
             lwg.LocalStorage.addData();
             this.self.close();
         }
@@ -3325,12 +3386,12 @@
             ADManager.ShowBanner();
             lwg.Global._stageClick = false;
             if (!lwg.Global._elect) {
-                this.self['P201_01'].removeSelf();
-                this.self['P201_02'].removeSelf();
+                this.self['P201'].visible = false;
             }
         }
         adaptive() {
             this.self['sceneContent'].y = Laya.stage.height * 0.481;
+            this.self['P201'].y = Laya.stage.height * 0.093;
         }
         btnOnClick() {
             ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_noticket');
@@ -3497,6 +3558,9 @@
             });
         }
         onUpdate() {
+            if (!lwg.Global._gameStart) {
+                return;
+            }
             this.timer++;
             if (this.self.name === 'UIMain_001') {
                 if (lwg.Global._gameLevel === 1) {
@@ -3537,9 +3601,7 @@
             ADManager.TAPoint(TaT.PageEnter, 'UIPreload');
             this.Mask = this.self['Mask'];
             lwg.Global._gameLevel = 1;
-            if (lwg.Global._voiceSwitch) {
-                lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
-            }
+            lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
             lwg.Sk.skLoding();
             this.lodeUserInfo();
             this.dataLoading();
@@ -3847,7 +3909,7 @@
             let img = new Laya.Image();
             img.skin = this.signSkin;
             img.y = -60;
-            img.x = this.self.width / 2 - 8 - img.width / 2;
+            img.x = this.self.width / 2 - 6 - img.width / 2;
             this.self.addChild(img);
             img.zOrder = 10;
             this.plaint = img;
@@ -4185,13 +4247,21 @@
             let otherDir = otherName.substring(0, 1);
             let selfDir = this.moveDirection.substring(0, 1);
             if (otherDir === 'l' || otherDir === 'r') {
-                if (openSwitch === false) {
+                let oppositeAisle = otherOwner['UIMain_Aisle'].oppositeAisle;
+                if (!openSwitch) {
                     let lrAisle = this.belongRoom.getChildByName(otherOwner.name);
                     if (otherOwner === lrAisle) {
                         this.changeDirection();
                     }
                 }
                 else {
+                    if (oppositeAisle) {
+                        let openSwitch_02 = oppositeAisle['UIMain_Aisle'].openSwitch;
+                        if (!openSwitch_02) {
+                            this.changeDirection();
+                            return;
+                        }
+                    }
                     if (otherDir === selfDir) {
                         if (this.belongRoom !== connectRoom) {
                             this.belongRoom = connectRoom;
@@ -4294,18 +4364,6 @@
                 this.rig.setVelocity({ x: 0, y: 6 });
             }
         }
-        noMoveDirection() {
-            if (!this.moveDirection) {
-                if (this.belongRoom) {
-                    if (this.self.x > this.belongRoom.x) {
-                        this.moveDirection = lwg.Enum.PersonDir.left;
-                    }
-                    else {
-                        this.moveDirection = lwg.Enum.PersonDir.right;
-                    }
-                }
-            }
-        }
         positionOffset() {
             if (this.belongRoom) {
                 switch (this.personState) {
@@ -4358,13 +4416,25 @@
                 this.positionOffsetXY();
             }
         }
+        noMoveDirection() {
+            if (!this.moveDirection) {
+                if (this.belongRoom) {
+                    if (this.self.x > this.belongRoom.x) {
+                        this.moveDirection = lwg.Enum.PersonDir.left;
+                    }
+                    else {
+                        this.moveDirection = lwg.Enum.PersonDir.right;
+                    }
+                }
+            }
+        }
         scopeControl() {
             if (this.belongRoom) {
-                if (this.self.x > this.belongRoom.x + this.belongRoom.width / 2 + 30) {
-                    this.self.x = this.belongRoom.x + this.belongRoom.width / 2 + 30;
+                if (this.self.x > this.belongRoom.x + this.belongRoom.width / 2 + 25) {
+                    this.self.x = this.belongRoom.x + this.belongRoom.width / 2 + 25;
                 }
-                if (this.self.x < this.belongRoom.x - this.belongRoom.width / 2 - 28) {
-                    this.self.x = this.belongRoom.x - this.belongRoom.width / 2 - 28;
+                if (this.self.x < this.belongRoom.x - this.belongRoom.width / 2 - 25) {
+                    this.self.x = this.belongRoom.x - this.belongRoom.width / 2 - 25;
                 }
                 if (this.self.y > this.belongRoom.y + this.belongRoom.height / 2 + 15) {
                     this.self.y = this.belongRoom.y + this.belongRoom.height / 2 + 15;
@@ -4383,7 +4453,6 @@
             this.noMoveDirection();
             this.move();
             this.positionOffset();
-            this.scopeControl();
         }
         onDisable() {
         }
@@ -5032,6 +5101,8 @@
 
     class UIPuase extends lwg.Admin.Scene {
         lwgInit() {
+            Laya.timer.pause();
+            lwg.Global._gameStart = false;
             this.BtnUIStart = this.self['BtnUIStart'];
             this.BtnContinue = this.self['BtnContinue'];
         }
@@ -5057,6 +5128,10 @@
             event.currentTarget.scale(1, 1);
             this.self.close();
         }
+        lwgDisable() {
+            Laya.timer.resume();
+            lwg.Global._gameStart = true;
+        }
     }
 
     class UIPifu extends lwg.Admin.Scene {
@@ -5066,13 +5141,20 @@
             this.listFirstIndex = lwg.Enum.PifuAllName[lwg.Global._currentPifu];
             this.noHaveIndex = 0;
         }
-        lwgInit() {
+        selfVars() {
+            ADManager.CloseBanner();
+            this.PifuList = this.self['PifuList'];
             this.BtnBack = this.self['BtnBack'];
             this.BtnBuy = this.self['BtnBuy'];
             this.BtnSelect = this.self['BtnSelect'];
-            this.PifuParent = this.self['PifuParent'];
-            this.PifuList = this.self['PifuList'];
+            ADManager.TAPoint(TaT.BtnShow, 'gold_skin');
+            ADManager.TAPoint(TaT.BtnShow, 'choose_skin');
+            if (!lwg.Global._elect) {
+                this.self['P201'].visible = false;
+            }
             this.background = this.self['background'];
+        }
+        lwgInit() {
             lwg.Global.ExecutionNumNode.alpha = 0;
             lwg.Global._stageClick = false;
             lwg.Global.notHavePifuSubXD();
@@ -5086,6 +5168,7 @@
             this.self['MatchDot'].y = Laya.stage.height * 0.684;
             this.self['background_01'].height = Laya.stage.height;
             this.self['BtnBack'].y = Laya.stage.height * 0.883;
+            this.self['P201'].y = Laya.stage.height * 0.208;
             this.PifuList.y = Laya.stage.height * 0.471;
         }
         priceDisplay() {
@@ -5252,6 +5335,7 @@
             lwg.LocalStorage.addData();
         }
         btnBuyUp(event) {
+            ADManager.TAPoint(TaT.BtnClick, 'gold_skin');
             event.currentTarget.scale(1, 1);
             event.stopPropagation();
             let price = 250 * lwg.Global._buyNum - 150;
@@ -5304,10 +5388,12 @@
             this.refreshListData();
             this.priceDisplay();
             this.selectPifuStyle();
+            this.matchDotStaly();
             lwg.LocalStorage.addData();
             console.log('购买完成！');
         }
         btnSelectUp(event) {
+            ADManager.TAPoint(TaT.BtnClick, 'choose_skin');
             event.stopPropagation();
             event.currentTarget.scale(1, 1);
             this.whetherHaveThisPifu();
@@ -5321,6 +5407,7 @@
             lwg.LocalStorage.addData();
             lwg.Global._stageClick = true;
             lwg.Global.ExecutionNumNode.alpha = 1;
+            ADManager.ShowBanner();
         }
     }
 
@@ -5329,11 +5416,17 @@
         lwgInit() {
             this.self = this.owner;
             this.BtnAdv = this.self['BtnAdv'];
+            ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_skintry');
+            ADManager.TAPoint(TaT.BtnShow, 'close_skintry');
+            if (!lwg.Global._elect) {
+                this.self['P201'].visible = false;
+            }
             lwg.Global.notHavePifuSubXD();
             this.randomNoHave();
         }
         adaptive() {
             this.self['SceneContent'].y = Laya.stage.height / 2;
+            this.self['P201'].y = Laya.stage.height * 0.237;
             this.self['background_01'].height = Laya.stage.height;
         }
         openAni() {
@@ -5362,12 +5455,14 @@
             lwg.Click.on('largen', null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
         }
         btnAdvUp(event) {
+            ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_skintry');
             event.currentTarget.scale(1, 1);
             ADManager.ShowReward(() => {
                 this.btnAdvFunc();
             });
         }
         btnBackUp() {
+            ADManager.TAPoint(TaT.BtnClick, 'close_skintry');
             this.self.close();
         }
         btnNoUp() {
@@ -5386,29 +5481,58 @@
         }
     }
 
-    class UISet extends Laya.Script {
-        constructor() { super(); }
-        onEnable() {
+    class UIRedeem extends lwg.Admin.Scene {
+        selfVars() {
+            this.TextInput = this.self['TextInput'];
+        }
+        adaptive() {
+            this.self['SceneContent'].y = Laya.stage.height * 0.478;
+        }
+        btnOnClick() {
+            lwg.Click.on('largen', null, this.self['BtnYes'], this, null, null, this.btnYesClickUP, null);
+            lwg.Click.on('largen', null, this.self['BtnNo'], this, null, null, this.btnNoClickUP, null);
+        }
+        btnYesClickUP(event) {
+            let input = this.TextInput.getChildAt(0);
+            if (input.text === '23332333') {
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIAnchorXD, null, this.self, null);
+            }
+            else {
+                lwg.Global._createHint_01(lwg.Enum.HintType.inputerr);
+            }
+            event.currentTarget.scale(1, 1);
+        }
+        btnNoClickUP(event) {
+            event.currentTarget.scale(1, 1);
+            this.self.close();
+        }
+    }
+
+    class UISet extends lwg.Admin.Scene {
+        lwgInit() {
             this.self = this.owner;
             this.BtnVoice = this.self['BtnVoice'];
             this.BtnShake = this.self['BtnShake'];
             this.BtnClose = this.self['BtnClose'];
             this.btnVoiceAndBtnShake();
-            this.btnClickOn();
+        }
+        adaptive() {
+            this.self['P204'].y = Laya.stage.height * 0.130;
+            this.self['SceneContent'].y = Laya.stage.height * 0.471;
         }
         btnVoiceAndBtnShake() {
             let voiceImg = this.BtnVoice.getChildAt(0);
-            let voiceUrl1 = 'shezhi/icon_voiceon.png';
-            let voiceUrl2 = 'shezhi/icon_voiceoff.png';
-            if (lwg.Global._voiceSwitch) {
+            let voiceUrl1 = 'UI_new/Set/icon_voice_on.png';
+            let voiceUrl2 = 'UI_new/Set/icon_voice_off.png';
+            if (lwg.PalyAudio._voiceSwitch) {
                 voiceImg.skin = voiceUrl1;
             }
             else {
                 voiceImg.skin = voiceUrl2;
             }
             let shakeImg = this.BtnShake.getChildAt(0);
-            let shakeUrl1 = 'shezhi/shake_on.png';
-            let shakeUrl2 = 'shezhi/shake_off.png';
+            let shakeUrl1 = 'UI_new/Set/icon_shake_on.png';
+            let shakeUrl2 = 'UI_new/Set/icon_shake_off.png';
             if (lwg.Global._shakeSwitch) {
                 shakeImg.skin = shakeUrl1;
             }
@@ -5416,31 +5540,37 @@
                 shakeImg.skin = shakeUrl2;
             }
         }
-        btnClickOn() {
+        btnOnClick() {
             lwg.Click.on('largen', null, this.BtnVoice, this, null, null, this.btnVoiceClickUP, null);
             lwg.Click.on('largen', null, this.BtnShake, this, null, null, this.btnShakeClickUP, null);
             lwg.Click.on('largen', null, this.BtnClose, this, null, null, this.btnCloseClickUP, null);
+            lwg.Click.on('largen', null, this.self['BtnRedeem'], this, null, null, this.btnRedeemClickUP, null);
+        }
+        btnRedeemClickUP(event) {
+            event.currentTarget.scale(1, 1);
+            lwg.Admin._openScene(lwg.Admin.SceneName.UIRedeem, null, null, null);
         }
         btnVoiceClickUP(event) {
+            event.currentTarget.scale(1, 1);
             let voiceImg = this.BtnVoice.getChildAt(0);
-            let voiceUrl1 = 'shezhi/icon_voiceon.png';
-            let voiceUrl2 = 'shezhi/icon_voiceoff.png';
+            let voiceUrl1 = 'UI_new/Set/icon_voice_on.png';
+            let voiceUrl2 = 'UI_new/Set/icon_voice_off.png';
             if (voiceImg.skin === voiceUrl1) {
                 voiceImg.skin = voiceUrl2;
-                lwg.Global._voiceSwitch = false;
+                lwg.PalyAudio._voiceSwitch = false;
                 lwg.PalyAudio.stopMusic();
             }
             else if (voiceImg.skin === voiceUrl2) {
                 voiceImg.skin = voiceUrl1;
-                lwg.Global._voiceSwitch = true;
+                lwg.PalyAudio._voiceSwitch = true;
                 lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 0);
             }
         }
         btnShakeClickUP(event) {
             event.currentTarget.scale(1, 1);
             let img = this.BtnShake.getChildAt(0);
-            let url1 = 'shezhi/shake_on.png';
-            let url2 = 'shezhi/shake_off.png';
+            let url1 = 'UI_new/Set/icon_shake_on.png';
+            let url2 = 'UI_new/Set/icon_shake_off.png';
             if (img.skin === url1) {
                 img.skin = url2;
                 lwg.Global._shakeSwitch = false;
@@ -5497,23 +5627,6 @@
             lwg.Global._hotShare = false;
             lwg.Global._hotShareTime = d.getDate();
         }
-        getGoldAni(number, thisFunc) {
-            let x = this.self['GetGold'].x + this.self['sceneContent'].x - this.self['sceneContent'].width / 2;
-            let y = this.self['GetGold'].y + this.self['sceneContent'].y - this.self['sceneContent'].height / 2;
-            for (let index = 0; index < number; index++) {
-                lwg.Effects.createAddGold(Laya.stage, index, x, y, lwg.Global.GoldNumNode.x, lwg.Global.GoldNumNode.y, f => {
-                    let Num = lwg.Global.GoldNumNode.getChildByName('Num');
-                    Num.value = (Number(Num.value) + 1).toString();
-                    let goldNum = this.self['GoldNum'];
-                    goldNum.value = 'x' + (number - index - 2);
-                    if (index === number - 1) {
-                        if (thisFunc !== null) {
-                            thisFunc();
-                        }
-                    }
-                });
-            }
-        }
     }
 
     class UISmallHint extends lwg.Admin.Scene {
@@ -5545,13 +5658,14 @@
             this.moveSwitch = false;
         }
         selfVars() {
-            this.BtnStart = this.self['BtnStart'];
             this.CustomsList = this.self['CustomsList'];
+            this.SceneContent = this.self['SceneContent'];
+            this.BtnStart = this.self['BtnStart'];
             this.BtnPifu = this.self['BtnPifu'];
             this.BtnLocation = this.self['BtnLocation'];
-            this.SceneContent = this.self['SceneContent'];
         }
         lwgInit() {
+            ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
             this.BtnLocation.visible = false;
             if (lwg.Global._watchAdsNum >= 3) {
                 this.self['BtnXD'].removeSelf();
@@ -5562,13 +5676,13 @@
             ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
             ADManager.ShowBanner();
             if (!lwg.Global._elect) {
-                this.self['P201_01'].removeSelf();
-                this.self['P201_02'].removeSelf();
-                this.self['P204'].removeSelf();
+                this.self['P201'].visible = false;
+                this.self['P204'].visible = false;
             }
         }
         adaptive() {
-            this.self['P204'].y = Laya.stage.height - 130;
+            this.self['P204'].y = Laya.stage.height - 91;
+            this.self['P201'].y = Laya.stage.height * 0.156;
             this.SceneContent.y = this.self['P204'].y - 80 - this.SceneContent.height / 2;
         }
         openAni() {
@@ -5592,10 +5706,10 @@
             this.CustomsList.renderHandler = new Laya.Handler(this, this.updateItem);
             this.listFirstIndex = lwg.Global._gameLevel;
             this.refreshListData();
-            this.CustomsList.scrollTo(lwg.Global._CustomsNum);
             this.listOpenAni();
         }
         listOpenAni() {
+            this.CustomsList.scrollTo(lwg.Global._CustomsNum);
             this.CustomsList.tweenTo(this.listFirstIndex, 100, Laya.Handler.create(this, f => {
                 let cell = this.CustomsList.getCell(this.listFirstIndex);
                 cell.alpha = 1;
@@ -5667,7 +5781,7 @@
             }
         }
         onStageMouseDown() {
-            if (!lwg.Global._stageClick) {
+            if (!lwg.Global._stageClick || lwg.Global._openXD) {
                 return;
             }
             this.firstY = Laya.MouseManager.instance.mouseY;
@@ -5837,12 +5951,15 @@
             lwg.Animation.simple_Rotate(pic, 0, 180, time, null);
         }
         btnOnClick() {
-            ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnStart, this, null, null, this.btnStartClickUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnPifu, this, null, null, this.btnPifuClickUp, null);
             lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.BtnLocation, this, null, null, this.btnLocationUp, null);
             lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.CustomsList, this, null, null, this.customsListUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnXD'], this, null, null, this.btnXDUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnSet'], this, null, null, this.btnSetUp, null);
+        }
+        btnSetUp() {
+            lwg.Admin._openScene(lwg.Admin.SceneName.UISet, null, null, null);
         }
         btnXDUp() {
             lwg.Admin._openScene(lwg.Admin.SceneName.UIXDpifu, null, null, null);
@@ -6034,10 +6151,15 @@
         getGoldAniFunc() {
             lwg.Admin._closeCustomScene();
             if (lwg.Global._watchAdsNum < 3) {
-                lwg.Admin._openScene(lwg.Admin.SceneName.UIXDpifu, null, null, null);
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIXDpifu, null, null, f => {
+                    lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, 1, null, f => {
+                        lwg.Admin._sceneControl['UIXDpifu']['_zOrder'] = 1;
+                        lwg.Admin._sceneControl['UIStart']['_zOrder'] = 0;
+                    });
+                });
             }
             else {
-                lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => { });
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, 0, null, f => { });
             }
             this.self.close();
         }
@@ -6109,7 +6231,7 @@
     class UIXDpifu extends lwg.Admin.Scene {
         constructor() { super(); }
         lwgInit() {
-            lwg.Global._stageClick = false;
+            lwg.Global._openXD = true;
             lwg.Global.GoldNumNode.alpha = 0;
             lwg.Global.ExecutionNumNode.alpha = 0;
             this.BtnBack = this.self['BtnBack'];
@@ -6117,6 +6239,8 @@
             this.SceneContent = this.self['SceneContent'];
             this.background = this.self['background'];
             this.logo = this.self['logo'];
+            ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_limitskin');
+            ADManager.TAPoint(TaT.BtnShow, 'close_limitskin');
             this.btnGetNum();
         }
         adaptive() {
@@ -6136,13 +6260,12 @@
             lwg.Click.on('largen', null, this.BtnGet, this, null, null, this.btnGetUp, null);
         }
         btnBackUp(event) {
+            ADManager.TAPoint(TaT.BtnClick, 'close_limitskin');
             event.currentTarget.scale(1, 1);
-            lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => {
-                console.log(lwg.Admin._sceneControl);
-            });
             this.self.close();
         }
         btnGetUp(event) {
+            ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_limitskin');
             event.currentTarget.scale(1, 1);
             ADManager.ShowReward(() => {
                 this.btnGetFunc();
@@ -6154,16 +6277,14 @@
             if (lwg.Global._watchAdsNum >= 3) {
                 lwg.Global._havePifu.push('09_aisha');
                 lwg.Global._currentPifu = lwg.Enum.PifuAllName[8];
-                lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => {
-                    this.self.close();
-                    lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].self['BtnXD'].removeSelf();
-                });
+                this.self.close();
+                lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].self['BtnXD'].removeSelf();
                 lwg.Global._createHint_01(lwg.Enum.HintType.getXD);
             }
             lwg.LocalStorage.addData();
         }
         lwgDisable() {
-            lwg.Global._stageClick = true;
+            lwg.Global._openXD = false;
             lwg.Global.GoldNumNode.alpha = 1;
             lwg.Global.ExecutionNumNode.alpha = 1;
         }
@@ -6260,6 +6381,7 @@
             reg("TJ/Promo/script/P204.ts", P204);
             reg("TJ/Promo/script/P205.ts", P205);
             reg("TJ/Promo/script/P106.ts", P106);
+            reg("script/Game/UIAnchorXD.ts", UIAnchorXD);
             reg("script/Game/UIDefeated.ts", UIDefeated);
             reg("script/Game/UIExecutionHint.ts", UIExecutionHint);
             reg("script/Game/UILoding.ts", UILoding);
@@ -6278,6 +6400,7 @@
             reg("script/Game/UIPuase.ts", UIPuase);
             reg("script/Game/UIPifu.ts", UIPifu);
             reg("script/Game/UIPifuTry.ts", UIPifuTry);
+            reg("script/Game/UIRedeem.ts", UIRedeem);
             reg("script/Game/UISet.ts", UISet);
             reg("script/Game/UIShare.ts", UIShare);
             reg("script/Game/UISmallHint.ts", UISmallHint);

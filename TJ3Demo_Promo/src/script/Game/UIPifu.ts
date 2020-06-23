@@ -16,6 +16,7 @@ export default class UIPifu extends lwg.Admin.Scene {
     constructor() { super(); }
 
     selfVars(): void {
+        ADManager.CloseBanner();
         this.PifuList = this.self['PifuList'];
 
         this.BtnBack = this.self['BtnBack'];
@@ -60,8 +61,6 @@ export default class UIPifu extends lwg.Admin.Scene {
         num.text = 'x' + price.toString();
     }
 
-
-
     openAni(): void {
     }
 
@@ -73,7 +72,7 @@ export default class UIPifu extends lwg.Admin.Scene {
         // this.PifuList.scrollBar.elasticDistance = 500;//设置橡皮筋极限距离。
         this.PifuList.selectHandler = new Laya.Handler(this, this.onSelect_List);
         this.PifuList.renderHandler = new Laya.Handler(this, this.updateItem);
-        this.refreshListData();
+        this.refreshListData(null);
         this.matchDotStaly();
         this.selectPifuStyle();
         this.listOpenAni();
@@ -99,7 +98,7 @@ export default class UIPifu extends lwg.Admin.Scene {
      * 刷新list列表数据,如果需要更新list列表数据，更新此方法即可
      * 有9个皮肤，但是给予10个位置，第一个和最后一个是空位，为了使第二个和倒数第二个能排到中间
      * */
-    refreshListData(): void {
+    refreshListData(func): void {
         var data: Array<Object> = [];
         for (var m: number = -1; m < 10; m++) {
             if (m === -1 || m === 9) {
@@ -151,6 +150,9 @@ export default class UIPifu extends lwg.Admin.Scene {
         // 重制array信息列表
         this.PifuList.array = data;
         // console.log(data);
+        if (func !== null) {
+            func();
+        }
     }
 
     /**当前触摸的box监听*/
@@ -168,7 +170,6 @@ export default class UIPifu extends lwg.Admin.Scene {
         // 信息赋值
         pifuImg.skin = dataSource.pifuUrl;
         cell.scale(dataSource.scale, dataSource.scale);
-
     }
 
     /**滑动设置，滑动一段，走一格*/
@@ -207,7 +208,7 @@ export default class UIPifu extends lwg.Admin.Scene {
 
     /**移动结束回调*/
     moveCompelet(): void {
-        this.refreshListData();
+        this.refreshListData(null);
         this.matchDotStaly();
         this.whetherHaveThisPifu();
         this.selectPifuStyle();
@@ -335,7 +336,7 @@ export default class UIPifu extends lwg.Admin.Scene {
             index = lwg.Enum.PifuAllName[noHavePifu_00];
             // 名字和大小变化
             this.listFirstIndex = index;
-            this.refreshListData();
+            this.refreshListData(null);
             // 递归移动
             this.PifuList.tweenTo(index, 200, Laya.Handler.create(this, function () {
                 this.noHaveIndex++;
@@ -343,7 +344,6 @@ export default class UIPifu extends lwg.Admin.Scene {
             }));
         } else {
             console.log('循环完毕，准备循环到被购买的那个皮肤', this.buyIndex);
-            let time = this.buyIndex;
             this.PifuList.tweenTo(this.buyIndex, (11 - this.buyIndex) * 100, Laya.Handler.create(this, function () {
                 this.noHaveIndex = 0;
                 // 名字和大小变化
@@ -358,11 +358,12 @@ export default class UIPifu extends lwg.Admin.Scene {
         // 将购买的皮肤添加到数据中
         lwg.Global._havePifu.push(lwg.Enum.PifuAllName[this.buyIndex]);
         lwg.Global.notHavePifuSubXD();
-        this.refreshListData();
-        this.priceDisplay();
-        this.selectPifuStyle();
-        this.matchDotStaly();
-        lwg.LocalStorage.addData();
+        this.refreshListData(f => {
+            this.priceDisplay();
+            this.selectPifuStyle();
+            this.matchDotStaly();
+            lwg.LocalStorage.addData();
+        });
         console.log('购买完成！');
     }
 
@@ -376,7 +377,7 @@ export default class UIPifu extends lwg.Admin.Scene {
         if (this.showSelect) {
             // 更换选择
             lwg.Global._currentPifu = lwg.Global._allPifu[this.listFirstIndex];
-            this.refreshListData();
+            this.refreshListData(null);
             this.selectPifuStyle();
         }
     }
@@ -385,5 +386,6 @@ export default class UIPifu extends lwg.Admin.Scene {
         lwg.LocalStorage.addData();
         lwg.Global._stageClick = true;
         lwg.Global.ExecutionNumNode.alpha = 1;
+        ADManager.ShowBanner();
     }
 }
