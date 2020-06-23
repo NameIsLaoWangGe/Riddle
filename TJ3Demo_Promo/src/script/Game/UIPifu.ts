@@ -1,4 +1,5 @@
 import { lwg } from "../Lwg_Template/lwg";
+import ADManager, { TaT } from "../../TJ/Admanager";
 
 export default class UIPifu extends lwg.Admin.Scene {
     /**返回按钮*/
@@ -7,8 +8,6 @@ export default class UIPifu extends lwg.Admin.Scene {
     private BtnBuy: Laya.Sprite;
     /**选择按钮*/
     private BtnSelect: Laya.Image;
-    /**皮肤的父节点*/
-    private PifuParent: Laya.Sprite;
     /**list列表*/
     private PifuList: Laya.List;
     /**背景图*/
@@ -16,13 +15,23 @@ export default class UIPifu extends lwg.Admin.Scene {
 
     constructor() { super(); }
 
-    lwgInit(): void {
+    selfVars(): void {
+        this.PifuList = this.self['PifuList'];
+
         this.BtnBack = this.self['BtnBack'];
         this.BtnBuy = this.self['BtnBuy'];
         this.BtnSelect = this.self['BtnSelect'];
-        this.PifuParent = this.self['PifuParent'];
-        this.PifuList = this.self['PifuList'];
+        ADManager.TAPoint(TaT.BtnShow, 'gold_skin');
+        ADManager.TAPoint(TaT.BtnShow, 'choose_skin');
+
+        if (!lwg.Global._elect) {
+            this.self['P201'].visible = false;
+        }
+
         this.background = this.self['background'];
+    }
+
+    lwgInit(): void {
 
         lwg.Global.ExecutionNumNode.alpha = 0;
         lwg.Global._stageClick = false;
@@ -30,9 +39,6 @@ export default class UIPifu extends lwg.Admin.Scene {
         lwg.Global.notHavePifuSubXD();
         this.createPifuList();
         this.priceDisplay();
-
-        // this.adaptive();
-        // this.openAni();
     }
 
     /**一些节点的适配*/
@@ -43,6 +49,7 @@ export default class UIPifu extends lwg.Admin.Scene {
         this.self['MatchDot'].y = Laya.stage.height * 0.684;
         this.self['background_01'].height = Laya.stage.height;
         this.self['BtnBack'].y = Laya.stage.height * 0.883;
+        this.self['P201'].y = Laya.stage.height * 0.208;
         this.PifuList.y = Laya.stage.height * 0.471;
     }
 
@@ -276,7 +283,9 @@ export default class UIPifu extends lwg.Admin.Scene {
      * 点击后从还没有获得的皮肤中随机给予一个皮肤
     */
     btnBuyUp(event): void {
+        ADManager.TAPoint(TaT.BtnClick, 'gold_skin');
         event.currentTarget.scale(1, 1);
+
         event.stopPropagation();//防止事件穿透到舞台
         // 查看金币数量是否足够,查看皮肤是否全部拥有
         let price = 250 * lwg.Global._buyNum - 150;
@@ -359,6 +368,7 @@ export default class UIPifu extends lwg.Admin.Scene {
 
     /**选中按钮抬起*/
     btnSelectUp(event: Laya.Event): void {
+        ADManager.TAPoint(TaT.BtnClick, 'choose_skin');
         event.stopPropagation();//防止事件穿透到舞台
         event.currentTarget.scale(1, 1);
         this.whetherHaveThisPifu();

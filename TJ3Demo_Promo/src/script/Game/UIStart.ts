@@ -26,14 +26,16 @@ export default class UIStart extends lwg.Admin.Scene {
 
     constructor() { super(); }
     selfVars(): void {
-        this.BtnStart = this.self['BtnStart'];
         this.CustomsList = this.self['CustomsList'];
+        this.SceneContent = this.self['SceneContent'];
+        this.BtnStart = this.self['BtnStart'];
         this.BtnPifu = this.self['BtnPifu'];
         this.BtnLocation = this.self['BtnLocation'];
-        this.SceneContent = this.self['SceneContent'];
     }
 
     lwgInit(): void {
+        ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
+
         this.BtnLocation.visible = false;
         if (lwg.Global._watchAdsNum >= 3) {
             this.self['BtnXD'].removeSelf();
@@ -45,14 +47,14 @@ export default class UIStart extends lwg.Admin.Scene {
         ADManager.ShowBanner();
 
         if (!lwg.Global._elect) {
-            this.self['P201_01'].removeSelf();
-            this.self['P201_02'].removeSelf();
-            this.self['P204'].removeSelf();
+            this.self['P201'].visible = false;
+            this.self['P204'].visible = false;
         }
     }
 
     adaptive(): void {
-        this.self['P204'].y = Laya.stage.height - 130;
+        this.self['P204'].y = Laya.stage.height - 91;
+        this.self['P201'].y = Laya.stage.height * 0.156;
         this.SceneContent.y = this.self['P204'].y - 80 - this.SceneContent.height / 2;
     }
 
@@ -353,7 +355,6 @@ export default class UIStart extends lwg.Admin.Scene {
     }
 
     btnOnClick(): void {
-        ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
 
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnStart, this, null, null, this.btnStartClickUp, null);
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnPifu, this, null, null, this.btnPifuClickUp, null);

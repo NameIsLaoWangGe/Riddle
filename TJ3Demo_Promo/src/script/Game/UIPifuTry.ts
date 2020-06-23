@@ -1,5 +1,5 @@
 import { lwg } from "../Lwg_Template/lwg";
-import ADManager from "../../TJ/Admanager";
+import ADManager, { TaT } from "../../TJ/Admanager";
 
 export default class UIPifuTry extends lwg.Admin.Scene {
     /**看广告获取*/
@@ -12,6 +12,12 @@ export default class UIPifuTry extends lwg.Admin.Scene {
     lwgInit(): void {
         this.self = this.owner as Laya.Scene;
         this.BtnAdv = this.self['BtnAdv'];
+        ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_skintry');
+        ADManager.TAPoint(TaT.BtnShow, 'close_skintry');
+
+        if (!lwg.Global._elect) {
+            this.self['P201'].visible = false;
+        }
 
         lwg.Global.notHavePifuSubXD();
         this.randomNoHave();
@@ -19,6 +25,8 @@ export default class UIPifuTry extends lwg.Admin.Scene {
     }
     adaptive(): void {
         this.self['SceneContent'].y = Laya.stage.height / 2;
+        this.self['P201'].y = Laya.stage.height * 0.237;
+
         this.self['background_01'].height = Laya.stage.height;
     }
 
@@ -51,17 +59,18 @@ export default class UIPifuTry extends lwg.Admin.Scene {
 
     btnOnClick(): void {
         lwg.Click.on('largen', null, this.BtnAdv, this, null, null, this.btnAdvUp, null);
-        // lwg.Click.on('largen', null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
         lwg.Click.on('largen', null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
     }
 
     btnAdvUp(event): void {
+        ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_skintry');
         event.currentTarget.scale(1, 1);
         ADManager.ShowReward(() => {
             this.btnAdvFunc();
         })
     }
     btnBackUp(): void {
+        ADManager.TAPoint(TaT.BtnClick, 'close_skintry');
         this.self.close();
     }
 

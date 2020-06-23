@@ -18,7 +18,7 @@ export default class UIDefeated extends lwg.Admin.Scene {
 
     lwgInit(): void {
         RecordManager.stopAutoRecord();
-        
+
         this.BtnAgain = this.self['BtnAgain'];
         this.BtnLast = this.self['BtnLast'];
         this.BtnShare = this.self['BtnShare'];
@@ -26,8 +26,7 @@ export default class UIDefeated extends lwg.Admin.Scene {
         this.LvNumDisplay();
 
         if (!lwg.Global._elect) {
-            this.self['P201_01'].removeSelf();
-            this.self['P201_02'].removeSelf();
+            this.self['P201'].visible = false;
         }
     }
 

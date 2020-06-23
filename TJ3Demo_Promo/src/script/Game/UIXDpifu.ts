@@ -1,6 +1,6 @@
 import { lwg } from "../Lwg_Template/lwg";
 import UIStart from "./UIStart";
-import ADManager from "../../TJ/Admanager";
+import ADManager, { TaT } from "../../TJ/Admanager";
 
 export default class UIXDpifu extends lwg.Admin.Scene {
     /**内容*/
@@ -27,6 +27,9 @@ export default class UIXDpifu extends lwg.Admin.Scene {
         this.SceneContent = this.self['SceneContent'];
         this.background = this.self['background'];
         this.logo = this.self['logo'];
+
+        ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_limitskin');
+        ADManager.TAPoint(TaT.BtnShow, 'close_limitskin');
 
         this.btnGetNum();
     }
@@ -55,20 +58,19 @@ export default class UIXDpifu extends lwg.Admin.Scene {
 
     /**返回按钮抬起*/
     btnBackUp(event): void {
+        ADManager.TAPoint(TaT.BtnClick, 'close_limitskin');
         event.currentTarget.scale(1, 1);
-        // lwg.Admin._openScene(lwg.Admin.SceneName.UIStart, null, null, f => {
-        //     console.log(lwg.Admin._sceneControl);
-        // });
         this.self.close();
     }
 
     /**看广告按钮抬起*/
     btnGetUp(event): void {
+        ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_limitskin');
         event.currentTarget.scale(1, 1);
 
-        // ADManager.ShowReward(() => {
-        this.btnGetFunc();
-        // })
+        ADManager.ShowReward(() => {
+            this.btnGetFunc();
+        })
     }
 
     /**看完广告的返回函数*/

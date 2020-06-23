@@ -1,8 +1,6 @@
 import { lwg } from "../Lwg_Template/lwg";
 
-export default class UISet extends Laya.Script {
-    /**挂载当前脚本的节点*/
-    private self: Laya.Scene;
+export default class UISet extends lwg.Admin.Scene {
     /**震动按钮*/
     private BtnShake: Laya.Sprite;
     /**声音按钮*/
@@ -10,9 +8,10 @@ export default class UISet extends Laya.Script {
     /**关闭按钮*/
     private BtnClose: Laya.Sprite;
 
-    constructor() { super(); }
 
-    onEnable(): void {
+
+
+    lwgInit(): void {
         this.self = this.owner as Laya.Scene;
         this.BtnVoice = this.self['BtnVoice'];
         this.BtnShake = this.self['BtnShake'];
@@ -20,6 +19,7 @@ export default class UISet extends Laya.Script {
         this.btnVoiceAndBtnShake();
         this.btnClickOn();
     }
+
 
     /**声音按钮和震动按钮的样式初始化*/
     btnVoiceAndBtnShake(): void {

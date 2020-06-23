@@ -2,8 +2,6 @@ import { lwg } from "../script/Lwg_Template/lwg";
 
 
 
-
-
 export default class RecordManager {
     static Init() {
         RecordManager.grv = new TJ.Platform.AppRt.DevKit.TT.GameRecorderVideo();

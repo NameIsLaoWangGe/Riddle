@@ -6,14 +6,14 @@ export default class UIExecutionHint extends lwg.Admin.Scene {
     lwgInit() {
         ADManager.ShowBanner();
         lwg.Global._stageClick = false;
-        
+
         if (!lwg.Global._elect) {
-            this.self['P201_01'].removeSelf();
-            this.self['P201_02'].removeSelf();
+            this.self['P201'].visible = false;
         }
     }
     adaptive() {
         this.self['sceneContent'].y = Laya.stage.height * 0.481;
+        this.self['P201'].y = Laya.stage.height * 0.093;
     }
     btnOnClick(): void {
         ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_noticket');

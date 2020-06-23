@@ -876,7 +876,9 @@
         constructor() {
         }
         static ShowBanner() {
-            if (TJ.API.AppInfo.Channel() == TJ.Define.Channel.AppRt.ZJTD_AppRt) ;
+            if (TJ.API.AppInfo.Channel() == TJ.Define.Channel.AppRt.ZJTD_AppRt) {
+                return;
+            }
             let p = new TJ.ADS.Param();
             p.place = TJ.ADS.Place.BOTTOM | TJ.ADS.Place.CENTER;
             TJ.ADS.Api.ShowBanner(p);
@@ -892,29 +894,35 @@
         static showNormal2() {
             TJ.API.AdService.ShowNormal(new TJ.API.AdService.Param());
         }
-        static ShowReward(rewardAction) {
-            lwg.PalyAudio.stopMusic();
-            console.log("?????");
-            let p = new TJ.ADS.Param();
-            p.extraAd = true;
-            let getReward = false;
-            p.cbi.Add(TJ.Define.Event.Reward, () => {
-                getReward = true;
-                lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
-                if (rewardAction != null)
-                    rewardAction();
-            });
-            p.cbi.Add(TJ.Define.Event.Close, () => {
-                if (!getReward) {
+        static ShowReward(rewardAction, CDTime = 500) {
+            if (ADManager.CanShowCD) {
+                lwg.PalyAudio.stopMusic();
+                console.log("?????");
+                let p = new TJ.ADS.Param();
+                p.extraAd = true;
+                let getReward = false;
+                p.cbi.Add(TJ.Define.Event.Reward, () => {
+                    getReward = true;
                     lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
-                    lwg.Global._createHint_01(lwg.Enum.HintType.lookend);
-                }
-            });
-            p.cbi.Add(TJ.Define.Event.NoAds, () => {
-                lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
-                lwg.Global._createHint_01(lwg.Enum.HintType.noAdv);
-            });
-            TJ.ADS.Api.ShowReward(p);
+                    if (rewardAction != null)
+                        rewardAction();
+                });
+                p.cbi.Add(TJ.Define.Event.Close, () => {
+                    if (!getReward) {
+                        lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
+                        lwg.Global._createHint_01(lwg.Enum.HintType.lookend);
+                    }
+                });
+                p.cbi.Add(TJ.Define.Event.NoAds, () => {
+                    lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
+                    lwg.Global._createHint_01(lwg.Enum.HintType.noAdv);
+                });
+                TJ.ADS.Api.ShowReward(p);
+                ADManager.CanShowCD = false;
+                setTimeout(() => {
+                    ADManager.CanShowCD = true;
+                }, CDTime);
+            }
         }
         static Event(param, value) {
             console.log("Param:>" + param + "Value:>" + value);
@@ -991,6 +999,7 @@
             }
         }
     }
+    ADManager.CanShowCD = true;
     ADManager.wx = Laya.Browser.window.wx;
     ADManager.shareImgUrl = "http://image.tomatojoy.cn/6847506204006681a5d5fa0cd91ce408";
     ADManager.shareContent = "快把锅甩给队友！";
@@ -1575,6 +1584,38 @@
                         }
                         else if (type === 'dis') {
                             ADManager.TAPoint(TaT.PageLeave, 'pausepage');
+                        }
+                        break;
+                    case SceneName.UIShare:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'sharepage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'sharepage');
+                        }
+                        break;
+                    case SceneName.UIPifu:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'skinpage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'skinpage');
+                        }
+                        break;
+                    case SceneName.UIPifuTry:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'skintrypage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'skintrypage');
+                        }
+                        break;
+                    case SceneName.UIXDpifu:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'limitskinpage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'limitskinpage');
                         }
                         break;
                     default:
@@ -3219,8 +3260,7 @@
             this.LvNum = this.self['LvNum'];
             this.LvNumDisplay();
             if (!lwg.Global._elect) {
-                this.self['P201_01'].removeSelf();
-                this.self['P201_02'].removeSelf();
+                this.self['P201'].visible = false;
             }
         }
         adaptive() {
@@ -3324,12 +3364,12 @@
             ADManager.ShowBanner();
             lwg.Global._stageClick = false;
             if (!lwg.Global._elect) {
-                this.self['P201_01'].removeSelf();
-                this.self['P201_02'].removeSelf();
+                this.self['P201'].visible = false;
             }
         }
         adaptive() {
             this.self['sceneContent'].y = Laya.stage.height * 0.481;
+            this.self['P201'].y = Laya.stage.height * 0.093;
         }
         btnOnClick() {
             ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_noticket');
@@ -5065,13 +5105,19 @@
             this.listFirstIndex = lwg.Enum.PifuAllName[lwg.Global._currentPifu];
             this.noHaveIndex = 0;
         }
-        lwgInit() {
+        selfVars() {
+            this.PifuList = this.self['PifuList'];
             this.BtnBack = this.self['BtnBack'];
             this.BtnBuy = this.self['BtnBuy'];
             this.BtnSelect = this.self['BtnSelect'];
-            this.PifuParent = this.self['PifuParent'];
-            this.PifuList = this.self['PifuList'];
+            ADManager.TAPoint(TaT.BtnShow, 'gold_skin');
+            ADManager.TAPoint(TaT.BtnShow, 'choose_skin');
+            if (!lwg.Global._elect) {
+                this.self['P201'].visible = false;
+            }
             this.background = this.self['background'];
+        }
+        lwgInit() {
             lwg.Global.ExecutionNumNode.alpha = 0;
             lwg.Global._stageClick = false;
             lwg.Global.notHavePifuSubXD();
@@ -5085,6 +5131,7 @@
             this.self['MatchDot'].y = Laya.stage.height * 0.684;
             this.self['background_01'].height = Laya.stage.height;
             this.self['BtnBack'].y = Laya.stage.height * 0.883;
+            this.self['P201'].y = Laya.stage.height * 0.208;
             this.PifuList.y = Laya.stage.height * 0.471;
         }
         priceDisplay() {
@@ -5251,6 +5298,7 @@
             lwg.LocalStorage.addData();
         }
         btnBuyUp(event) {
+            ADManager.TAPoint(TaT.BtnClick, 'gold_skin');
             event.currentTarget.scale(1, 1);
             event.stopPropagation();
             let price = 250 * lwg.Global._buyNum - 150;
@@ -5308,6 +5356,7 @@
             console.log('购买完成！');
         }
         btnSelectUp(event) {
+            ADManager.TAPoint(TaT.BtnClick, 'choose_skin');
             event.stopPropagation();
             event.currentTarget.scale(1, 1);
             this.whetherHaveThisPifu();
@@ -5329,11 +5378,17 @@
         lwgInit() {
             this.self = this.owner;
             this.BtnAdv = this.self['BtnAdv'];
+            ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_skintry');
+            ADManager.TAPoint(TaT.BtnShow, 'close_skintry');
+            if (!lwg.Global._elect) {
+                this.self['P201'].visible = false;
+            }
             lwg.Global.notHavePifuSubXD();
             this.randomNoHave();
         }
         adaptive() {
             this.self['SceneContent'].y = Laya.stage.height / 2;
+            this.self['P201'].y = Laya.stage.height * 0.237;
             this.self['background_01'].height = Laya.stage.height;
         }
         openAni() {
@@ -5362,12 +5417,14 @@
             lwg.Click.on('largen', null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
         }
         btnAdvUp(event) {
+            ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_skintry');
             event.currentTarget.scale(1, 1);
             ADManager.ShowReward(() => {
                 this.btnAdvFunc();
             });
         }
         btnBackUp() {
+            ADManager.TAPoint(TaT.BtnClick, 'close_skintry');
             this.self.close();
         }
         btnNoUp() {
@@ -5528,13 +5585,14 @@
             this.moveSwitch = false;
         }
         selfVars() {
-            this.BtnStart = this.self['BtnStart'];
             this.CustomsList = this.self['CustomsList'];
+            this.SceneContent = this.self['SceneContent'];
+            this.BtnStart = this.self['BtnStart'];
             this.BtnPifu = this.self['BtnPifu'];
             this.BtnLocation = this.self['BtnLocation'];
-            this.SceneContent = this.self['SceneContent'];
         }
         lwgInit() {
+            ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
             this.BtnLocation.visible = false;
             if (lwg.Global._watchAdsNum >= 3) {
                 this.self['BtnXD'].removeSelf();
@@ -5545,13 +5603,13 @@
             ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
             ADManager.ShowBanner();
             if (!lwg.Global._elect) {
-                this.self['P201_01'].removeSelf();
-                this.self['P201_02'].removeSelf();
-                this.self['P204'].removeSelf();
+                this.self['P201'].visible = false;
+                this.self['P204'].visible = false;
             }
         }
         adaptive() {
-            this.self['P204'].y = Laya.stage.height - 130;
+            this.self['P204'].y = Laya.stage.height - 91;
+            this.self['P201'].y = Laya.stage.height * 0.156;
             this.SceneContent.y = this.self['P204'].y - 80 - this.SceneContent.height / 2;
         }
         openAni() {
@@ -5813,7 +5871,6 @@
             lwg.Animation.simple_Rotate(pic, 0, 180, time, null);
         }
         btnOnClick() {
-            ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnStart, this, null, null, this.btnStartClickUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnPifu, this, null, null, this.btnPifuClickUp, null);
             lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.BtnLocation, this, null, null, this.btnLocationUp, null);
@@ -6098,6 +6155,8 @@
             this.SceneContent = this.self['SceneContent'];
             this.background = this.self['background'];
             this.logo = this.self['logo'];
+            ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_limitskin');
+            ADManager.TAPoint(TaT.BtnShow, 'close_limitskin');
             this.btnGetNum();
         }
         adaptive() {
@@ -6117,12 +6176,16 @@
             lwg.Click.on('largen', null, this.BtnGet, this, null, null, this.btnGetUp, null);
         }
         btnBackUp(event) {
+            ADManager.TAPoint(TaT.BtnClick, 'close_limitskin');
             event.currentTarget.scale(1, 1);
             this.self.close();
         }
         btnGetUp(event) {
+            ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_limitskin');
             event.currentTarget.scale(1, 1);
-            this.btnGetFunc();
+            ADManager.ShowReward(() => {
+                this.btnGetFunc();
+            });
         }
         btnGetFunc() {
             lwg.Global._watchAdsNum += 1;

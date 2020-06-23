@@ -11,20 +11,21 @@ export default class ADManager {
     }
 
 
-
     public static ShowBanner() {
         if (TJ.API.AppInfo.Channel() == TJ.Define.Channel.AppRt.ZJTD_AppRt) {
-            // return;
+            return;
         }
         let p = new TJ.ADS.Param();
         p.place = TJ.ADS.Place.BOTTOM | TJ.ADS.Place.CENTER;
         TJ.ADS.Api.ShowBanner(p);
     }
+
     public static CloseBanner() {
         let p = new TJ.ADS.Param();
         p.place = TJ.ADS.Place.BOTTOM | TJ.ADS.Place.CENTER;
         TJ.ADS.Api.RemoveBanner(p);
     }
+
 
     public static ShowNormal() {
         // let p = new TJ.ADS.Param();
@@ -35,40 +36,54 @@ export default class ADManager {
 
         TJ.API.AdService.ShowNormal(new TJ.API.AdService.Param());
     }
-    public static ShowReward(rewardAction: Function)//展示激励广告，一般是视频
+
+    static CanShowCD: boolean = true;
+    public static ShowReward(rewardAction: Function, CDTime: number = 500)//展示激励广告，一般是视频
     {
-        lwg.PalyAudio.stopMusic();
-        console.log("?????");
-        let p = new TJ.ADS.Param();
-        p.extraAd = true;//视频结束后通常会追加一次插屏
-        let getReward = false;
 
-        p.cbi.Add(TJ.Define.Event.Reward, () => {
-            getReward = true;
-            lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
-            if (rewardAction != null)
-                rewardAction();
-        });
+        if (ADManager.CanShowCD) {
+            lwg.PalyAudio.stopMusic();
+            console.log("?????");
+            let p = new TJ.ADS.Param();
+            p.extraAd = true;//视频结束后通常会追加一次插屏
+            let getReward = false;
 
-        p.cbi.Add(TJ.Define.Event.Close, () => {
-
-            if (!getReward) {
+            p.cbi.Add(TJ.Define.Event.Reward, () => {
+                getReward = true;
                 lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
-                //UIMgr.show("UISubSkinTry", 2);
-                lwg.Global._createHint_01(lwg.Enum.HintType.lookend);
-                //TipPanel.ins.showString("观看完整广告才能获取奖励哦！");
-            }
-        });
-        p.cbi.Add(TJ.Define.Event.NoAds, () => {
-            lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
+                if (rewardAction != null)
+                    rewardAction();
+            });
 
-            //UIMgr.show("UISubSkinTry", 1);
-            lwg.Global._createHint_01(lwg.Enum.HintType.noAdv);
-            //TipPanel.ins.showString("暂时没有广告，过会儿再试试吧！");
-        });
+            p.cbi.Add(TJ.Define.Event.Close, () => {
 
-        TJ.ADS.Api.ShowReward(p);
+                if (!getReward) {
+                    lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
+                    //UIMgr.show("UISubSkinTry", 2);
+                    lwg.Global._createHint_01(lwg.Enum.HintType.lookend);
+                    //TipPanel.ins.showString("观看完整广告才能获取奖励哦！");
+                }
+            });
+            p.cbi.Add(TJ.Define.Event.NoAds, () => {
+                lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
+
+                //UIMgr.show("UISubSkinTry", 1);
+                lwg.Global._createHint_01(lwg.Enum.HintType.noAdv);
+                //TipPanel.ins.showString("暂时没有广告，过会儿再试试吧！");
+            });
+
+            TJ.ADS.Api.ShowReward(p);
+            ADManager.CanShowCD = false;
+            setTimeout(() => {
+                ADManager.CanShowCD = true;
+            }, CDTime)
+        }
+        else  {
+            //提示位 
+            //TipPanel.ins.showString("广告准备中");
+        }
     }
+
     static Event(param: string, value: string) {
         console.log("Param:>" + param + "Value:>" + value);
         let p = new TJ.GSA.Param()

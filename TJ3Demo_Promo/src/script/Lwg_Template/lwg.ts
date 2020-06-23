@@ -39,7 +39,7 @@ export module lwg {
         export let _CustomsNum: number = 999;
         /**关闭舞台点击事件*/
         export let _stageClick: boolean = true;
-        /**限定皮肤界面是否打开了*/ 
+        /**限定皮肤界面是否打开了*/
         export let _openXD: boolean = false;
 
         /**在体力提示界面中，用于判断在失败界面时，判断从哪个按钮进去，是通过重来按钮还是下一关按钮进来的*/
@@ -564,6 +564,7 @@ export module lwg {
             UISmallHint = 'UISmallHint',
             UIXDpifu = 'UIXDpifu',
             UIPifuTry = 'UIPifuTry',
+
         }
         /**游戏当前的状态*/
         export enum GameState {
@@ -726,30 +727,15 @@ export module lwg {
           * 刷新当前实际打开的关卡场景
           **/
         export function _refreshScene(): void {
-            // let sceneName;
-            // if (lwg.Global._gameLevel <= 9) {
-            //     sceneName = 'UIMain_00' + lwg.Global._gameLevel;
-            // } else if (9 < lwg.Global._gameLevel || lwg.Global._gameLevel <= 99) {
-            //     sceneName = 'UIMain_0' + lwg.Global._gameLevel;
-            // }
             _sceneControl[openCustomName].close();
             _openScene(openCustomName, null, null, null);
         }
-
-
-
 
         /**
         * 关闭当前实际打开的关卡场景
         **/
         export function _closeCustomScene(): void {
             console.log('关闭当前关卡' + openCustomName);
-            // let sceneName;
-            // if (gameLevel <= 9) {
-            //     sceneName = 'UIMain_00' + gameLevel;
-            // } else if (9 < gameLevel || gameLevel <= 99) {
-            //     sceneName = 'UIMain_0' + gameLevel;
-            // }
             _sceneControl[openCustomName].close();
         }
 
@@ -810,6 +796,34 @@ export module lwg {
                         ADManager.TAPoint(TaT.PageEnter, 'pausepage');
                     } else if (type === 'dis') {
                         ADManager.TAPoint(TaT.PageLeave, 'pausepage');
+                    }
+                    break;
+                case SceneName.UIShare:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'sharepage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'sharepage');
+                    }
+                    break;
+                case SceneName.UIPifu:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'skinpage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'skinpage');
+                    }
+                    break;
+                case SceneName.UIPifuTry:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'skintrypage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'skintrypage');
+                    }
+                    break;
+                case SceneName.UIXDpifu:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'limitskinpage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'limitskinpage');
                     }
                     break;
                 default:
