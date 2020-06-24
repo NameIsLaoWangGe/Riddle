@@ -6,11 +6,10 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
     /**当前这个方向的通道是否被打开，也就等同于当前房间的方向被另一个连接了*/
     openSwitch: boolean = false;
     /**对面被连接的是哪个通道*/
-    oppositeAisle: Laya.Sprite;
+    oppositeAisle: Laya.Sprite = null;
     /**对面被连接的是哪个房子*/
     connectRoom: Laya.Image = null;
-    /**门锁，可以控制通道是否允许被连接*/
-    locks: boolean = false;
+
     constructor() { super(); }
 
     lwgInit() {
@@ -78,17 +77,10 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
     }
 
     onTriggerEnter(other, self): void {
-        // if (this.locks) {
-        //     return;
-        // }
         let otherName: string = other.owner.name;
         let selfName: string = this.self.name;
         // 如果是都是通道，那么连接上
         if (other.label === 'aisle' && self.label === 'aisle') {
-            // if (this.oppositeAisle) {
-            //     this.oppositeAisle['UIMain_Aisle'].openSwitch = true;
-            //     this.openSwitch = true;
-            // }
         } else if (other.label === 'interaction' && self.label === 'interaction') {
             let n1 = otherName.substring(0, 1);
             let n2 = selfName.substring(0, 1);
@@ -97,8 +89,7 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
                 this.oppositeAisle = other.owner;
                 console.log('开始感应', n1, n2);
                 this.interactionPicStyle('enter');
-                //如果太远则不吸附，目前是个bug，这时候避免以下
-                this.roomAdsorption();
+                // this.roomAdsorption();
             }
         }
     }
@@ -214,29 +205,25 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
         let otherName: string = other.owner.name;
         let selfName: string = this.self.name;
         if (other.label === 'aisle' && self.label === 'aisle') {
-            // if (this.oppositeAisle) {
-            //     this.oppositeAisle['UIMain_Aisle'].openSwitch = true;
-            //     this.openSwitch = true;
-            // }
         } else if (other.label === 'interaction' && self.label === 'interaction') {
+            this.openSwitch = false;
+            this.connectRoom = null;
+            this.oppositeAisle = null;
             // 必须相对方向的才可以连接 
             let n1 = otherName.substring(0, 1);
             let n2 = selfName.substring(0, 1);
-            if ((n1 === 'l' && n2 === 'r') || (n1 === 'r' && n2 === 'l') || (n1 === 'u' && n2 === 'd') || (n1 === 'd' && n2 === 'u')) {
-                this.interactionPicStyle('exit');
-                // console.log('通道断开连接！');
-                this.openSwitch = false;
-                this.connectRoom = null;
-                this.oppositeAisle = null;
-                console.log('失去感应', n1, n2);
-            }
+            this.interactionPicStyle('exit');
+            console.log('失去感应', n1, n2);
         }
     }
+
+    /**进行第二层判断，判断当房子分别离得太远的时候全部取消连接*/
+    
 
     onUpdate(): void {
         if (this.connectRoom && this.oppositeAisle) {
             this.roomAdsorption();
-        } 
+        }
         this.styleChanges();
     }
 

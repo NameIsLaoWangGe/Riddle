@@ -578,11 +578,18 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
             if (this.belongRoom.name === belongName) {
                 // console.log(other.owner.name + '退出' + this.personState);
                 // 如果是上梯子的状态则不做操作，因为上梯子优先级最高
-                if (this.personState !== lwg.Enum.MoveState.onLadder) {
-                    this.beforeInAirDir = this.moveDirection;
+                if (this.personState === lwg.Enum.MoveState.onLadder) {
+                    // this.beforeInAirDir = this.moveDirection;
+                    // this.personState = lwg.Enum.MoveState.inAir;
+                    // this.moveDirection = lwg.Enum.PersonDir.down;
+                    // console.log(other.owner.name + '退出' + this.personState);
+                } else if (this.personState === lwg.Enum.MoveState.inAir) {
+                    // console.log(other.owner.name + '退出' + this.personState);
+
+                } else if (this.personState === lwg.Enum.MoveState.onFloor) {
+                    this.beforeFloorDir = this.moveDirection;
                     this.personState = lwg.Enum.MoveState.inAir;
                     this.moveDirection = lwg.Enum.PersonDir.down;
-                    // console.log(other.owner.name + '退出' + this.personState);
                 }
             }
         } else if (other.label === 'ladder') {
@@ -721,6 +728,10 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
                     this.moveDirection = lwg.Enum.PersonDir.right;
                 }
             }
+        } else {
+            // if (condition) {
+
+            // }
         }
     }
 

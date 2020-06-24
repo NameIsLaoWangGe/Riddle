@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":748,
-    "selecteID":750,
+    "selectedBox":2,
+    "selecteID":645,
     "searchKey":"View",
     "props":{"width":720,"sceneColor":"#000000","height":1280},
     "nodeParent":-1,
@@ -337,7 +337,7 @@
                             "switchAble":true,
                             "searchKey":"BoxCollider",
                             "removeAble":true,
-                            "props":{"y":-1,"x":29,"width":14,"label":"ladder","isSensor":true,"height":107},
+                            "props":{"y":-1,"x":26,"width":19,"label":"ladder","isSensor":true,"height":107},
                             "nodeParent":740,
                             "label":"BoxCollider",
                             "isDirectory":false,
@@ -2261,13 +2261,14 @@
                     "props":{"y":111.5,"x":72,"width":71,"pivotY":96,"pivotX":36,"name":"ladder_01","height":188},
                     "nodeParent":645,
                     "label":"ladder_01",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":677,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":37,"x":12,"texture":"Room/ui_ladder.png"},
@@ -2281,6 +2282,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":-1,"x":12,"texture":"Room/ui_ladder.png"},
@@ -2295,6 +2297,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":111,"x":12,"texture":"Room/ui_ladder.png"},
@@ -2308,6 +2311,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":149,"x":12,"texture":"Room/ui_ladder.png"},
@@ -2322,6 +2326,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":73,"x":12,"texture":"Room/ui_ladder.png"},
@@ -2336,11 +2341,12 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"BoxCollider",
                             "switchAble":true,
                             "searchKey":"BoxCollider",
                             "removeAble":true,
-                            "props":{"y":-1,"x":29,"width":14,"label":"ladder","isSensor":true,"height":186},
+                            "props":{"y":-1,"x":26,"width":19,"label":"ladder","isSensor":true,"height":186},
                             "nodeParent":677,
                             "label":"BoxCollider",
                             "isDirectory":false,
@@ -2351,6 +2357,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"RigidBody",
                             "switchAble":true,
                             "searchKey":"RigidBody",

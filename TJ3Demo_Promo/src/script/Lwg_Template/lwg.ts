@@ -1635,11 +1635,11 @@ export module lwg {
 
         /**角色当前的状态，状态唯一，状态不会改变移动方向，需要手动改*/
         export enum MoveState {
-            /**在梯子上，优先级最高*/
+            /**在地板上，优先级最高*/
             onFloor = 'onFloor',
             /**在梯子上，优先级第二*/
             onLadder = 'onLadder',
-            /**在梯子上，优先级最后*/
+            /**在空中，优先级最后*/
             inAir = 'inAir'
         }
 

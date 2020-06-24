@@ -3715,8 +3715,8 @@
         constructor() {
             super();
             this.openSwitch = false;
+            this.oppositeAisle = null;
             this.connectRoom = null;
-            this.locks = false;
         }
         lwgInit() {
             this.interactionPicStyle('exit');
@@ -3780,7 +3780,6 @@
                     this.oppositeAisle = other.owner;
                     console.log('开始感应', n1, n2);
                     this.interactionPicStyle('enter');
-                    this.roomAdsorption();
                 }
             }
         }
@@ -3864,17 +3863,17 @@
         onTriggerExit(other, self) {
             let otherName = other.owner.name;
             let selfName = this.self.name;
-            if (other.label === 'aisle' && self.label === 'aisle') ;
+            if (other.label === 'aisle' && self.label === 'aisle') {
+                this.interactionPicStyle('exit');
+            }
             else if (other.label === 'interaction' && self.label === 'interaction') {
+                this.openSwitch = false;
+                this.connectRoom = null;
+                this.oppositeAisle = null;
                 let n1 = otherName.substring(0, 1);
                 let n2 = selfName.substring(0, 1);
-                if ((n1 === 'l' && n2 === 'r') || (n1 === 'r' && n2 === 'l') || (n1 === 'u' && n2 === 'd') || (n1 === 'd' && n2 === 'u')) {
-                    this.interactionPicStyle('exit');
-                    this.openSwitch = false;
-                    this.connectRoom = null;
-                    this.oppositeAisle = null;
-                    console.log('失去感应', n1, n2);
-                }
+                this.interactionPicStyle('exit');
+                console.log('失去感应', n1, n2);
             }
         }
         onUpdate() {
@@ -4322,8 +4321,10 @@
             if (other.label === 'floor') {
                 let belongName = other.owner.name.substring(other.owner.name.length - 5, other.owner.name.length);
                 if (this.belongRoom.name === belongName) {
-                    if (this.personState !== lwg.Enum.MoveState.onLadder) {
-                        this.beforeInAirDir = this.moveDirection;
+                    if (this.personState === lwg.Enum.MoveState.onLadder) ;
+                    else if (this.personState === lwg.Enum.MoveState.inAir) ;
+                    else if (this.personState === lwg.Enum.MoveState.onFloor) {
+                        this.beforeFloorDir = this.moveDirection;
                         this.personState = lwg.Enum.MoveState.inAir;
                         this.moveDirection = lwg.Enum.PersonDir.down;
                     }
