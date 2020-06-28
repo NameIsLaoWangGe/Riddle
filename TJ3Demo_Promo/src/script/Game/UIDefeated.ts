@@ -28,6 +28,10 @@ export default class UIDefeated extends lwg.Admin.Scene {
         if (!lwg.Global._elect) {
             this.self['P201'].visible = false;
         }
+
+        if (!lwg.Global._shakeSwitch) {
+            ADManager.VibrateShort();
+        }
     }
 
     adaptive(): void {

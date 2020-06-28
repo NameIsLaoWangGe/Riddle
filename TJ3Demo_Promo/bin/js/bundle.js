@@ -3778,7 +3778,6 @@
                 if ((n1 === 'l' && n2 === 'r') || (n1 === 'r' && n2 === 'l') || (n1 === 'u' && n2 === 'd') || (n1 === 'd' && n2 === 'u')) {
                     this.connectRoom = other.owner.parent;
                     this.oppositeAisle = other.owner;
-                    console.log('开始感应', n1, n2);
                     this.interactionPicStyle('enter');
                 }
             }
@@ -3863,9 +3862,7 @@
         onTriggerExit(other, self) {
             let otherName = other.owner.name;
             let selfName = this.self.name;
-            if (other.label === 'aisle' && self.label === 'aisle') {
-                this.interactionPicStyle('exit');
-            }
+            if (other.label === 'aisle' && self.label === 'aisle') ;
             else if (other.label === 'interaction' && self.label === 'interaction') {
                 this.openSwitch = false;
                 this.connectRoom = null;
@@ -3873,7 +3870,24 @@
                 let n1 = otherName.substring(0, 1);
                 let n2 = selfName.substring(0, 1);
                 this.interactionPicStyle('exit');
-                console.log('失去感应', n1, n2);
+            }
+        }
+        roomDistanceJudge() {
+            let parent = this.self.parent;
+            for (let index = 0; index < this.selfScene.numChildren; index++) {
+                const element = this.selfScene.getChildAt(index);
+                if (element.name.substring(0, 4) === 'Room' && element !== parent) {
+                    if (this.self.name.substring(0, 1) === 'l' || this.self.name.substring(0, 1) === 'r') {
+                        if (Math.abs(element.x - parent.x) > element.width / 2 + parent.width / 2 + 100) {
+                            this.interactionPicStyle('exit');
+                        }
+                    }
+                    else if (this.self.name.substring(0, 1) === 'u' || this.self.name.substring(0, 1) === 'd') {
+                        if (Math.abs(element.y - parent.y) > element.height / 2 + parent.height / 2 + 100) {
+                            this.interactionPicStyle('exit');
+                        }
+                    }
+                }
             }
         }
         onUpdate() {
@@ -4253,8 +4267,8 @@
             let connectRoom = otherOwner['UIMain_Aisle'].connectRoom;
             let otherDir = otherName.substring(0, 1);
             let selfDir = this.moveDirection.substring(0, 1);
+            let oppositeAisle = otherOwner['UIMain_Aisle'].oppositeAisle;
             if (otherDir === 'l' || otherDir === 'r') {
-                let oppositeAisle = otherOwner['UIMain_Aisle'].oppositeAisle;
                 if (!openSwitch) {
                     let lrAisle = this.belongRoom.getChildByName(otherOwner.name);
                     if (otherOwner === lrAisle) {
@@ -4281,8 +4295,14 @@
             }
             else if (otherDir === 'd' || otherDir === 'u') {
                 if (otherDir === 'd') {
-                    if (openSwitch === false) ;
+                    if (!openSwitch) ;
                     else {
+                        if (oppositeAisle) {
+                            let openSwitch_02 = oppositeAisle['UIMain_Aisle'].openSwitch;
+                            if (!openSwitch_02) {
+                                return;
+                            }
+                        }
                         if (selfDir === 'l' || selfDir === 'r') {
                             if (this.belongRoom !== connectRoom) {
                                 this.belongRoom = connectRoom;

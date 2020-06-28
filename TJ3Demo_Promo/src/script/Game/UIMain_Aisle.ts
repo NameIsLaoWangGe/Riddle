@@ -87,7 +87,7 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
             if ((n1 === 'l' && n2 === 'r') || (n1 === 'r' && n2 === 'l') || (n1 === 'u' && n2 === 'd') || (n1 === 'd' && n2 === 'u')) {
                 this.connectRoom = other.owner.parent as Laya.Image;
                 this.oppositeAisle = other.owner;
-                console.log('开始感应', n1, n2);
+                // console.log('开始感应', n1, n2);
                 this.interactionPicStyle('enter');
                 // this.roomAdsorption();
             }
@@ -213,12 +213,28 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
             let n1 = otherName.substring(0, 1);
             let n2 = selfName.substring(0, 1);
             this.interactionPicStyle('exit');
-            console.log('失去感应', n1, n2);
+            // console.log('失去感应', n1, n2);
         }
     }
 
-    /**进行第二层判断，判断当房子分别离得太远的时候全部取消连接*/
-    
+    /**进行第二层判断，判断当与其他房子离得太远的时候全部取消连接*/
+    roomDistanceJudge(): void {
+        let parent = this.self.parent as Laya.Image;
+        for (let index = 0; index < this.selfScene.numChildren; index++) {
+            const element = this.selfScene.getChildAt(index) as Laya.Image;
+            if (element.name.substring(0, 4) === 'Room' && element !== parent) {
+                if (this.self.name.substring(0, 1) === 'l' || this.self.name.substring(0, 1) === 'r') {
+                    if (Math.abs(element.x - parent.x) > element.width / 2 + parent.width / 2 + 100) {
+                        this.interactionPicStyle('exit');
+                    }
+                } else if (this.self.name.substring(0, 1) === 'u' || this.self.name.substring(0, 1) === 'd') {
+                    if (Math.abs(element.y - parent.y) > element.height / 2 + parent.height / 2 + 100) {
+                        this.interactionPicStyle('exit');
+                    }
+                }
+            }
+        }
+    }
 
     onUpdate(): void {
         if (this.connectRoom && this.oppositeAisle) {

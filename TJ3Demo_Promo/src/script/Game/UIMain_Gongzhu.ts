@@ -486,9 +486,10 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
 
         let otherDir = otherName.substring(0, 1);
         let selfDir = this.moveDirection.substring(0, 1);
+
+        let oppositeAisle = otherOwner['UIMain_Aisle'].oppositeAisle;
         // 上下和左右方向执行的结果不相同
         if (otherDir === 'l' || otherDir === 'r') {
-            let oppositeAisle = otherOwner['UIMain_Aisle'].oppositeAisle;
             if (!openSwitch) {
                 // 必须是当前房间的通道才可以换方向
                 let lrAisle = this.belongRoom.getChildByName(otherOwner.name);
@@ -496,7 +497,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
                     this.changeDirection();
                 }
             } else {
-                // 如果另一间屋子被连接，但是通道关起来了，也不会进去
+                // 如果另一间屋子被连接，但是当前通道被关起来了，也不会进去
                 if (oppositeAisle) {
                     let openSwitch_02 = oppositeAisle['UIMain_Aisle'].openSwitch;
                     if (!openSwitch_02) {
@@ -522,10 +523,18 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         } else if (otherDir === 'd' || otherDir === 'u') {
             // 上下分别判断
             if (otherDir === 'd') {
-                if (openSwitch === false) {
+                if (!openSwitch) {
                     // 还原方向
                     // console.log('啥也不做！');
                 } else {
+                    // 如果另一间屋子被连接，但是当前通道被关起来了，也不会进去
+                    if (oppositeAisle) {
+                        let openSwitch_02 = oppositeAisle['UIMain_Aisle'].openSwitch;
+                        if (!openSwitch_02) {
+                            // console.log('啥也不做！');
+                            return;
+                        }
+                    }
                     // 此时方向向下，交换房间，可以通行，也会自动出地板，然后关掉地板，自动找到梯子
                     // 方向必须一样，因为至于碰到自己当前房间的通道判断，另一个房间的通道是一直通行
                     // 是同一个房间才会下去
