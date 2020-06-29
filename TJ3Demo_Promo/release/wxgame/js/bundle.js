@@ -3160,6 +3160,12 @@
         }
         btnYesClickUP(event) {
             event.currentTarget.scale(1, 1);
+            ADManager.ShowReward(() => {
+                this.btnYesFunc();
+            });
+        }
+        btnYesFunc() {
+            console.log('获得了一个主播限定皮肤！');
         }
         btnNoClickUP(event) {
             event.currentTarget.scale(1, 1);
@@ -3283,6 +3289,9 @@
             this.LvNumDisplay();
             if (!lwg.Global._elect) {
                 this.self['P201'].visible = false;
+            }
+            if (lwg.Global._shakeSwitch) {
+                ADManager.Vibratelong();
             }
         }
         adaptive() {
@@ -3709,8 +3718,8 @@
         constructor() {
             super();
             this.openSwitch = false;
+            this.oppositeAisle = null;
             this.connectRoom = null;
-            this.locks = false;
         }
         lwgInit() {
             this.interactionPicStyle('exit');
@@ -3772,9 +3781,7 @@
                 if ((n1 === 'l' && n2 === 'r') || (n1 === 'r' && n2 === 'l') || (n1 === 'u' && n2 === 'd') || (n1 === 'd' && n2 === 'u')) {
                     this.connectRoom = other.owner.parent;
                     this.oppositeAisle = other.owner;
-                    console.log('开始感应', n1, n2);
                     this.interactionPicStyle('enter');
-                    this.roomAdsorption();
                 }
             }
         }
@@ -3860,14 +3867,29 @@
             let selfName = this.self.name;
             if (other.label === 'aisle' && self.label === 'aisle') ;
             else if (other.label === 'interaction' && self.label === 'interaction') {
+                this.openSwitch = false;
+                this.connectRoom = null;
+                this.oppositeAisle = null;
                 let n1 = otherName.substring(0, 1);
                 let n2 = selfName.substring(0, 1);
-                if ((n1 === 'l' && n2 === 'r') || (n1 === 'r' && n2 === 'l') || (n1 === 'u' && n2 === 'd') || (n1 === 'd' && n2 === 'u')) {
-                    this.interactionPicStyle('exit');
-                    this.openSwitch = false;
-                    this.connectRoom = null;
-                    this.oppositeAisle = null;
-                    console.log('失去感应', n1, n2);
+                this.interactionPicStyle('exit');
+            }
+        }
+        roomDistanceJudge() {
+            let parent = this.self.parent;
+            for (let index = 0; index < this.selfScene.numChildren; index++) {
+                const element = this.selfScene.getChildAt(index);
+                if (element.name.substring(0, 4) === 'Room' && element !== parent) {
+                    if (this.self.name.substring(0, 1) === 'l' || this.self.name.substring(0, 1) === 'r') {
+                        if (Math.abs(element.x - parent.x) > element.width / 2 + parent.width / 2 + 100) {
+                            this.interactionPicStyle('exit');
+                        }
+                    }
+                    else if (this.self.name.substring(0, 1) === 'u' || this.self.name.substring(0, 1) === 'd') {
+                        if (Math.abs(element.y - parent.y) > element.height / 2 + parent.height / 2 + 100) {
+                            this.interactionPicStyle('exit');
+                        }
+                    }
                 }
             }
         }
@@ -4168,7 +4190,9 @@
         }
         wallAndPerson(other, self) {
             if (this.moveDirection === lwg.Enum.PersonDir.left || this.moveDirection === lwg.Enum.PersonDir.right) {
-                this.changeDirection();
+                if (this.belongRoom === other.owner.parent) {
+                    this.changeDirection();
+                }
             }
         }
         wangziAndPerson(other, self) {
@@ -4246,8 +4270,8 @@
             let connectRoom = otherOwner['UIMain_Aisle'].connectRoom;
             let otherDir = otherName.substring(0, 1);
             let selfDir = this.moveDirection.substring(0, 1);
+            let oppositeAisle = otherOwner['UIMain_Aisle'].oppositeAisle;
             if (otherDir === 'l' || otherDir === 'r') {
-                let oppositeAisle = otherOwner['UIMain_Aisle'].oppositeAisle;
                 if (!openSwitch) {
                     let lrAisle = this.belongRoom.getChildByName(otherOwner.name);
                     if (otherOwner === lrAisle) {
@@ -4274,8 +4298,14 @@
             }
             else if (otherDir === 'd' || otherDir === 'u') {
                 if (otherDir === 'd') {
-                    if (openSwitch === false) ;
+                    if (!openSwitch) ;
                     else {
+                        if (oppositeAisle) {
+                            let openSwitch_02 = oppositeAisle['UIMain_Aisle'].openSwitch;
+                            if (!openSwitch_02) {
+                                return;
+                            }
+                        }
                         if (selfDir === 'l' || selfDir === 'r') {
                             if (this.belongRoom !== connectRoom) {
                                 this.belongRoom = connectRoom;
@@ -4314,8 +4344,10 @@
             if (other.label === 'floor') {
                 let belongName = other.owner.name.substring(other.owner.name.length - 5, other.owner.name.length);
                 if (this.belongRoom.name === belongName) {
-                    if (this.personState !== lwg.Enum.MoveState.onLadder) {
-                        this.beforeInAirDir = this.moveDirection;
+                    if (this.personState === lwg.Enum.MoveState.onLadder) ;
+                    else if (this.personState === lwg.Enum.MoveState.inAir) ;
+                    else if (this.personState === lwg.Enum.MoveState.onFloor) {
+                        this.beforeFloorDir = this.moveDirection;
                         this.personState = lwg.Enum.MoveState.inAir;
                         this.moveDirection = lwg.Enum.PersonDir.down;
                     }
@@ -4453,6 +4485,7 @@
             this.noMoveDirection();
             this.move();
             this.positionOffset();
+            this.scopeControl();
         }
         onDisable() {
         }
@@ -4999,7 +5032,12 @@
     }
 
     class UIPassHint extends lwg.Admin.Scene {
+        constructor() {
+            super(...arguments);
+            this.advAfter = false;
+        }
         lwgInit() {
+            console.log('出现提示界面');
             ADManager.ShowBanner();
             lwg.Global._stageClick = false;
         }
@@ -5010,6 +5048,14 @@
             this.self['BtnNo'].visible = false;
             setTimeout(() => {
                 if (this.intoScene === 'UIMain') ;
+                else if (lwg.Admin._gameState === lwg.Admin.GameState.Play) {
+                    if (this.advAfter) {
+                        this.self['BtnNo'].visible = false;
+                    }
+                    else {
+                        this.self['BtnNo'].visible = true;
+                    }
+                }
                 else {
                     this.self['BtnNo'].visible = true;
                 }
@@ -5039,6 +5085,7 @@
             }
             else if (this.self['Pic'].skin === 'UI_new/Defeated/word_freereplay.png') {
                 lwg.Admin._refreshScene();
+                this.self.close();
             }
             else {
                 ADManager.ShowReward(() => {
@@ -5047,6 +5094,7 @@
             }
         }
         btnYseUpFunc() {
+            this.advAfter = true;
             if (this.intoScene === lwg.Admin.SceneName.UIDefeated) {
                 this.self['Pic'].skin = 'UI_new/Defeated/word_freereplay.png';
                 this.self['Pic'].x -= 30;
@@ -5096,6 +5144,7 @@
         lwgDisable() {
             ADManager.CloseBanner();
             lwg.Global._stageClick = true;
+            console.log('关闭提示界面');
         }
     }
 
@@ -5182,7 +5231,7 @@
             this.PifuList.hScrollBarSkin = "";
             this.PifuList.selectHandler = new Laya.Handler(this, this.onSelect_List);
             this.PifuList.renderHandler = new Laya.Handler(this, this.updateItem);
-            this.refreshListData();
+            this.refreshListData(null);
             this.matchDotStaly();
             this.selectPifuStyle();
             this.listOpenAni();
@@ -5196,7 +5245,7 @@
             }
             this.PifuList.tweenTo(this.listFirstIndex, 600);
         }
-        refreshListData() {
+        refreshListData(func) {
             var data = [];
             for (var m = -1; m < 10; m++) {
                 if (m === -1 || m === 9) {
@@ -5242,6 +5291,9 @@
                 });
             }
             this.PifuList.array = data;
+            if (func !== null) {
+                func();
+            }
         }
         onSelect_List(index) {
         }
@@ -5278,7 +5330,7 @@
             this.PifuList.tweenTo(this.listFirstIndex, 50, Laya.Handler.create(this, this.moveCompelet));
         }
         moveCompelet() {
-            this.refreshListData();
+            this.refreshListData(null);
             this.matchDotStaly();
             this.whetherHaveThisPifu();
             this.selectPifuStyle();
@@ -5366,7 +5418,7 @@
             if (noHavePifu_00) {
                 index = lwg.Enum.PifuAllName[noHavePifu_00];
                 this.listFirstIndex = index;
-                this.refreshListData();
+                this.refreshListData(null);
                 this.PifuList.tweenTo(index, 200, Laya.Handler.create(this, function () {
                     this.noHaveIndex++;
                     this.nohavePifuAni();
@@ -5374,7 +5426,6 @@
             }
             else {
                 console.log('循环完毕，准备循环到被购买的那个皮肤', this.buyIndex);
-                let time = this.buyIndex;
                 this.PifuList.tweenTo(this.buyIndex, (11 - this.buyIndex) * 100, Laya.Handler.create(this, function () {
                     this.noHaveIndex = 0;
                     this.listFirstIndex = this.buyIndex;
@@ -5385,11 +5436,12 @@
         buyCompelet() {
             lwg.Global._havePifu.push(lwg.Enum.PifuAllName[this.buyIndex]);
             lwg.Global.notHavePifuSubXD();
-            this.refreshListData();
-            this.priceDisplay();
-            this.selectPifuStyle();
-            this.matchDotStaly();
-            lwg.LocalStorage.addData();
+            this.refreshListData(f => {
+                this.priceDisplay();
+                this.selectPifuStyle();
+                this.matchDotStaly();
+                lwg.LocalStorage.addData();
+            });
             console.log('购买完成！');
         }
         btnSelectUp(event) {
@@ -5399,7 +5451,7 @@
             this.whetherHaveThisPifu();
             if (this.showSelect) {
                 lwg.Global._currentPifu = lwg.Global._allPifu[this.listFirstIndex];
-                this.refreshListData();
+                this.refreshListData(null);
                 this.selectPifuStyle();
             }
         }
@@ -5515,9 +5567,12 @@
             this.BtnShake = this.self['BtnShake'];
             this.BtnClose = this.self['BtnClose'];
             this.btnVoiceAndBtnShake();
+            if (!lwg.Global._elect) {
+                this.self['P204'].visible = false;
+            }
         }
         adaptive() {
-            this.self['P204'].y = Laya.stage.height * 0.130;
+            this.self['P204'].y = Laya.stage.height - 75;
             this.self['SceneContent'].y = Laya.stage.height * 0.471;
         }
         btnVoiceAndBtnShake() {
@@ -5681,7 +5736,7 @@
             }
         }
         adaptive() {
-            this.self['P204'].y = Laya.stage.height - 91;
+            this.self['P204'].y = Laya.stage.height - 75;
             this.self['P201'].y = Laya.stage.height * 0.156;
             this.SceneContent.y = this.self['P204'].y - 80 - this.SceneContent.height / 2;
         }

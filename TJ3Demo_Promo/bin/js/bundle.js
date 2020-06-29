@@ -1027,7 +1027,7 @@
             Global._stageClick = true;
             Global._openXD = false;
             Global._goldNum = 0;
-            Global._elect = false;
+            Global._elect = true;
             Global._shakeSwitch = true;
             Global._btnDelayed = 2000;
             Global._currentPifu = '01_gongzhu';
@@ -3290,6 +3290,9 @@
             if (!lwg.Global._elect) {
                 this.self['P201'].visible = false;
             }
+            if (lwg.Global._shakeSwitch) {
+                ADManager.Vibratelong();
+            }
         }
         adaptive() {
             this.self['sceneContent'].y = Laya.stage.height / 2;
@@ -5029,7 +5032,12 @@
     }
 
     class UIPassHint extends lwg.Admin.Scene {
+        constructor() {
+            super(...arguments);
+            this.advAfter = false;
+        }
         lwgInit() {
+            console.log('出现提示界面');
             ADManager.ShowBanner();
             lwg.Global._stageClick = false;
         }
@@ -5040,6 +5048,14 @@
             this.self['BtnNo'].visible = false;
             setTimeout(() => {
                 if (this.intoScene === 'UIMain') ;
+                else if (lwg.Admin._gameState === lwg.Admin.GameState.Play) {
+                    if (this.advAfter) {
+                        this.self['BtnNo'].visible = false;
+                    }
+                    else {
+                        this.self['BtnNo'].visible = true;
+                    }
+                }
                 else {
                     this.self['BtnNo'].visible = true;
                 }
@@ -5069,6 +5085,7 @@
             }
             else if (this.self['Pic'].skin === 'UI_new/Defeated/word_freereplay.png') {
                 lwg.Admin._refreshScene();
+                this.self.close();
             }
             else {
                 ADManager.ShowReward(() => {
@@ -5077,6 +5094,7 @@
             }
         }
         btnYseUpFunc() {
+            this.advAfter = true;
             if (this.intoScene === lwg.Admin.SceneName.UIDefeated) {
                 this.self['Pic'].skin = 'UI_new/Defeated/word_freereplay.png';
                 this.self['Pic'].x -= 30;
@@ -5126,6 +5144,7 @@
         lwgDisable() {
             ADManager.CloseBanner();
             lwg.Global._stageClick = true;
+            console.log('关闭提示界面');
         }
     }
 
@@ -5553,7 +5572,7 @@
             }
         }
         adaptive() {
-            this.self['P204'].y = Laya.stage.height * 0.130;
+            this.self['P204'].y = Laya.stage.height - 75;
             this.self['SceneContent'].y = Laya.stage.height * 0.471;
         }
         btnVoiceAndBtnShake() {
@@ -5717,7 +5736,7 @@
             }
         }
         adaptive() {
-            this.self['P204'].y = Laya.stage.height - 91;
+            this.self['P204'].y = Laya.stage.height - 75;
             this.self['P201'].y = Laya.stage.height * 0.156;
             this.SceneContent.y = this.self['P204'].y - 80 - this.SceneContent.height / 2;
         }

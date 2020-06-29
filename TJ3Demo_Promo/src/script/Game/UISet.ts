@@ -15,12 +15,12 @@ export default class UISet extends lwg.Admin.Scene {
         this.BtnClose = this.self['BtnClose'];
         this.btnVoiceAndBtnShake();
         if (!lwg.Global._elect) {
-            this.self['P204'].visible = false; 
+            this.self['P204'].visible = false;
         }
     }
 
     adaptive(): void {
-        this.self['P204'].y = Laya.stage.height * 0.130;
+        this.self['P204'].y = Laya.stage.height - 75;
         this.self['SceneContent'].y = Laya.stage.height * 0.471;
     }
 

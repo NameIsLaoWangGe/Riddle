@@ -53,7 +53,7 @@ export default class UIStart extends lwg.Admin.Scene {
     }
 
     adaptive(): void {
-        this.self['P204'].y = Laya.stage.height - 91;
+        this.self['P204'].y = Laya.stage.height - 75;
         this.self['P201'].y = Laya.stage.height * 0.156;
         this.SceneContent.y = this.self['P204'].y - 80 - this.SceneContent.height / 2;
     }

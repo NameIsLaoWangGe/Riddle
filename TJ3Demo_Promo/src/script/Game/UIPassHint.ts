@@ -7,6 +7,7 @@ export default class UIPassHint extends lwg.Admin.Scene {
     /**是否是失败后再进游戏弹出来的*/
     afterDefeated: boolean;
     lwgInit() {
+        console.log('出现提示界面');
         ADManager.ShowBanner();
         lwg.Global._stageClick = false;
     }
@@ -14,11 +15,19 @@ export default class UIPassHint extends lwg.Admin.Scene {
         this.self['sceneContent'].y = Laya.stage.height * 0.481;
     }
 
+    /**时间到了后有没有看广告*/
+    advAfter: boolean = false;
     openAni(): void {
         this.self['BtnNo'].visible = false;
         setTimeout(() => {
             if (this.intoScene === 'UIMain') {
 
+            } else if (lwg.Admin._gameState === lwg.Admin.GameState.Play) {
+                if (this.advAfter) {
+                    this.self['BtnNo'].visible = false;
+                } else {
+                    this.self['BtnNo'].visible = true;
+                }
             } else {
                 this.self['BtnNo'].visible = true;
             }
@@ -58,6 +67,7 @@ export default class UIPassHint extends lwg.Admin.Scene {
             this.closeScene();
         } else if (this.self['Pic'].skin === 'UI_new/Defeated/word_freereplay.png') {
             lwg.Admin._refreshScene();
+            this.self.close();
         } else {
             ADManager.ShowReward(() => {
                 this.btnYseUpFunc();
@@ -65,6 +75,7 @@ export default class UIPassHint extends lwg.Admin.Scene {
         }
     }
     btnYseUpFunc(): void {
+        this.advAfter = true;
         if (this.intoScene === lwg.Admin.SceneName.UIDefeated) {
             this.self['Pic'].skin = 'UI_new/Defeated/word_freereplay.png';
             this.self['Pic'].x -= 30;
@@ -108,11 +119,11 @@ export default class UIPassHint extends lwg.Admin.Scene {
                 lwg.Admin._openScene(lwg.Admin.SceneName.UIDefeated, null, null, null);
             }
         }
-
         this.self.close();
     }
     lwgDisable() {
         ADManager.CloseBanner();
         lwg.Global._stageClick = true;
+        console.log('关闭提示界面');
     }
 }

@@ -1,10 +1,5 @@
 import { lwg } from "../script/Lwg_Template/lwg";
 
-
-
-
-
-
 export default class ADManager {
     constructor() {
 

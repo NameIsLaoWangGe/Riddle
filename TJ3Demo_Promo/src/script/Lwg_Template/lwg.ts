@@ -51,7 +51,7 @@ export module lwg {
         export let _hintDec: any;
 
         /**互推开关*/
-        export let _elect: boolean = false;
+        export let _elect: boolean = true;
 
         /**手机震动开关*/
         export let _shakeSwitch: boolean = true;
