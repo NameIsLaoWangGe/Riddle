@@ -97,7 +97,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
             default:
                 break;
         }
-        console.log(this.skeleton);
+        // console.log(this.skeleton);
 
         this.self.addChild(this.skeleton);
         this.skeleton.pos(this.self.width / 2, this.self.height - 9);
@@ -398,6 +398,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         this.targetP.y = this.self.y;
 
         otherOwner['UIMain_Wangzi'].skeleton.play(lwg.Enum.wangziAni.win, true);
+        this.selfScene[lwg.Admin.SceneName.UIMain].victory = true;
         this.skeleton.play(lwg.Enum.gongzhuAni.win, true);
         // 延时出现胜利界面
         this.selfScene['UIMain'].victoryAni();

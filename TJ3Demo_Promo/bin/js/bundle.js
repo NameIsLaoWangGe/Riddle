@@ -3501,10 +3501,11 @@
     class UIMain extends lwg.Admin.Scene {
         constructor() {
             super();
+            this.victory = false;
             this.timer = 0;
         }
         lwgInit() {
-            ADManager.TAPoint(TaT.LevelStart, this.self.name);
+            ADManager.TAPoint(TaT.LevelStart, 'level' + lwg.Admin.openLevelNum);
             RecordManager.startAutoRecord();
             Laya.MouseManager.multiTouchEnabled = false;
             this.BtnAgain = this.self['BtnAgain'];
@@ -3590,10 +3591,12 @@
         }
         lwgDisable() {
             if (this.victory) {
-                ADManager.TAPoint(TaT.LevelFinish, this.self.name);
+                ADManager.TAPoint(TaT.LevelFinish, 'level' + lwg.Admin.openLevelNum);
+                console.log('本关胜利打点');
             }
             else {
-                ADManager.TAPoint(TaT.LevelFail, this.self.name);
+                ADManager.TAPoint(TaT.LevelFail, 'level' + lwg.Admin.openLevelNum);
+                console.log('本关失败打点');
             }
             Laya.timer.clearAll(this);
             Laya.Tween.clearAll(this);
@@ -4202,6 +4205,7 @@
             this.targetP.x = this.self.x;
             this.targetP.y = this.self.y;
             otherOwner['UIMain_Wangzi'].skeleton.play(lwg.Enum.wangziAni.win, true);
+            this.selfScene[lwg.Admin.SceneName.UIMain].victory = true;
             this.skeleton.play(lwg.Enum.gongzhuAni.win, true);
             this.selfScene['UIMain'].victoryAni();
         }

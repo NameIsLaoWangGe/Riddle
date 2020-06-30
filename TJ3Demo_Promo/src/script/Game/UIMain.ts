@@ -21,11 +21,9 @@ export default class UIMain extends lwg.Admin.Scene {
     /**最后一次被拾取的房间，用于被吸附到另一个房间*/
     _roomPickup: Laya.Image;
     /**本关是胜利还是失败*/
-    victory: boolean;
+    victory: boolean = false;
     lwgInit() {
-
-        ADManager.TAPoint(TaT.LevelStart, this.self.name);
-
+        ADManager.TAPoint(TaT.LevelStart, 'level' + lwg.Admin.openLevelNum);
         RecordManager.startAutoRecord();
         // 关闭多点触控
         Laya.MouseManager.multiTouchEnabled = false;
@@ -127,14 +125,13 @@ export default class UIMain extends lwg.Admin.Scene {
 
     lwgDisable(): void {
         if (this.victory) {
-            ADManager.TAPoint(TaT.LevelFinish, this.self.name);
+            ADManager.TAPoint(TaT.LevelFinish, 'level' + lwg.Admin.openLevelNum);
+            console.log('本关胜利打点');
         } else {
-            ADManager.TAPoint(TaT.LevelFail, this.self.name);
+            ADManager.TAPoint(TaT.LevelFail, 'level' + lwg.Admin.openLevelNum);
+            console.log('本关失败打点');
         }
-
         Laya.timer.clearAll(this);
         Laya.Tween.clearAll(this);
-
     }
-
 }
