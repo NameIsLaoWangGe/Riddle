@@ -3980,7 +3980,6 @@
                 default:
                     break;
             }
-            console.log(this.skeleton);
             this.self.addChild(this.skeleton);
             this.skeleton.pos(this.self.width / 2, this.self.height - 9);
             let pic = this.self.getChildByName('pic');
@@ -5471,7 +5470,6 @@
         constructor() { super(); }
         lwgInit() {
             this.self = this.owner;
-            this.BtnAdv = this.self['BtnAdv'];
             ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_skintry');
             ADManager.TAPoint(TaT.BtnShow, 'close_skintry');
             if (!lwg.Global._elect) {
@@ -5486,10 +5484,6 @@
             this.self['background_01'].height = Laya.stage.height;
         }
         openAni() {
-            this.self['BtnNo'].visible = false;
-            setTimeout(() => {
-                this.self['BtnNo'].visible = true;
-            }, lwg.Global._btnDelayed);
         }
         randomNoHave() {
             let len = lwg.Global._notHavePifuSubXD.length;
@@ -5507,21 +5501,23 @@
             pifuImg.skin = lwg.Enum.PifuSkin[oder2];
         }
         btnOnClick() {
-            lwg.Click.on('largen', null, this.BtnAdv, this, null, null, this.btnAdvUp, null);
-            lwg.Click.on('largen', null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnSelect'], this, null, null, this.btnAdvUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnZanshi'], this, null, null, this.btnAdvUp, null);
+            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnGet'], this, null, null, this.btnAdvUp, null);
+            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['Btn'], this, null, null, null, null);
         }
         btnAdvUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_skintry');
             event.currentTarget.scale(1, 1);
-            ADManager.ShowReward(() => {
-                this.btnAdvFunc();
-            });
+            this.btnAdvFunc();
         }
         btnBackUp() {
             ADManager.TAPoint(TaT.BtnClick, 'close_skintry');
             this.self.close();
         }
-        btnNoUp() {
+        btnNoUp(event) {
+            event.currentTarget.scale(1, 1);
             this.self.close();
             lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].openPlayScene();
         }

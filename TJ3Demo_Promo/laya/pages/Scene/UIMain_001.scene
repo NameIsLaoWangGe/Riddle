@@ -2,7 +2,7 @@
     "x":0,
     "type":"View",
     "selectedBox":2,
-    "selecteID":475,
+    "selecteID":474,
     "searchKey":"View,UIMain_001",
     "props":{"width":720,"sceneColor":"#000000","name":"UIMain_001","height":1280},
     "nodeParent":-1,
@@ -32,7 +32,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,guideRoom,guideRoom",
-            "props":{"y":587,"x":304,"width":262,"var":"guideRoom","skin":"Room/room_bluish.png","sizeGrid":"19,30,25,24","pivotY":113,"pivotX":131,"name":"guideRoom","height":225,"alpha":0.3},
+            "props":{"y":903,"x":461,"width":262,"var":"guideRoom","skin":"Room/room_yellowish.png","sizeGrid":"19,30,25,24","pivotY":113,"pivotX":131,"name":"guideRoom","height":225,"alpha":0.3},
             "nodeParent":2,
             "label":"guideRoom",
             "isDirectory":false,
@@ -45,17 +45,18 @@
         {
             "x":15,
             "type":"Image",
-            "searchKey":"Image,Room2,Room2",
-            "props":{"y":586,"x":566,"width":264,"var":"Room2","skin":"Room/room_green.png","sizeGrid":"23,22,24,20","pivotY":114,"pivotX":132,"name":"Room2","height":228},
+            "searchKey":"Image,Room1,Room1",
+            "props":{"y":586,"x":566,"width":264,"var":"Room1","skin":"Room/room_yellowish.png","sizeGrid":"23,22,24,20","pivotY":114,"pivotX":132,"name":"Room1","height":228},
             "nodeParent":2,
-            "label":"Room2",
-            "isOpen":false,
+            "label":"Room1",
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":4,
             "child":[
                 {
+                    "x":30,
                     "type":"BoxCollider",
                     "switchAble":true,
                     "searchKey":"BoxCollider",
@@ -71,6 +72,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"RigidBody",
                     "switchAble":true,
                     "searchKey":"RigidBody",
@@ -86,6 +88,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":56,"x":140,"texture":"Room/ui_bookrack.png"},
@@ -99,6 +102,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,left_Wall",
                     "props":{"y":105,"x":249,"width":14,"name":"left_Wall","height":120},
@@ -142,6 +146,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Script",
                     "switchAble":true,
                     "source":"src/script/Game/UIMain_Room.ts",
@@ -158,14 +163,15 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "selectedBox":93,
                     "selecteID":103,
-                    "searchKey":"Sprite,Floor_01_Room2",
-                    "props":{"y":213,"x":3,"width":224,"name":"Floor_01_Room2","height":14},
+                    "searchKey":"Sprite,Floor_01_Room1",
+                    "props":{"y":213,"x":3,"width":224,"name":"Floor_01_Room1","height":14},
                     "nodeParent":4,
                     "maxID":104,
-                    "label":"Floor_01_Room2",
+                    "label":"Floor_01_Room1",
                     "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
@@ -173,6 +179,7 @@
                     "compId":118,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":0,"x":0,"width":261,"skin":"Room/room_bluish_floor_01.png","sizeGrid":"0,4,0,8","height":14,"alpha":0},
@@ -187,6 +194,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"BoxCollider",
                             "switchAble":true,
                             "searchKey":"BoxCollider",
@@ -202,6 +210,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"RigidBody",
                             "switchAble":true,
                             "searchKey":"RigidBody",
@@ -227,6 +236,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,left_Aisle_01",
                     "props":{"y":173,"x":1,"width":48,"pivotY":41,"pivotX":33,"name":"left_Aisle_01","height":82},
@@ -358,10 +368,10 @@
         {
             "x":15,
             "type":"Image",
-            "searchKey":"Image,Room1,Room1",
-            "props":{"y":903,"x":199,"width":264,"var":"Room1","skin":"Room/room_bluish.png","sizeGrid":"31,27,36,21","pivotY":114,"pivotX":132,"name":"Room1","height":228},
+            "searchKey":"Image,Room2,Room2",
+            "props":{"y":903,"x":199,"width":264,"var":"Room2","skin":"Room/room_pink.png","sizeGrid":"31,27,36,21","pivotY":114,"pivotX":132,"name":"Room2","height":228},
             "nodeParent":2,
-            "label":"Room1",
+            "label":"Room2",
             "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
@@ -466,10 +476,10 @@
                 {
                     "x":30,
                     "type":"Sprite",
-                    "searchKey":"Sprite,Floor_02_Room1",
-                    "props":{"y":213,"x":1,"width":262,"name":"Floor_02_Room1","height":14},
+                    "searchKey":"Sprite,Floor_02_Room2",
+                    "props":{"y":213,"x":1,"width":262,"name":"Floor_02_Room2","height":14},
                     "nodeParent":15,
-                    "label":"Floor_02_Room1",
+                    "label":"Floor_02_Room2",
                     "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,

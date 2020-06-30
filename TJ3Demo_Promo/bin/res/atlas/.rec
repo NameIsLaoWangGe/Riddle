@@ -265,7 +265,7 @@ P DBCA2AC7 word_add3.png
 P 22B4F0F2 word_freereplay.png
 P FC9A342F word_next.png
 D UI_new/ExecutionHint
-P AD1803CF adv_btn.png
+P AD1803CF adv1_btn.png
 P 7695CB6A get_btn_01.png
 P F879963A get_btn_02.png
 P B5E7361D logo.png
@@ -371,8 +371,11 @@ P 327535A9 free_btn2.png
 P EB9AB7E4 logo.png
 P 48252792 selet_freebtn.png
 P 3EDB1499 selet_nofreebtn.png
+P 327535A9 try_btn_01.png
+P 285C21F8 try_btn_02.png
 P 363A8649 ui_line.png
 P F6C0D048 word_freetry.png
+P 0D2E930A word_try.png
 R 1D7544B4 xiaoguotu.jpg
 D UI_new/PifuXd
 P CC3D2631 adv_btn.png

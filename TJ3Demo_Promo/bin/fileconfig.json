@@ -399,7 +399,10 @@
             "selet_freebtn.png",
             "selet_nofreebtn.png",
             "ui_line.png",
-            "word_freetry.png"
+            "word_freetry.png",
+            "word_try.png",
+            "try_btn_01.png",
+            "try_btn_02.png"
         ]
     ],
     "res/atlas/UI_new/PifuXd.atlas": [

@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":2,
-    "selecteID":60,
+    "selectedBox":3,
+    "selecteID":10,
     "searchKey":"View",
     "props":{"width":720,"sceneColor":"#000000","height":1280},
     "nodeParent":-1,
@@ -89,28 +89,30 @@
                     "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,Btn,Btn",
-                    "props":{"y":508,"x":250,"var":"Btn","texture":"UI_new/ExecutionHint/adv_btn.png","pivotY":53,"pivotX":98,"name":"Btn","alpha":1},
+                    "props":{"y":507,"x":269,"width":234,"var":"Btn","texture":"UI_new/ExecutionHint/adv1_btn.png","pivotY":52,"pivotX":117,"name":"Btn","height":126,"alpha":1},
                     "nodeParent":3,
                     "label":"Btn",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":10,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,BtnClose,BtnClose",
                             "props":{"y":58,"x":197,"width":59,"var":"BtnClose","pivotY":53,"pivotX":30,"name":"BtnClose","height":106},
                             "nodeParent":10,
                             "label":"BtnClose",
-                            "isOpen":false,
+                            "isOpen":true,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
                             "compId":26,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Sprite",
                                     "searchKey":"Sprite",
                                     "props":{"y":19,"x":15,"texture":"UI_new/ExecutionHint/word_close.png"},
@@ -125,18 +127,20 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,BtnGet,BtnGet",
                             "props":{"y":12,"x":3,"width":161,"var":"BtnGet","name":"BtnGet","height":85},
                             "nodeParent":10,
                             "label":"BtnGet",
-                            "isOpen":false,
+                            "isOpen":true,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
                             "compId":24,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Sprite",
                                     "searchKey":"Sprite",
                                     "props":{"y":34,"x":54,"texture":"UI_new/ExecutionHint/word_get.png"},
@@ -150,6 +154,7 @@
                                         ]
                                 },
                                 {
+                                    "x":60,
                                     "type":"Sprite",
                                     "searchKey":"Sprite",
                                     "props":{"y":24,"x":4,"texture":"UI_new/PassHint/icon_adv.png"},
