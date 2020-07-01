@@ -1415,8 +1415,11 @@
                     Admin._sceneControl[openName] = scene;
                     let background = scene.getChildByName('background');
                     if (background) {
-                        background.width = Laya.stage.width;
-                        background.height = Laya.stage.height;
+                        if (openName.substring(0, 6) === 'UIMain') ;
+                        else {
+                            background.width = Laya.stage.width;
+                            background.height = Laya.stage.height;
+                        }
                     }
                     if (cloesScene) {
                         cloesScene.close();
@@ -2319,6 +2322,7 @@
                 WallSkin["red"] = "Room/room_red_wall.png";
                 WallSkin["yellow"] = "Room/room_yellow_wall.png";
                 WallSkin["yellowish"] = "Room/room_yellowish_wall.png";
+                WallSkin["common"] = "Room/room_common_wall.png";
             })(WallSkin = Enum.WallSkin || (Enum.WallSkin = {}));
             let AisleColorSkin;
             (function (AisleColorSkin) {
@@ -2331,6 +2335,7 @@
                 AisleColorSkin["red"] = "Room/room_red_color.png";
                 AisleColorSkin["yellow"] = "Room/room_yellow_color.png";
                 AisleColorSkin["yellowish"] = "Room/room_yellowish_color.png";
+                AisleColorSkin["common"] = "Room/room_common_color.png";
             })(AisleColorSkin = Enum.AisleColorSkin || (Enum.AisleColorSkin = {}));
             let gongzhuAni;
             (function (gongzhuAni) {
@@ -3501,10 +3506,11 @@
     class UIMain extends lwg.Admin.Scene {
         constructor() {
             super();
+            this.victory = false;
             this.timer = 0;
         }
         lwgInit() {
-            ADManager.TAPoint(TaT.LevelStart, this.self.name);
+            ADManager.TAPoint(TaT.LevelStart, 'level' + lwg.Admin.openLevelNum);
             RecordManager.startAutoRecord();
             Laya.MouseManager.multiTouchEnabled = false;
             this.BtnAgain = this.self['BtnAgain'];
@@ -3556,10 +3562,6 @@
             self.y += targetY;
             self.anchorX = targetX / self.width;
             self.anchorY = targetY / self.height;
-            this.self['background'].width = 5000;
-            this.self['background'].height = 5000;
-            this.self['background'].x -= 2500;
-            this.self['background'].y -= 2500;
             lwg.Animation.move_Scale(self, 1, self.x, self.y, Laya.stage.width / 2, Laya.stage.height / 2, 2, 500, 100, f => {
                 Laya.timer.frameOnce(90, this, f => {
                     lwg.Admin._openScene('UIVictory', null, null, null);
@@ -3590,10 +3592,12 @@
         }
         lwgDisable() {
             if (this.victory) {
-                ADManager.TAPoint(TaT.LevelFinish, this.self.name);
+                ADManager.TAPoint(TaT.LevelFinish, 'level' + lwg.Admin.openLevelNum);
+                console.log('本关胜利打点');
             }
             else {
-                ADManager.TAPoint(TaT.LevelFail, this.self.name);
+                ADManager.TAPoint(TaT.LevelFail, 'level' + lwg.Admin.openLevelNum);
+                console.log('本关失败打点');
             }
             Laya.timer.clearAll(this);
             Laya.Tween.clearAll(this);
@@ -3730,46 +3734,8 @@
             let pSkin = parent.skin;
             let wall = this.self.getChildByName('wall');
             let color = this.self.getChildByName('color');
-            switch (pSkin) {
-                case lwg.Enum.RoomSkin.blue:
-                    wall.skin = lwg.Enum.WallSkin.blue;
-                    color.skin = lwg.Enum.AisleColorSkin.blue;
-                    break;
-                case lwg.Enum.RoomSkin.bluish:
-                    wall.skin = lwg.Enum.WallSkin.bluish;
-                    color.skin = lwg.Enum.AisleColorSkin.bluish;
-                    break;
-                case lwg.Enum.RoomSkin.grass:
-                    wall.skin = lwg.Enum.WallSkin.grass;
-                    color.skin = lwg.Enum.AisleColorSkin.grass;
-                    break;
-                case lwg.Enum.RoomSkin.green:
-                    wall.skin = lwg.Enum.WallSkin.green;
-                    color.skin = lwg.Enum.AisleColorSkin.green;
-                    break;
-                case lwg.Enum.RoomSkin.pink:
-                    wall.skin = lwg.Enum.WallSkin.pink;
-                    color.skin = lwg.Enum.AisleColorSkin.pink;
-                    break;
-                case lwg.Enum.RoomSkin.purple:
-                    wall.skin = lwg.Enum.WallSkin.purple;
-                    color.skin = lwg.Enum.AisleColorSkin.purple;
-                    break;
-                case lwg.Enum.RoomSkin.red:
-                    wall.skin = lwg.Enum.WallSkin.red;
-                    color.skin = lwg.Enum.AisleColorSkin.red;
-                    break;
-                case lwg.Enum.RoomSkin.yellow:
-                    wall.skin = lwg.Enum.WallSkin.yellow;
-                    color.skin = lwg.Enum.AisleColorSkin.yellow;
-                    break;
-                case lwg.Enum.RoomSkin.yellowish:
-                    wall.skin = lwg.Enum.WallSkin.yellowish;
-                    color.skin = lwg.Enum.AisleColorSkin.yellowish;
-                    break;
-                default:
-                    break;
-            }
+            wall.skin = lwg.Enum.WallSkin.common;
+            color.skin = lwg.Enum.AisleColorSkin.common;
         }
         onTriggerEnter(other, self) {
             let otherName = other.owner.name;
@@ -3977,7 +3943,6 @@
                 default:
                     break;
             }
-            console.log(this.skeleton);
             this.self.addChild(this.skeleton);
             this.skeleton.pos(this.self.width / 2, this.self.height - 9);
             let pic = this.self.getChildByName('pic');
@@ -4202,6 +4167,7 @@
             this.targetP.x = this.self.x;
             this.targetP.y = this.self.y;
             otherOwner['UIMain_Wangzi'].skeleton.play(lwg.Enum.wangziAni.win, true);
+            this.selfScene[lwg.Admin.SceneName.UIMain].victory = true;
             this.skeleton.play(lwg.Enum.gongzhuAni.win, true);
             this.selfScene['UIMain'].victoryAni();
         }
@@ -5467,7 +5433,6 @@
         constructor() { super(); }
         lwgInit() {
             this.self = this.owner;
-            this.BtnAdv = this.self['BtnAdv'];
             ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_skintry');
             ADManager.TAPoint(TaT.BtnShow, 'close_skintry');
             if (!lwg.Global._elect) {
@@ -5482,10 +5447,6 @@
             this.self['background_01'].height = Laya.stage.height;
         }
         openAni() {
-            this.self['BtnNo'].visible = false;
-            setTimeout(() => {
-                this.self['BtnNo'].visible = true;
-            }, lwg.Global._btnDelayed);
         }
         randomNoHave() {
             let len = lwg.Global._notHavePifuSubXD.length;
@@ -5503,8 +5464,11 @@
             pifuImg.skin = lwg.Enum.PifuSkin[oder2];
         }
         btnOnClick() {
-            lwg.Click.on('largen', null, this.BtnAdv, this, null, null, this.btnAdvUp, null);
-            lwg.Click.on('largen', null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnSelect'], this, null, null, this.btnAdvUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnZanshi'], this, null, null, this.btnAdvUp, null);
+            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnGet'], this, null, null, this.btnAdvUp, null);
+            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['Btn'], this, null, null, null, null);
         }
         btnAdvUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_skintry');
@@ -5517,7 +5481,8 @@
             ADManager.TAPoint(TaT.BtnClick, 'close_skintry');
             this.self.close();
         }
-        btnNoUp() {
+        btnNoUp(event) {
+            event.currentTarget.scale(1, 1);
             this.self.close();
             lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].openPlayScene();
         }

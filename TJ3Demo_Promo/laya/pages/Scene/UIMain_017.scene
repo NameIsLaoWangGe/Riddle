@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":2,
-    "selecteID":3,
+    "selectedBox":4,
+    "selecteID":584,
     "searchKey":"View",
     "props":{"width":720,"sceneColor":"#000000","height":1280},
     "nodeParent":-1,
-    "maxID":674,
+    "maxID":698,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -17,14 +17,14 @@
         {
             "x":15,
             "type":"Image",
-            "searchKey":"Image,background,background",
-            "props":{"y":0,"x":0,"var":"background","skin":"Room/bg_01.png","name":"background"},
+            "searchKey":"Image,background",
+            "props":{"y":650,"x":370,"width":1364,"skin":"Room/bg_01.png","pivotY":981,"pivotX":682,"name":"background","height":1962,"alpha":1},
             "nodeParent":2,
             "label":"background",
             "isDirectory":false,
             "isAniNode":true,
             "hasChild":false,
-            "compId":3,
+            "compId":697,
             "child":[
                 ]
         },
@@ -47,7 +47,7 @@
                     "switchAble":true,
                     "searchKey":"BoxCollider",
                     "removeAble":true,
-                    "props":{"y":1,"x":2,"width":260,"isSensor":false,"height":171,"friction":0.2,"density":-1},
+                    "props":{"y":0,"x":2,"width":260,"isSensor":false,"height":171,"friction":0.2,"density":-1},
                     "nodeParent":4,
                     "label":"BoxCollider",
                     "isDirectory":false,
@@ -63,7 +63,7 @@
                     "switchAble":true,
                     "searchKey":"RigidBody",
                     "removeAble":true,
-                    "props":{"type":"dynamic","gravityScale":0,"allowSleep":false,"allowRotation":false},
+                    "props":{"y":-1,"x":0,"type":"dynamic","gravityScale":0,"allowSleep":false,"allowRotation":false},
                     "nodeParent":4,
                     "label":"RigidBody",
                     "isDirectory":false,
@@ -72,6 +72,34 @@
                     "compId":6,
                     "child":[
                         ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":106,"x":-131,"texture":"Room/room_green_wallpaper.png"},
+                    "nodeParent":4,
+                    "label":"Sprite",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":691,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":-16,"x":146,"width":234,"skin":"Room/room_blue_wallpaper.png","sizeGrid":"36,236,32,126","renderType":"mask","height":80},
+                            "nodeParent":691,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":692,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
                     "x":30,
@@ -282,7 +310,7 @@
                             "x":45,
                             "type":"Image",
                             "searchKey":"Image,color",
-                            "props":{"y":41.5,"x":7.5,"skin":"Room/room_blue_color.png","rotation":90,"pivotY":8,"pivotX":41,"name":"color"},
+                            "props":{"y":42,"x":8,"width":81,"skin":"Room/room_blue_color.png","rotation":90,"pivotY":8,"pivotX":41,"name":"color","height":15},
                             "nodeParent":584,
                             "label":"color",
                             "isOpen":false,
@@ -742,6 +770,34 @@
                             "child":[
                                 ]
                         }]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":168,"x":-77,"texture":"Room/room_purple_wallpaper.png"},
+                    "nodeParent":185,
+                    "label":"Sprite",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":685,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":-12,"x":92,"width":294,"skin":"Room/room_blue_wallpaper.png","sizeGrid":"36,236,32,126","renderType":"mask","height":77},
+                            "nodeParent":685,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":686,
+                            "child":[
+                                ]
+                        }]
                 }]
         },
         {
@@ -805,6 +861,34 @@
                     "compId":22,
                     "child":[
                         ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":137,"x":435,"texture":"Room/room_blue_wallpaper.png","scaleX":-1},
+                    "nodeParent":15,
+                    "label":"Sprite",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":695,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":-16,"x":154,"width":265,"skin":"Room/room_blue_wallpaper.png","sizeGrid":"36,236,32,126","renderType":"mask","height":80},
+                            "nodeParent":695,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":696,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
                     "x":30,
@@ -1276,6 +1360,34 @@
                     "compId":503,
                     "child":[
                         ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":168,"x":435,"texture":"Room/room_bluish_wallpaper.png","scaleX":-1},
+                    "nodeParent":500,
+                    "label":"Sprite",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":693,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":-16,"x":193,"width":226,"skin":"Room/room_blue_wallpaper.png","sizeGrid":"36,236,32,126","renderType":"mask","height":80},
+                            "nodeParent":693,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":694,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
                     "x":30,

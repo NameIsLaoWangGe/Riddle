@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":2,
-    "selecteID":3,
+    "selectedBox":4,
+    "selecteID":458,
     "searchKey":"View",
     "props":{"width":720,"sceneColor":"#000000","height":1280},
     "nodeParent":-1,
-    "maxID":733,
+    "maxID":740,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -34,14 +34,14 @@
         {
             "x":15,
             "type":"Image",
-            "searchKey":"Image,background,background",
-            "props":{"y":0,"x":0,"var":"background","skin":"Room/bg_01.png","name":"background"},
+            "searchKey":"Image,background",
+            "props":{"y":650,"x":370,"width":1364,"skin":"Room/bg_01.png","pivotY":981,"pivotX":682,"name":"background","height":1962,"alpha":1},
             "nodeParent":2,
             "label":"background",
             "isDirectory":false,
             "isAniNode":true,
             "hasChild":false,
-            "compId":3,
+            "compId":739,
             "child":[
                 ]
         },
@@ -93,6 +93,35 @@
                 {
                     "x":30,
                     "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":323,"x":-132.5,"texture":"Room/room_grass_wallpaper.png"},
+                    "nodeParent":4,
+                    "label":"Sprite",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":733,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":0,"x":148,"width":313,"skin":"Room/room_pink_wallpaper.png","renderType":"mask","height":52},
+                            "nodeParent":733,
+                            "label":"Image",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":734,
+                            "child":[
+                                ]
+                        }]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
                     "selectedBox":93,
                     "selecteID":103,
                     "searchKey":"Sprite,Floor_02_Room2",
@@ -110,7 +139,7 @@
                             "x":45,
                             "type":"Image",
                             "searchKey":"Image",
-                            "props":{"y":0,"x":13,"width":316,"skin":"Room/room_grass_floor_01.png","sizeGrid":"0,4,0,8","height":14,"alpha":1},
+                            "props":{"y":0,"x":13,"width":316,"skin":"Room/room_common_floor_01.png","sizeGrid":"0,4,0,8","height":14,"alpha":1},
                             "nodeParent":292,
                             "label":"Image",
                             "isOpen":true,
@@ -174,16 +203,17 @@
                     "nodeParent":4,
                     "maxID":104,
                     "label":"Floor_01_Room2",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":349,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
-                            "props":{"y":0,"x":13,"width":316,"skin":"UI/e14425d4-bce1-4a10-84a3-76fb55fa32e5.png","sizeGrid":"0,4,0,8","height":14,"alpha":1},
+                            "props":{"y":0,"x":13,"width":316,"skin":"UI/e14425d4-bce1-4a10-84a3-76fb55fa32e5.png","sizeGrid":"0,4,0,8","height":14,"alpha":0},
                             "nodeParent":349,
                             "label":"Image",
                             "isOpen":true,
@@ -195,6 +225,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"BoxCollider",
                             "switchAble":true,
                             "searchKey":"BoxCollider",
@@ -211,6 +242,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"RigidBody",
                             "switchAble":true,
                             "searchKey":"RigidBody",
@@ -316,7 +348,7 @@
                     "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,right_Aisle_01",
-                    "props":{"y":159,"x":340,"width":48,"pivotY":41,"pivotX":11,"name":"right_Aisle_01","height":82},
+                    "props":{"y":159,"x":339,"width":48,"pivotY":41,"pivotX":11,"name":"right_Aisle_01","height":82},
                     "nodeParent":4,
                     "label":"right_Aisle_01",
                     "isOpen":true,
@@ -357,7 +389,7 @@
                             "x":45,
                             "type":"Image",
                             "searchKey":"Image,color",
-                            "props":{"y":41.5,"x":7.5,"skin":"Room/room_blue_color.png","rotation":90,"pivotY":8,"pivotX":41,"name":"color"},
+                            "props":{"y":42,"x":8,"width":81,"skin":"Room/room_blue_color.png","rotation":90,"pivotY":8,"pivotX":41,"name":"color","height":15},
                             "nodeParent":458,
                             "label":"color",
                             "isOpen":false,
@@ -452,7 +484,7 @@
                     "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,right_Aisle_02",
-                    "props":{"y":335,"x":340,"width":48,"pivotY":41,"pivotX":11,"name":"right_Aisle_02","height":82},
+                    "props":{"y":335,"x":339,"width":48,"pivotY":41,"pivotX":11,"name":"right_Aisle_02","height":82},
                     "nodeParent":4,
                     "label":"right_Aisle_02",
                     "isOpen":true,
@@ -493,7 +525,7 @@
                             "x":45,
                             "type":"Image",
                             "searchKey":"Image,color",
-                            "props":{"y":41.5,"x":7.5,"skin":"Room/room_blue_color.png","rotation":90,"pivotY":8,"pivotX":41,"name":"color"},
+                            "props":{"y":42,"x":8,"width":81,"skin":"Room/room_blue_color.png","rotation":90,"pivotY":8,"pivotX":41,"name":"color","height":15},
                             "nodeParent":467,
                             "label":"color",
                             "isOpen":false,
@@ -958,6 +990,35 @@
                     "compId":102,
                     "child":[
                         ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":149,"x":-135,"texture":"Room/room_blue_wallpaper.png"},
+                    "nodeParent":93,
+                    "label":"Sprite",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":737,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":0,"x":148,"width":231,"skin":"Room/room_pink_wallpaper.png","renderType":"mask","height":52},
+                            "nodeParent":737,
+                            "label":"Image",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":738,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
                     "x":30,

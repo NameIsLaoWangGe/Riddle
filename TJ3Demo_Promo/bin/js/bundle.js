@@ -1415,12 +1415,7 @@
                     Admin._sceneControl[openName] = scene;
                     let background = scene.getChildByName('background');
                     if (background) {
-                        if (openName.substring(0, 6) === 'UIMain') {
-                            background.pivotX = background.width / 2;
-                            background.pivotY = background.height / 2;
-                            background.x = Laya.stage.width / 2;
-                            background.y = Laya.stage.height / 2;
-                        }
+                        if (openName.substring(0, 6) === 'UIMain') ;
                         else {
                             background.width = Laya.stage.width;
                             background.height = Laya.stage.height;

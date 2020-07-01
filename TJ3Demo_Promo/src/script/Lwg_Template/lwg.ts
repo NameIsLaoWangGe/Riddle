@@ -602,10 +602,10 @@ export module lwg {
                 let background = scene.getChildByName('background') as Laya.Image;
                 if (background) {
                     if (openName.substring(0, 6) === 'UIMain') {
-                        background.pivotX = background.width / 2;
-                        background.pivotY = background.height / 2;
-                        background.x = Laya.stage.width / 2;
-                        background.y = Laya.stage.height / 2;
+                        // background.pivotX = background.width / 2;
+                        // background.pivotY = background.height / 2;
+                        // background.x = Laya.stage.width / 2;
+                        // background.y = Laya.stage.height / 2;
                     } else {
                         background.width = Laya.stage.width;
                         background.height = Laya.stage.height;
