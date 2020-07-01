@@ -2,11 +2,11 @@
     "x":0,
     "type":"View",
     "selectedBox":2,
-    "selecteID":4,
+    "selecteID":3,
     "searchKey":"View,UIMain_004",
     "props":{"width":720,"sceneColor":"#000000","name":"UIMain_004","height":1280},
     "nodeParent":-1,
-    "maxID":430,
+    "maxID":436,
     "label":"UIMain_004",
     "isOpen":true,
     "isDirectory":true,
@@ -18,7 +18,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,background,background",
-            "props":{"y":0,"x":-4,"width":720,"var":"background","skin":"UI_new/conmmon/bg_yeloow.png","name":"background","height":1280},
+            "props":{"y":0,"x":0,"var":"background","skin":"Room/bg_01.png","name":"background"},
             "nodeParent":2,
             "label":"background",
             "isDirectory":false,
@@ -72,6 +72,34 @@
                     "compId":6,
                     "child":[
                         ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":150,"x":-77,"texture":"Room/room_purple_wallpaper.png"},
+                    "nodeParent":4,
+                    "label":"Sprite",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":432,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":-12,"x":92,"width":310,"skin":"Room/room_blue_wallpaper.png","sizeGrid":"36,236,32,126","renderType":"mask","height":77},
+                            "nodeParent":432,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":433,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
                     "x":30,
@@ -442,6 +470,34 @@
                 {
                     "x":30,
                     "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":148,"x":-76,"texture":"Room/room_bluish_wallpaper.png"},
+                    "nodeParent":93,
+                    "label":"Sprite",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":434,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":-12,"x":92,"width":285,"skin":"Room/room_blue_wallpaper.png","sizeGrid":"36,236,32,126","renderType":"mask","height":77},
+                            "nodeParent":434,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":435,
+                            "child":[
+                                ]
+                        }]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
                     "searchKey":"Sprite,right_Wall",
                     "props":{"y":-9,"x":301,"width":15,"name":"right_Wall","height":223},
                     "nodeParent":93,
@@ -766,7 +822,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,Room3",
-            "props":{"y":376,"x":356,"width":324,"skin":"Room/room_green.png","sizeGrid":"23,22,24,20","pivotY":108,"pivotX":162,"name":"Room3","height":216},
+            "props":{"y":376,"x":356,"width":324,"skin":"Room/room_blue.png","sizeGrid":"23,22,24,20","pivotY":108,"pivotX":162,"name":"Room3","height":216},
             "nodeParent":2,
             "label":"Room3",
             "isOpen":true,
@@ -823,6 +879,34 @@
                     "compId":166,
                     "child":[
                         ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":148,"x":-76,"texture":"Room/room_blue_wallpaper.png"},
+                    "nodeParent":157,
+                    "label":"Sprite",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":430,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":-12,"x":92,"width":292,"skin":"Room/room_blue_wallpaper.png","sizeGrid":"36,236,32,126","renderType":"mask","height":77},
+                            "nodeParent":430,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":431,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
                     "x":30,

@@ -2,11 +2,11 @@
     "x":0,
     "type":"View",
     "selectedBox":2,
-    "selecteID":15,
+    "selecteID":3,
     "searchKey":"View,UIMain_006",
     "props":{"width":720,"sceneColor":"#000000","name":"UIMain_006","height":1280},
     "nodeParent":-1,
-    "maxID":667,
+    "maxID":690,
     "label":"UIMain_006",
     "isOpen":true,
     "isDirectory":true,
@@ -18,7 +18,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,background,background",
-            "props":{"y":0,"x":0,"width":720,"var":"background","skin":"UI_new/conmmon/bg_yeloow.png","name":"background","height":1280},
+            "props":{"y":0,"x":0,"var":"background","skin":"Room/bg_01.png","name":"background"},
             "nodeParent":2,
             "label":"background",
             "isDirectory":false,
@@ -72,6 +72,34 @@
                     "compId":6,
                     "child":[
                         ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":105,"x":-77,"texture":"Room/room_green_wallpaper.png"},
+                    "nodeParent":4,
+                    "label":"Sprite",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":688,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":-12,"x":92,"width":233,"skin":"Room/room_blue_wallpaper.png","sizeGrid":"36,236,32,126","renderType":"mask","height":77},
+                            "nodeParent":688,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":689,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
                     "x":30,
@@ -605,6 +633,34 @@
                 {
                     "x":30,
                     "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":232,"x":-77.5,"texture":"Room/room_purple_wallpaper.png"},
+                    "nodeParent":185,
+                    "label":"Sprite",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":678,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":-12,"x":92,"width":295,"skin":"Room/room_blue_wallpaper.png","sizeGrid":"36,236,32,126","renderType":"mask","height":77},
+                            "nodeParent":678,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":679,
+                            "child":[
+                                ]
+                        }]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
                     "selectedBox":93,
                     "selecteID":103,
                     "searchKey":"Sprite,Floor_01_Room3",
@@ -679,18 +735,19 @@
                     "props":{"y":0,"x":0,"width":14,"name":"right_Wall","height":300},
                     "nodeParent":185,
                     "label":"right_Wall",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":450,
                     "child":[
                         {
+                            "x":45,
                             "type":"BoxCollider",
                             "switchAble":true,
                             "searchKey":"BoxCollider",
                             "removeAble":true,
-                            "props":{"y":0,"x":0,"width":14,"label":"wall","isSensor":true,"height":298},
+                            "props":{"y":124,"x":0,"width":14,"label":"wall","isSensor":true,"height":174},
                             "nodeParent":450,
                             "label":"BoxCollider",
                             "isDirectory":false,
@@ -701,6 +758,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"RigidBody",
                             "switchAble":true,
                             "searchKey":"RigidBody",
@@ -733,7 +791,7 @@
                             "x":45,
                             "type":"Image",
                             "searchKey":"Image,interaction",
-                            "props":{"y":1,"x":2,"skin":"Room/ui_interaction_01.png","rotation":0,"name":"interaction"},
+                            "props":{"y":1,"x":0,"width":81,"skin":"Room/ui_interaction_01.png","rotation":0,"name":"interaction","height":48},
                             "nodeParent":658,
                             "label":"interaction",
                             "isOpen":false,
@@ -916,6 +974,34 @@
                     "compId":22,
                     "child":[
                         ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":138,"x":-76.5,"texture":"Room/room_blue_wallpaper.png"},
+                    "nodeParent":15,
+                    "label":"Sprite",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":686,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":-12,"x":92,"width":264,"skin":"Room/room_blue_wallpaper.png","sizeGrid":"36,236,32,126","renderType":"mask","height":77},
+                            "nodeParent":686,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":687,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
                     "x":30,
@@ -1481,7 +1567,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,Room4",
-            "props":{"y":616,"x":188,"width":257,"skin":"Room/room_bluish.png","sizeGrid":"23,22,24,20","pivotY":117.5,"pivotX":128.5,"name":"Room4","height":235},
+            "props":{"y":700,"x":103,"width":257,"skin":"Room/room_bluish.png","sizeGrid":"23,22,24,20","pivotY":117.5,"pivotX":128.5,"name":"Room4","height":235},
             "nodeParent":2,
             "label":"Room4",
             "isOpen":true,
@@ -1538,6 +1624,34 @@
                     "compId":503,
                     "child":[
                         ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":168,"x":-76.5,"texture":"Room/room_bluish_wallpaper.png"},
+                    "nodeParent":500,
+                    "label":"Sprite",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":682,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":-12,"x":92,"width":226,"skin":"Room/room_blue_wallpaper.png","sizeGrid":"36,236,32,126","renderType":"mask","height":77},
+                            "nodeParent":682,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":683,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
                     "x":30,
@@ -1921,14 +2035,13 @@
             "props":{"y":1083,"x":139,"width":57,"var":"Wangzi","pivotY":35,"pivotX":29,"name":"Wangzi","height":69},
             "nodeParent":2,
             "label":"Wangzi",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":632,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,pic",
                     "props":{"y":34,"x":29,"width":57,"skin":"UI/2.png","scaleX":-1,"pivotY":35,"pivotX":29,"name":"pic","height":70},
@@ -1942,7 +2055,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"BoxCollider",
                     "switchAble":true,
                     "searchKey":"BoxCollider",
@@ -1958,7 +2070,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"RigidBody",
                     "switchAble":true,
                     "searchKey":"RigidBody",
@@ -1974,7 +2085,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Script",
                     "switchAble":true,
                     "source":"src/script/Game/UIMain_Wangzi.ts",
@@ -2071,14 +2181,13 @@
             "props":{"y":690,"x":127,"width":51,"rotation":0,"pivotY":32,"pivotX":26,"name":"houma","height":63},
             "nodeParent":2,
             "label":"houma",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":652,
             "child":[
                 {
-                    "x":30,
                     "type":"BoxCollider",
                     "switchAble":true,
                     "searchKey":"BoxCollider",
@@ -2094,7 +2203,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"RigidBody",
                     "switchAble":true,
                     "searchKey":"RigidBody",
@@ -2110,7 +2218,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,pic",
                     "props":{"y":32,"x":25,"width":52,"skin":"Room/room_pink.png","pivotY":35,"pivotX":24,"name":"pic","height":70},
@@ -2124,7 +2231,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,apple",
                     "props":{"y":19,"x":-2,"width":41,"skin":"Room/icon_apple.png","scaleY":0.6,"scaleX":0.6,"pivotY":21,"pivotX":21,"name":"apple","height":41},
@@ -2138,7 +2244,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Script",
                     "switchAble":true,
                     "source":"src/script/Game/UIMain_Houma.ts",

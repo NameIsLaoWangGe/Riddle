@@ -122,7 +122,11 @@
             "icon_plaint.png",
             "icon_plaint1.png",
             "icon_love.png",
-            "icon_finger.png"
+            "icon_finger.png",
+            "ui_ladder.png",
+            "room_common_color.png",
+            "room_common_wall.png",
+            "mask.png"
         ]
     ],
     "res/atlas/UI.atlas": [

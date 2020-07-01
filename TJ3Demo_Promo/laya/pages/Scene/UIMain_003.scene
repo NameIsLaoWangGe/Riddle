@@ -2,11 +2,11 @@
     "x":0,
     "type":"View",
     "selectedBox":2,
-    "selecteID":15,
+    "selecteID":3,
     "searchKey":"View,UIMain_003",
     "props":{"width":720,"sceneColor":"#000000","name":"UIMain_003","height":1280},
     "nodeParent":-1,
-    "maxID":365,
+    "maxID":373,
     "label":"UIMain_003",
     "isOpen":true,
     "isDirectory":true,
@@ -18,7 +18,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,background,background",
-            "props":{"y":0,"x":0,"width":720,"var":"background","skin":"UI_new/conmmon/bg_yeloow.png","name":"background","height":1280},
+            "props":{"y":0,"x":0,"var":"background","skin":"Room/bg_01.png","name":"background"},
             "nodeParent":2,
             "label":"background",
             "isDirectory":false,
@@ -72,6 +72,34 @@
                     "compId":6,
                     "child":[
                         ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":217,"x":-77.5,"texture":"Room/room_red_wallpaper.png"},
+                    "nodeParent":4,
+                    "label":"Sprite",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":367,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":-12,"x":93,"width":234,"skin":"Room/room_blue_wallpaper.png","sizeGrid":"36,236,32,126","renderType":"mask","height":77},
+                            "nodeParent":367,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":368,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
                     "x":30,
@@ -435,6 +463,34 @@
                     "compId":22,
                     "child":[
                         ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":142,"x":-77,"texture":"Room/room_blue_wallpaper.png"},
+                    "nodeParent":15,
+                    "label":"Sprite",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":365,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":-12,"x":92,"width":273,"skin":"Room/room_blue_wallpaper.png","sizeGrid":"36,236,32,126","renderType":"mask","height":77},
+                            "nodeParent":365,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":366,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
                     "x":30,
@@ -846,6 +902,34 @@
                     "compId":187,
                     "child":[
                         ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":155,"x":-77,"texture":"Room/room_grass_wallpaper.png"},
+                    "nodeParent":185,
+                    "label":"Sprite",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":369,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":-12,"x":92,"width":288,"skin":"Room/room_blue_wallpaper.png","sizeGrid":"36,236,32,126","renderType":"mask","height":77},
+                            "nodeParent":369,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":370,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
                     "x":30,

@@ -24,56 +24,59 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
 
         let wall = this.self.getChildByName('wall') as Laya.Image;
         let color = this.self.getChildByName('color') as Laya.Image;
-        switch (pSkin) {
-            case lwg.Enum.RoomSkin.blue:
-                wall.skin = lwg.Enum.WallSkin.blue;
-                color.skin = lwg.Enum.AisleColorSkin.blue;
-                break;
+        wall.skin = lwg.Enum.WallSkin.common;
+        color.skin = lwg.Enum.AisleColorSkin.common;
 
-            case lwg.Enum.RoomSkin.bluish:
-                wall.skin = lwg.Enum.WallSkin.bluish;
-                color.skin = lwg.Enum.AisleColorSkin.bluish;
-                break;
+        // switch (pSkin) {
+        //     case lwg.Enum.RoomSkin.blue:
+        //         wall.skin = lwg.Enum.WallSkin.blue;
+        //         color.skin = lwg.Enum.AisleColorSkin.blue;
+        //         break;
 
-            case lwg.Enum.RoomSkin.grass:
-                wall.skin = lwg.Enum.WallSkin.grass;
-                color.skin = lwg.Enum.AisleColorSkin.grass;
+        //     case lwg.Enum.RoomSkin.bluish:
+        //         wall.skin = lwg.Enum.WallSkin.bluish;
+        //         color.skin = lwg.Enum.AisleColorSkin.bluish;
+        //         break;
 
-                break;
+        //     case lwg.Enum.RoomSkin.grass:
+        //         wall.skin = lwg.Enum.WallSkin.grass;
+        //         color.skin = lwg.Enum.AisleColorSkin.grass;
 
-            case lwg.Enum.RoomSkin.green:
-                wall.skin = lwg.Enum.WallSkin.green;
-                color.skin = lwg.Enum.AisleColorSkin.green;
-                break;
+        //         break;
 
-            case lwg.Enum.RoomSkin.pink:
-                wall.skin = lwg.Enum.WallSkin.pink;
-                color.skin = lwg.Enum.AisleColorSkin.pink;
-                break;
+        //     case lwg.Enum.RoomSkin.green:
+        //         wall.skin = lwg.Enum.WallSkin.green;
+        //         color.skin = lwg.Enum.AisleColorSkin.green;
+        //         break;
 
-            case lwg.Enum.RoomSkin.purple:
-                wall.skin = lwg.Enum.WallSkin.purple;
-                color.skin = lwg.Enum.AisleColorSkin.purple;
-                break;
+        //     case lwg.Enum.RoomSkin.pink:
+        //         wall.skin = lwg.Enum.WallSkin.pink;
+        //         color.skin = lwg.Enum.AisleColorSkin.pink;
+        //         break;
 
-            case lwg.Enum.RoomSkin.red:
-                wall.skin = lwg.Enum.WallSkin.red;
-                color.skin = lwg.Enum.AisleColorSkin.red;
-                break;
+        //     case lwg.Enum.RoomSkin.purple:
+        //         wall.skin = lwg.Enum.WallSkin.purple;
+        //         color.skin = lwg.Enum.AisleColorSkin.purple;
+        //         break;
 
-            case lwg.Enum.RoomSkin.yellow:
-                wall.skin = lwg.Enum.WallSkin.yellow;
-                color.skin = lwg.Enum.AisleColorSkin.yellow;
-                break;
+        //     case lwg.Enum.RoomSkin.red:
+        //         wall.skin = lwg.Enum.WallSkin.red;
+        //         color.skin = lwg.Enum.AisleColorSkin.red;
+        //         break;
 
-            case lwg.Enum.RoomSkin.yellowish:
-                wall.skin = lwg.Enum.WallSkin.yellowish;
-                color.skin = lwg.Enum.AisleColorSkin.yellowish;
-                break;
+        //     case lwg.Enum.RoomSkin.yellow:
+        //         wall.skin = lwg.Enum.WallSkin.yellow;
+        //         color.skin = lwg.Enum.AisleColorSkin.yellow;
+        //         break;
 
-            default:
-                break;
-        }
+        //     case lwg.Enum.RoomSkin.yellowish:
+        //         wall.skin = lwg.Enum.WallSkin.yellowish;
+        //         color.skin = lwg.Enum.AisleColorSkin.yellowish;
+        //         break;
+
+        //     default:
+        //         break;
+        // }
     }
 
     onTriggerEnter(other, self): void {

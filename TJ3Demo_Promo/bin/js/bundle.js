@@ -1415,8 +1415,16 @@
                     Admin._sceneControl[openName] = scene;
                     let background = scene.getChildByName('background');
                     if (background) {
-                        background.width = Laya.stage.width;
-                        background.height = Laya.stage.height;
+                        if (openName.substring(0, 6) === 'UIMain') {
+                            background.pivotX = background.width / 2;
+                            background.pivotY = background.height / 2;
+                            background.x = Laya.stage.width / 2;
+                            background.y = Laya.stage.height / 2;
+                        }
+                        else {
+                            background.width = Laya.stage.width;
+                            background.height = Laya.stage.height;
+                        }
                     }
                     if (cloesScene) {
                         cloesScene.close();
@@ -2319,6 +2327,7 @@
                 WallSkin["red"] = "Room/room_red_wall.png";
                 WallSkin["yellow"] = "Room/room_yellow_wall.png";
                 WallSkin["yellowish"] = "Room/room_yellowish_wall.png";
+                WallSkin["common"] = "Room/room_common_wall.png";
             })(WallSkin = Enum.WallSkin || (Enum.WallSkin = {}));
             let AisleColorSkin;
             (function (AisleColorSkin) {
@@ -2331,6 +2340,7 @@
                 AisleColorSkin["red"] = "Room/room_red_color.png";
                 AisleColorSkin["yellow"] = "Room/room_yellow_color.png";
                 AisleColorSkin["yellowish"] = "Room/room_yellowish_color.png";
+                AisleColorSkin["common"] = "Room/room_common_color.png";
             })(AisleColorSkin = Enum.AisleColorSkin || (Enum.AisleColorSkin = {}));
             let gongzhuAni;
             (function (gongzhuAni) {
@@ -3557,10 +3567,6 @@
             self.y += targetY;
             self.anchorX = targetX / self.width;
             self.anchorY = targetY / self.height;
-            this.self['background'].width = 5000;
-            this.self['background'].height = 5000;
-            this.self['background'].x -= 2500;
-            this.self['background'].y -= 2500;
             lwg.Animation.move_Scale(self, 1, self.x, self.y, Laya.stage.width / 2, Laya.stage.height / 2, 2, 500, 100, f => {
                 Laya.timer.frameOnce(90, this, f => {
                     lwg.Admin._openScene('UIVictory', null, null, null);
@@ -3733,46 +3739,8 @@
             let pSkin = parent.skin;
             let wall = this.self.getChildByName('wall');
             let color = this.self.getChildByName('color');
-            switch (pSkin) {
-                case lwg.Enum.RoomSkin.blue:
-                    wall.skin = lwg.Enum.WallSkin.blue;
-                    color.skin = lwg.Enum.AisleColorSkin.blue;
-                    break;
-                case lwg.Enum.RoomSkin.bluish:
-                    wall.skin = lwg.Enum.WallSkin.bluish;
-                    color.skin = lwg.Enum.AisleColorSkin.bluish;
-                    break;
-                case lwg.Enum.RoomSkin.grass:
-                    wall.skin = lwg.Enum.WallSkin.grass;
-                    color.skin = lwg.Enum.AisleColorSkin.grass;
-                    break;
-                case lwg.Enum.RoomSkin.green:
-                    wall.skin = lwg.Enum.WallSkin.green;
-                    color.skin = lwg.Enum.AisleColorSkin.green;
-                    break;
-                case lwg.Enum.RoomSkin.pink:
-                    wall.skin = lwg.Enum.WallSkin.pink;
-                    color.skin = lwg.Enum.AisleColorSkin.pink;
-                    break;
-                case lwg.Enum.RoomSkin.purple:
-                    wall.skin = lwg.Enum.WallSkin.purple;
-                    color.skin = lwg.Enum.AisleColorSkin.purple;
-                    break;
-                case lwg.Enum.RoomSkin.red:
-                    wall.skin = lwg.Enum.WallSkin.red;
-                    color.skin = lwg.Enum.AisleColorSkin.red;
-                    break;
-                case lwg.Enum.RoomSkin.yellow:
-                    wall.skin = lwg.Enum.WallSkin.yellow;
-                    color.skin = lwg.Enum.AisleColorSkin.yellow;
-                    break;
-                case lwg.Enum.RoomSkin.yellowish:
-                    wall.skin = lwg.Enum.WallSkin.yellowish;
-                    color.skin = lwg.Enum.AisleColorSkin.yellowish;
-                    break;
-                default:
-                    break;
-            }
+            wall.skin = lwg.Enum.WallSkin.common;
+            color.skin = lwg.Enum.AisleColorSkin.common;
         }
         onTriggerEnter(other, self) {
             let otherName = other.owner.name;
@@ -5510,7 +5478,9 @@
         btnAdvUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_skintry');
             event.currentTarget.scale(1, 1);
-            this.btnAdvFunc();
+            ADManager.ShowReward(() => {
+                this.btnAdvFunc();
+            });
         }
         btnBackUp() {
             ADManager.TAPoint(TaT.BtnClick, 'close_skintry');

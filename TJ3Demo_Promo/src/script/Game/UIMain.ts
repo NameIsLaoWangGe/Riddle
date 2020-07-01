@@ -85,11 +85,6 @@ export default class UIMain extends lwg.Admin.Scene {
         self.y += targetY;
         self.anchorX = targetX / self.width;
         self.anchorY = targetY / self.height;
-        // 将背景图放大防止穿帮
-        this.self['background'].width = 5000;
-        this.self['background'].height = 5000;
-        this.self['background'].x -= 2500;
-        this.self['background'].y -= 2500;
         // 利用动画来进行放大移动操作
         lwg.Animation.move_Scale(self, 1, self.x, self.y, Laya.stage.width / 2, Laya.stage.height / 2, 2, 500, 100, f => {
             // lwg.Effects.createFireworks()

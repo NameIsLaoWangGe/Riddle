@@ -598,11 +598,18 @@ export module lwg {
                 }
                 scene.name = openName;
                 _sceneControl[openName] = scene;
-                // 背景图自适应
+                // 背景图自适应并且居中
                 let background = scene.getChildByName('background') as Laya.Image;
                 if (background) {
-                    background.width = Laya.stage.width;
-                    background.height = Laya.stage.height;
+                    if (openName.substring(0, 6) === 'UIMain') {
+                        background.pivotX = background.width / 2;
+                        background.pivotY = background.height / 2;
+                        background.x = Laya.stage.width / 2;
+                        background.y = Laya.stage.height / 2;
+                    } else {
+                        background.width = Laya.stage.width;
+                        background.height = Laya.stage.height;
+                    }
                 }
                 // console.log('打开' + openName + '场景');
                 if (cloesScene) {
@@ -1687,7 +1694,8 @@ export module lwg {
             purple = 'Room/room_purple_wall.png',
             red = 'Room/room_red_wall.png',
             yellow = 'Room/room_yellow_wall.png',
-            yellowish = 'Room/room_yellowish_wall.png'
+            yellowish = 'Room/room_yellowish_wall.png',
+            common = 'Room/room_common_wall.png'
         }
 
         /**通道颜色的皮肤地址*/
@@ -1700,7 +1708,8 @@ export module lwg {
             purple = 'Room/room_purple_color.png',
             red = 'Room/room_red_color.png',
             yellow = 'Room/room_yellow_color.png',
-            yellowish = 'Room/room_yellowish_color.png'
+            yellowish = 'Room/room_yellowish_color.png',
+            common = 'Room/room_common_color.png'
         }
 
         /**公主的动画类型*/
