@@ -126,8 +126,8 @@
             "ui_ladder.png",
             "room_common_color.png",
             "room_common_wall.png",
-           " ui_room_common_floor_01.png",
-           " ui_room_common_floor_02.png",
+            "ui_room_common_floor_01.png",
+            "ui_room_common_floor_02.png",
             "mask.png"
         ]
     ],

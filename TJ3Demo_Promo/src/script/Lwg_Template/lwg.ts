@@ -1572,18 +1572,6 @@ export module lwg {
             'UI_new/Pifu/word_bingjing.png'
         }
 
-        // /**点击事件类型*/
-        // export enum ClickType {
-        //     /**无效果*/
-        //     noEffect = 'noEffect',
-        //     /**点击放大*/
-        //     largen = 'largen',
-        //     /**类似气球*/
-        //     balloon = 'balloon',
-        //     /**小虫子*/
-        //     beetle = 'beetle',
-        // }
-
         /**音效*/
         export enum voiceUrl {
             btn = 'voice/btn.wav',
@@ -1685,6 +1673,32 @@ export module lwg {
             yellow = 'Room/room_yellow.png',
             yellowish = 'Room/room_yellowish.png'
         }
+
+        /**房子的皮肤地址顺序*/
+        export enum RoomSkinZoder {
+            'Room/room_blue.png' = 0,
+            'Room/room_bluish.png' = 1,
+            'Room/room_grass.png' = 2,
+            'Room/room_green.png' = 3,
+            'Room/room_pink.png' = 4,
+            'Room/room_purple.png' = 5,
+            'Room/room_red.png' = 6,
+            'Room/room_yellow.png' = 7,
+            'Room/room_yellowish.png' = 8
+        }
+        /**房子的皮肤地址对应的墙纸地址*/
+        export enum WallpaperSkin {
+            'Room/room_blue_wallpaper.png',
+            'Room/room_bluish_wallpaper.png',
+            'Room/room_grass_wallpaper.png',
+            'Room/room_green_wallpaper.png',
+            'Room/room_pink_wallpaper.png',
+            'Room/room_purple_wallpaper.png',
+            'Room/room_red_wallpaper.png',
+            'Room/room_yellow_wallpaper.png',
+            'Room/room_yellowish_wallpaper.png'
+        }
+
 
         /**通道上的墙壁的皮肤地址*/
         export enum WallSkin {

@@ -986,12 +986,15 @@
                     break;
                 case TaT.LevelStart:
                     TJ.API.TA.Event_Level_Start(p);
+                    console.log('本关开始打点');
                     break;
                 case TaT.LevelFail:
                     TJ.API.TA.Event_Level_Fail(p);
+                    console.log('本关失败打点');
                     break;
                 case TaT.LevelFinish:
                     TJ.API.TA.Event_Level_Finish(p);
+                    console.log('本关胜利打点');
                     break;
             }
         }
@@ -1709,9 +1712,12 @@
                     this.self[calssName] = this;
                     this.rig = this.self.getComponent(Laya.RigidBody);
                     this.lwgInit();
+                    this.btnOnClick();
                 }
                 lwgInit() {
                     console.log('父类的初始化！');
+                }
+                btnOnClick() {
                 }
                 onUpdate() {
                     this.lwgOnUpdate();
@@ -1719,6 +1725,7 @@
                 lwgOnUpdate() {
                 }
                 onDisable() {
+                    this.lwgDisable();
                 }
                 lwgDisable() {
                 }
@@ -2311,6 +2318,30 @@
                 RoomSkin["yellow"] = "Room/room_yellow.png";
                 RoomSkin["yellowish"] = "Room/room_yellowish.png";
             })(RoomSkin = Enum.RoomSkin || (Enum.RoomSkin = {}));
+            let RoomSkinZoder;
+            (function (RoomSkinZoder) {
+                RoomSkinZoder[RoomSkinZoder["Room/room_blue.png"] = 0] = "Room/room_blue.png";
+                RoomSkinZoder[RoomSkinZoder["Room/room_bluish.png"] = 1] = "Room/room_bluish.png";
+                RoomSkinZoder[RoomSkinZoder["Room/room_grass.png"] = 2] = "Room/room_grass.png";
+                RoomSkinZoder[RoomSkinZoder["Room/room_green.png"] = 3] = "Room/room_green.png";
+                RoomSkinZoder[RoomSkinZoder["Room/room_pink.png"] = 4] = "Room/room_pink.png";
+                RoomSkinZoder[RoomSkinZoder["Room/room_purple.png"] = 5] = "Room/room_purple.png";
+                RoomSkinZoder[RoomSkinZoder["Room/room_red.png"] = 6] = "Room/room_red.png";
+                RoomSkinZoder[RoomSkinZoder["Room/room_yellow.png"] = 7] = "Room/room_yellow.png";
+                RoomSkinZoder[RoomSkinZoder["Room/room_yellowish.png"] = 8] = "Room/room_yellowish.png";
+            })(RoomSkinZoder = Enum.RoomSkinZoder || (Enum.RoomSkinZoder = {}));
+            let WallpaperSkin;
+            (function (WallpaperSkin) {
+                WallpaperSkin[WallpaperSkin["Room/room_blue_wallpaper.png"] = 0] = "Room/room_blue_wallpaper.png";
+                WallpaperSkin[WallpaperSkin["Room/room_bluish_wallpaper.png"] = 1] = "Room/room_bluish_wallpaper.png";
+                WallpaperSkin[WallpaperSkin["Room/room_grass_wallpaper.png"] = 2] = "Room/room_grass_wallpaper.png";
+                WallpaperSkin[WallpaperSkin["Room/room_green_wallpaper.png"] = 3] = "Room/room_green_wallpaper.png";
+                WallpaperSkin[WallpaperSkin["Room/room_pink_wallpaper.png"] = 4] = "Room/room_pink_wallpaper.png";
+                WallpaperSkin[WallpaperSkin["Room/room_purple_wallpaper.png"] = 5] = "Room/room_purple_wallpaper.png";
+                WallpaperSkin[WallpaperSkin["Room/room_red_wallpaper.png"] = 6] = "Room/room_red_wallpaper.png";
+                WallpaperSkin[WallpaperSkin["Room/room_yellow_wallpaper.png"] = 7] = "Room/room_yellow_wallpaper.png";
+                WallpaperSkin[WallpaperSkin["Room/room_yellowish_wallpaper.png"] = 8] = "Room/room_yellowish_wallpaper.png";
+            })(WallpaperSkin = Enum.WallpaperSkin || (Enum.WallpaperSkin = {}));
             let WallSkin;
             (function (WallSkin) {
                 WallSkin["blue"] = "Room/room_blue_wall.png";
@@ -3593,11 +3624,9 @@
         lwgDisable() {
             if (this.victory) {
                 ADManager.TAPoint(TaT.LevelFinish, 'level' + lwg.Admin.openLevelNum);
-                console.log('本关胜利打点');
             }
             else {
                 ADManager.TAPoint(TaT.LevelFail, 'level' + lwg.Admin.openLevelNum);
-                console.log('本关失败打点');
             }
             Laya.timer.clearAll(this);
             Laya.Tween.clearAll(this);
@@ -3727,15 +3756,53 @@
         }
         lwgInit() {
             this.interactionPicStyle('exit');
-            this.picColor();
+            this.colorFormat();
         }
-        picColor() {
+        colorFormat() {
             let parent = this.self.parent;
             let pSkin = parent.skin;
             let wall = this.self.getChildByName('wall');
             let color = this.self.getChildByName('color');
-            wall.skin = lwg.Enum.WallSkin.common;
-            color.skin = lwg.Enum.AisleColorSkin.common;
+            switch (pSkin) {
+                case lwg.Enum.RoomSkin.blue:
+                    wall.skin = lwg.Enum.WallSkin.blue;
+                    color.skin = lwg.Enum.AisleColorSkin.blue;
+                    break;
+                case lwg.Enum.RoomSkin.bluish:
+                    wall.skin = lwg.Enum.WallSkin.bluish;
+                    color.skin = lwg.Enum.AisleColorSkin.bluish;
+                    break;
+                case lwg.Enum.RoomSkin.grass:
+                    wall.skin = lwg.Enum.WallSkin.grass;
+                    color.skin = lwg.Enum.AisleColorSkin.grass;
+                    break;
+                case lwg.Enum.RoomSkin.green:
+                    wall.skin = lwg.Enum.WallSkin.green;
+                    color.skin = lwg.Enum.AisleColorSkin.green;
+                    break;
+                case lwg.Enum.RoomSkin.pink:
+                    wall.skin = lwg.Enum.WallSkin.pink;
+                    color.skin = lwg.Enum.AisleColorSkin.pink;
+                    break;
+                case lwg.Enum.RoomSkin.purple:
+                    wall.skin = lwg.Enum.WallSkin.purple;
+                    color.skin = lwg.Enum.AisleColorSkin.purple;
+                    break;
+                case lwg.Enum.RoomSkin.red:
+                    wall.skin = lwg.Enum.WallSkin.red;
+                    color.skin = lwg.Enum.AisleColorSkin.red;
+                    break;
+                case lwg.Enum.RoomSkin.yellow:
+                    wall.skin = lwg.Enum.WallSkin.yellow;
+                    color.skin = lwg.Enum.AisleColorSkin.yellow;
+                    break;
+                case lwg.Enum.RoomSkin.yellowish:
+                    wall.skin = lwg.Enum.WallSkin.yellowish;
+                    color.skin = lwg.Enum.AisleColorSkin.yellowish;
+                    break;
+                default:
+                    break;
+            }
         }
         onTriggerEnter(other, self) {
             let otherName = other.owner.name;
@@ -4748,19 +4815,88 @@
         lwgInit() {
             this.self = this.owner;
             let parent = this.self.parent;
+            this.posAndFormat();
+        }
+        posAndFormat() {
+            let boxColLabel = this.self.getComponent(Laya.BoxCollider).label;
+            if (boxColLabel === 'aisle') {
+                let parent = this.self.parent;
+                let pSkin = parent.skin;
+                let wall = this.self.getChildByName('wall');
+                let color = this.self.getChildByName('color');
+                let interaction = this.self.getChildByName('interaction');
+                interaction.width = 76;
+                interaction.height = 32;
+                interaction.pivotX = 0;
+                interaction.pivotY = 0;
+                this.self.width = 82;
+                this.self.height = 48;
+                let nameStr = this.self.name.substring(0, 1);
+                if (nameStr === 'd' || nameStr === 'u') {
+                    if (nameStr === 'd') {
+                        this.self.pivotY = 14;
+                        this.self.y = parent.height - 1;
+                        wall.x = 41.5;
+                        wall.y = 6;
+                        color.x = 41.5;
+                        color.y = 7;
+                        wall.width = 81;
+                        wall.height = 17.5;
+                        color.width = 81;
+                        color.height = 16;
+                        interaction.x = 80;
+                        interaction.y = 47;
+                    }
+                    else if (nameStr === 'u') {
+                        this.self.pivotY = 32;
+                        this.self.y = 0;
+                        wall.x = 41.5;
+                        wall.y = 39.5;
+                        color.x = 41.5;
+                        color.y = 40;
+                        wall.width = 81;
+                        wall.height = 17;
+                        color.width = 81;
+                        color.height = 16;
+                        interaction.x = 3;
+                        interaction.y = 1;
+                    }
+                }
+                else if (nameStr === 'l' || nameStr === 'r') {
+                    if (nameStr === 'l') {
+                        this.self.pivotX = 33.5;
+                        this.self.x = 0;
+                        wall.x = 42;
+                        wall.y = 41.5;
+                        color.x = 42;
+                        color.y = 42;
+                        wall.width = 81;
+                        wall.height = 17;
+                        color.width = 81;
+                        color.height = 16;
+                        interaction.x = 0.5;
+                        interaction.y = 80;
+                    }
+                    else if (nameStr === 'r') {
+                        this.self.pivotX = 15;
+                        this.self.x = parent.width - 1;
+                        wall.x = 8;
+                        wall.y = 41.5;
+                        color.x = 8;
+                        color.y = 42;
+                        wall.width = 81;
+                        wall.height = 17;
+                        color.width = 81;
+                        color.height = 16;
+                        interaction.x = 47;
+                        interaction.y = 2;
+                    }
+                }
+            }
             this.firstPos.y = this.self.y;
             this.firstPos.x = this.self.x;
         }
-        createskeleton_StaticDog() {
-            this.skeleton = lwg.Sk.gouTem.buildArmature(0);
-            this.self.addChild(this.skeleton);
-            this.skeleton.x = this.self.width / 2;
-            this.skeleton.y = this.self.height - 5;
-            let pic = this.self.getChildByName('pic');
-            pic.visible = false;
-            this.skeleton.play(lwg.Enum.dogAni.standby, true);
-        }
-        onUpdate() {
+        lwgOnUpdate() {
             if (this.self.name !== 'Person') {
                 this.self.x = this.firstPos.x;
                 this.self.y = this.firstPos.y;
@@ -4913,23 +5049,45 @@
         }
     }
 
-    class UIMain_Room extends Laya.Script {
+    class UIMain_Room extends lwg.Admin.Object {
         constructor() {
             super();
             this._roomMove = false;
             this.diffX = null;
             this.diffY = null;
         }
-        onEnable() {
-            this.self = this.owner;
-            this.selfScene = this.self.scene;
+        lwgInit() {
+            this.self.pivotX = this.self.width / 2;
+            this.self.pivotY = this.self.height / 2;
             this.self['UIMain_Room'] = this;
             this.rig = this.self.getComponent(Laya.RigidBody);
             this.rig.setVelocity({ x: 0, y: 0 });
             this.fX = this.self.x;
             this.fY = this.self.y;
-            this.btnOnClick();
             this.collisionNodeFollow();
+            this.boxColliderSet();
+            this.wallpaperSet();
+        }
+        boxColliderSet() {
+            let boxCol = this.self.getComponent(Laya.BoxCollider);
+            boxCol.width = this.self.width - 6;
+            boxCol.height = this.self.height - 6;
+            boxCol.x = 3;
+            boxCol.y = 3;
+        }
+        wallpaperSet() {
+            let wallpaper = this.self.getChildByName('wallpaper');
+            if (wallpaper) {
+                wallpaper.height = 51;
+                wallpaper.y = this.self.height - 51 - 15.5;
+            }
+            return;
+            let wallpaper0 = new Laya.Image;
+            let selfSkin = this.self.skin;
+            wallpaper0.skin = lwg.Enum.WallpaperSkin[lwg.Enum.RoomSkinZoder[selfSkin]];
+            this.self.addChildAt(wallpaper0, 0);
+            wallpaper0.pos(0, 0);
+            console.log(wallpaper0);
         }
         collisionNodeFollow() {
             for (let index = 0; index < this.self.numChildren; index++) {
@@ -5701,9 +5859,8 @@
             }
         }
         adaptive() {
-            this.self['P204'].y = Laya.stage.height - 75;
             this.self['P201'].y = Laya.stage.height * 0.156;
-            this.SceneContent.y = this.self['P204'].y - 80 - this.SceneContent.height / 2;
+            this.SceneContent.y = Laya.stage.height - 75 - 80 - this.SceneContent.height / 2;
         }
         openAni() {
             if (this.self['BtnXD'].visible) {

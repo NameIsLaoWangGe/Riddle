@@ -17,6 +17,7 @@ export default class UIMain_Room extends lwg.Admin.Object {
         this.fY = this.self.y;
         this.collisionNodeFollow();
         this.boxColliderSet();
+        this.wallpaperSet();
     }
 
     /**房间碰撞框格式设置*/
@@ -27,6 +28,65 @@ export default class UIMain_Room extends lwg.Admin.Object {
         boxCol.x = 3;
         boxCol.y = 3;
     }
+
+    wallpaperSet(): void {
+        let wallpaper = this.self.getChildByName('wallpaper') as Laya.Sprite;
+        if (wallpaper) {
+            wallpaper.removeSelf();
+
+        }
+        let wallpaper0 = new Laya.Image();
+        let selfSkin = (this.self as Laya.Image).skin;
+        wallpaper0.skin = lwg.Enum.WallpaperSkin[lwg.Enum.RoomSkinZoder[selfSkin]];
+        this.self.addChild(wallpaper0);
+        wallpaper0.pos(0, 0);
+        wallpaper0.width = 51;
+        wallpaper0.height = 51;
+        wallpaper0.y = this.self.height - 51 - 15.5;
+        // wallpaper0.skin = lwg.Enum.RoomSkin.blue;
+        // switch (selfSkin) {
+        //     case lwg.Enum.RoomSkin.blue:
+        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.blue;
+        //         break;
+
+        //     case lwg.Enum.RoomSkin.bluish:
+        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.bluish;
+        //         break;
+
+        //     case lwg.Enum.RoomSkin.grass:
+        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.grass;
+        //         break;
+
+        //     case lwg.Enum.RoomSkin.green:
+        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.green;
+        //         break;
+
+        //     case lwg.Enum.RoomSkin.pink:
+        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.pink;
+        //         break;
+
+        //     case lwg.Enum.RoomSkin.purple:
+        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.purple;
+        //         break;
+
+        //     case lwg.Enum.RoomSkin.red:
+        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.red;
+        //         break;
+
+        //     case lwg.Enum.RoomSkin.yellow:
+        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.yellow;
+        //         break;
+
+        //     case lwg.Enum.RoomSkin.yellowish:
+        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.yellowish;
+        //         break;
+
+        //     default:
+        //         break;
+        // }
+
+    }
+
 
     /**
      * 为带有物理的节点添加移动脚本

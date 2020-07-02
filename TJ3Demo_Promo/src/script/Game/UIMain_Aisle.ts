@@ -25,33 +25,6 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
         let wall = this.self.getChildByName('wall') as Laya.Image;
         let color = this.self.getChildByName('color') as Laya.Image;
 
-        let nameStr = this.self.name.substring(0, 1);
-        if (nameStr === 'd' || nameStr === 'u') {
-            if (nameStr === 'd') {
-
-            } else if (nameStr === 'u') {
-
-            }
-            this.self.pivotX = this.self.width / 2;
-        } else if (nameStr === 'l' || nameStr === 'r') {
-            if (nameStr === 'l') {
-
-            } else if (nameStr === 'r') {
-                this.self.width = 81;
-                this.self.x = parent.width;
-                wall.x = 8;
-                wall.y = 42;
-                color.x = 8;
-                color.y = 42;
-            }
-        }
-
-        wall.width = 81;
-        wall.height = 16.5;
-        color.width = 81;
-        color.height = 16;
-
-
         switch (pSkin) {
             case lwg.Enum.RoomSkin.blue:
                 wall.skin = lwg.Enum.WallSkin.blue;
