@@ -1,31 +1,31 @@
 import { lwg } from "../Lwg_Template/lwg";
 import UIMain_Follow from "./UIMain_Follow";
 
-export default class UIMain_Room extends Laya.Script {
-    /** 指代当前脚本挂载的节点*/
-    private self: Laya.Image;
-    /**所属场景*/
-    private selfScene: Laya.Scene;
-
-    /**物理组件*/
-    private rig: Laya.RigidBody;
-
+export default class UIMain_Room extends lwg.Admin.Object {
     /**初始坐标*/
     fX;
     fY;
-
     constructor() { super(); }
 
-    onEnable(): void {
-        this.self = this.owner as Laya.Image;
-        this.selfScene = this.self.scene;
+    lwgInit(): void {
+        this.self.pivotX = this.self.width / 2;
+        this.self.pivotY = this.self.height / 2;
         this.self['UIMain_Room'] = this;
         this.rig = this.self.getComponent(Laya.RigidBody) as Laya.RigidBody;
         this.rig.setVelocity({ x: 0, y: 0 });
         this.fX = this.self.x;
         this.fY = this.self.y;
-        this.btnOnClick();
         this.collisionNodeFollow();
+        this.boxColliderSet();
+    }
+
+    /**房间碰撞框格式设置*/
+    boxColliderSet(): void {
+        let boxCol = this.self.getComponent(Laya.BoxCollider) as Laya.BoxCollider;
+        boxCol.width = this.self.width - 6;
+        boxCol.height = this.self.height - 6;
+        boxCol.x = 3;
+        boxCol.y = 3;
     }
 
     /**
@@ -53,7 +53,6 @@ export default class UIMain_Room extends Laya.Script {
         // console.log('碰撞持续中！');
     }
 
-    /**按钮事件注册*/
     btnOnClick(): void {
         lwg.Click.on('noEffect', null, this.self, this, this.houseDwon, null, null, null);
     }
@@ -66,7 +65,7 @@ export default class UIMain_Room extends Laya.Script {
     /**房子按下*/
     houseDwon(): void {
         if (!lwg.Global._gameStart) {
-            return; 
+            return;
         }
         // 第一关的新手引导中，第二个房间不可以移动
         if (lwg.Global._gameLevel === 1 && this.self.name === 'Room2') {
@@ -75,7 +74,7 @@ export default class UIMain_Room extends Laya.Script {
         this._roomX = this.self.x;
         this._roomY = this.self.y;
         this._roomMove = true;
-        lwg.Global._roomPickup = this.self;
+        lwg.Global._roomPickup = this.self as Laya.Image;
     }
     /**点击到舞台的初始位置*/
     private _stageX: number;

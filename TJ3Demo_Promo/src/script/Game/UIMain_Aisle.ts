@@ -14,69 +14,94 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
 
     lwgInit() {
         this.interactionPicStyle('exit');
-        this.picColor();
+        this.colorFormat();
     }
 
-    /**根据房间的颜色初始化通道图片的颜色*/
-    picColor(): void {
+    /**根据房间的颜色初始化通道图片的颜色和格式*/
+    colorFormat(): void {
         let parent = this.self.parent as Laya.Image;
         let pSkin = parent.skin;
 
         let wall = this.self.getChildByName('wall') as Laya.Image;
         let color = this.self.getChildByName('color') as Laya.Image;
-        wall.skin = lwg.Enum.WallSkin.common;
-        color.skin = lwg.Enum.AisleColorSkin.common;
 
-        // switch (pSkin) {
-        //     case lwg.Enum.RoomSkin.blue:
-        //         wall.skin = lwg.Enum.WallSkin.blue;
-        //         color.skin = lwg.Enum.AisleColorSkin.blue;
-        //         break;
+        let nameStr = this.self.name.substring(0, 1);
+        if (nameStr === 'd' || nameStr === 'u') {
+            if (nameStr === 'd') {
 
-        //     case lwg.Enum.RoomSkin.bluish:
-        //         wall.skin = lwg.Enum.WallSkin.bluish;
-        //         color.skin = lwg.Enum.AisleColorSkin.bluish;
-        //         break;
+            } else if (nameStr === 'u') {
 
-        //     case lwg.Enum.RoomSkin.grass:
-        //         wall.skin = lwg.Enum.WallSkin.grass;
-        //         color.skin = lwg.Enum.AisleColorSkin.grass;
+            }
+            this.self.pivotX = this.self.width / 2;
+        } else if (nameStr === 'l' || nameStr === 'r') {
+            if (nameStr === 'l') {
 
-        //         break;
+            } else if (nameStr === 'r') {
+                this.self.width = 81;
+                this.self.x = parent.width;
+                wall.x = 8;
+                wall.y = 42;
+                color.x = 8;
+                color.y = 42;
+            }
+        }
 
-        //     case lwg.Enum.RoomSkin.green:
-        //         wall.skin = lwg.Enum.WallSkin.green;
-        //         color.skin = lwg.Enum.AisleColorSkin.green;
-        //         break;
+        wall.width = 81;
+        wall.height = 16.5;
+        color.width = 81;
+        color.height = 16;
 
-        //     case lwg.Enum.RoomSkin.pink:
-        //         wall.skin = lwg.Enum.WallSkin.pink;
-        //         color.skin = lwg.Enum.AisleColorSkin.pink;
-        //         break;
 
-        //     case lwg.Enum.RoomSkin.purple:
-        //         wall.skin = lwg.Enum.WallSkin.purple;
-        //         color.skin = lwg.Enum.AisleColorSkin.purple;
-        //         break;
+        switch (pSkin) {
+            case lwg.Enum.RoomSkin.blue:
+                wall.skin = lwg.Enum.WallSkin.blue;
+                color.skin = lwg.Enum.AisleColorSkin.blue;
+                break;
 
-        //     case lwg.Enum.RoomSkin.red:
-        //         wall.skin = lwg.Enum.WallSkin.red;
-        //         color.skin = lwg.Enum.AisleColorSkin.red;
-        //         break;
+            case lwg.Enum.RoomSkin.bluish:
+                wall.skin = lwg.Enum.WallSkin.bluish;
+                color.skin = lwg.Enum.AisleColorSkin.bluish;
+                break;
 
-        //     case lwg.Enum.RoomSkin.yellow:
-        //         wall.skin = lwg.Enum.WallSkin.yellow;
-        //         color.skin = lwg.Enum.AisleColorSkin.yellow;
-        //         break;
+            case lwg.Enum.RoomSkin.grass:
+                wall.skin = lwg.Enum.WallSkin.grass;
+                color.skin = lwg.Enum.AisleColorSkin.grass;
 
-        //     case lwg.Enum.RoomSkin.yellowish:
-        //         wall.skin = lwg.Enum.WallSkin.yellowish;
-        //         color.skin = lwg.Enum.AisleColorSkin.yellowish;
-        //         break;
+                break;
 
-        //     default:
-        //         break;
-        // }
+            case lwg.Enum.RoomSkin.green:
+                wall.skin = lwg.Enum.WallSkin.green;
+                color.skin = lwg.Enum.AisleColorSkin.green;
+                break;
+
+            case lwg.Enum.RoomSkin.pink:
+                wall.skin = lwg.Enum.WallSkin.pink;
+                color.skin = lwg.Enum.AisleColorSkin.pink;
+                break;
+
+            case lwg.Enum.RoomSkin.purple:
+                wall.skin = lwg.Enum.WallSkin.purple;
+                color.skin = lwg.Enum.AisleColorSkin.purple;
+                break;
+
+            case lwg.Enum.RoomSkin.red:
+                wall.skin = lwg.Enum.WallSkin.red;
+                color.skin = lwg.Enum.AisleColorSkin.red;
+                break;
+
+            case lwg.Enum.RoomSkin.yellow:
+                wall.skin = lwg.Enum.WallSkin.yellow;
+                color.skin = lwg.Enum.AisleColorSkin.yellow;
+                break;
+
+            case lwg.Enum.RoomSkin.yellowish:
+                wall.skin = lwg.Enum.WallSkin.yellowish;
+                color.skin = lwg.Enum.AisleColorSkin.yellowish;
+                break;
+
+            default:
+                break;
+        }
     }
 
     onTriggerEnter(other, self): void {

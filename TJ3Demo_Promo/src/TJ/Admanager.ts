@@ -72,7 +72,7 @@ export default class ADManager {
                 ADManager.CanShowCD = true;
             }, CDTime)
         }
-        else  {
+        else {
             //提示位 
             //TipPanel.ins.showString("广告准备中");
         }
@@ -152,12 +152,16 @@ export default class ADManager {
                 break;
             case TaT.LevelStart:
                 TJ.API.TA.Event_Level_Start(p);
+                console.log('本关开始打点');
                 break;
             case TaT.LevelFail:
                 TJ.API.TA.Event_Level_Fail(p);
+                console.log('本关失败打点');
                 break;
             case TaT.LevelFinish:
                 TJ.API.TA.Event_Level_Finish(p);
+                console.log('本关胜利打点');
+
                 break;
         }
     }

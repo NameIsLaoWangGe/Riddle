@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":584,
-    "selecteID":587,
+    "selectedBox":2,
+    "selecteID":500,
     "searchKey":"View,UIMain_006",
     "props":{"width":720,"sceneColor":"#000000","name":"UIMain_006","height":1280},
     "nodeParent":-1,
@@ -1745,7 +1745,7 @@
                             "x":45,
                             "type":"Image",
                             "searchKey":"Image,wall",
-                            "props":{"y":41.5,"x":40.6,"skin":"Room/room_blue_wall.png","rotation":90,"pivotY":8,"pivotX":41,"name":"wall","height":16.7},
+                            "props":{"y":41.5,"x":40.6,"width":81,"skin":"Room/room_blue_wall.png","rotation":90,"pivotY":8,"pivotX":41,"name":"wall","height":16.7},
                             "nodeParent":512,
                             "label":"wall",
                             "isDirectory":false,
@@ -1858,13 +1858,14 @@
                     "props":{"y":229.5,"x":177,"width":82,"pivotY":10,"pivotX":41,"name":"down_Aisle_01","height":48},
                     "nodeParent":500,
                     "label":"down_Aisle_01",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":620,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,interaction",
                             "props":{"y":47,"x":80,"skin":"Room/ui_interaction_01.png","rotation":180,"name":"interaction"},
@@ -1879,9 +1880,10 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,wall",
-                            "props":{"y":7.4,"x":41.5,"skin":"Room/room_blue_wall.png","rotation":0,"pivotY":8,"pivotX":41,"name":"wall","height":16.2},
+                            "props":{"y":7.4,"x":41.5,"width":81,"skin":"Room/room_blue_wall.png","rotation":0,"pivotY":8,"pivotX":41,"name":"wall","height":16.5},
                             "nodeParent":620,
                             "label":"wall",
                             "isOpen":true,
@@ -1893,6 +1895,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,color",
                             "props":{"y":7,"x":41.5,"width":81,"skin":"Room/room_blue_color.png","rotation":180,"pivotY":8,"pivotX":41,"name":"color","height":15},
@@ -1907,6 +1910,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"BoxCollider",
                             "switchAble":true,
                             "searchKey":"BoxCollider",
@@ -1922,6 +1926,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"RigidBody",
                             "switchAble":true,
                             "searchKey":"RigidBody",
@@ -1937,6 +1942,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/script/Game/UIMain_Aisle.ts",
@@ -1953,6 +1959,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Label",
                             "searchKey":"Label,yanse",
                             "props":{"text":"label","name":"yanse","alpha":0},
@@ -1966,6 +1973,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"BoxCollider",
                             "switchAble":true,
                             "searchKey":"BoxCollider",
@@ -2178,7 +2186,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,houma",
-            "props":{"y":690,"x":127,"width":51,"rotation":0,"pivotY":32,"pivotX":26,"name":"houma","height":63},
+            "props":{"y":776.5,"x":36,"width":51,"rotation":0,"pivotY":32,"pivotX":26,"name":"houma","height":63},
             "nodeParent":2,
             "label":"houma",
             "isOpen":false,

@@ -121,10 +121,8 @@ export default class UIMain extends lwg.Admin.Scene {
     lwgDisable(): void {
         if (this.victory) {
             ADManager.TAPoint(TaT.LevelFinish, 'level' + lwg.Admin.openLevelNum);
-            console.log('本关胜利打点');
         } else {
             ADManager.TAPoint(TaT.LevelFail, 'level' + lwg.Admin.openLevelNum);
-            console.log('本关失败打点');
         }
         Laya.timer.clearAll(this);
         Laya.Tween.clearAll(this);

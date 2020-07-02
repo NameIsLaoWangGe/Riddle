@@ -129,7 +129,7 @@
                     "x":30,
                     "type":"Image",
                     "searchKey":"Image,BtnZanshi,BtnZanshi",
-                    "props":{"y":805,"x":287,"width":105,"var":"BtnZanshi","skin":"UI_new/PifuTry/free_btn2.png","pivotY":14,"pivotX":53,"name":"BtnZanshi","height":28},
+                    "props":{"y":804,"x":286,"width":134,"var":"BtnZanshi","skin":"UI_new/PifuTry/free_btn2.png","pivotY":15,"pivotX":67,"name":"BtnZanshi","height":30},
                     "nodeParent":5,
                     "label":"BtnZanshi",
                     "isDirectory":false,

@@ -960,12 +960,15 @@ export module lwg {
                 this.self[calssName] = this;
                 this.rig = this.self.getComponent(Laya.RigidBody);
                 this.lwgInit();
+                this.btnOnClick();
             }
             /**初始化，在onEnable中执行，重写即可覆盖*/
             lwgInit(): void {
                 console.log('父类的初始化！');
             }
-
+            /**点击事件注册*/
+            btnOnClick(): void {
+            }
             onUpdate(): void {
                 this.lwgOnUpdate();
             }
@@ -973,9 +976,8 @@ export module lwg {
 
             }
             onDisable(): void {
-
+                this.lwgDisable();
             }
-
             /**离开时执行，子类不执行onDisable，只执行lwgDisable*/
             lwgDisable(): void {
 

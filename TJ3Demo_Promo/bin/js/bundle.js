@@ -986,12 +986,15 @@
                     break;
                 case TaT.LevelStart:
                     TJ.API.TA.Event_Level_Start(p);
+                    console.log('本关开始打点');
                     break;
                 case TaT.LevelFail:
                     TJ.API.TA.Event_Level_Fail(p);
+                    console.log('本关失败打点');
                     break;
                 case TaT.LevelFinish:
                     TJ.API.TA.Event_Level_Finish(p);
+                    console.log('本关胜利打点');
                     break;
             }
         }
@@ -1709,9 +1712,12 @@
                     this.self[calssName] = this;
                     this.rig = this.self.getComponent(Laya.RigidBody);
                     this.lwgInit();
+                    this.btnOnClick();
                 }
                 lwgInit() {
                     console.log('父类的初始化！');
+                }
+                btnOnClick() {
                 }
                 onUpdate() {
                     this.lwgOnUpdate();
@@ -1719,6 +1725,7 @@
                 lwgOnUpdate() {
                 }
                 onDisable() {
+                    this.lwgDisable();
                 }
                 lwgDisable() {
                 }
@@ -3593,11 +3600,9 @@
         lwgDisable() {
             if (this.victory) {
                 ADManager.TAPoint(TaT.LevelFinish, 'level' + lwg.Admin.openLevelNum);
-                console.log('本关胜利打点');
             }
             else {
                 ADManager.TAPoint(TaT.LevelFail, 'level' + lwg.Admin.openLevelNum);
-                console.log('本关失败打点');
             }
             Laya.timer.clearAll(this);
             Laya.Tween.clearAll(this);
@@ -3727,15 +3732,72 @@
         }
         lwgInit() {
             this.interactionPicStyle('exit');
-            this.picColor();
+            this.colorFormat();
         }
-        picColor() {
+        colorFormat() {
             let parent = this.self.parent;
             let pSkin = parent.skin;
             let wall = this.self.getChildByName('wall');
             let color = this.self.getChildByName('color');
-            wall.skin = lwg.Enum.WallSkin.common;
-            color.skin = lwg.Enum.AisleColorSkin.common;
+            let nameStr = this.self.name.substring(0, 1);
+            if (nameStr === 'd' || nameStr === 'u') {
+                this.self.pivotX = this.self.width / 2;
+            }
+            else if (nameStr === 'l' || nameStr === 'r') {
+                if (nameStr === 'l') ;
+                else if (nameStr === 'r') {
+                    this.self.width = 81;
+                    this.self.x = parent.width;
+                    wall.x = 8;
+                    wall.y = 42;
+                    color.x = 8;
+                    color.y = 42;
+                }
+            }
+            wall.width = 81;
+            wall.height = 16.5;
+            color.width = 81;
+            color.height = 16;
+            switch (pSkin) {
+                case lwg.Enum.RoomSkin.blue:
+                    wall.skin = lwg.Enum.WallSkin.blue;
+                    color.skin = lwg.Enum.AisleColorSkin.blue;
+                    break;
+                case lwg.Enum.RoomSkin.bluish:
+                    wall.skin = lwg.Enum.WallSkin.bluish;
+                    color.skin = lwg.Enum.AisleColorSkin.bluish;
+                    break;
+                case lwg.Enum.RoomSkin.grass:
+                    wall.skin = lwg.Enum.WallSkin.grass;
+                    color.skin = lwg.Enum.AisleColorSkin.grass;
+                    break;
+                case lwg.Enum.RoomSkin.green:
+                    wall.skin = lwg.Enum.WallSkin.green;
+                    color.skin = lwg.Enum.AisleColorSkin.green;
+                    break;
+                case lwg.Enum.RoomSkin.pink:
+                    wall.skin = lwg.Enum.WallSkin.pink;
+                    color.skin = lwg.Enum.AisleColorSkin.pink;
+                    break;
+                case lwg.Enum.RoomSkin.purple:
+                    wall.skin = lwg.Enum.WallSkin.purple;
+                    color.skin = lwg.Enum.AisleColorSkin.purple;
+                    break;
+                case lwg.Enum.RoomSkin.red:
+                    wall.skin = lwg.Enum.WallSkin.red;
+                    color.skin = lwg.Enum.AisleColorSkin.red;
+                    break;
+                case lwg.Enum.RoomSkin.yellow:
+                    wall.skin = lwg.Enum.WallSkin.yellow;
+                    color.skin = lwg.Enum.AisleColorSkin.yellow;
+                    break;
+                case lwg.Enum.RoomSkin.yellowish:
+                    wall.skin = lwg.Enum.WallSkin.yellowish;
+                    color.skin = lwg.Enum.AisleColorSkin.yellowish;
+                    break;
+                default:
+                    break;
+            }
         }
         onTriggerEnter(other, self) {
             let otherName = other.owner.name;
@@ -4913,23 +4975,30 @@
         }
     }
 
-    class UIMain_Room extends Laya.Script {
+    class UIMain_Room extends lwg.Admin.Object {
         constructor() {
             super();
             this._roomMove = false;
             this.diffX = null;
             this.diffY = null;
         }
-        onEnable() {
-            this.self = this.owner;
-            this.selfScene = this.self.scene;
+        lwgInit() {
+            this.self.pivotX = this.self.width / 2;
+            this.self.pivotY = this.self.height / 2;
             this.self['UIMain_Room'] = this;
             this.rig = this.self.getComponent(Laya.RigidBody);
             this.rig.setVelocity({ x: 0, y: 0 });
             this.fX = this.self.x;
             this.fY = this.self.y;
-            this.btnOnClick();
             this.collisionNodeFollow();
+            this.boxColliderSet();
+        }
+        boxColliderSet() {
+            let boxCol = this.self.getComponent(Laya.BoxCollider);
+            boxCol.width = this.self.width - 6;
+            boxCol.height = this.self.height - 6;
+            boxCol.x = 3;
+            boxCol.y = 3;
         }
         collisionNodeFollow() {
             for (let index = 0; index < this.self.numChildren; index++) {
@@ -5701,9 +5770,8 @@
             }
         }
         adaptive() {
-            this.self['P204'].y = Laya.stage.height - 75;
             this.self['P201'].y = Laya.stage.height * 0.156;
-            this.SceneContent.y = this.self['P204'].y - 80 - this.SceneContent.height / 2;
+            this.SceneContent.y = Laya.stage.height - 75 - 80 - this.SceneContent.height / 2;
         }
         openAni() {
             if (this.self['BtnXD'].visible) {
