@@ -5080,14 +5080,19 @@
             if (wallpaper) {
                 wallpaper.removeSelf();
             }
-            let wallpaper0 = new Laya.Image();
-            let selfSkin = this.self.skin;
-            wallpaper0.skin = 'Room/room_green.png';
+            let wallpaper0 = new Laya.Sprite();
+            wallpaper0.loadImage(lwg.Enum.WallpaperSkin[lwg.Enum.RoomSkinZoder[this.self.skin]]);
             this.self.addChild(wallpaper0);
-            wallpaper0.pos(0, 0);
-            wallpaper0.height = 51;
-            wallpaper0.width = 51;
-            wallpaper0.y = this.self.height - 51 - 15.5;
+            wallpaper0.zOrder = -5;
+            wallpaper0.pos(15.5, 0);
+            wallpaper0.height = 50;
+            wallpaper0.y = this.self.height - 50 - 15.5;
+            let mask = new Laya.Sprite();
+            mask.loadImage(lwg.Enum.WallpaperSkin[lwg.Enum.RoomSkinZoder[this.self.skin]]);
+            wallpaper0.mask = mask;
+            mask.width = this.self.width - 31;
+            mask.height = 200;
+            mask.y = -10;
         }
         collisionNodeFollow() {
             for (let index = 0; index < this.self.numChildren; index++) {

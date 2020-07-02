@@ -33,58 +33,21 @@ export default class UIMain_Room extends lwg.Admin.Object {
         let wallpaper = this.self.getChildByName('wallpaper') as Laya.Sprite;
         if (wallpaper) {
             wallpaper.removeSelf();
-
         }
-        let wallpaper0 = new Laya.Image();
-        let selfSkin = (this.self as Laya.Image).skin;
-        wallpaper0.skin = lwg.Enum.WallpaperSkin[lwg.Enum.RoomSkinZoder[selfSkin]];
+        let wallpaper0 = new Laya.Sprite();
+        wallpaper0.loadImage(lwg.Enum.WallpaperSkin[lwg.Enum.RoomSkinZoder[(this.self as Laya.Image).skin]]);
         this.self.addChild(wallpaper0);
-        wallpaper0.pos(0, 0);
-        wallpaper0.width = 51;
-        wallpaper0.height = 51;
-        wallpaper0.y = this.self.height - 51 - 15.5;
-        // wallpaper0.skin = lwg.Enum.RoomSkin.blue;
-        // switch (selfSkin) {
-        //     case lwg.Enum.RoomSkin.blue:
-        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.blue;
-        //         break;
+        wallpaper0.zOrder = -5;
+        wallpaper0.pos(15.5, 0);
+        wallpaper0.height = 50;
+        wallpaper0.y = this.self.height - 50 - 15.5;
 
-        //     case lwg.Enum.RoomSkin.bluish:
-        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.bluish;
-        //         break;
-
-        //     case lwg.Enum.RoomSkin.grass:
-        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.grass;
-        //         break;
-
-        //     case lwg.Enum.RoomSkin.green:
-        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.green;
-        //         break;
-
-        //     case lwg.Enum.RoomSkin.pink:
-        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.pink;
-        //         break;
-
-        //     case lwg.Enum.RoomSkin.purple:
-        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.purple;
-        //         break;
-
-        //     case lwg.Enum.RoomSkin.red:
-        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.red;
-        //         break;
-
-        //     case lwg.Enum.RoomSkin.yellow:
-        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.yellow;
-        //         break;
-
-        //     case lwg.Enum.RoomSkin.yellowish:
-        //         wallpaper0.skin = lwg.Enum.WallpaperSkin.yellowish;
-        //         break;
-
-        //     default:
-        //         break;
-        // }
-
+        let mask = new Laya.Sprite();
+        mask.loadImage(lwg.Enum.WallpaperSkin[lwg.Enum.RoomSkinZoder[(this.self as Laya.Image).skin]]);
+        wallpaper0.mask = mask;
+        mask.width = this.self.width - 31;
+        mask.height = 200;
+        mask.y = -10;
     }
 
 

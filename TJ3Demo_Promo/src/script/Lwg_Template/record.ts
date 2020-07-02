@@ -14,10 +14,12 @@ export module record {
         'skeleton(骨骼动画)' = '骨骼动画所用到的图片是不可以打包的，否则取图片时候图片会错乱',
 
         'fileconfig.json(索引文件)' = 'atlas打包了，索引文件中找不到，可以把图片名称添加到fileconfig.json中',
-        
-        'Povit-Anchor（中心点和锚点的区别）'='锚点和中心点都决定节点的缩放，和位置，但是改变锚点（Anchor）的时候坐标值和当前位置都会变，造成位置偏移，改变中心点（Povit），也会改变坐标值，但是不会改变当前位置。',
 
-        'mask'='作为遮罩的那个sprite或者是img必须有图片，这样才能有大小，才能有显示位置。'
+        'Povit-Anchor（中心点和锚点的区别）' = '锚点和中心点都决定节点的缩放，和位置，但是改变锚点（Anchor）的时候坐标值和当前位置都会变，造成位置偏移，改变中心点（Povit），也会改变坐标值，但是不会改变当前位置。',
+
+        'mask' = '作为遮罩的那个sprite或者是img必须有图片，这样才能有大小，才能有显示位置。',
+
+        'skin和lodeImage' = '如果一张图片没有在场景内，也没有在场景加载的任何一个图集内部，那么打开场景的时候，这张图片是不会被加载的，所以，此时如果需要用到这张图片，只能用sprite中loadImage（url）获取到这张图片，不可以用image.skin=url，也可以用 Laya.loader.load（url）。'
 
         // "ttNavigateToMiniGameAppIdList":["tt164560f8896f5aa2","ttef1799aa703dd2d0","tt152d63908a08fe01","tt2ccf5a72b3e56c88","tt302d4690af074936","ttcf5bb9e6506112b2","tt9126e79b0e1c6ce4","ttf4d2826f6bf8c514","tt197b6fc6865106b5","tt37bd4100a897628b"]
     }
