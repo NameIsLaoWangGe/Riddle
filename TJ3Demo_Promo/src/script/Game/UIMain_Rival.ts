@@ -8,12 +8,10 @@ export default class UIMain_Rival extends UIMain_Gongzhu {
     createskeleton(): void {
         // 两个不同的情敌中随机选择一个
         let num = Math.floor(Math.random() * 2);
-        if (num === 1) {
-            this.skeleton = lwg.Sk.qingdi_01Tem.buildArmature(0);
-        } else {
-            this.skeleton = lwg.Sk.qingdi_02Tem.buildArmature(0);
-        }
+        this.skeleton = lwg.Sk.qingdi_01Tem.buildArmature(0);
         this.self.addChild(this.skeleton);
+        // this.skScale = 0.9;
+        // this.skeleton.scale(this.skScale, this.skScale);
         this.skeleton.x = this.self.width / 2;
         this.skeleton.y = this.self.height - 10;
         let pic = this.self.getChildByName('pic') as Laya.Sprite;

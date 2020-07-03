@@ -12,7 +12,7 @@ export default class UIMain_Wangzi extends UIMain_Gongzhu {
         this.skeleton = lwg.Sk.wangziTem.buildArmature(0);
         this.self.addChild(this.skeleton);
         this.skeleton.x = this.self.width / 2;
-        this.skeleton.y = this.self.height - 12;
+        this.skeleton.y = this.self.height - 14;
         let pic = this.self.getChildByName('pic') as Laya.Sprite;
         pic.visible = false;
         if (pic.scaleX === -1) {

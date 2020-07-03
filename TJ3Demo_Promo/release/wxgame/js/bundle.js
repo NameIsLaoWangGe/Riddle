@@ -3941,6 +3941,7 @@
             super(...arguments);
             this.necklace = false;
             this.drumstick = false;
+            this.skScale = 1;
             this.inAir = false;
             this.targetP = new Laya.Point();
             this.attackSwitch = false;
@@ -4011,6 +4012,8 @@
                     break;
             }
             this.self.addChild(this.skeleton);
+            this.skScale = 0.9;
+            this.skeleton.scale(this.skScale, this.skScale);
             this.skeleton.pos(this.self.width / 2, this.self.height - 9);
             let pic = this.self.getChildByName('pic');
             pic.visible = false;
@@ -4416,11 +4419,11 @@
             }
             if (this.moveDirection === lwg.Enum.PersonDir.left) {
                 this.rig.setVelocity({ x: -this.speed, y: 0 });
-                this.skeleton.scaleX = -1;
+                this.skeleton.scaleX = -this.skScale;
             }
             else if (this.moveDirection === lwg.Enum.PersonDir.right) {
                 this.rig.setVelocity({ x: this.speed, y: 0 });
-                this.skeleton.scaleX = 1;
+                this.skeleton.scaleX = this.skScale;
             }
             else if (this.moveDirection === lwg.Enum.PersonDir.up) {
                 this.rig.setVelocity({ x: 0, y: -6 });
@@ -4633,13 +4636,7 @@
         notCommon() {
         }
         createskeleton() {
-            let num = Math.floor(Math.random() * 2);
-            if (num === 1) {
-                this.skeleton = lwg.Sk.qingdi_01Tem.buildArmature(0);
-            }
-            else {
-                this.skeleton = lwg.Sk.qingdi_02Tem.buildArmature(0);
-            }
+            this.skeleton = lwg.Sk.qingdi_01Tem.buildArmature(0);
             this.self.addChild(this.skeleton);
             this.skeleton.x = this.self.width / 2;
             this.skeleton.y = this.self.height - 10;
@@ -4731,7 +4728,7 @@
             this.skeleton = lwg.Sk.wangziTem.buildArmature(0);
             this.self.addChild(this.skeleton);
             this.skeleton.x = this.self.width / 2;
-            this.skeleton.y = this.self.height - 12;
+            this.skeleton.y = this.self.height - 14;
             let pic = this.self.getChildByName('pic');
             pic.visible = false;
             if (pic.scaleX === -1) {
@@ -5078,16 +5075,21 @@
         wallpaperSet() {
             let wallpaper = this.self.getChildByName('wallpaper');
             if (wallpaper) {
-                wallpaper.height = 51;
-                wallpaper.y = this.self.height - 51 - 15.5;
+                wallpaper.removeSelf();
             }
-            return;
-            let wallpaper0 = new Laya.Image;
-            let selfSkin = this.self.skin;
-            wallpaper0.skin = lwg.Enum.WallpaperSkin[lwg.Enum.RoomSkinZoder[selfSkin]];
-            this.self.addChildAt(wallpaper0, 0);
-            wallpaper0.pos(0, 0);
-            console.log(wallpaper0);
+            let wallpaper0 = new Laya.Sprite();
+            wallpaper0.loadImage(lwg.Enum.WallpaperSkin[lwg.Enum.RoomSkinZoder[this.self.skin]]);
+            this.self.addChild(wallpaper0);
+            wallpaper0.zOrder = -5;
+            wallpaper0.pos(15.5, 0);
+            wallpaper0.height = 50;
+            wallpaper0.y = this.self.height - 50 - 15.5;
+            let mask = new Laya.Sprite();
+            mask.loadImage(lwg.Enum.WallpaperSkin[lwg.Enum.RoomSkinZoder[this.self.skin]]);
+            wallpaper0.mask = mask;
+            mask.width = this.self.width - 31;
+            mask.height = 200;
+            mask.y = -10;
         }
         collisionNodeFollow() {
             for (let index = 0; index < this.self.numChildren; index++) {

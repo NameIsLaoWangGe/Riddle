@@ -55,6 +55,8 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         // console.log(pic.scaleX + this.moveDirection);
     }
 
+
+    skScale: number = 1;
     /**骨骼动画*/
     createskeleton(): void {
 
@@ -97,14 +99,14 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
             default:
                 break;
         }
-        // console.log(this.skeleton);
 
         this.self.addChild(this.skeleton);
+        this.skScale = 0.9;
+        this.skeleton.scale(this.skScale, this.skScale);
         this.skeleton.pos(this.self.width / 2, this.self.height - 9);
         let pic = this.self.getChildByName('pic') as Laya.Sprite;
         pic.visible = false;
         this.skeleton.play(lwg.Enum.gongzhuAni.walk, true);
-        // console.log(this.skeleton);
     }
 
     /**
@@ -645,10 +647,10 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         }
         if (this.moveDirection === lwg.Enum.PersonDir.left) {
             this.rig.setVelocity({ x: -this.speed, y: 0 });
-            this.skeleton.scaleX = -1;
+            this.skeleton.scaleX = -this.skScale;
         } else if (this.moveDirection === lwg.Enum.PersonDir.right) {
             this.rig.setVelocity({ x: this.speed, y: 0 });
-            this.skeleton.scaleX = 1;
+            this.skeleton.scaleX = this.skScale;
         } else if (this.moveDirection === lwg.Enum.PersonDir.up) {
             this.rig.setVelocity({ x: 0, y: -6 });
 
