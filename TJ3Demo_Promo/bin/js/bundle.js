@@ -5607,6 +5607,10 @@
             this.self['background_01'].height = Laya.stage.height;
         }
         openAni() {
+            this.self['BtnNo'].visible = false;
+            setTimeout(() => {
+                this.self['BtnNo'].visible = true;
+            }, lwg.Global._btnDelayed);
         }
         randomNoHave() {
             let len = lwg.Global._notHavePifuSubXD.length;
@@ -5626,9 +5630,8 @@
         btnOnClick() {
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnSelect'], this, null, null, this.btnAdvUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnZanshi'], this, null, null, this.btnAdvUp, null);
-            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnGet'], this, null, null, this.btnAdvUp, null);
-            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
-            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['Btn'], this, null, null, null, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnGet'], this, null, null, this.btnAdvUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
         }
         btnAdvUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_skintry');
