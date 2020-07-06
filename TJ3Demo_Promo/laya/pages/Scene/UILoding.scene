@@ -2,7 +2,7 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":33,
+    "selecteID":40,
     "searchKey":"Scene,UILoding",
     "props":{"width":720,"sceneColor":"#000000","name":"UILoding","height":1280},
     "nodeParent":-1,
@@ -25,20 +25,6 @@
             "isAniNode":true,
             "hasChild":false,
             "compId":24,
-            "child":[
-                ]
-        },
-        {
-            "x":15,
-            "type":"Sprite",
-            "searchKey":"Sprite",
-            "props":{"y":0,"x":0,"texture":"UI_new/Loding/word_loding.jpg","height":1700,"alpha":0},
-            "nodeParent":2,
-            "label":"Sprite",
-            "isDirectory":false,
-            "isAniNode":true,
-            "hasChild":false,
-            "compId":40,
             "child":[
                 ]
         },

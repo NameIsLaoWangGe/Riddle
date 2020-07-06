@@ -14,6 +14,8 @@ export default class UIMain_Rival extends UIMain_Gongzhu {
         // this.skeleton.scale(this.skScale, this.skScale);
         this.skeleton.x = this.self.width / 2;
         this.skeleton.y = this.self.height - 10;
+        this.skScale = 0.9;
+        this.skeleton.scale(this.skScale, this.skScale);
         let pic = this.self.getChildByName('pic') as Laya.Sprite;
         pic.visible = false;
         this.skeleton.play(lwg.Enum.gongzhuAni.walk, true);

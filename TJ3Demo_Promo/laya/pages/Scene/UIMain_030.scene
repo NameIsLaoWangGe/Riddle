@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":592,
-    "selecteID":854,
+    "selectedBox":2,
+    "selecteID":936,
     "searchKey":"View",
     "props":{"width":720,"sceneColor":"#000000","height":1280},
     "nodeParent":-1,
-    "maxID":936,
+    "maxID":941,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -34,16 +34,72 @@
         {
             "x":15,
             "type":"Image",
-            "searchKey":"Image,background",
-            "props":{"y":650,"x":370,"width":1364,"skin":"Room/bg_01.png","pivotY":981,"pivotX":682,"name":"background","height":1962,"alpha":1},
+            "searchKey":"Image,background,background",
+            "props":{"y":640,"x":360,"var":"background","pivotY":981,"pivotX":682,"name":"background","alpha":1},
             "nodeParent":2,
             "label":"background",
-            "isDirectory":false,
+            "isOpen":true,
+            "isDirectory":true,
             "isAniNode":true,
-            "hasChild":false,
-            "compId":935,
+            "hasChild":true,
+            "compId":936,
             "child":[
-                ]
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":0,"x":0,"texture":"Room/bg01_01.png"},
+                    "nodeParent":936,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":937,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":0,"x":682,"texture":"Room/bg01_02.png"},
+                    "nodeParent":936,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":938,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":1345,"x":0,"texture":"Room/bg01_03.png"},
+                    "nodeParent":936,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":939,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":1345,"x":682,"texture":"Room/bg01_04.png"},
+                    "nodeParent":936,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":940,
+                    "child":[
+                        ]
+                }]
         },
         {
             "x":15,

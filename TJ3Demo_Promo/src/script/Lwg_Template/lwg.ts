@@ -602,6 +602,10 @@ export module lwg {
                 let background = scene.getChildByName('background') as Laya.Image;
                 if (background) {
                     if (openName.substring(0, 6) === 'UIMain') {
+                        background.width = null;
+                        background.height = null;
+                        background.x = 360,
+                            background.y = 640;
                         // background.pivotX = background.width / 2;
                         // background.pivotY = background.height / 2;
                         // background.x = Laya.stage.width / 2;
@@ -638,7 +642,7 @@ export module lwg {
             } else {
                 num = lwg.Global._gameLevel;
             }
-            openLevelNum = num;
+            openLevelNum = lwg.Global._gameLevel;
             // 格式
             if (num <= 9) {
                 sceneName = 'UIMain_00' + num;
@@ -658,10 +662,10 @@ export module lwg {
         export function _openNumCustom(num): void {
             let sceneName;
             // 大于30关后从第一关开始循环
+            openLevelNum = num;
             if (num > 30) {
                 num = num - 30;
             }
-            openLevelNum = num;
             // 格式
             if (num <= 9) {
                 sceneName = 'UIMain_00' + num;

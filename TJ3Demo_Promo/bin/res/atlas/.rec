@@ -70,7 +70,10 @@ P 1BF89ED4 ani_corpseflower_02.png
 P 09AB66ED ani_fire_01.png
 P D79CFD43 ani_fire_02.png
 P 4ACF116C ani_fire_03.png
-R 434CB4A9 bg_01.png
+R 1E1D1AAE bg01_01.png
+R E82446E1 bg01_02.png
+R 505CD786 bg01_03.png
+R 26643DBA bg01_04.png
 P 87C1BA6E icon_apple.png
 P 4369DEC4 icon_banana.png
 P 1C6F6650 icon_dogfood.png
@@ -261,7 +264,6 @@ P 363A8649 ui_line.png
 P 3E1CD4E9 word_back.png
 P 1AEABD4C word_last.png
 P 857EAC05 word_share.png
-R 5ADCDE8D xiaoguotu.jpg
 D UI_new/Defeated
 P D411BFA9 adv_btn1.png
 P 1C7DD5FC adv_btn2.png
@@ -298,7 +300,6 @@ P 143D5828 icon_hint.png
 P 9BEEDB20 icon_lookadv.png
 P 48C2C147 icon_pause.png
 P 76321D6F icon_start.png
-R 67F79E62 Screenshot_2020-06-22-11-34-53-58.png
 R 4C1D8DD2 ui_board_01.png
 P AAEB5B2E ui_board_02.png
 P 888C1E4E word_pause.png
@@ -323,12 +324,10 @@ R 9A8CD3E5 ui_line.png
 P 5D975BAC word_pifu.png
 P 2096288C word_start.png
 D UI_new/Loding
-S 7DD95D54 loading.jpg
 P 62E9D041 logo.png
 P 211F71FC per50%.png
 P 7696607E ui_progress&bar.png
 R 870D6748 ui_progress.png
-R E9E7A8B6 word_loding.jpg
 P ED2C58EA word_loding.png
 D UI_new/PassHint
 P 4C70E3C4 icon_adv.png
@@ -338,7 +337,6 @@ R 51AD76F9 ui_baseboard.png
 P 363A8649 ui_line.png
 P 94F61A4C word_look.png
 P F5B6F421 word_yes.png
-R 750B7882 xiaoguotu.jpg
 P 0A40FA13 yes_btn.png
 D UI_new/Pifu
 P D6D76169 icon_lock.png
@@ -398,7 +396,6 @@ P 0BDDE69D logo_board.png
 P 34FDE184 ui_xd_01.png
 P 0DBAE84F ui_xd_02.png
 P B08325C6 word_dec.png
-R EA2537B5 xiaoguotu.jpg
 D UI_new/Set
 P 8712C52D close_btn.png
 P E29F17B4 icon_shake_off.png
@@ -407,7 +404,6 @@ P C53770FA icon_voice_off.png
 P ABACB3F1 icon_voice_on.png
 P 30C1EBAA logo.png
 P 4C1D8DD2 ui_board_01.png
-R EF60C321 xiaoguotu.jpg
 D UI_new/Share
 P 7753590B noshare_btn.png
 P 3249E887 share_btn.png
@@ -416,7 +412,6 @@ P 6D0D3A51 ui_board_02.png
 P AE818E6A word_award.png
 P 5E431E8D word_share.png
 P 88509320 word_share_btn.png
-R 9CEC2355 xiaoguotu.jpg
 D UI_new/SmallHint
 P 0BDFB07B bai.png
 P 33F1CDEF queding.png
@@ -425,7 +420,6 @@ P 60C760E9 txt_shuoming.png
 P ED7A90CF txt_tishi.png
 P 9DC2995A txt_tishi2.png
 P 78FBCED9 txtshuoming2.png
-R 83AAAE51 xiaoguotu.png
 D UI_new/Victory
 P 1F78459A green_btn.png
 P 1DF9AE7D icon_adv_green.png
@@ -442,7 +436,6 @@ R 7A97DDA1 ui_board_02.png
 P 595C1B75 word_11.png
 P 733E91EE word_add3.png
 P C1EEC766 word_threeget.png
-R 54945BF9 xiaoguotu.jpg
 D UI_new/wrod
 P D838A605 di.png
 P 21AC7169 guan.png

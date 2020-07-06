@@ -1418,7 +1418,12 @@
                     Admin._sceneControl[openName] = scene;
                     let background = scene.getChildByName('background');
                     if (background) {
-                        if (openName.substring(0, 6) === 'UIMain') ;
+                        if (openName.substring(0, 6) === 'UIMain') {
+                            background.width = null;
+                            background.height = null;
+                            background.x = 360,
+                                background.y = 640;
+                        }
                         else {
                             background.width = Laya.stage.width;
                             background.height = Laya.stage.height;
@@ -1442,7 +1447,7 @@
                 else {
                     num = lwg.Global._gameLevel;
                 }
-                Admin.openLevelNum = num;
+                Admin.openLevelNum = lwg.Global._gameLevel;
                 if (num <= 9) {
                     sceneName = 'UIMain_00' + num;
                 }
@@ -1458,10 +1463,10 @@
             Admin._openGLCustoms = _openGLCustoms;
             function _openNumCustom(num) {
                 let sceneName;
+                Admin.openLevelNum = num;
                 if (num > 30) {
                     num = num - 30;
                 }
-                Admin.openLevelNum = num;
                 if (num <= 9) {
                     sceneName = 'UIMain_00' + num;
                 }
@@ -4640,6 +4645,8 @@
             this.self.addChild(this.skeleton);
             this.skeleton.x = this.self.width / 2;
             this.skeleton.y = this.self.height - 10;
+            this.skScale = 0.9;
+            this.skeleton.scale(this.skScale, this.skScale);
             let pic = this.self.getChildByName('pic');
             pic.visible = false;
             this.skeleton.play(lwg.Enum.gongzhuAni.walk, true);
