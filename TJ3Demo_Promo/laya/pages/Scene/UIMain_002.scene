@@ -2,7 +2,6 @@
     "x":0,
     "type":"View",
     "selectedBox":2,
-    "selecteID":348,
     "searchKey":"View,UIMain_002",
     "props":{"width":720,"sceneColor":"#000000","name":"UIMain_002","height":1280},
     "nodeParent":-1,

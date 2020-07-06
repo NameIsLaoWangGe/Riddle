@@ -1,3 +1,6 @@
-2020/07/06-14:46:27.821 6d14 Reusing MANIFEST D:\Game\project\Riddle\Riddle1\TJ3Demo_Promo\.laya\chrome\Default\Local Storage\leveldb/MANIFEST-000001
-2020/07/06-14:46:27.822 6d14 Recovering log #70
-2020/07/06-14:46:27.822 6d14 Reusing old log D:\Game\project\Riddle\Riddle1\TJ3Demo_Promo\.laya\chrome\Default\Local Storage\leveldb/000070.log 
+2020/07/06-15:01:53.155 6734 Reusing MANIFEST D:\Game\project\Riddle\Riddle1\TJ3Demo_Promo\.laya\chrome\Default\Local Storage\leveldb/MANIFEST-000001
+2020/07/06-15:01:53.156 6734 Recovering log #70
+2020/07/06-15:01:53.157 6734 Reusing old log D:\Game\project\Riddle\Riddle1\TJ3Demo_Promo\.laya\chrome\Default\Local Storage\leveldb/000070.log 
+2020/07/06-15:06:54.996 7c30 Level-0 table #74: started
+2020/07/06-15:06:55.041 7c30 Level-0 table #74: 9190 bytes OK
+2020/07/06-15:06:55.064 7c30 Delete type=0 #70
