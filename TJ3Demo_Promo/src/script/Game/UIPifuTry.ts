@@ -20,7 +20,6 @@ export default class UIPifuTry extends lwg.Admin.Scene {
 
         lwg.Global.notHavePifuSubXD();
         this.randomNoHave();
-
     }
     adaptive(): void {
         this.self['SceneContent'].y = Laya.stage.height / 2;

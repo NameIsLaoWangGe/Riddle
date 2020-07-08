@@ -176,6 +176,18 @@ R 626CADAF btn.wav
 R 9B501DC8 chijinbi.wav
 R E23D09D2 guoguan.wav
 R 6E72E92F wancheng.wav
+D ZhuanPan
+P 291EA52D 1.png
+P 62DF0FE9 Button.png
+P D6C8155A cha.png
+R A7CEE6C7 Di.png
+P 3ADB5653 JianTou.png
+P 0B96B03E Prop1.png
+P E1779259 Prop2.png
+P 4292E3F2 Prop4.png
+P 2446DB15 Prop5.png
+P 3F097904 Prop6.png
+R 45FB9211 tip.png
 D TJ/Promo
 D UI_new/conmmon
 R 755485BC bg_blackmask.png
@@ -261,6 +273,24 @@ P 211F71FC per50%.png
 P 7696607E ui_progress&bar.png
 R 870D6748 ui_progress.png
 P ED2C58EA word_loding.png
+D UI_new/Painted
+P D032F6CA an.png
+P 5C5666F4 anniu_mianfei.png
+P AFB393E2 anniu_zaizhuan.png
+P 04B9DF13 anniu_zhaohuan1.png
+P 91F5EDC4 anniu_zhaohuan2.png
+P 22828B4F biaoti.png
+R 2423C19F dikuang.png
+P 7ECC535E fanhui.png
+P 19A58C80 gongxi.png
+P B122472A jiesuo.png
+P 8983CF14 liang.png
+P 101B3822 longtou.png
+P E818FE29 touying.png
+P B724424D tubiao_caidang.png
+P D67F7BF8 tubiao_zhuanpang.png
+P 4AAA27AB zhizheng.png
+R 12BAE4DD zhuanpan.png
 D UI_new/PassHint
 P 4C70E3C4 icon_adv.png
 P B67D7854 logo.png
@@ -320,7 +350,6 @@ P 285C21F8 try_btn_02.png
 P 363A8649 ui_line.png
 P E614B6D5 word_freetry.png
 P 0D2E930A word_try.png
-R 1D7544B4 xiaoguotu.jpg
 D UI_new/PifuXd
 P CC3D2631 adv_btn.png
 P 5F864DD3 logo.png

@@ -32,6 +32,8 @@ import UIShare from "./script/Game/UIShare"
 import UISmallHint from "./script/Game/UISmallHint"
 import UIStart from "./script/Game/UIStart"
 import UIStart_House from "./script/Game/UIStart_House"
+import RotateSelfPro from "./ZhuanPan/RotateSelfPro"
+import ZhuanPan from "./ZhuanPan/ZhuanPan"
 import UIVictory from "./script/Game/UIVictory"
 import UIXDpifu from "./script/Game/UIXDpifu"
 import UILoding_ExecutionNumNode from "./script/Game/UILoding_ExecutionNumNode"
@@ -49,7 +51,7 @@ export default class GameConfig{
     static sceneRoot:string="";
     static debug:boolean=false;
     static stat:boolean=false;
-    static physicsDebug:boolean=true;
+    static physicsDebug:boolean=false;
     static exportSceneToJson:boolean=true;
     constructor(){}
     static init(){
@@ -87,6 +89,8 @@ export default class GameConfig{
         reg("script/Game/UISmallHint.ts",UISmallHint);
         reg("script/Game/UIStart.ts",UIStart);
         reg("script/Game/UIStart_House.ts",UIStart_House);
+        reg("ZhuanPan/RotateSelfPro.ts",RotateSelfPro);
+        reg("ZhuanPan/ZhuanPan.ts",ZhuanPan);
         reg("script/Game/UIVictory.ts",UIVictory);
         reg("script/Game/UIXDpifu.ts",UIXDpifu);
         reg("script/Game/UILoding_ExecutionNumNode.ts",UILoding_ExecutionNumNode);

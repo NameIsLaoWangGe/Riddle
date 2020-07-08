@@ -131,8 +131,7 @@
             "mask.png"
         ]
     ],
- 
-    "res/atlas/UI_new/conmmon.atlas": [
+       "res/atlas/UI_new/conmmon.atlas": [
         "UI_new/conmmon/",
         [
             "get_02_btn.png",
@@ -371,6 +370,27 @@
             "icon_voice_on.png",
             "logo.png",
             "ui_board_01.png"
+        ]
+    ],
+    "res/atlas/UI_new/Painted.atlas": [
+        "UI_new/Painted/",
+        [
+            "an.png",
+            "anniu_mianfei.png",
+            "anniu_zaizhuan.png",
+            "anniu_zhaohuan1.png",
+            "anniu_zhaohuan2.png",
+            "biaoti.png",
+            "dikuang.png",
+            "fanhui.png",
+            "gongxi.png",
+            "jiesuo.png",
+            "liang.png",
+            "longtou.png",
+            "touying.png",
+            "tubiao_caidang.png",
+            "tubiao_zhuanpang.png",
+            "zhizheng.png"
         ]
     ]
 }
