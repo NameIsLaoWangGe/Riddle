@@ -1,5 +1,7 @@
 import ZhiZhen from "./RotateSelfPro";
 import RotateSelfPro from "./RotateSelfPro";
+import { lwg } from "../script/Lwg_Template/lwg";
+import ADManager from "../TJ/Admanager";
 
 
 export default class ZhuanPan extends Laya.Script {
@@ -22,14 +24,7 @@ export default class ZhuanPan extends Laya.Script {
     Second: Laya.Box;
 
     onAwake() {
-        enum Reward {
-            'execution*3',
-            'pikaqiu',
-            'gold*30',
-            'execution*2',
-            'kedaya',
-            'gold*60',
-        }
+        lwg.Global._stageClick = false;
 
         this.Zhuanpan = this.owner as Laya.Image;
         this.zhuanpanParent = this.Zhuanpan.getChildByName("zhuanpanParent") as Laya.Box;
@@ -40,7 +35,7 @@ export default class ZhuanPan extends Laya.Script {
         this.ZhuanpanZhizhen = this.zhuanpanParent.getChildByName("ZhiZhen") as Laya.Box;
         this.BG = this.ZhuanpanBG.getChildByName("BG") as Laya.Image;
         for (let index = 0; index < this.BG.numChildren; index++) {
-            this.lotteryProps.push(this.BG.getChildAt(index) as Laya.Box);
+            this.lotteryProps.push(this.BG.getChildByName('prop' + (index + 1)) as Laya.Box);
         }
         this.RewardPanelInit();
         this._rotateSelfPro = this.zhuanpanParent.getComponent(RotateSelfPro) as RotateSelfPro;
@@ -51,7 +46,9 @@ export default class ZhuanPan extends Laya.Script {
         this.First = this.StartBtn.getChildByName("First") as Laya.Box;
         this.Second = this.StartBtn.getChildByName("Second") as Laya.Box;
         this.RefreshBtn();//按钮刷新
+
     }
+
     RefreshBtn()//第一次免费 后面看广告
     {
         this.firstUseed = Laya.LocalStorage.getItem("firstUseed")
@@ -76,7 +73,7 @@ export default class ZhuanPan extends Laya.Script {
     }
     //开始转
     ZhunapanStart() {
-        
+
         console.log("点击转盘");
         if (this.First.visible) {
             Laya.LocalStorage.setItem("firstUseed", "1")
@@ -86,8 +83,10 @@ export default class ZhuanPan extends Laya.Script {
         else {
             //看广告
             console.log("看广告");
+            // ADManager.ShowReward(() => {
             this.StartLottery();
             this.StartBtn.visible = false;
+            // })
         }
 
     }
@@ -104,21 +103,25 @@ export default class ZhuanPan extends Laya.Script {
     StopLottery() {
         console.log("转盘停止");
         let ran = this.randomInRange_i(0, 100);
-        if (ran >= 0 && ran < 1) {
+        if (ran >= 0 && ran < 20) {
             this.lotteryGift = LotteryGift.prop1;
         }
-        else if (ran >= 1 && ran < 36) {
+        else if (ran >= 20 && ran < 40) {
             this.lotteryGift = LotteryGift.prop2;
+            if (lwg.Global._pikaqiu) {
+                this.lotteryGift = LotteryGift.prop3;
+            }
         }
-        else if (ran >= 36 && ran < 66) {
+        else if (ran >= 40 && ran < 60) {
             this.lotteryGift = LotteryGift.prop3;
         }
-        else if (ran >= 66 && ran < 68) {
+        else if (ran >= 60 && ran < 80) {
             this.lotteryGift = LotteryGift.prop4;
         }
-        else if (ran >= 68 && ran < 100) {
-            this.lotteryGift = LotteryGift.prop5;
+        else if (ran >= 80 && ran < 100) {
+            this.lotteryGift = LotteryGift.prop6;
         }
+
         // this.lotteryGift = LotteryGift.prop6;  特殊皮肤奖励
         let degree = 60 * this.lotteryGift + this.randomInRange_i(25, 35);
         this._rotateSelfPro.StopSpeed(degree, () => {
@@ -210,37 +213,48 @@ export default class ZhuanPan extends Laya.Script {
     BtnState: number = 0;
     lotteryShowBg: Laya.Image;
     Props: Laya.Box;
-    GetReward: Laya.Image;
+    // GetReward: Laya.Image;
     ADGetReward: Laya.Image;
     lotterypropsshow: Laya.Image[] = [];
     ADaction: Function;
     Normalaction: Function
-    CloseRewardBtn: Laya.Image;
+    // CloseRewardBtn: Laya.Image;
     RewardPanelInit() {
         this.RewardPanel.visible = false;
-        this.CloseRewardBtn = this.RewardPanel.getChildByName("CloseRewardBtn") as Laya.Image;
+        // this.CloseRewardBtn = this.RewardPanel.getChildByName("CloseRewardBtn") as Laya.Image;
         this.lotteryShowBg = this.RewardPanel.getChildByName("Bg") as Laya.Image;
         this.Props = this.lotteryShowBg.getChildByName("Props") as Laya.Box;
-        this.GetReward = this.lotteryShowBg.getChildByName("GetReward") as Laya.Image;
+        // this.GetReward = this.lotteryShowBg.getChildByName("GetReward") as Laya.Image;
         this.ADGetReward = this.lotteryShowBg.getChildByName("ADGetReward") as Laya.Image;
         for (let i = 0; i < this.Props.numChildren; i++) {
             this.lotterypropsshow.push(this.Props.getChildAt(i) as Laya.Image);
         }
-        this.GetReward.on(Laya.Event.CLICK, this, this.GetRewardClick)
+        // this.GetReward.on(Laya.Event.CLICK, this, this.GetRewardClick)
         this.ADGetReward.on(Laya.Event.CLICK, this, this.ADGetRewardClick)
 
-        this.CloseRewardBtn.on(Laya.Event.CLICK, this, () => {
-            this.RewardPanel.visible = false;
-        })
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.owner.scene['BtnBack'], this, null, null, this.btnCloseUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.owner.scene['BtnNo'], this, null, null, this.btnNoUp, null);
+        // this.CloseRewardBtn.on(Laya.Event.CLICK, this, () => {
+        //     this.RewardPanel.visible = false;
+        // })
     }
+
+    btnCloseUp(e: Laya.Event): void {
+        e.currentTarget.scale(1, 1);
+        this.owner.scene.close();
+    }
+    btnNoUp(e: Laya.Event): void {
+        this.RewardPanel.visible = false;
+    }
+
     //index 奖励索引
     //BtnState 按钮状态 1 广告  0 普通
     //_action 事件 按钮点击后的事件
     ShowReward() {
         this.RefreshBtn();
         this.StartBtn.visible = true;
-        this.GetReward.visible = false;
-        this.ADGetReward.visible = false;
+        // this.GetReward.visible = false;
+        // this.ADGetReward.visible = false;
         this.RewardPanel.visible = true;
         this.lotterypropsshow.forEach((v, i) => {
             if (this.lotteryindex == i) {
@@ -252,12 +266,12 @@ export default class ZhuanPan extends Laya.Script {
         });
 
         if (this.BtnState == 0) {
-            this.GetReward.visible = true;
+            // this.GetReward.visible = true;
         }
         else {
-            this.ADGetReward.visible = true;
+            // this.ADGetReward.visible = true;
         }
-        this.CloseRewardBtn.visible = this.ADGetReward.visible;
+        // this.CloseRewardBtn.visible = this.ADGetReward.visible;
     }
     GetRewardClick() {
         if (this.Normalaction != null) {
@@ -269,13 +283,15 @@ export default class ZhuanPan extends Laya.Script {
         if (this.ADaction != null) {
             //看视频获取----------------------------------------->
             console.log("看广告");
-
-            this.ADaction();
+            ADManager.ShowReward(() => {
+                this.ADaction();
+                this.ClosePanel();
+                this.StartLottery();
+                this.StartBtn.visible = false;
+            })
         }
-        this.ClosePanel();
     }
     ClosePanel() {
-
         this.RewardPanel.visible = false;
     }
     //#endregion
@@ -289,7 +305,7 @@ export default class ZhuanPan extends Laya.Script {
     ImageCanMove: boolean = false;//菜单是否可用
 
     CaiDanMoveInit() {
-        this.CaiDanParnet = this.lotteryProps[this.lotteryProps.length - 1]
+        this.CaiDanParnet = this.lotteryProps[4];
         this.CaidanImage = this.CaiDanParnet.getChildAt(1) as Laya.Image;
         console.log("CaiDanParnet", this.CaiDanParnet, "CaidanImage", this.CaidanImage);
         this.RefreshCaiDan();
@@ -362,11 +378,7 @@ export default class ZhuanPan extends Laya.Script {
 
     }
 
-
     //#endregion
-
-
-
 
     /******************彩蛋*********************/
     Caidan1: Laya.Box;
@@ -381,53 +393,6 @@ export default class ZhuanPan extends Laya.Script {
         this.Caidan2item = this.Caidan2.getChildByName("Caidan2item") as Laya.Image;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     randomInRange_i(x: number, y: number, s = null): number {
         let rs;
         if (x == y) {
@@ -441,7 +406,12 @@ export default class ZhuanPan extends Laya.Script {
         return Number(rs);
     }
 
+    onDisable(): void {
+        lwg.Global._stageClick = true;
+    }
+
 }
+
 export enum LotteryGift {
     prop1,
     prop2,
@@ -450,3 +420,57 @@ export enum LotteryGift {
     prop5,
     prop6,
 }
+
+export enum RewardName {
+    'execution*3',
+    'pikaqiu',
+    'gold*30',
+    'execution*2',
+    'kedaya',
+    'gold*60',
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,13 +1,13 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":29,
-    "selecteID":120,
+    "selectedBox":1,
+    "selecteID":23,
     "searchKey":"Scene",
     "referenceLines":null,
     "props":{"width":720,"sceneColor":"#000000","positionVariance_0":100,"maxPartices":100,"height":1280},
     "nodeParent":-1,
-    "maxID":121,
+    "maxID":138,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -19,7 +19,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,background,background",
-            "props":{"y":0,"x":0,"var":"background","skin":"UI_new/conmmon/ui_describe_02.png","name":"background"},
+            "props":{"y":0,"x":0,"var":"background","skin":"UI_new/conmmon/bg_yeloow.png","name":"background","alpha":1},
             "nodeParent":1,
             "label":"background",
             "isDirectory":false,
@@ -33,7 +33,7 @@
             "x":15,
             "type":"Box",
             "searchKey":"Box,Zhuanpan",
-            "props":{"width":720,"top":0,"name":"Zhuanpan","left":0,"height":1280},
+            "props":{"width":720,"top":0,"name":"Zhuanpan","left":0,"height":1280,"alpha":1},
             "nodeParent":1,
             "label":"Zhuanpan",
             "isOpen":true,
@@ -46,7 +46,21 @@
                     "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
-                    "props":{"y":142,"x":155,"texture":"UI_new/Painted/biaoti.png"},
+                    "props":{"y":977,"x":167,"texture":"UI_new/Painted/touying.png"},
+                    "nodeParent":23,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":137,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":165,"x":155,"width":390,"texture":"UI_new/Painted/biaoti.png","height":165},
                     "nodeParent":23,
                     "label":"Sprite",
                     "isDirectory":false,
@@ -60,7 +74,7 @@
                     "x":30,
                     "type":"Box",
                     "searchKey":"Box,zhuanpanParent",
-                    "props":{"width":720,"rotation":0,"name":"zhuanpanParent","height":1280,"centerY":0,"centerX":0},
+                    "props":{"width":720,"rotation":0,"name":"zhuanpanParent","height":1280,"centerY":17,"centerX":0},
                     "nodeParent":23,
                     "label":"zhuanpanParent",
                     "isOpen":true,
@@ -71,35 +85,22 @@
                     "child":[
                         {
                             "x":45,
-                            "type":"Sprite",
-                            "searchKey":"Sprite",
-                            "props":{"y":0,"x":0,"texture":"UI_new/Painted/an.png"},
-                            "nodeParent":29,
-                            "label":"Sprite",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":120,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "x":45,
                             "type":"Box",
                             "searchKey":"Box,ZhunpanBG",
-                            "props":{"y":640,"x":360,"width":600,"name":"ZhunpanBG","height":600,"centerY":0,"centerX":0,"anchorY":0.5,"anchorX":0.5},
+                            "props":{"width":600,"name":"ZhunpanBG","height":600,"centerY":25,"centerX":0,"anchorY":0.5,"anchorX":0.5},
                             "nodeParent":29,
                             "label":"ZhunpanBG",
-                            "isOpen":false,
+                            "isOpen":true,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
                             "compId":31,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,BG",
-                                    "props":{"zOrder":1,"y":300,"width":600,"skin":"UI_new/Painted/zhuanpan.png","rotation":0,"name":"BG","height":600,"centerY":0,"centerX":0,"anchorY":0.5,"anchorX":0.5},
+                                    "props":{"zOrder":1,"width":600,"skin":"UI_new/Painted/zhuanpan.png","rotation":0,"name":"BG","height":600,"centerY":1,"centerX":0,"anchorY":0.5,"anchorX":0.5},
                                     "nodeParent":31,
                                     "label":"BG",
                                     "isOpen":true,
@@ -109,9 +110,10 @@
                                     "compId":21,
                                     "child":[
                                         {
+                                            "x":75,
                                             "type":"Box",
                                             "searchKey":"Box,prop1",
-                                            "props":{"y":142,"x":206,"width":40,"rotation":-30,"name":"prop1","height":40,"anchorY":0.5,"anchorX":0.5},
+                                            "props":{"y":143,"x":206,"width":40,"rotation":-30,"name":"prop1","height":40,"anchorY":0.5,"anchorX":0.5},
                                             "nodeParent":21,
                                             "label":"prop1",
                                             "isOpen":true,
@@ -121,9 +123,10 @@
                                             "compId":32,
                                             "child":[
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image",
-                                                    "props":{"width":32,"skin":"UI_new/conmmon/icon_execution.png","scaleY":1.3,"scaleX":1.3,"rotation":0,"height":41,"centerY":-9,"centerX":-8},
+                                                    "props":{"width":32,"skin":"UI_new/conmmon/icon_execution.png","scaleY":1.3,"scaleX":1.3,"rotation":0,"height":41,"centerY":-9,"centerX":-9},
                                                     "nodeParent":32,
                                                     "label":"Image",
                                                     "isDirectory":false,
@@ -135,9 +138,10 @@
                                                     "$HIDDEN":false
                                                 },
                                                 {
+                                                    "x":90,
                                                     "type":"Label",
                                                     "searchKey":"Label",
-                                                    "props":{"width":61,"valign":"middle","text":"x3","rotation":0,"pivotY":12,"pivotX":24,"height":24,"fontSize":30,"color":"#ffffff","centerY":50,"centerX":0,"bold":true,"align":"center"},
+                                                    "props":{"width":61,"valign":"middle","text":"x3","rotation":0,"pivotY":12,"pivotX":24,"height":24,"fontSize":30,"color":"#ffffff","centerY":51,"centerX":0,"bold":true,"align":"center"},
                                                     "nodeParent":32,
                                                     "label":"Label",
                                                     "isDirectory":false,
@@ -149,9 +153,10 @@
                                                 }]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Box",
                                             "searchKey":"Box,prop2",
-                                            "props":{"y":300,"x":117,"width":40,"rotation":-90,"name":"prop2","height":40,"anchorY":0.5,"anchorX":0.5},
+                                            "props":{"y":301,"x":117,"width":40,"rotation":-90,"name":"prop2","height":40,"anchorY":0.5,"anchorX":0.5},
                                             "nodeParent":21,
                                             "label":"prop2",
                                             "isOpen":true,
@@ -161,9 +166,10 @@
                                             "compId":33,
                                             "child":[
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image",
-                                                    "props":{"skin":"UI_new/Pifu/pifu_02_chiji.png","scaleY":0.22,"scaleX":0.22,"centerY":-13,"centerX":-9},
+                                                    "props":{"skin":"UI_new/Pifu/pifu_02_chiji.png","scaleY":0.22,"scaleX":0.22,"centerY":-12,"centerX":-9},
                                                     "nodeParent":33,
                                                     "label":"Image",
                                                     "isDirectory":false,
@@ -174,9 +180,10 @@
                                                         ]
                                                 },
                                                 {
+                                                    "x":90,
                                                     "type":"Label",
                                                     "searchKey":"Label",
-                                                    "props":{"y":0,"x":0,"width":61,"valign":"middle","text":"x1","rotation":0,"pivotY":12,"pivotX":24,"height":24,"fontSize":30,"color":"#ffffff","centerY":50,"centerX":0,"bold":true,"align":"center"},
+                                                    "props":{"width":61,"valign":"middle","text":"x1","rotation":0,"pivotY":12,"pivotX":24,"height":24,"fontSize":30,"color":"#ffffff","centerY":51,"centerX":0,"bold":true,"align":"center"},
                                                     "nodeParent":33,
                                                     "label":"Label",
                                                     "isDirectory":false,
@@ -188,9 +195,10 @@
                                                 }]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Box",
                                             "searchKey":"Box,prop3",
-                                            "props":{"y":451,"x":216,"width":40,"rotation":-150,"name":"prop3","height":40,"anchorY":0.5,"anchorX":0.5},
+                                            "props":{"y":452,"x":216,"width":40,"rotation":-150,"name":"prop3","height":40,"anchorY":0.5,"anchorX":0.5},
                                             "nodeParent":21,
                                             "label":"prop3",
                                             "isOpen":true,
@@ -200,9 +208,10 @@
                                             "compId":35,
                                             "child":[
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image",
-                                                    "props":{"skin":"UI_new/Victory/icon_biggold.png","scaleY":0.55,"scaleX":0.55,"centerY":-14,"centerX":5},
+                                                    "props":{"skin":"UI_new/Victory/icon_biggold.png","scaleY":0.55,"scaleX":0.55,"centerY":-14,"centerX":4},
                                                     "nodeParent":35,
                                                     "label":"Image",
                                                     "isDirectory":false,
@@ -213,9 +222,10 @@
                                                         ]
                                                 },
                                                 {
+                                                    "x":90,
                                                     "type":"Label",
                                                     "searchKey":"Label",
-                                                    "props":{"width":90,"valign":"middle","text":"x30","rotation":8,"pivotY":12,"pivotX":45,"height":24,"fontSize":30,"color":"#ffffff","centerY":43,"centerX":1,"bold":true,"align":"center"},
+                                                    "props":{"width":90,"valign":"middle","text":"x30","rotation":8,"pivotY":12,"pivotX":45,"height":24,"fontSize":30,"color":"#ffffff","centerY":44,"centerX":1,"bold":true,"align":"center"},
                                                     "nodeParent":35,
                                                     "label":"Label",
                                                     "isDirectory":false,
@@ -227,9 +237,10 @@
                                                 }]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Box",
                                             "searchKey":"Box,prop4",
-                                            "props":{"y":461,"x":392,"width":40,"rotation":150,"name":"prop4","height":40,"anchorY":0.5,"anchorX":0.5},
+                                            "props":{"y":462,"x":392,"width":40,"rotation":150,"name":"prop4","height":40,"anchorY":0.5,"anchorX":0.5},
                                             "nodeParent":21,
                                             "label":"prop4",
                                             "isOpen":true,
@@ -239,9 +250,10 @@
                                             "compId":36,
                                             "child":[
                                                 {
+                                                    "x":90,
                                                     "type":"Label",
                                                     "searchKey":"Label",
-                                                    "props":{"y":0,"x":0,"width":61,"valign":"middle","text":"x2","rotation":0,"pivotY":12,"pivotX":24,"height":24,"fontSize":30,"color":"#ffffff","centerY":50,"centerX":0,"bold":true,"align":"center"},
+                                                    "props":{"width":61,"valign":"middle","text":"x2","rotation":0,"pivotY":12,"pivotX":24,"height":24,"fontSize":30,"color":"#ffffff","centerY":51,"centerX":0,"bold":true,"align":"center"},
                                                     "nodeParent":36,
                                                     "label":"Label",
                                                     "isDirectory":false,
@@ -252,9 +264,10 @@
                                                         ]
                                                 },
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image",
-                                                    "props":{"y":0,"x":0,"skin":"UI_new/conmmon/icon_execution.png","scaleY":1.3,"scaleX":1.3,"centerY":0,"centerX":0},
+                                                    "props":{"skin":"UI_new/conmmon/icon_execution.png","scaleY":1.3,"scaleX":1.3,"centerY":0,"centerX":-1},
                                                     "nodeParent":36,
                                                     "label":"Image",
                                                     "isDirectory":false,
@@ -266,9 +279,10 @@
                                                 }]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Box",
                                             "searchKey":"Box,prop5",
-                                            "props":{"y":300,"x":472,"width":40,"rotation":90,"name":"prop5","height":40,"anchorY":0.5,"anchorX":0.5},
+                                            "props":{"y":301,"x":472,"width":40,"rotation":90,"name":"prop5","height":40,"anchorY":0.5,"anchorX":0.5},
                                             "nodeParent":21,
                                             "label":"prop5",
                                             "isOpen":true,
@@ -278,9 +292,10 @@
                                             "compId":37,
                                             "child":[
                                                 {
+                                                    "x":90,
                                                     "type":"Label",
                                                     "searchKey":"Label",
-                                                    "props":{"width":61,"valign":"middle","text":"x1","rotation":0,"pivotY":12,"pivotX":24,"height":24,"fontSize":30,"color":"#ffffff","centerY":50,"centerX":6,"bold":true,"align":"center"},
+                                                    "props":{"width":61,"valign":"middle","text":"x1","rotation":0,"pivotY":12,"pivotX":24,"height":24,"fontSize":30,"color":"#ffffff","centerY":51,"centerX":6,"bold":true,"align":"center"},
                                                     "nodeParent":37,
                                                     "label":"Label",
                                                     "isDirectory":false,
@@ -291,9 +306,10 @@
                                                         ]
                                                 },
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image",
-                                                    "props":{"skin":"UI_new/Pifu/pifu_03_change.png","scaleY":0.22,"scaleX":0.22,"centerY":-18,"centerX":1},
+                                                    "props":{"skin":"UI_new/Pifu/pifu_03_change.png","scaleY":0.22,"scaleX":0.22,"centerY":-17,"centerX":1},
                                                     "nodeParent":37,
                                                     "label":"Image",
                                                     "isDirectory":false,
@@ -305,9 +321,10 @@
                                                 }]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Box",
                                             "searchKey":"Box,prop6",
-                                            "props":{"y":142,"x":392,"width":40,"rotation":30,"name":"prop6","height":40,"anchorY":0.5,"anchorX":0.5},
+                                            "props":{"y":143,"x":392,"width":40,"rotation":30,"name":"prop6","height":40,"anchorY":0.5,"anchorX":0.5},
                                             "nodeParent":21,
                                             "label":"prop6",
                                             "isOpen":true,
@@ -317,6 +334,7 @@
                                             "compId":38,
                                             "child":[
                                                 {
+                                                    "x":90,
                                                     "type":"Label",
                                                     "searchKey":"Label",
                                                     "props":{"y":0,"x":0,"width":61,"valign":"middle","text":"x60","rotation":0,"pivotY":12,"pivotX":24,"height":24,"fontSize":30,"color":"#ffffff","centerY":50,"centerX":0,"bold":true,"align":"center"},
@@ -330,6 +348,7 @@
                                                         ]
                                                 },
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,Caidan",
                                                     "props":{"y":20,"x":19,"skin":"UI_new/Victory/icon_biggold.png","scaleY":0.55,"scaleX":0.55,"name":"Caidan","centerY":0,"centerX":0,"anchorY":0.5,"anchorX":0.5},
@@ -342,6 +361,176 @@
                                                     "child":[
                                                         ]
                                                 }]
+                                        },
+                                        {
+                                            "x":75,
+                                            "type":"Sprite",
+                                            "searchKey":"Sprite,Decorate",
+                                            "props":{"name":"Decorate"},
+                                            "nodeParent":21,
+                                            "label":"Decorate",
+                                            "isOpen":false,
+                                            "isDirectory":true,
+                                            "isAniNode":true,
+                                            "hasChild":true,
+                                            "compId":122,
+                                            "child":[
+                                                {
+                                                    "type":"Image",
+                                                    "searchKey":"Image",
+                                                    "props":{"y":138,"x":18,"skin":"UI_new/Painted/an.png"},
+                                                    "nodeParent":122,
+                                                    "label":"Image",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":125,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Image",
+                                                    "searchKey":"Image",
+                                                    "props":{"y":21,"x":127,"skin":"UI_new/Painted/liang.png"},
+                                                    "nodeParent":122,
+                                                    "label":"Image",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":126,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Image",
+                                                    "searchKey":"Image",
+                                                    "props":{"y":-21,"x":278,"skin":"UI_new/Painted/an.png"},
+                                                    "nodeParent":122,
+                                                    "label":"Image",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":127,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Image",
+                                                    "searchKey":"Image",
+                                                    "props":{"y":21,"x":429,"skin":"UI_new/Painted/liang.png"},
+                                                    "nodeParent":122,
+                                                    "label":"Image",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":128,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Image",
+                                                    "searchKey":"Image",
+                                                    "props":{"y":126,"x":535,"skin":"UI_new/Painted/an.png"},
+                                                    "nodeParent":122,
+                                                    "label":"Image",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":129,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Image",
+                                                    "searchKey":"Image",
+                                                    "props":{"y":278,"x":577,"skin":"UI_new/Painted/liang.png"},
+                                                    "nodeParent":122,
+                                                    "label":"Image",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":130,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Image",
+                                                    "searchKey":"Image",
+                                                    "props":{"y":424,"x":537,"skin":"UI_new/Painted/an.png"},
+                                                    "nodeParent":122,
+                                                    "label":"Image",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":131,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Image",
+                                                    "searchKey":"Image",
+                                                    "props":{"y":534,"x":428,"skin":"UI_new/Painted/liang.png"},
+                                                    "nodeParent":122,
+                                                    "label":"Image",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":132,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Image",
+                                                    "searchKey":"Image",
+                                                    "props":{"y":575.5,"x":278,"skin":"UI_new/Painted/an.png"},
+                                                    "nodeParent":122,
+                                                    "label":"Image",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":133,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Image",
+                                                    "searchKey":"Image",
+                                                    "props":{"y":534,"x":127,"skin":"UI_new/Painted/liang.png"},
+                                                    "nodeParent":122,
+                                                    "label":"Image",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":134,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Image",
+                                                    "searchKey":"Image",
+                                                    "props":{"y":424,"x":18,"skin":"UI_new/Painted/an.png"},
+                                                    "nodeParent":122,
+                                                    "label":"Image",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":135,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Image",
+                                                    "searchKey":"Image",
+                                                    "props":{"y":277.75,"x":-20,"skin":"UI_new/Painted/liang.png"},
+                                                    "nodeParent":122,
+                                                    "label":"Image",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":136,
+                                                    "child":[
+                                                        ]
+                                                }]
                                         }]
                                 }]
                         },
@@ -349,7 +538,7 @@
                             "x":45,
                             "type":"Box",
                             "searchKey":"Box,ZhiZhen",
-                            "props":{"zOrder":0,"y":640,"width":50,"rotation":0,"name":"ZhiZhen","height":50,"centerX":0,"anchorY":0.5,"anchorX":0.5},
+                            "props":{"zOrder":0,"y":665,"width":50,"rotation":0,"name":"ZhiZhen","height":50,"centerX":0,"anchorY":0.5,"anchorX":0.5},
                             "nodeParent":29,
                             "label":"ZhiZhen",
                             "isOpen":true,
@@ -412,17 +601,16 @@
                     "x":30,
                     "type":"Image",
                     "searchKey":"Image,StartBtn",
-                    "props":{"y":1045,"x":360,"width":246,"pivotY":54,"pivotX":123,"name":"StartBtn","height":107},
+                    "props":{"y":1129,"x":360,"width":246,"pivotY":54,"pivotX":123,"name":"StartBtn","height":107},
                     "nodeParent":23,
                     "label":"StartBtn",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":52,
                     "child":[
                         {
-                            "x":45,
                             "type":"Box",
                             "searchKey":"Box,First",
                             "props":{"name":"First","centerY":0,"centerX":0},
@@ -435,7 +623,6 @@
                             "compId":103,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Label",
                                     "searchKey":"Label",
                                     "props":{"width":198,"valign":"middle","text":"免费无视频","height":55,"fontSize":40,"centerY":0,"centerX":0,"align":"center"},
@@ -449,7 +636,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Sprite",
                                     "searchKey":"Sprite",
                                     "props":{"texture":"UI_new/Painted/anniu_mianfei.png"},
@@ -464,7 +650,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Box",
                             "searchKey":"Box,Second",
                             "props":{"name":"Second","centerY":0,"centerX":0},
@@ -477,7 +662,6 @@
                             "compId":104,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Label",
                                     "searchKey":"Label",
                                     "props":{"width":198,"valign":"middle","text":"免费有视频","height":55,"fontSize":40,"centerY":0,"centerX":0,"align":"center"},
@@ -491,7 +675,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Sprite",
                                     "searchKey":"Sprite",
                                     "props":{"texture":"UI_new/Painted/anniu_zaizhuan.png"},
@@ -510,7 +693,7 @@
                     "x":30,
                     "type":"Box",
                     "searchKey":"Box,RewardPanel",
-                    "props":{"zOrder":4,"width":720,"visible":false,"name":"RewardPanel","mouseThrough":false,"hitTestPrior":true,"height":1280,"centerY":-88,"centerX":720,"alpha":1},
+                    "props":{"zOrder":4,"width":720,"visible":false,"name":"RewardPanel","mouseThrough":false,"hitTestPrior":true,"height":1280,"centerY":0,"centerX":0,"alpha":1},
                     "nodeParent":23,
                     "label":"RewardPanel",
                     "isOpen":true,
@@ -522,10 +705,10 @@
                         {
                             "x":45,
                             "type":"Image",
-                            "searchKey":"Image",
-                            "props":{"y":0,"x":0,"top":0,"skin":"UI_new/conmmon/bg_blackmask.png","right":0,"left":0,"bottom":0},
+                            "searchKey":"Image,bg",
+                            "props":{"y":0,"x":0,"skin":"UI_new/conmmon/bg_blackmask.png","name":"bg","height":1650},
                             "nodeParent":51,
-                            "label":"Image",
+                            "label":"bg",
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
@@ -537,7 +720,7 @@
                             "x":45,
                             "type":"Image",
                             "searchKey":"Image,Bg",
-                            "props":{"y":351.5,"x":105,"name":"Bg"},
+                            "props":{"y":351.5,"x":111,"name":"Bg"},
                             "nodeParent":51,
                             "label":"Bg",
                             "isOpen":true,
@@ -550,7 +733,7 @@
                                     "x":60,
                                     "type":"Sprite",
                                     "searchKey":"Sprite",
-                                    "props":{"y":-66.5,"x":-7,"texture":"UI_new/PassHint/ui_baseboard.png"},
+                                    "props":{"y":-60,"x":-9,"texture":"UI_new/PassHint/ui_baseboard.png"},
                                     "nodeParent":55,
                                     "label":"Sprite",
                                     "isOpen":true,
@@ -576,23 +759,9 @@
                                 },
                                 {
                                     "x":60,
-                                    "type":"Label",
-                                    "searchKey":"Label",
-                                    "props":{"y":78,"x":123.5,"width":205,"valign":"middle","height":53,"fontSize":50,"bold":true,"align":"center"},
-                                    "nodeParent":55,
-                                    "label":"Label",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":56,
-                                    "child":[
-                                        ]
-                                },
-                                {
-                                    "x":60,
                                     "type":"Box",
                                     "searchKey":"Box,Props",
-                                    "props":{"y":131,"x":94,"width":328,"name":"Props","height":259},
+                                    "props":{"y":81,"x":92,"width":328,"name":"Props","height":259},
                                     "nodeParent":55,
                                     "label":"Props",
                                     "isOpen":true,
@@ -605,20 +774,19 @@
                                             "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,prop1",
-                                            "props":{"y":37,"x":89,"width":150,"skin":"ZhuanPan/Prop1.png","name":"prop1","height":150},
+                                            "props":{"y":37,"x":89,"width":150,"skin":"UI_new/conmmon/icon_execution.png","name":"prop1","height":150},
                                             "nodeParent":59,
                                             "label":"prop1",
-                                            "isOpen":true,
+                                            "isOpen":false,
                                             "isDirectory":true,
                                             "isAniNode":true,
                                             "hasChild":true,
                                             "compId":58,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Label",
                                                     "searchKey":"Label",
-                                                    "props":{"y":160,"x":-6.5,"width":163,"valign":"middle","text":"Prop1","height":48,"fontSize":50,"align":"center"},
+                                                    "props":{"y":160,"x":-6.5,"width":163,"valign":"middle","text":"体力x3","height":48,"fontSize":50,"font":"Microsoft YaHei","color":"#662f19","bold":true,"align":"center"},
                                                     "nodeParent":58,
                                                     "label":"Label",
                                                     "isDirectory":false,
@@ -626,14 +794,15 @@
                                                     "hasChild":false,
                                                     "compId":64,
                                                     "child":[
-                                                        ]
+                                                        ],
+                                                    "$HIDDEN":true
                                                 }]
                                         },
                                         {
                                             "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,prop2",
-                                            "props":{"y":37,"x":89,"width":150,"skin":"ZhuanPan/Prop2.png","name":"prop2","height":150},
+                                            "props":{"y":37,"x":89,"width":150,"skin":"UI_new/conmmon/icon_qingdi.png","name":"prop2","height":150},
                                             "nodeParent":59,
                                             "label":"prop2",
                                             "isOpen":false,
@@ -645,7 +814,7 @@
                                                 {
                                                     "type":"Label",
                                                     "searchKey":"Label",
-                                                    "props":{"y":160,"x":-6,"width":163,"valign":"middle","text":"Prop2","height":48,"fontSize":50,"align":"center"},
+                                                    "props":{"y":160,"x":-6,"width":163,"valign":"middle","text":"皮卡丘","height":48,"fontSize":50,"font":"Microsoft YaHei","color":"#662f19","bold":true,"align":"center"},
                                                     "nodeParent":57,
                                                     "label":"Label",
                                                     "isDirectory":false,
@@ -660,7 +829,7 @@
                                             "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,prop3",
-                                            "props":{"y":37,"x":89,"width":150,"name":"prop3","height":150},
+                                            "props":{"y":37,"x":89,"width":150,"skin":"UI_new/conmmon/icon_gold.png","name":"prop3","height":150},
                                             "nodeParent":59,
                                             "label":"prop3",
                                             "isOpen":false,
@@ -672,7 +841,7 @@
                                                 {
                                                     "type":"Label",
                                                     "searchKey":"Label",
-                                                    "props":{"y":160,"x":-6,"width":163,"valign":"middle","text":"Prop3","height":48,"fontSize":50,"align":"center"},
+                                                    "props":{"y":160,"x":-6,"width":163,"valign":"middle","text":"金币x30","height":48,"fontSize":50,"font":"Microsoft YaHei","color":"#662f19","bold":true,"align":"center"},
                                                     "nodeParent":60,
                                                     "label":"Label",
                                                     "isDirectory":false,
@@ -687,7 +856,7 @@
                                             "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,prop4",
-                                            "props":{"y":37,"x":89,"width":150,"skin":"ZhuanPan/Prop4.png","name":"prop4","height":150},
+                                            "props":{"y":37,"x":89,"width":150,"skin":"UI_new/conmmon/icon_execution.png","name":"prop4","height":150},
                                             "nodeParent":59,
                                             "label":"prop4",
                                             "isOpen":false,
@@ -699,7 +868,7 @@
                                                 {
                                                     "type":"Label",
                                                     "searchKey":"Label",
-                                                    "props":{"y":160,"x":-6,"width":163,"valign":"middle","text":"Prop4","height":48,"fontSize":50,"align":"center"},
+                                                    "props":{"y":160,"x":-6,"width":163,"valign":"middle","text":"体力x2","height":48,"fontSize":50,"font":"Microsoft YaHei","color":"#662f19","bold":true,"align":"center"},
                                                     "nodeParent":61,
                                                     "label":"Label",
                                                     "isDirectory":false,
@@ -714,7 +883,7 @@
                                             "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,prop5",
-                                            "props":{"y":37,"x":89,"width":150,"skin":"ZhuanPan/Prop5.png","name":"prop5","height":150},
+                                            "props":{"y":37,"x":89,"width":150,"skin":"UI_new/conmmon/icon_qingdi.png","name":"prop5","height":150},
                                             "nodeParent":59,
                                             "label":"prop5",
                                             "isOpen":false,
@@ -726,7 +895,7 @@
                                                 {
                                                     "type":"Label",
                                                     "searchKey":"Label",
-                                                    "props":{"y":160,"x":-6,"width":163,"valign":"middle","text":"Prop5","height":48,"fontSize":50,"align":"center"},
+                                                    "props":{"y":160,"x":-6,"width":163,"valign":"middle","text":"可达鸭","height":48,"fontSize":50,"font":"Microsoft YaHei","color":"#662f19","bold":true,"align":"center"},
                                                     "nodeParent":62,
                                                     "label":"Label",
                                                     "isDirectory":false,
@@ -741,19 +910,20 @@
                                             "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,prop6",
-                                            "props":{"y":37,"x":89,"width":150,"skin":"ZhuanPan/Prop6.png","name":"prop6","height":150},
+                                            "props":{"y":37,"x":89,"width":150,"skin":"UI_new/conmmon/icon_gold.png","name":"prop6","height":150},
                                             "nodeParent":59,
                                             "label":"prop6",
-                                            "isOpen":false,
+                                            "isOpen":true,
                                             "isDirectory":true,
                                             "isAniNode":true,
                                             "hasChild":true,
                                             "compId":63,
                                             "child":[
                                                 {
+                                                    "x":90,
                                                     "type":"Label",
                                                     "searchKey":"Label",
-                                                    "props":{"y":160,"x":-6,"width":163,"valign":"middle","text":"Prop6","height":48,"fontSize":50,"align":"center"},
+                                                    "props":{"y":184,"x":56,"width":191,"valign":"middle","text":"金币x60","pivotY":24,"pivotX":82,"height":48,"fontSize":50,"font":"Microsoft YaHei","color":"#662f19","bold":true,"align":"center"},
                                                     "nodeParent":63,
                                                     "label":"Label",
                                                     "isDirectory":false,
@@ -768,8 +938,23 @@
                                 {
                                     "x":60,
                                     "type":"Image",
+                                    "searchKey":"Image,BtnNo,BtnNo",
+                                    "props":{"y":544,"x":260,"width":106,"var":"BtnNo","skin":"UI_new/PassHint/no_btn.png","pivotY":14,"pivotX":53,"name":"BtnNo","height":28},
+                                    "nodeParent":55,
+                                    "label":"BtnNo",
+                                    "isOpen":true,
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":70,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "x":60,
+                                    "type":"Image",
                                     "searchKey":"Image,ADGetReward",
-                                    "props":{"y":405,"x":144,"skin":"UI_new/Painted/anniu_zaizhuan.png","name":"ADGetReward"},
+                                    "props":{"y":447,"x":260,"width":242,"skin":"UI_new/Painted/anniu_zaizhuan.png","pivotY":59,"pivotX":121,"name":"ADGetReward","height":118},
                                     "nodeParent":55,
                                     "label":"ADGetReward",
                                     "isOpen":true,
@@ -795,56 +980,15 @@
                                 },
                                 {
                                     "x":60,
-                                    "type":"Image",
-                                    "searchKey":"Image,GetReward",
-                                    "props":{"y":538,"x":144,"skin":"ZhuanPan/Button.png","name":"GetReward"},
+                                    "type":"Sprite",
+                                    "searchKey":"Sprite",
+                                    "props":{"y":370,"x":36,"texture":"UI_new/PassHint/ui_line.png"},
                                     "nodeParent":55,
-                                    "label":"GetReward",
-                                    "isOpen":false,
-                                    "isDirectory":true,
-                                    "isAniNode":true,
-                                    "hasChild":true,
-                                    "compId":70,
-                                    "child":[
-                                        {
-                                            "type":"Label",
-                                            "searchKey":"Label",
-                                            "props":{"y":26,"x":21.5,"width":203,"text":"确认领取","height":55,"fontSize":50,"bold":true},
-                                            "nodeParent":70,
-                                            "label":"Label",
-                                            "isDirectory":false,
-                                            "isAniNode":true,
-                                            "hasChild":false,
-                                            "compId":71,
-                                            "child":[
-                                                ]
-                                        }]
-                                }]
-                        },
-                        {
-                            "x":45,
-                            "type":"Image",
-                            "searchKey":"Image,CloseRewardBtn",
-                            "props":{"y":362.5,"x":581,"skin":"UI_new/Painted/an.png","name":"CloseRewardBtn"},
-                            "nodeParent":51,
-                            "label":"CloseRewardBtn",
-                            "isOpen":true,
-                            "isDirectory":true,
-                            "isAniNode":true,
-                            "hasChild":true,
-                            "compId":106,
-                            "child":[
-                                {
-                                    "x":60,
-                                    "type":"Label",
-                                    "searchKey":"Label",
-                                    "props":{"y":5,"x":7.5,"width":28,"valign":"middle","text":"x","height":36,"fontSize":30,"font":"Microsoft YaHei","color":"#463a60","bold":true,"align":"center"},
-                                    "nodeParent":106,
-                                    "label":"Label",
+                                    "label":"Sprite",
                                     "isDirectory":false,
                                     "isAniNode":true,
                                     "hasChild":false,
-                                    "compId":116,
+                                    "compId":121,
                                     "child":[
                                         ]
                                 }]
@@ -856,7 +1000,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,BtnBack,BtnBack",
-            "props":{"y":150,"x":33,"var":"BtnBack","texture":"UI_new/Painted/fanhui.png","name":"BtnBack"},
+            "props":{"y":186,"x":78,"width":90,"var":"BtnBack","texture":"UI_new/Painted/fanhui.png","pivotY":36,"pivotX":45,"name":"BtnBack","height":72},
             "nodeParent":1,
             "label":"BtnBack",
             "isDirectory":false,

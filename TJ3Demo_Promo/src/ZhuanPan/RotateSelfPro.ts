@@ -94,7 +94,7 @@ export default class RotateSelfPro extends Laya.Script
                 let c = Math.abs((a - b) / 360);
                 Laya.timer.clear(this, this.ZhiZhenMove);
                 Laya.timer.loop(1, this, this.ZhizhenStop);
-                Laya.Tween.to(this.ZhunpanBg, { rotation: this.degree }, c * 5000, Laya.Ease.linearNone, Laya.Handler.create(this, () =>
+                Laya.Tween.to(this.ZhunpanBg, { rotation: this.degree }, c * 2500, Laya.Ease.linearNone, Laya.Handler.create(this, () =>
                 {
                     this.action();
                 }))

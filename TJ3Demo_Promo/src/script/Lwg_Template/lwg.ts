@@ -76,6 +76,9 @@ export module lwg {
         /**限定皮肤剩余点击看广告的次数*/
         export let _watchAdsNum: number = 0;
 
+        /**皮卡丘的皮肤是否存在了！*/
+        export let _pikaqiu: boolean = false;
+
         /**当前在游戏结束后，看广告的模式*/
         export let _gameOverAdvModel: number;
 
