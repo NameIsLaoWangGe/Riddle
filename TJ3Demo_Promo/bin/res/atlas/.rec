@@ -183,6 +183,8 @@ R F871B17C bg_yeloow.png
 P D9F739FB get_01_btn.png
 P 0CF2B819 get_02_btn.png
 P C245FC34 icon_adv_big.png
+P BE41F222 icon_check.png
+P F9C107BA icon_checkYes.png
 P 549E1435 icon_execution.png
 P 4CB05733 icon_gold.png
 P C90B8077 icon_qingdi.png
@@ -191,6 +193,7 @@ P 8E8870A9 no_btn.png
 P 6530897D ui_describe_02.png
 P 363A8649 ui_line.png
 P 3E1CD4E9 word_back.png
+P 55405F24 word_freeAdv.png
 P 1AEABD4C word_last.png
 P 857EAC05 word_share.png
 D UI_new/Defeated
@@ -306,7 +309,7 @@ P A5DEC702 word_xueer.png
 P 2A5D0E53 wrod_hongmao.png
 R 5ADCDE8D xiaoguotu.jpg
 D UI_new/PifuTry
-P E659166F free_btn1.png
+P D94A4353 free_btn1.png
 P 6D4DF994 free_btn2.png
 P AF97CBCD free_btn3.png
 P EB9AB7E4 logo.png
@@ -315,7 +318,7 @@ P 3EDB1499 selet_nofreebtn.png
 P 327535A9 try_btn_01.png
 P 285C21F8 try_btn_02.png
 P 363A8649 ui_line.png
-P F6C0D048 word_freetry.png
+P E614B6D5 word_freetry.png
 P 0D2E930A word_try.png
 R 1D7544B4 xiaoguotu.jpg
 D UI_new/PifuXd

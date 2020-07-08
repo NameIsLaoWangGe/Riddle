@@ -61,47 +61,97 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
     createskeleton(): void {
 
         switch (lwg.Global._currentPifu) {
-            case lwg.Enum.PifuMatching.gongzhu:
+            case lwg.Sk.PifuMatching.gongzhu:
                 this.skeleton = lwg.Sk.gongzhuTem.buildArmature(0);
+                this.skScale = 0.9;
+
                 break;
 
-            case lwg.Enum.PifuMatching.chiji:
+            case lwg.Sk.PifuMatching.chiji:
                 this.skeleton = lwg.Sk.chijiTem.buildArmature(0);
+                this.skScale = 0.9;
 
                 break;
-            case lwg.Enum.PifuMatching.change:
+            case lwg.Sk.PifuMatching.change:
                 this.skeleton = lwg.Sk.changeTem.buildArmature(0);
-                break;
+                this.skScale = 0.9;
 
-            case lwg.Enum.PifuMatching.huiguniang:
+                break;
+            case lwg.Sk.PifuMatching.huiguniang:
                 this.skeleton = lwg.Sk.huiguniangTem.buildArmature(0);
-                break;
+                this.skScale = 0.9;
 
-            case lwg.Enum.PifuMatching.tianshi:
+                break;
+            case lwg.Sk.PifuMatching.tianshi:
                 this.skeleton = lwg.Sk.tianshiTem.buildArmature(0);
+                this.skScale = 0.9;
+
                 break;
 
-            case lwg.Enum.PifuMatching.xiaohongmao:
+            case lwg.Sk.PifuMatching.xiaohongmao:
                 this.skeleton = lwg.Sk.xiaohongmaoTem.buildArmature(0);
-                break;
+                this.skScale = 0.9;
 
-            case lwg.Enum.PifuMatching.xiaohuangya:
+                break;
+            case lwg.Sk.PifuMatching.xiaohuangya:
                 this.skeleton = lwg.Sk.xiaohuangyaTem.buildArmature(0);
-                break;
+                this.skScale = 0.9;
 
-            case lwg.Enum.PifuMatching.zhenzi:
+                break;
+            case lwg.Sk.PifuMatching.zhenzi:
                 this.skeleton = lwg.Sk.zhenziTem.buildArmature(0);
+                this.skScale = 0.9;
+
+                break;
+            case lwg.Sk.PifuMatching.aisha:
+                this.skeleton = lwg.Sk.aishaTem.buildArmature(0);
+                this.skScale = 0.9;
+
                 break;
 
-            case lwg.Enum.PifuMatching.aisha:
-                this.skeleton = lwg.Sk.aishaTem.buildArmature(0);
+
+            // 第二批彩蛋皮肤
+            case lwg.Sk.PaintedPifu.daji:
+                this.skeleton = lwg.Sk.dajiTem.buildArmature(0);
+                this.skScale = 1;
+
                 break;
+            case lwg.Sk.PaintedPifu.cangshu:
+                this.skeleton = lwg.Sk.cangshuTem.buildArmature(0);
+                this.skScale = 1;
+
+                break;
+            case lwg.Sk.PaintedPifu.haimianbaobao:
+                this.skeleton = lwg.Sk.haimianbaobaoTem.buildArmature(0);
+                this.skScale = 1;
+
+                break;
+            case lwg.Sk.PaintedPifu.kedaya:
+                this.skeleton = lwg.Sk.kedayaTem.buildArmature(0);
+                this.skScale = 1;
+
+                break;
+            case lwg.Sk.PaintedPifu.keji:
+                this.skeleton = lwg.Sk.kejiTem.buildArmature(0);
+                this.skScale = 1;
+
+                break;
+            case lwg.Sk.PaintedPifu.pikaqiu:
+                this.skeleton = lwg.Sk.pikaqiuTem.buildArmature(0);
+                this.skScale = 1;
+
+                break;
+            case lwg.Sk.PaintedPifu.shizi:
+                this.skeleton = lwg.Sk.shiziTem.buildArmature(0);
+                this.skScale = 1;
+
+                break;
+
             default:
                 break;
         }
 
         this.self.addChild(this.skeleton);
-        this.skScale = 0.9;
         this.skeleton.scale(this.skScale, this.skScale);
         this.skeleton.pos(this.self.width / 2, this.self.height - 9);
         let pic = this.self.getChildByName('pic') as Laya.Sprite;
@@ -460,7 +510,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         if (!upOpenSwitch) {
             // console.log('通道未打开，不会上梯子！');
         } else {
-            // console.log(otherOwner.name + '连接梯子');
+            console.log(otherOwner.name + '连接梯子');
             // 如果角色的方向是左右能上梯子或者下梯子
             // 记录原来的左右方向
             if (this.personState === lwg.Enum.MoveState.onFloor) {

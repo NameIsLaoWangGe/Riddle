@@ -1,11 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":2,
+    "selectedBox":185,
+    "selecteID":272,
     "searchKey":"View,UIMain_002",
     "props":{"width":720,"sceneColor":"#000000","name":"UIMain_002","height":1280},
     "nodeParent":-1,
-    "maxID":353,
+    "maxID":354,
     "label":"UIMain_002",
     "isOpen":true,
     "isDirectory":true,
@@ -1044,13 +1045,14 @@
             "props":{"y":856.5,"x":270.5,"width":383,"skin":"Room/room_bluish.png","sizeGrid":"23,22,24,20","pivotY":160,"pivotX":192,"name":"Room3","height":319},
             "nodeParent":2,
             "label":"Room3",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":185,
             "child":[
                 {
+                    "x":30,
                     "type":"BoxCollider",
                     "switchAble":true,
                     "searchKey":"BoxCollider",
@@ -1066,6 +1068,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"RigidBody",
                     "switchAble":true,
                     "searchKey":"RigidBody",
@@ -1081,6 +1084,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":253,"x":-77,"texture":"Room/room_bluish_wallpaper.png"},
@@ -1093,6 +1097,7 @@
                     "compId":331,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":-179,"x":92,"width":352,"skin":"Room/room_blue_wallpaper.png","sizeGrid":"36,236,32,126","renderType":"mask","height":313},
@@ -1107,6 +1112,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,ladder_01",
                     "props":{"y":101,"x":310,"width":71,"pivotY":96,"pivotX":36,"name":"ladder_01","height":192},
@@ -1119,6 +1125,7 @@
                     "compId":272,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":37,"x":12,"texture":"Room/ui_ladder.png"},
@@ -1132,6 +1139,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":-1,"x":12,"texture":"Room/ui_ladder.png"},
@@ -1146,6 +1154,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":73,"x":12,"texture":"Room/ui_ladder.png"},
@@ -1159,6 +1168,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":111,"x":12,"texture":"Room/ui_ladder.png"},
@@ -1172,11 +1182,12 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"BoxCollider",
                             "switchAble":true,
                             "searchKey":"BoxCollider",
                             "removeAble":true,
-                            "props":{"y":-1,"x":21,"width":28,"label":"ladder","isSensor":true,"height":149},
+                            "props":{"y":-1,"x":22,"width":27,"label":"ladder","isSensor":true,"height":149},
                             "nodeParent":272,
                             "label":"BoxCollider",
                             "isDirectory":false,
@@ -1185,9 +1196,26 @@
                             "compId":278,
                             "child":[
                                 ]
+                        },
+                        {
+                            "x":45,
+                            "type":"RigidBody",
+                            "switchAble":true,
+                            "searchKey":"RigidBody",
+                            "removeAble":true,
+                            "props":{"gravityScale":0,"bullet":true,"allowSleep":false,"allowRotation":false},
+                            "nodeParent":272,
+                            "label":"RigidBody",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":353,
+                            "child":[
+                                ]
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "selectedBox":93,
                     "selecteID":103,
@@ -1257,6 +1285,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Script",
                     "switchAble":true,
                     "source":"src/script/Game/UIMain_Room.ts",
@@ -1273,6 +1302,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,right_Wall",
                     "props":{"y":0,"x":0,"width":14,"name":"right_Wall","height":291},
@@ -1285,6 +1315,7 @@
                     "compId":212,
                     "child":[
                         {
+                            "x":45,
                             "type":"BoxCollider",
                             "switchAble":true,
                             "searchKey":"BoxCollider",
@@ -1300,6 +1331,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"RigidBody",
                             "switchAble":true,
                             "searchKey":"RigidBody",
@@ -1316,6 +1348,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,up_Aisle_01",
                     "props":{"y":0,"x":310,"width":82,"pivotY":32,"pivotX":41,"name":"up_Aisle_01","height":48},
@@ -1328,6 +1361,7 @@
                     "compId":254,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,interaction",
                             "props":{"y":1,"x":2,"width":78,"skin":"Room/ui_interaction_01.png","rotation":0,"name":"interaction","height":32},
@@ -1342,6 +1376,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,wall",
                             "props":{"y":39.5,"x":41.5,"width":81,"skin":"Room/room_blue_wall.png","rotation":0,"pivotY":8,"pivotX":41,"name":"wall","height":17},
@@ -1356,6 +1391,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,color",
                             "props":{"y":40,"x":41.5,"width":81,"skin":"Room/room_blue_color.png","rotation":0,"pivotY":8,"pivotX":41,"name":"color","height":16},
@@ -1370,6 +1406,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"BoxCollider",
                             "switchAble":true,
                             "searchKey":"BoxCollider",
@@ -1385,6 +1422,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"RigidBody",
                             "switchAble":true,
                             "searchKey":"RigidBody",
@@ -1400,6 +1438,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/script/Game/UIMain_Aisle.ts",
@@ -1416,6 +1455,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Label",
                             "searchKey":"Label,yanse",
                             "props":{"text":"label","name":"yanse","alpha":0},
@@ -1429,6 +1469,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"BoxCollider",
                             "switchAble":true,
                             "searchKey":"BoxCollider",
@@ -1445,6 +1486,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,right_Aisle_01",
                     "props":{"y":266,"x":378,"width":48,"pivotY":41,"pivotX":11,"name":"right_Aisle_01","height":82},
@@ -1457,6 +1499,7 @@
                     "compId":282,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,interaction",
                             "props":{"y":2,"x":47,"width":78,"skin":"Room/ui_interaction_01.png","rotation":90,"name":"interaction","height":32},
@@ -1470,6 +1513,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,wall",
                             "props":{"y":42,"x":8.2,"width":81,"skin":"Room/room_blue_wall.png","rotation":90,"pivotY":8,"pivotX":41,"name":"wall","height":16.5},
@@ -1483,6 +1527,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,color",
                             "props":{"y":41,"x":7,"width":81,"skin":"Room/room_blue_color.png","rotation":90,"pivotY":8,"pivotX":41,"name":"color","height":15},
@@ -1497,6 +1542,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"BoxCollider",
                             "switchAble":true,
                             "searchKey":"BoxCollider",
@@ -1512,6 +1558,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"RigidBody",
                             "switchAble":true,
                             "searchKey":"RigidBody",
@@ -1527,6 +1574,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/script/Game/UIMain_Aisle.ts",
@@ -1543,6 +1591,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Label",
                             "searchKey":"Label,yanse",
                             "props":{"text":"label","name":"yanse","alpha":0},
@@ -1556,6 +1605,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"BoxCollider",
                             "switchAble":true,
                             "searchKey":"BoxCollider",
@@ -1572,6 +1622,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,bonfire",
                     "props":{"y":279.5,"x":150,"width":54,"pivotY":30,"pivotX":29,"name":"bonfire","height":59},

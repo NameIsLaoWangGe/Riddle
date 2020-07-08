@@ -5614,10 +5614,6 @@
             this.self['background_01'].height = Laya.stage.height;
         }
         openAni() {
-            this.self['BtnNo'].visible = false;
-            setTimeout(() => {
-                this.self['BtnNo'].visible = true;
-            }, lwg.Global._btnDelayed);
         }
         randomNoHave() {
             let len = lwg.Global._notHavePifuSubXD.length;
@@ -5635,21 +5631,35 @@
             pifuImg.skin = lwg.Enum.PifuSkin[oder2];
         }
         btnOnClick() {
-            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnSelect'], this, null, null, this.btnAdvUp, null);
-            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnZanshi'], this, null, null, this.btnAdvUp, null);
+            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnCheck'], this, null, null, this.btnCheckUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnGet'], this, null, null, this.btnAdvUp, null);
-            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
         }
         btnAdvUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_skintry');
             event.currentTarget.scale(1, 1);
-            ADManager.ShowReward(() => {
-                this.btnAdvFunc();
-            });
+            let check = this.self['BtnCheck'].getChildByName('Check');
+            if (check.visible) {
+                ADManager.ShowReward(() => {
+                    this.btnAdvFunc();
+                });
+            }
+            else {
+                event.currentTarget.scale(1, 1);
+                this.self.close();
+                lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].openPlayScene();
+            }
         }
-        btnBackUp() {
-            ADManager.TAPoint(TaT.BtnClick, 'close_skintry');
-            this.self.close();
+        btnCheckUp(e) {
+            let check = this.self['BtnCheck'].getChildByName('Check');
+            let word = this.self['BtnGet'].getChildByName('word');
+            if (check.visible) {
+                check.visible = false;
+                word.skin = 'UI_new/PifuTry/free_btn1.png';
+            }
+            else {
+                check.visible = true;
+                word.skin = 'UI_new/PifuTry/word_freetry.png';
+            }
         }
         btnNoUp(event) {
             event.currentTarget.scale(1, 1);

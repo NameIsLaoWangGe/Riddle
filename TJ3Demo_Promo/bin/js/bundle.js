@@ -2001,6 +2001,28 @@
         })(Effects = lwg.Effects || (lwg.Effects = {}));
         let Sk;
         (function (Sk) {
+            let PifuMatching;
+            (function (PifuMatching) {
+                PifuMatching["gongzhu"] = "01_gongzhu";
+                PifuMatching["chiji"] = "02_chiji";
+                PifuMatching["change"] = "03_change";
+                PifuMatching["huiguniang"] = "04_huiguniang";
+                PifuMatching["tianshi"] = "05_tianshi";
+                PifuMatching["xiaohongmao"] = "06_xiaohongmao";
+                PifuMatching["xiaohuangya"] = "07_xiaohuangya";
+                PifuMatching["zhenzi"] = "08_zhenzi";
+                PifuMatching["aisha"] = "09_aisha";
+            })(PifuMatching = Sk.PifuMatching || (Sk.PifuMatching = {}));
+            let PaintedPifu;
+            (function (PaintedPifu) {
+                PaintedPifu["daji"] = "P_001_daji";
+                PaintedPifu["shizi"] = "P_002_shizi";
+                PaintedPifu["pikaqiu"] = "P_003_pikaqiu";
+                PaintedPifu["cangshu"] = "P_004_cangshu";
+                PaintedPifu["haimianbaobao"] = "P_005_haimianbaobao";
+                PaintedPifu["keji"] = "P_006_keji";
+                PaintedPifu["kedaya"] = "P_007_kedaya";
+            })(PaintedPifu = Sk.PaintedPifu || (Sk.PaintedPifu = {}));
             Sk.gongzhuTem = new Laya.Templet();
             Sk.aishaTem = new Laya.Templet();
             Sk.changeTem = new Laya.Templet();
@@ -2010,6 +2032,13 @@
             Sk.xiaohongmaoTem = new Laya.Templet();
             Sk.xiaohuangyaTem = new Laya.Templet();
             Sk.zhenziTem = new Laya.Templet();
+            Sk.kedayaTem = new Laya.Templet();
+            Sk.cangshuTem = new Laya.Templet();
+            Sk.dajiTem = new Laya.Templet();
+            Sk.haimianbaobaoTem = new Laya.Templet();
+            Sk.pikaqiuTem = new Laya.Templet();
+            Sk.shiziTem = new Laya.Templet();
+            Sk.kejiTem = new Laya.Templet();
             Sk.wangziTem = new Laya.Templet();
             Sk.gouTem = new Laya.Templet();
             Sk.qingdi_01Tem = new Laya.Templet();
@@ -2026,6 +2055,13 @@
                 createXiaohongmaoTem();
                 createXiaohuangyaTem();
                 createZhenziTem();
+                createCangshuTem();
+                createPikaqiuTem();
+                createDajiTem();
+                createHaimianbaobaoTem();
+                createShiziTem();
+                createKejiTem();
+                createKedayaTem();
                 createWangziTem();
                 createGouTem();
                 createQingdi_01Tem();
@@ -2088,6 +2124,48 @@
                 Sk.zhenziTem.loadAni("SK/zhenzi.sk");
             }
             Sk.createZhenziTem = createZhenziTem;
+            function createCangshuTem() {
+                Sk.xiaohuangyaTem.on(Laya.Event.COMPLETE, this, onCompelet);
+                Sk.xiaohuangyaTem.on(Laya.Event.ERROR, this, onError);
+                Sk.xiaohuangyaTem.loadAni("SK/cangshu.sk");
+            }
+            Sk.createCangshuTem = createCangshuTem;
+            function createDajiTem() {
+                Sk.dajiTem.on(Laya.Event.COMPLETE, this, onCompelet);
+                Sk.dajiTem.on(Laya.Event.ERROR, this, onError);
+                Sk.dajiTem.loadAni("SK/daji.sk");
+            }
+            Sk.createDajiTem = createDajiTem;
+            function createHaimianbaobaoTem() {
+                Sk.haimianbaobaoTem.on(Laya.Event.COMPLETE, this, onCompelet);
+                Sk.haimianbaobaoTem.on(Laya.Event.ERROR, this, onError);
+                Sk.haimianbaobaoTem.loadAni("SK/haimianbaobao.sk");
+            }
+            Sk.createHaimianbaobaoTem = createHaimianbaobaoTem;
+            function createPikaqiuTem() {
+                Sk.pikaqiuTem.on(Laya.Event.COMPLETE, this, onCompelet);
+                Sk.pikaqiuTem.on(Laya.Event.ERROR, this, onError);
+                Sk.pikaqiuTem.loadAni("SK/pikaqiu.sk");
+            }
+            Sk.createPikaqiuTem = createPikaqiuTem;
+            function createShiziTem() {
+                Sk.shiziTem.on(Laya.Event.COMPLETE, this, onCompelet);
+                Sk.shiziTem.on(Laya.Event.ERROR, this, onError);
+                Sk.shiziTem.loadAni("SK/shizi.sk");
+            }
+            Sk.createShiziTem = createShiziTem;
+            function createKejiTem() {
+                Sk.kejiTem.on(Laya.Event.COMPLETE, this, onCompelet);
+                Sk.kejiTem.on(Laya.Event.ERROR, this, onError);
+                Sk.kejiTem.loadAni("SK/keji.sk");
+            }
+            Sk.createKejiTem = createKejiTem;
+            function createKedayaTem() {
+                Sk.kedayaTem.on(Laya.Event.COMPLETE, this, onCompelet);
+                Sk.kedayaTem.on(Laya.Event.ERROR, this, onError);
+                Sk.kedayaTem.loadAni("SK/kedaya.sk");
+            }
+            Sk.createKedayaTem = createKedayaTem;
             function createWangziTem() {
                 Sk.wangziTem.on(Laya.Event.COMPLETE, this, onCompelet);
                 Sk.wangziTem.on(Laya.Event.ERROR, this, onError);
@@ -2199,18 +2277,6 @@
                 PifuAllName[PifuAllName["08_zhenzi"] = 7] = "08_zhenzi";
                 PifuAllName[PifuAllName["09_aisha"] = 8] = "09_aisha";
             })(PifuAllName = Enum.PifuAllName || (Enum.PifuAllName = {}));
-            let PifuMatching;
-            (function (PifuMatching) {
-                PifuMatching["gongzhu"] = "01_gongzhu";
-                PifuMatching["chiji"] = "02_chiji";
-                PifuMatching["change"] = "03_change";
-                PifuMatching["huiguniang"] = "04_huiguniang";
-                PifuMatching["tianshi"] = "05_tianshi";
-                PifuMatching["xiaohongmao"] = "06_xiaohongmao";
-                PifuMatching["xiaohuangya"] = "07_xiaohuangya";
-                PifuMatching["zhenzi"] = "08_zhenzi";
-                PifuMatching["aisha"] = "09_aisha";
-            })(PifuMatching = Enum.PifuMatching || (Enum.PifuMatching = {}));
             let PifuSkin;
             (function (PifuSkin) {
                 PifuSkin[PifuSkin["UI_new/Pifu/pifu_01_gongzhu.png"] = 0] = "UI_new/Pifu/pifu_01_gongzhu.png";
@@ -3986,38 +4052,74 @@
         }
         createskeleton() {
             switch (lwg.Global._currentPifu) {
-                case lwg.Enum.PifuMatching.gongzhu:
+                case lwg.Sk.PifuMatching.gongzhu:
                     this.skeleton = lwg.Sk.gongzhuTem.buildArmature(0);
+                    this.skScale = 0.9;
                     break;
-                case lwg.Enum.PifuMatching.chiji:
+                case lwg.Sk.PifuMatching.chiji:
                     this.skeleton = lwg.Sk.chijiTem.buildArmature(0);
+                    this.skScale = 0.9;
                     break;
-                case lwg.Enum.PifuMatching.change:
+                case lwg.Sk.PifuMatching.change:
                     this.skeleton = lwg.Sk.changeTem.buildArmature(0);
+                    this.skScale = 0.9;
                     break;
-                case lwg.Enum.PifuMatching.huiguniang:
+                case lwg.Sk.PifuMatching.huiguniang:
                     this.skeleton = lwg.Sk.huiguniangTem.buildArmature(0);
+                    this.skScale = 0.9;
                     break;
-                case lwg.Enum.PifuMatching.tianshi:
+                case lwg.Sk.PifuMatching.tianshi:
                     this.skeleton = lwg.Sk.tianshiTem.buildArmature(0);
+                    this.skScale = 0.9;
                     break;
-                case lwg.Enum.PifuMatching.xiaohongmao:
+                case lwg.Sk.PifuMatching.xiaohongmao:
                     this.skeleton = lwg.Sk.xiaohongmaoTem.buildArmature(0);
+                    this.skScale = 0.9;
                     break;
-                case lwg.Enum.PifuMatching.xiaohuangya:
+                case lwg.Sk.PifuMatching.xiaohuangya:
                     this.skeleton = lwg.Sk.xiaohuangyaTem.buildArmature(0);
+                    this.skScale = 0.9;
                     break;
-                case lwg.Enum.PifuMatching.zhenzi:
+                case lwg.Sk.PifuMatching.zhenzi:
                     this.skeleton = lwg.Sk.zhenziTem.buildArmature(0);
+                    this.skScale = 0.9;
                     break;
-                case lwg.Enum.PifuMatching.aisha:
+                case lwg.Sk.PifuMatching.aisha:
                     this.skeleton = lwg.Sk.aishaTem.buildArmature(0);
+                    this.skScale = 0.9;
+                    break;
+                case lwg.Sk.PaintedPifu.daji:
+                    this.skeleton = lwg.Sk.dajiTem.buildArmature(0);
+                    this.skScale = 1;
+                    break;
+                case lwg.Sk.PaintedPifu.cangshu:
+                    this.skeleton = lwg.Sk.cangshuTem.buildArmature(0);
+                    this.skScale = 1;
+                    break;
+                case lwg.Sk.PaintedPifu.haimianbaobao:
+                    this.skeleton = lwg.Sk.haimianbaobaoTem.buildArmature(0);
+                    this.skScale = 1;
+                    break;
+                case lwg.Sk.PaintedPifu.kedaya:
+                    this.skeleton = lwg.Sk.kedayaTem.buildArmature(0);
+                    this.skScale = 1;
+                    break;
+                case lwg.Sk.PaintedPifu.keji:
+                    this.skeleton = lwg.Sk.kejiTem.buildArmature(0);
+                    this.skScale = 1;
+                    break;
+                case lwg.Sk.PaintedPifu.pikaqiu:
+                    this.skeleton = lwg.Sk.pikaqiuTem.buildArmature(0);
+                    this.skScale = 1;
+                    break;
+                case lwg.Sk.PaintedPifu.shizi:
+                    this.skeleton = lwg.Sk.shiziTem.buildArmature(0);
+                    this.skScale = 1;
                     break;
                 default:
                     break;
             }
             this.self.addChild(this.skeleton);
-            this.skScale = 0.9;
             this.skeleton.scale(this.skScale, this.skScale);
             this.skeleton.pos(this.self.width / 2, this.self.height - 9);
             let pic = this.self.getChildByName('pic');
@@ -4289,6 +4391,7 @@
             let upOpenSwitch = upAisle['UIMain_Aisle'].openSwitch;
             if (!upOpenSwitch) ;
             else {
+                console.log(otherOwner.name + '连接梯子');
                 if (this.personState === lwg.Enum.MoveState.onFloor) {
                     this.beforeLadderDir = this.moveDirection;
                     this.moveDirection = lwg.Enum.PersonDir.up;
@@ -5614,10 +5717,6 @@
             this.self['background_01'].height = Laya.stage.height;
         }
         openAni() {
-            this.self['BtnNo'].visible = false;
-            setTimeout(() => {
-                this.self['BtnNo'].visible = true;
-            }, lwg.Global._btnDelayed);
         }
         randomNoHave() {
             let len = lwg.Global._notHavePifuSubXD.length;
@@ -5635,21 +5734,35 @@
             pifuImg.skin = lwg.Enum.PifuSkin[oder2];
         }
         btnOnClick() {
-            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnSelect'], this, null, null, this.btnAdvUp, null);
-            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnZanshi'], this, null, null, this.btnAdvUp, null);
+            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnCheck'], this, null, null, this.btnCheckUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnGet'], this, null, null, this.btnAdvUp, null);
-            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
         }
         btnAdvUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_skintry');
             event.currentTarget.scale(1, 1);
-            ADManager.ShowReward(() => {
-                this.btnAdvFunc();
-            });
+            let check = this.self['BtnCheck'].getChildByName('Check');
+            if (check.visible) {
+                ADManager.ShowReward(() => {
+                    this.btnAdvFunc();
+                });
+            }
+            else {
+                event.currentTarget.scale(1, 1);
+                this.self.close();
+                lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].openPlayScene();
+            }
         }
-        btnBackUp() {
-            ADManager.TAPoint(TaT.BtnClick, 'close_skintry');
-            this.self.close();
+        btnCheckUp(e) {
+            let check = this.self['BtnCheck'].getChildByName('Check');
+            let word = this.self['BtnGet'].getChildByName('word');
+            if (check.visible) {
+                check.visible = false;
+                word.skin = 'UI_new/PifuTry/free_btn1.png';
+            }
+            else {
+                check.visible = true;
+                word.skin = 'UI_new/PifuTry/word_freetry.png';
+            }
         }
         btnNoUp(event) {
             event.currentTarget.scale(1, 1);
@@ -6610,7 +6723,7 @@
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;
-    GameConfig.physicsDebug = false;
+    GameConfig.physicsDebug = true;
     GameConfig.exportSceneToJson = true;
     GameConfig.init();
 

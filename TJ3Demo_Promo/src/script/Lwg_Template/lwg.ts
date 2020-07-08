@@ -1342,6 +1342,28 @@ export module lwg {
 
     /**加载一些骨骼动画，在loding界面出现的时候执行skLoding()方法*/
     export module Sk {
+        /**皮肤的顺序以及名称*/
+        export enum PifuMatching {
+            gongzhu = '01_gongzhu',
+            chiji = '02_chiji',
+            change = '03_change',
+            huiguniang = '04_huiguniang',
+            tianshi = '05_tianshi',
+            xiaohongmao = '06_xiaohongmao',
+            xiaohuangya = '07_xiaohuangya',
+            zhenzi = '08_zhenzi',
+            aisha = '09_aisha'
+        }
+        /**皮肤的顺序以及名称*/
+        export enum PaintedPifu {
+            daji = 'P_001_daji',
+            shizi = 'P_002_shizi',
+            pikaqiu = 'P_003_pikaqiu',
+            cangshu = 'P_004_cangshu',
+            haimianbaobao = 'P_005_haimianbaobao',
+            keji = 'P_006_keji',
+            kedaya = 'P_007_kedaya',
+        }
 
         /**公主骨骼动画*/
         export let gongzhuTem: Laya.Templet = new Laya.Templet();
@@ -1353,6 +1375,15 @@ export module lwg {
         export let xiaohongmaoTem: Laya.Templet = new Laya.Templet();
         export let xiaohuangyaTem: Laya.Templet = new Laya.Templet();
         export let zhenziTem: Laya.Templet = new Laya.Templet();
+        export let kedayaTem: Laya.Templet = new Laya.Templet();
+
+        // 第二批
+        export let cangshuTem: Laya.Templet = new Laya.Templet();
+        export let dajiTem: Laya.Templet = new Laya.Templet();
+        export let haimianbaobaoTem: Laya.Templet = new Laya.Templet();
+        export let pikaqiuTem: Laya.Templet = new Laya.Templet();
+        export let shiziTem: Laya.Templet = new Laya.Templet();
+        export let kejiTem: Laya.Templet = new Laya.Templet();
 
         /**王子骨骼动画*/
         export let wangziTem: Laya.Templet = new Laya.Templet();
@@ -1371,12 +1402,21 @@ export module lwg {
             createGongzhuTem();
             createAishaTem();
             createChijiTem();
-            createChangeTem()
+            createChangeTem();
             createHuiguniangTem();
             createTianshiTem();
             createXiaohongmaoTem();
             createXiaohuangyaTem();
             createZhenziTem();
+
+            // 第二批
+            createCangshuTem();
+            createPikaqiuTem();
+            createDajiTem();
+            createHaimianbaobaoTem();
+            createShiziTem();
+            createKejiTem();
+            createKedayaTem();
 
             createWangziTem();
             createGouTem();
@@ -1384,6 +1424,7 @@ export module lwg {
             createQingdi_02Tem();
             createHoumaTem();
             createHouziTem();
+
         }
 
         /**全部加载*/
@@ -1434,6 +1475,48 @@ export module lwg {
             zhenziTem.loadAni("SK/zhenzi.sk");
         }
 
+        // 第二批
+        export function createCangshuTem(): void {
+            xiaohuangyaTem.on(Laya.Event.COMPLETE, this, onCompelet);
+            xiaohuangyaTem.on(Laya.Event.ERROR, this, onError);
+            xiaohuangyaTem.loadAni("SK/cangshu.sk");
+        }
+
+        export function createDajiTem(): void {
+            dajiTem.on(Laya.Event.COMPLETE, this, onCompelet);
+            dajiTem.on(Laya.Event.ERROR, this, onError);
+            dajiTem.loadAni("SK/daji.sk");
+        }
+
+        export function createHaimianbaobaoTem(): void {
+            haimianbaobaoTem.on(Laya.Event.COMPLETE, this, onCompelet);
+            haimianbaobaoTem.on(Laya.Event.ERROR, this, onError);
+            haimianbaobaoTem.loadAni("SK/haimianbaobao.sk");
+        }
+
+        export function createPikaqiuTem(): void {
+            pikaqiuTem.on(Laya.Event.COMPLETE, this, onCompelet);
+            pikaqiuTem.on(Laya.Event.ERROR, this, onError);
+            pikaqiuTem.loadAni("SK/pikaqiu.sk");
+        }
+
+        export function createShiziTem(): void {
+            shiziTem.on(Laya.Event.COMPLETE, this, onCompelet);
+            shiziTem.on(Laya.Event.ERROR, this, onError);
+            shiziTem.loadAni("SK/shizi.sk");
+        }
+        export function createKejiTem(): void {
+            kejiTem.on(Laya.Event.COMPLETE, this, onCompelet);
+            kejiTem.on(Laya.Event.ERROR, this, onError);
+            kejiTem.loadAni("SK/keji.sk");
+        }
+
+        export function createKedayaTem(): void {
+            kedayaTem.on(Laya.Event.COMPLETE, this, onCompelet);
+            kedayaTem.on(Laya.Event.ERROR, this, onError);
+            kedayaTem.loadAni("SK/kedaya.sk");
+        }
+
 
         export function createWangziTem(): void {
             wangziTem.on(Laya.Event.COMPLETE, this, onCompelet);
@@ -1465,10 +1548,13 @@ export module lwg {
             houziTem.on(Laya.Event.ERROR, this, onError);
             houziTem.loadAni("SK/houzi.sk");
         }
+
+
+
         export function onCompelet(tem: Laya.Templet): void {
             console.log(tem['_skBufferUrl'], '加载成功');
-
         }
+
         export function onError(url): void {
             console.log(url, '加载失败！');
         }
@@ -1525,18 +1611,9 @@ export module lwg {
         export enum PifuAllName {
             '01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha'
         }
-        /**皮肤的顺序以及名称*/
-        export enum PifuMatching {
-            gongzhu = '01_gongzhu',
-            chiji = '02_chiji',
-            change = '03_change',
-            huiguniang = '04_huiguniang',
-            tianshi = '05_tianshi',
-            xiaohongmao = '06_xiaohongmao',
-            xiaohuangya = '07_xiaohuangya',
-            zhenzi = '08_zhenzi',
-            aisha = '09_aisha'
-        }
+
+
+
         /**皮肤图片顺序对应的地址*/
         export enum PifuSkin {
             'UI_new/Pifu/pifu_01_gongzhu.png',

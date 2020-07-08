@@ -145,7 +145,10 @@
             "word_last.png",
             "ui_describe_02.png",
             "ui_describe.png",
-            "icon_adv_big.png"
+            "icon_adv_big.png",
+            "word_freeAdv.png",
+            "icon_check",
+            "icon_checkYes.png"
         ]
     ],
     "res/atlas/UI_new/Defeated.atlas": [

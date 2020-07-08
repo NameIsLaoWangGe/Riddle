@@ -30,10 +30,10 @@ export default class UIPifuTry extends lwg.Admin.Scene {
     }
 
     openAni(): void {
-        this.self['BtnNo'].visible = false;
-        setTimeout(() => {
-            this.self['BtnNo'].visible = true;
-        }, lwg.Global._btnDelayed);
+        // this.self['BtnNo'].visible = false;
+        // setTimeout(() => {
+        //     this.self['BtnNo'].visible = true;
+        // }, lwg.Global._btnDelayed);
     }
 
     /**随机出一个还没有获得的皮肤放在皮肤加载位置*/
@@ -57,24 +57,41 @@ export default class UIPifuTry extends lwg.Admin.Scene {
     }
 
     btnOnClick(): void {
-        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnSelect'], this, null, null, this.btnAdvUp, null);
-        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnZanshi'], this, null, null, this.btnAdvUp, null);
+        lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnCheck'], this, null, null, this.btnCheckUp, null);
+        // lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnZanshi'], this, null, null, this.btnAdvUp, null);
 
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnGet'], this, null, null, this.btnAdvUp, null);
-        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
+        // lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
         // lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['Btn'], this, null, null, null, null);
     }
 
     btnAdvUp(event): void {
         ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_skintry');
         event.currentTarget.scale(1, 1);
-        ADManager.ShowReward(() => {
-            this.btnAdvFunc();
-        })
+
+        let check = this.self['BtnCheck'].getChildByName('Check') as Laya.Sprite;
+        if (check.visible) {
+            ADManager.ShowReward(() => {
+                this.btnAdvFunc();
+            })
+        }else{
+            event.currentTarget.scale(1, 1);
+            this.self.close();
+            lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].openPlayScene();
+        }
     }
-    btnBackUp(): void {
-        ADManager.TAPoint(TaT.BtnClick, 'close_skintry');
-        this.self.close();
+    btnCheckUp(e: Laya.Event): void {
+        let check = this.self['BtnCheck'].getChildByName('Check') as Laya.Sprite;
+        let word = this.self['BtnGet'].getChildByName('word') as Laya.Image;
+        if (check.visible) {
+            check.visible = false;
+            word.skin = 'UI_new/PifuTry/free_btn1.png';
+        } else {
+            check.visible = true;
+            word.skin = 'UI_new/PifuTry/word_freetry.png';
+        }
+
+
     }
 
     btnNoUp(event): void {
