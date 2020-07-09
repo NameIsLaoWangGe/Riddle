@@ -60,11 +60,11 @@
         ""
     ],
     "clearReleaseDir": true,
-    "compile": true,
+    "compile": false,
     "forceCompile": false,
     "onlyIndexJS": true,
     "projectType": "ts",
-    "pubTime": 1594112411345,
+    "pubTime": 1594300712565,
     "uesEnginePlugin": false,
     "wxOptimize": {
         "useOptimizeOpen": false,

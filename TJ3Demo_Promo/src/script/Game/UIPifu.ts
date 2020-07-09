@@ -36,10 +36,16 @@ export default class UIPifu extends lwg.Admin.Scene {
 
         lwg.Global.ExecutionNumNode.alpha = 0;
         lwg.Global._stageClick = false;
-
+        if (lwg.Enum.PifuAllName[lwg.Global._currentPifu]) {
+            this.listFirstIndex = lwg.Enum.PifuAllName[lwg.Global._currentPifu];
+        } else {
+            this.listFirstIndex = -1;
+        }
         lwg.Global.notHavePifuSubXD();
         this.createPifuList();
         this.priceDisplay();
+
+
     }
 
     /**一些节点的适配*/
@@ -176,7 +182,7 @@ export default class UIPifu extends lwg.Admin.Scene {
     private moveSwitch: boolean = false;
     private firstX: number;
     /**list列表第一个第几个单元*/
-    private listFirstIndex: number = lwg.Enum.PifuAllName[lwg.Global._currentPifu];
+    private listFirstIndex: number;
     onStageMouseDown() {
         // console.log('点击了舞台！');
         this.firstX = Laya.MouseManager.instance.mouseX;
@@ -229,6 +235,7 @@ export default class UIPifu extends lwg.Admin.Scene {
     /**灰点位置，和名称的样式*/
     matchDotStaly(): void {
         let MatchDot = this.self['MatchDot'] as Laya.Sprite;
+        console.log(this.listFirstIndex);
         for (let index = 0; index < MatchDot.numChildren; index++) {
             const element = MatchDot.getChildAt(index) as Laya.Sprite;
             if (element.name === this.listFirstIndex.toString()) {

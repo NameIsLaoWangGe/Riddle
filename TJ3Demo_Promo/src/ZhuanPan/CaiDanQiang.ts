@@ -51,16 +51,17 @@ export default class CaiDanQiang extends Laya.Script {
 
     /**************方式二  Jison加载代码字段 数据较少 直接卸载代码里 同步加载 快 ***************/
     icon = [
-        { ID: 0, Name: "黄皮耗子", Info: "", MesLiayuan: "转盘", MesFangshi: "直接把它从转盘拖出来", Tip: lwg.Enum.CaidanPifuName[0] },
-        { ID: 1, Name: "自闭鸭子", Info: "", MesLiayuan: "转盘", MesFangshi: "转盘抽奖获得", Tip: lwg.Enum.CaidanPifuName[1] },
+        { ID: 0, Name: "黄皮耗子", Info: "", MesLiayuan: "转盘", MesFangshi: "直接把它从转盘拖出来", Tip: lwg.Enum.CaidanPifuName.huangpihaozi },
 
-        { ID: 2, Name: "仓鼠公主", Info: "", MesLiayuan: "从彩蛋墙上的神蛋获得", MesFangshi: "点击左边的神蛋", Tip: lwg.Enum.CaidanPifuName[2] },
+        { ID: 1, Name: "自闭鸭子", Info: "", MesLiayuan: "转盘", MesFangshi: "转盘抽奖获得", Tip: lwg.Enum.CaidanPifuName.zibiyazi },
 
-        { ID: 3, Name: "柯基公主", Info: "", MesLiayuan: "召唤神龙许愿概率获得", MesFangshi: "同时点击彩弹墙的两个彩蛋", Tip: lwg.Enum.CaidanPifuName[3] },
+        { ID: 2, Name: "仓鼠公主", Info: "", MesLiayuan: "从彩蛋墙上的神蛋获得", MesFangshi: "点击左边的神蛋", Tip: lwg.Enum.CaidanPifuName.cangshugongzhu },
 
-        { ID: 4, Name: "塞牙人", Info: "（也可能不是）", MesLiayuan: "彩蛋墙内神秘操作获得", MesFangshi: "长按这个皮肤的剪影3秒", Tip: lwg.Enum.CaidanPifuName[4] },
+        { ID: 3, Name: "柯基公主", Info: "", MesLiayuan: "召唤神龙许愿概率获得", MesFangshi: "同时点击彩弹墙的两个彩蛋", Tip: lwg.Enum.CaidanPifuName.kejigongzhu },
 
-        { ID: 5, Name: "海绵公主", Info: "", MesLiayuan: "主界面神秘操作获得", MesFangshi: "同时点击皮肤和彩蛋墙按钮", Tip: lwg.Enum.CaidanPifuName[5] }
+        { ID: 4, Name: "塞牙人", Info: "（也可能不是）", MesLiayuan: "彩蛋墙内神秘操作获得", MesFangshi: "长按这个皮肤的剪影3秒", Tip: lwg.Enum.CaidanPifuName.saiyaren },
+
+        { ID: 5, Name: "海绵公主", Info: "", MesLiayuan: "主界面神秘操作获得", MesFangshi: "同时点击皮肤和彩蛋墙按钮", Tip: lwg.Enum.CaidanPifuName.haimiangongzhu },
     ]
     Caidan = []
     LoadJson() {
@@ -71,7 +72,7 @@ export default class CaiDanQiang extends Laya.Script {
             temp.Info = this.icon[i].Info;
             temp.MesLiayuan = this.icon[i].MesLiayuan;
             temp.MesFangshi = this.icon[i].MesFangshi;
-
+            temp.Tip = this.icon[i].Tip;
             this.CaiDanDatas2.push(temp);
         }
     }
@@ -134,6 +135,36 @@ export default class CaiDanQiang extends Laya.Script {
             })
             Laya.LocalStorage.setItem("firstuse", "1");
         }
+
+        if (lwg.Global._huangpihaozi) {
+            let skin = Laya.LocalStorage.getItem("Caidanskin" + 5);
+            if (skin) {
+                let strs = skin.split("_");
+                Laya.LocalStorage.setItem("Caidanskin" + 0, "1" + "_" + strs[1] + "_" + strs[2]);
+            } else {
+                Laya.LocalStorage.setItem("Caidanskin" + 0, "1" + "_" + 0 + "_" + 0);
+            }
+        }
+
+        if (lwg.Global._zibiyazi) {
+            let skin = Laya.LocalStorage.getItem("Caidanskin" + 5);
+            if (skin) {
+                let strs = skin.split("_");
+                Laya.LocalStorage.setItem("Caidanskin" + 1, "1" + "_" + strs[1] + "_" + strs[2]);
+            } else {
+                Laya.LocalStorage.setItem("Caidanskin" + 1, "1" + "_" + 0 + "_" + 0);
+            }
+        }
+
+        if (lwg.Global._haimiangongzhu) {
+            let skin = Laya.LocalStorage.getItem("Caidanskin" + 5);
+            if (skin) {
+                let strs = skin.split("_");
+                Laya.LocalStorage.setItem("Caidanskin" + 5, "1" + "_" + strs[1] + "_" + strs[2]);
+            } else {
+                Laya.LocalStorage.setItem("Caidanskin" + 5, "1" + "_" + 0 + "_" + 0);
+            }
+        }
     }
 
     onAwake()//加载需放在 start之前初始化
@@ -157,13 +188,18 @@ export default class CaiDanQiang extends Laya.Script {
         this.LaiyuanADSafe = this.MesShow.getChildByName("LaiyuanADSafe") as Laya.Image;
         this.FangshiADSafe = this.MesShow.getChildByName("FangshiADSafe") as Laya.Image;
 
-        this.LaiyuanADSafe.on(Laya.Event.CLICK, this, this.LaiyuanADcLICK)
-        this.FangshiADSafe.on(Laya.Event.CLICK, this, this.FangshiADClick)
-
+        lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.LaiyuanADSafe, this, null, null, this.LaiyuanADcLICK, null);
+        lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.FangshiADSafe, this, null, null, this.FangshiADClick, null);
+        lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.owner.scene['BtnBack'], this, null, null, this.btnBackUP, null);
 
         this.CaidanRewardPanelinit1();
         this.CaiDanInit();
     }
+
+    btnBackUP(): void {
+        this.owner.scene.close();
+    }
+
     onStart() {
         this.StorageInit();
         for (let i = 0; i < this.CaiDanShow.numChildren; i++) {
@@ -178,13 +214,32 @@ export default class CaiDanQiang extends Laya.Script {
         this.Skinitems.forEach((v, i) => {
             v.Fell(this.CaiDanDatas2[i], this.Caidanqiang);
         })
-        this.NowCaidanDataq = this.CaiDanDatas2[0];
+        if (lwg.Global._pickPaintedNum) {
+            this.CaiDanDatas2.forEach((v, i) => {
+
+                if (v.ID === lwg.Global._pickPaintedNum) {
+                    this.NowCaidanDataq = v;
+                }
+
+
+                else {
+
+
+                }
+            });
+        }
+        else {
+            this.NowCaidanDataq = this.CaiDanDatas2[0];
+        }
+
+
     }
 
     //刷新界面 每次处理过之后要刷新菜单展示
     RefreshView(skindata: CaiDanData) {
 
         this.NowCaidanDataq = skindata;
+        lwg.Global._pickPaintedNum = this.NowCaidanDataq.ID;
         this.IconDown.skin = skindata.GetIconPath();
         this.IconUp.skin = skindata.GetIconPath_h();
         this.MesFangshi.text = skindata.MesFangshi;
@@ -197,24 +252,32 @@ export default class CaiDanQiang extends Laya.Script {
         this.LaiyuanADSafe.visible = strs[1] == "0";
         this.FangshiADSafe.visible = strs[2] == "0";
 
+        this.Skinitems.forEach((v, i) => {
+            v.lightChange(skindata.ID);
+        })
     }
 
     FangshiADClick()//方式解锁
     {
-        let skin = Laya.LocalStorage.getItem("Caidanskin" + this.NowCaidanDataq.ID);
-        let strs = skin.split("_");
-        Laya.LocalStorage.setItem("Caidanskin" + this.NowCaidanDataq.ID, strs[0] + "_" + strs[1] + "_" + "1");
-        this.RefreshView(this.NowCaidanDataq);
+        ADManager.ShowReward(() => {
+            let skin = Laya.LocalStorage.getItem("Caidanskin" + this.NowCaidanDataq.ID);
+            let strs = skin.split("_");
+            Laya.LocalStorage.setItem("Caidanskin" + this.NowCaidanDataq.ID, strs[0] + "_" + strs[1] + "_" + "1");
+            this.RefreshView(this.NowCaidanDataq);
+        })
+
     }
     LaiyuanADcLICK()//来源解锁
     {
-        let skin = Laya.LocalStorage.getItem("Caidanskin" + this.NowCaidanDataq.ID);
-        let strs = skin.split("_");
-        Laya.LocalStorage.setItem("Caidanskin" + this.NowCaidanDataq.ID, strs[0] + "_" + "1" + "_" + strs[2]);
-        this.RefreshView(this.NowCaidanDataq);
+        ADManager.ShowReward(() => {
+            let skin = Laya.LocalStorage.getItem("Caidanskin" + this.NowCaidanDataq.ID);
+            let strs = skin.split("_");
+            Laya.LocalStorage.setItem("Caidanskin" + this.NowCaidanDataq.ID, strs[0] + "_" + "1" + "_" + strs[2]);
+            this.RefreshView(this.NowCaidanDataq);
+        })
+
     }
     //#endregion
-
 
 
     //#region  获取界面
@@ -245,12 +308,9 @@ export default class CaiDanQiang extends Laya.Script {
     }
     ADGetRewardClick1() {
         //看广告   彩蛋皮肤 编码4  
-
-        // {
         ADManager.ShowReward(() => {
         })
         console.log('看广告');
-
         let skin = Laya.LocalStorage.getItem("Caidanskin" + 4);
         let strs = skin.split("_");
         Laya.LocalStorage.setItem("Caidanskin" + 4, "1" + "_" + strs[1] + "_" + strs[2]);
@@ -258,8 +318,6 @@ export default class CaiDanQiang extends Laya.Script {
         this.Skinitems.forEach((v, i) => {
             v.Fell(this.CaiDanDatas2[i], this.Caidanqiang);
         })
-        // }
-
     }
 
     //#endregion
@@ -474,15 +532,13 @@ export default class CaiDanQiang extends Laya.Script {
     }
 
     ADGetRewardClick() {
-        // ADManager.ShowReward(() => {
+        ADManager.ShowReward(() => {
+            //看视频获取----------------------------------------->
+            console.log("看广告");
 
-        // })
-        //看视频获取----------------------------------------->
-        console.log("看广告");
-
-        this.RewardGet();
-        this.ShowReward();//展示奖励
-
+            this.RewardGet();
+            this.ShowReward();//展示奖励
+        })
     }
 
     ClosePanel() {
@@ -546,12 +602,14 @@ export default class CaiDanQiang extends Laya.Script {
     }
 
     onDisable(): void {
-        let skin = Laya.LocalStorage.getItem("Caidanskin" + 2);
+        let skin = Laya.LocalStorage.getItem("Caidanskin" + this.NowCaidanDataq.ID);
         let strs = skin.split("_");
         if (strs[0] === '1') {
             lwg.Global._currentPifu = this.NowCaidanDataq.Tip;
             lwg.LocalStorage.addData();
         }
+        console.log(this.NowCaidanDataq);
+        console.log(lwg.Global._currentPifu);
     }
 
     //#endregion

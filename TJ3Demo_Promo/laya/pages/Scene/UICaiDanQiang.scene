@@ -1,13 +1,13 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":107,
-    "selecteID":162,
+    "selectedBox":164,
+    "selecteID":229,
     "searchKey":"Scene",
     "referenceLines":null,
     "props":{"width":720,"sceneColor":"#000000","positionVariance_0":100,"maxPartices":100,"height":1280},
     "nodeParent":-1,
-    "maxID":332,
+    "maxID":333,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -118,14 +118,13 @@
                     "props":{"zOrder":4,"width":720,"visible":false,"name":"CaidanRewardPanel","mouseThrough":false,"hitTestPrior":true,"height":1280},
                     "nodeParent":107,
                     "label":"CaidanRewardPanel",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":138,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":0,"x":0,"width":720,"skin":"UI_new/conmmon/bg_blackmask.png","pivotY":0,"pivotX":0,"height":1800},
@@ -139,7 +138,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,RewardBG",
                             "props":{"y":300,"x":94,"skin":"UI_new/PassHint/ui_baseboard.png","name":"RewardBG"},
@@ -152,7 +150,6 @@
                             "compId":140,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image",
                                     "props":{"y":45,"x":148,"valign":"middle","text":"神龙礼物","skin":"CaiDanQIang/gongxi.png","fontSize":50,"bold":true,"align":"center"},
@@ -166,7 +163,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,ADGetReward",
                                     "props":{"y":451,"x":148,"skin":"CaiDanQIang/anniu_mianfei.png","name":"ADGetReward"},
@@ -181,7 +177,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image",
                                     "props":{"y":423,"x":48,"skin":"UI_new/PassHint/ui_line.png"},
@@ -195,7 +190,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,prop6",
                                     "props":{"y":158,"x":202,"width":120,"skin":"CaiDanQIang/Skin/4.png","name":"prop6","height":182},
@@ -210,7 +204,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Label",
                                     "searchKey":"Label",
                                     "props":{"y":362,"x":36,"width":450,"valign":"middle","text":"赛牙人","italic":false,"height":48,"fontSize":40,"font":"Microsoft YaHei","color":"#a44415","bold":true,"align":"center"},
@@ -224,7 +217,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Box",
                                     "searchKey":"Box,CloseRewardBtn",
                                     "props":{"y":590,"x":216,"styleSkin":"ZhuanPan/cha.png","name":"CloseRewardBtn"},
@@ -237,7 +229,6 @@
                                     "compId":159,
                                     "child":[
                                         {
-                                            "x":75,
                                             "type":"Sprite",
                                             "searchKey":"Sprite",
                                             "props":{"texture":"UI_new/PassHint/no_btn.png"},
@@ -397,14 +388,13 @@
                     "props":{"zOrder":4,"y":0,"x":0,"width":720,"visible":false,"name":"CaidanRewardPanel3","mouseThrough":false,"hitTestPrior":true,"height":1280},
                     "nodeParent":107,
                     "label":"CaidanRewardPanel3",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":262,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":0,"x":0,"skin":"UI_new/conmmon/bg_blackmask.png","height":1800},
@@ -418,7 +408,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Bg",
                             "props":{"y":305,"x":94,"width":532,"skin":"CaiDanQIang/dikuang.png","name":"Bg","height":654},
@@ -431,7 +420,6 @@
                             "compId":264,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image",
                                     "props":{"y":-97,"x":145,"valign":"middle","text":"恭喜获得","skin":"CaiDanQIang/longtou.png","fontSize":50,"bold":true,"align":"center"},
@@ -446,7 +434,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image",
                                     "props":{"y":384,"x":48.5,"skin":"UI_new/conmmon/ui_line.png"},
@@ -460,7 +447,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Label",
                                     "searchKey":"Label,ShenLongWenzi",
                                     "props":{"y":152,"x":84.5,"wordWrap":true,"width":382,"text":"     是否召唤一次神龙并获得神龙的宝物？","name":"ShenLongWenzi","leading":10,"height":159,"fontSize":45,"font":"Microsoft YaHei","color":"#b44024","bold":true},
@@ -475,7 +461,6 @@
                                     "$HIDDEN":false
                                 },
                                 {
-                                    "x":60,
                                     "type":"Box",
                                     "searchKey":"Box,Props",
                                     "props":{"y":130,"x":102,"width":328,"name":"Props","height":259},
@@ -488,7 +473,6 @@
                                     "compId":266,
                                     "child":[
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,prop1",
                                             "props":{"width":150,"name":"prop1","height":150,"centerY":-36,"centerX":-9},
@@ -501,7 +485,6 @@
                                             "compId":267,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,pic",
                                                     "props":{"y":12,"x":25,"skin":"UI_new/conmmon/icon_execution.png","scaleY":3,"scaleX":3,"name":"pic"},
@@ -515,7 +498,6 @@
                                                         ]
                                                 },
                                                 {
-                                                    "x":90,
                                                     "type":"Label",
                                                     "searchKey":"Label",
                                                     "props":{"y":200,"width":314,"valign":"middle","text":"体力x2","pivotY":24,"pivotX":157,"height":48,"fontSize":50,"font":"Microsoft YaHei","color":"#7c1c1a","centerX":0,"bold":true,"align":"center"},
@@ -530,7 +512,6 @@
                                                 }]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,prop2",
                                             "props":{"y":10,"x":10,"width":150,"name":"prop2","height":150,"centerY":-37,"centerX":-9},
@@ -543,7 +524,6 @@
                                             "compId":314,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,pic",
                                                     "props":{"y":11,"x":25,"skin":"UI_new/conmmon/icon_execution.png","scaleY":3,"scaleX":3,"name":"pic"},
@@ -557,7 +537,6 @@
                                                         ]
                                                 },
                                                 {
-                                                    "x":90,
                                                     "type":"Label",
                                                     "searchKey":"Label",
                                                     "props":{"y":200,"width":314,"valign":"middle","text":"体力x3","pivotY":24,"pivotX":157,"height":48,"fontSize":50,"font":"Microsoft YaHei","color":"#7c1c1a","centerX":0,"bold":true,"align":"center"},
@@ -572,7 +551,6 @@
                                                 }]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,prop3",
                                             "props":{"y":97,"x":80,"width":150,"name":"prop3","height":150,"centerY":-37,"centerX":-9},
@@ -585,7 +563,6 @@
                                             "compId":323,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,pic",
                                                     "props":{"y":11,"x":13,"skin":"UI_new/conmmon/icon_gold.png","scaleY":3,"scaleX":3,"name":"pic"},
@@ -599,7 +576,6 @@
                                                         ]
                                                 },
                                                 {
-                                                    "x":90,
                                                     "type":"Label",
                                                     "searchKey":"Label",
                                                     "props":{"y":200,"width":314,"valign":"middle","text":"金币x20","pivotY":24,"pivotX":157,"height":48,"fontSize":50,"font":"Microsoft YaHei","color":"#7c1c1a","centerX":0,"bold":true,"align":"center"},
@@ -614,7 +590,6 @@
                                                 }]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,prop4",
                                             "props":{"y":97,"x":80,"width":150,"name":"prop4","height":150,"centerY":-37,"centerX":-9},
@@ -627,7 +602,6 @@
                                             "compId":320,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,pic",
                                                     "props":{"y":11,"x":13,"skin":"UI_new/conmmon/icon_gold.png","scaleY":3,"scaleX":3,"name":"pic"},
@@ -641,7 +615,6 @@
                                                         ]
                                                 },
                                                 {
-                                                    "x":90,
                                                     "type":"Label",
                                                     "searchKey":"Label",
                                                     "props":{"y":200,"width":314,"valign":"middle","text":"金币x30","pivotY":24,"pivotX":157,"height":48,"fontSize":50,"font":"Microsoft YaHei","color":"#7c1c1a","centerX":0,"bold":true,"align":"center"},
@@ -656,7 +629,6 @@
                                                 }]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,prop5",
                                             "props":{"y":97,"x":80,"width":150,"name":"prop5","height":150,"centerY":-37,"centerX":-9},
@@ -669,7 +641,6 @@
                                             "compId":326,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,pic",
                                                     "props":{"y":-57,"x":17,"skin":"CaiDanQIang/Skin/3.png","scaleY":3,"scaleX":3,"name":"pic"},
@@ -683,7 +654,6 @@
                                                         ]
                                                 },
                                                 {
-                                                    "x":90,
                                                     "type":"Label",
                                                     "searchKey":"Label",
                                                     "props":{"y":200,"width":314,"valign":"middle","text":"柯基公主","pivotY":24,"pivotX":157,"height":48,"fontSize":50,"font":"Microsoft YaHei","color":"#7c1c1a","centerX":0,"bold":true,"align":"center"},
@@ -700,7 +670,6 @@
                                     "$HIDDEN":true
                                 },
                                 {
-                                    "x":60,
                                     "type":"Box",
                                     "searchKey":"Box,ADGetReward",
                                     "props":{"y":432,"x":145,"width":242,"name":"ADGetReward","height":108},
@@ -713,7 +682,6 @@
                                     "compId":284,
                                     "child":[
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,1",
                                             "props":{"skin":"CaiDanQIang/anniu_mianfei.png","name":"1","centerY":0,"centerX":0},
@@ -728,7 +696,6 @@
                                                 ]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,2",
                                             "props":{"skin":"CaiDanQIang/anniu_zhaohuan2.png","name":"2","centerY":0,"centerX":0},
@@ -744,7 +711,6 @@
                                         }]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Sprite",
                                     "searchKey":"Sprite,GetReward",
                                     "props":{"y":578.5,"x":213,"texture":"UI_new/conmmon/no_btn.png","name":"GetReward"},
@@ -759,7 +725,7 @@
                                 }]
                         }],
                     "$LOCKED":false,
-                    "$HIDDEN":false
+                    "$HIDDEN":true
                 },
                 {
                     "x":30,
@@ -886,7 +852,7 @@
                                                     "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,light",
-                                                    "props":{"y":5,"x":-10,"skin":"CaiDanQIang/xuanzhong.png","name":"light"},
+                                                    "props":{"y":5,"x":-16,"skin":"CaiDanQIang/xuanzhong.png","name":"light"},
                                                     "nodeParent":173,
                                                     "label":"light",
                                                     "isDirectory":false,
@@ -972,7 +938,7 @@
                                                     "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,light",
-                                                    "props":{"y":0,"x":-36,"skin":"CaiDanQIang/xuanzhong.png","name":"light"},
+                                                    "props":{"y":5,"x":-16,"skin":"CaiDanQIang/xuanzhong.png","name":"light"},
                                                     "nodeParent":189,
                                                     "label":"light",
                                                     "isDirectory":false,
@@ -1058,7 +1024,7 @@
                                                     "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,light",
-                                                    "props":{"y":5,"x":-10,"skin":"CaiDanQIang/xuanzhong.png","name":"light"},
+                                                    "props":{"y":5,"x":-16,"skin":"CaiDanQIang/xuanzhong.png","name":"light"},
                                                     "nodeParent":184,
                                                     "label":"light",
                                                     "isDirectory":false,
@@ -1186,7 +1152,7 @@
                                                     "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,light",
-                                                    "props":{"y":5,"x":-10,"skin":"CaiDanQIang/xuanzhong.png","name":"light"},
+                                                    "props":{"y":5,"x":-16,"skin":"CaiDanQIang/xuanzhong.png","name":"light"},
                                                     "nodeParent":232,
                                                     "label":"light",
                                                     "isDirectory":false,
@@ -1272,7 +1238,7 @@
                                                     "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,light",
-                                                    "props":{"y":5,"x":-10,"skin":"CaiDanQIang/xuanzhong.png","name":"light"},
+                                                    "props":{"y":5,"x":-16,"skin":"CaiDanQIang/xuanzhong.png","name":"light"},
                                                     "nodeParent":237,
                                                     "label":"light",
                                                     "isDirectory":false,
@@ -1358,7 +1324,7 @@
                                                     "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,light",
-                                                    "props":{"y":5,"x":-10,"skin":"CaiDanQIang/xuanzhong.png","name":"light"},
+                                                    "props":{"y":5,"x":-16,"skin":"CaiDanQIang/xuanzhong.png","name":"light"},
                                                     "nodeParent":242,
                                                     "label":"light",
                                                     "isDirectory":false,
@@ -1396,13 +1362,14 @@
                     "props":{"y":1000,"x":29,"skin":"CaiDanQIang/kuang1.png","name":"MesShow"},
                     "nodeParent":107,
                     "label":"MesShow",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":165,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Icon",
                             "props":{"y":29,"x":48,"skin":"CaiDanQIang/daojukuang.png","name":"Icon"},
@@ -1415,6 +1382,7 @@
                             "compId":195,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,IconDown",
                                     "props":{"y":12,"x":28,"width":63,"skin":"CaiDanQIang/Skin/0.png","name":"IconDown","height":96},
@@ -1428,6 +1396,7 @@
                                         ]
                                 },
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,IconUp",
                                     "props":{"width":63,"skin":"CaiDanQIang/Skin/0.png","name":"IconUp","height":96,"gray":true,"centerY":0,"centerX":0},
@@ -1455,6 +1424,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":138,"x":195,"width":107,"skin":"CaiDanQIang/fangshi.png","height":23},
@@ -1468,6 +1438,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":66,"x":195,"width":107,"skin":"CaiDanQIang/laiyuan.png","height":23},
@@ -1481,6 +1452,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Label",
                             "searchKey":"Label,MesLaiyuan",
                             "props":{"y":52,"x":313,"width":293,"valign":"middle","text":"同时点击皮肤和彩蛋墙按钮","name":"MesLaiyuan","height":50,"fontSize":24,"color":"#5f2e5d","bold":true,"align":"center"},
@@ -1494,6 +1466,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Label",
                             "searchKey":"Label,MesFangshi",
                             "props":{"y":124,"x":313,"width":293,"valign":"middle","text":"同时点击皮肤和彩蛋墙按钮","name":"MesFangshi","height":50,"fontSize":24,"color":"#5f2e5d","bold":true,"align":"center"},
@@ -1507,6 +1480,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Label",
                             "searchKey":"Label,Name",
                             "props":{"y":138,"x":51,"width":112,"valign":"middle","text":"同时点击啊","name":"Name","height":50,"fontSize":20,"color":"#5f2e5d","bold":true,"align":"center"},
@@ -1520,6 +1494,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Label",
                             "searchKey":"Label,Info",
                             "props":{"y":163,"x":51,"width":112,"valign":"middle","text":"同时点击啊","name":"Info","height":50,"fontSize":20,"color":"#5f2e5d","bold":true,"align":"center"},
@@ -1533,6 +1508,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,LaiyuanADSafe",
                             "props":{"y":52,"x":310,"width":300,"visible":true,"skin":"CaiDanQIang/tiao.png","name":"LaiyuanADSafe","height":49},
@@ -1573,6 +1549,7 @@
                             "$HIDDEN":false
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,FangshiADSafe",
                             "props":{"y":125,"x":310,"width":300,"skin":"CaiDanQIang/tiao.png","name":"FangshiADSafe","height":49},
@@ -1630,6 +1607,20 @@
                         ]
                 }],
             "$HIDDEN":false
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite,BtnBack,BtnBack",
+            "props":{"y":186,"x":76,"width":90,"var":"BtnBack","texture":"UI_new/Painted/fanhui.png","pivotY":36,"pivotX":45,"name":"BtnBack","height":72},
+            "nodeParent":1,
+            "label":"BtnBack",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":332,
+            "child":[
+                ]
         }],
     "animations":[
         {

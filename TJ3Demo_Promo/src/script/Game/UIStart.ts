@@ -50,6 +50,9 @@ export default class UIStart extends lwg.Admin.Scene {
             this.self['P201'].visible = false;
             this.self['P204'].visible = false;
         }
+
+        // 关闭多点触控
+        Laya.MouseManager.multiTouchEnabled = true;
     }
 
     adaptive(): void {
@@ -369,17 +372,38 @@ export default class UIStart extends lwg.Admin.Scene {
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnXD'], this, null, null, this.btnXDUp, null);
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnSet'], this, null, null, this.btnSetUp, null);
 
-        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnPainted'], this, null, null, this.btnPaintedUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnPainted'], this, this.btnPaintedDown, null, this.btnPaintedUp, null);
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnTurntable'], this, null, null, this.btnTurntableUp, null);
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnPainted'], this, null, null, this.btnPaintedUp, null);
     }
 
+    candan: boolean = true;
+
+    btnPainted: boolean = false;
+    btnPaintedDown(): void {
+        this.btnPainted = true;
+        if (this.btnTurntable) {
+            lwg.Admin._openScene(lwg.Admin.SceneName.UICaidanPifu, null, null, null);
+            this.candan = false;
+        }
+    }
+
     btnPaintedUp(e): void {
+        this.btnPainted = false;
         e.currentTarget.scale(1, 1);
         lwg.Admin._openScene(lwg.Admin.SceneName.UICaiDanQiang, null, null, null);
     }
 
+    btnTurntable: boolean = false;
+    btnTurntableDown(): void {
+        this.btnTurntable = true;
+        if (this.btnPainted) {
+            lwg.Admin._openScene(lwg.Admin.SceneName.UICaidanPifu, null, null, null);
+            this.candan = false;
+        }
+    }
     btnTurntableUp(e): void {
+        this.btnTurntable = false;
         e.currentTarget.scale(1, 1);
         lwg.Admin._openScene(lwg.Admin.SceneName.UITurntable, null, null, null);
     }
@@ -493,6 +517,8 @@ export default class UIStart extends lwg.Admin.Scene {
 
     lwgDisable() {
         ADManager.CloseBanner();
+        // 关闭多点触控
+        Laya.MouseManager.multiTouchEnabled = false;
     }
 
 

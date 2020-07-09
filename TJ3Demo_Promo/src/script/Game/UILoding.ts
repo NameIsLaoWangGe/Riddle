@@ -121,6 +121,18 @@ export default class UILoding extends lwg.Admin.Scene {
             } else {
                 lwg.Global._kejigongzhu = data._kejigongzhu;
             }
+
+            if (!data._haimiangongzhu) {
+                lwg.LocalStorage.addData();
+            } else {
+                lwg.Global._haimiangongzhu = data._haimiangongzhu;
+            }
+
+            if (!data._pickPaintedNum) {
+                lwg.LocalStorage.addData();
+            } else {
+                lwg.Global._pickPaintedNum = data._pickPaintedNum;
+            }
         }
 
         lwg.Global._createGoldNum(Laya.stage);

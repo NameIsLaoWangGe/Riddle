@@ -210,18 +210,18 @@ P 2446DB15 Prop5.png
 P 3F097904 Prop6.png
 R 45FB9211 tip.png
 D CaiDanQIang/Skin
-P 81C5517C 0.png
-R C6E38FBD 0_01.png
-P E52A11A9 1.png
-R 91BEDD04 1_01.png
-P 3DC3B298 2.png
-R 5FC1C105 2_01.png
-P 0C59F3A7 3.png
-R F6C75352 3_01.png
-P 5C9BCCF8 4.png
-R 6B2C1176 4_01.png
-P E0ABBA41 5.png
-R 6E845F12 5_01.png
+P CB96F042 0.png
+P C009BAFC 0_01.png
+P 09C02ED7 1.png
+P 1E3B5046 1_01.png
+P B0A68513 2.png
+P BA2BFA0E 2_01.png
+P 9AE35396 3.png
+P D4CA8B9A 3_01.png
+P 1D438E53 4.png
+P 7EBAD80D 4_01.png
+P B41453A0 5.png
+P 813B57CA 5_01.png
 D TJ/Promo
 D UI_new/conmmon
 R 755485BC bg_blackmask.png
@@ -313,14 +313,12 @@ P D032F6CA an.png
 P 5C5666F4 anniu_mianfei.png
 P AFB393E2 anniu_zaizhuan.png
 P 04B9DF13 anniu_zhaohuan1.png
-P 91F5EDC4 anniu_zhaohuan2.png
 P 22828B4F biaoti.png
 R 2423C19F dikuang.png
 P 7ECC535E fanhui.png
 P 19A58C80 gongxi.png
 P B122472A jiesuo.png
 P 8983CF14 liang.png
-P 101B3822 longtou.png
 P E818FE29 touying.png
 P B724424D tubiao_caidang.png
 P D67F7BF8 tubiao_zhuanpang.png

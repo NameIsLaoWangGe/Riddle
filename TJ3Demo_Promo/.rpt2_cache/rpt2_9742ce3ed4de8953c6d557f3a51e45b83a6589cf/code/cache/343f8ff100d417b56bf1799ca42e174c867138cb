@@ -1,6 +1,0 @@
-{
-  "code": "import { lwg } from \"../Lwg_Template/lwg\";\r\nexport default class UIRedeem extends lwg.Admin.Scene {\r\n    selfVars() {\r\n        this.TextInput = this.self['TextInput'];\r\n    }\r\n    btnOnClick() {\r\n        lwg.Click.on('largen', null, this.self['BtnYes'], this, null, null, this.btnYesClickUP, null);\r\n        lwg.Click.on('largen', null, this.self['BtnNo'], this, null, null, this.btnNoClickUP, null);\r\n    }\r\n    btnYesClickUP(event) {\r\n        let input = this.TextInput.getChildAt(0);\r\n        if (input.text === '23332333') {\r\n        }\r\n        else {\r\n            lwg.Global._createHint_01(lwg.Enum.HintType.inputerr);\r\n        }\r\n        event.currentTarget.scale(1, 1);\r\n    }\r\n    btnNoClickUP(event) {\r\n        event.currentTarget.scale(1, 1);\r\n        this.self.close();\r\n    }\r\n}\r\n",
-  "references": [
-    "D:/Game/project/Riddle/Riddle1/TJ3Demo_Promo/src/script/Lwg_Template/lwg.ts"
-  ]
-}

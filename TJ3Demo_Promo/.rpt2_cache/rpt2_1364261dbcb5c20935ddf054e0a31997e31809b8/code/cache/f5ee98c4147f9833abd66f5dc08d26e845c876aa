@@ -1,7 +1,0 @@
-{
-  "code": "import { lwg } from \"../Lwg_Template/lwg\";\r\nimport ADManager, { TaT } from \"../../TJ/Admanager\";\r\nexport default class UIPuase extends lwg.Admin.Scene {\r\n    lwgInit() {\r\n        this.BtnUIStart = this.self['BtnUIStart'];\r\n        this.BtnContinue = this.self['BtnContinue'];\r\n    }\r\n    adaptive() {\r\n        this.self['SceneContent'].y = Laya.stage.height / 2;\r\n    }\r\n    btnOnClick() {\r\n        ADManager.TAPoint(TaT.BtnShow, 'home_pause');\r\n        ADManager.TAPoint(TaT.BtnShow, 'continue_pause');\r\n        lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnUIStart, this, null, null, this.BtnUIStartUp, null);\r\n        lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnContinue, this, null, null, this.BtnContinueUp, null);\r\n    }\r\n    BtnUIStartUp(event) {\r\n        ADManager.TAPoint(TaT.BtnClick, 'home_pause');\r\n        event.currentTarget.scale(1, 1);\r\n        lwg.Admin._openScene('UIStart', null, this.self, f => {\r\n            this.self.close();\r\n            lwg.Admin._closeCustomScene();\r\n        });\r\n    }\r\n    BtnContinueUp(event) {\r\n        ADManager.TAPoint(TaT.BtnClick, 'continue_pause');\r\n        event.currentTarget.scale(1, 1);\r\n        this.self.close();\r\n    }\r\n}\r\n",
-  "references": [
-    "D:/Game/project/Riddle/Riddle1/TJ3Demo_Promo/src/script/Lwg_Template/lwg.ts",
-    "D:/Game/project/Riddle/Riddle1/TJ3Demo_Promo/src/TJ/Admanager.ts"
-  ]
-}

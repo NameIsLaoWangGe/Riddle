@@ -86,15 +86,24 @@ export module lwg {
 
         /**皮卡丘的皮肤是否存在了！*/
         export let _kejigongzhu: boolean = false;
+        /**皮卡丘的皮肤是否存在了！*/
+        export let _haimiangongzhu: boolean = false;
 
         /**第二批彩蛋皮肤获取*/
         export let _paintedPifu: Array<string> = [];
+
+        /**当前选中的皮肤编号*/
+        export let _pickPaintedNum: number = 0;
+
 
         /**当前在游戏结束后，看广告的模式*/
         export let _gameOverAdvModel: number;
 
         /**当前是否为评测版本,隐藏某些功能*/
         export let pingceV: boolean = true;
+
+
+
 
         /**屏幕震动*/
         export function _vibratingScreen(): void {
@@ -551,7 +560,9 @@ export module lwg {
                 '_watchAdsNum': lwg.Global._watchAdsNum,
                 '_huangpihaozi': lwg.Global._huangpihaozi,
                 '_zibiyazi': lwg.Global._zibiyazi,
-                '_kejigongzhu': lwg.Global._kejigongzhu
+                '_kejigongzhu': lwg.Global._kejigongzhu,
+                '_pickPaintedNum': lwg.Global._pickPaintedNum,
+                '_haimiangongzhu': lwg.Global._haimiangongzhu
             }
             // 转换成字符串上传
             let data: string = JSON.stringify(storageData);
@@ -587,6 +598,8 @@ export module lwg {
                 lwg.Global._huangpihaozi = false;
                 lwg.Global._zibiyazi = false;
                 lwg.Global._kejigongzhu = false;
+                lwg.Global._haimiangongzhu = false;
+                lwg.Global._pickPaintedNum = 0;
 
                 return null;
             }
@@ -619,8 +632,8 @@ export module lwg {
             UIRedeem = 'UIRedeem',
             UIAnchorXD = 'UIAnchorXD',
             UITurntable = 'UITurntable',
-            UICaiDanQiang = 'UICaiDanQiang'
-
+            UICaiDanQiang = 'UICaiDanQiang',
+            UICaidanPifu = 'UICaidanPifu'
         }
         /**游戏当前的状态*/
         export enum GameState {
@@ -1707,14 +1720,15 @@ export module lwg {
             'UI_new/Pifu/word_bingjing.png'
         }
 
-        /**灰色皮肤顺序对应的地址*/
+        /**彩蛋皮肤顺序对应的地址*/
         export enum CaidanPifuName {
-            '01_huangpihaozi',
-            '02_zibiyazi',
-            '03_cangshugongzhu',
-            '04_kejigongzhu',
-            '05_saiyaren',
-            '06_haimiangongzhu'
+            huangpihaozi = '01_huangpihaozi',
+            zibiyazi = '02_zibiyazi',
+            cangshugongzhu = '03_cangshugongzhu',
+            kejigongzhu = '04_kejigongzhu',
+            saiyaren = '05_saiyaren',
+            haimiangongzhu = '06_haimiangongzhu',
+            daji = '07_daji'
         }
 
         /**音效*/

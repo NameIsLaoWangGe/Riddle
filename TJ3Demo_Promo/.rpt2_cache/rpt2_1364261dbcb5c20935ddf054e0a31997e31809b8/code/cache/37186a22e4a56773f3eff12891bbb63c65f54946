@@ -1,7 +1,0 @@
-{
-  "code": "import { lwg } from \"../Lwg_Template/lwg\";\r\nimport ADManager from \"../../TJ/Admanager\";\r\nexport default class UISmallHint extends lwg.Admin.Scene {\r\n    adaptive() {\r\n        this.self['SceneContent'].y = Laya.stage.height / 2;\r\n    }\r\n    btnOnClick() {\r\n        lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnYes'], this, null, null, this.btnYesUp, null);\r\n        lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);\r\n    }\r\n    btnYesUp() {\r\n        ADManager.ShowReward(() => {\r\n            lwg.Admin._openScene(lwg.Admin.SceneName.UIPassHint, null, null, f => {\r\n                lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].intoScene = 'UIMain';\r\n                lwg.Admin._sceneControl['UIPassHint']['UIPassHint'].setStyle();\r\n                this.self.close();\r\n            });\r\n        });\r\n    }\r\n    btnNoUp() {\r\n        this.self.close();\r\n    }\r\n}\r\n",
-  "references": [
-    "D:/Game/project/Riddle/Riddle1/TJ3Demo_Promo/src/script/Lwg_Template/lwg.ts",
-    "D:/Game/project/Riddle/Riddle1/TJ3Demo_Promo/src/TJ/Admanager.ts"
-  ]
-}

@@ -111,37 +111,37 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
 
 
             // 第二批彩蛋皮肤
-            case lwg.Sk.PaintedPifu.daji:
+            case lwg.Enum.CaidanPifuName.daji:
                 this.skeleton = lwg.Sk.dajiTem.buildArmature(0);
                 this.skScale = 1;
 
                 break;
-            case lwg.Sk.PaintedPifu.cangshu:
+            case lwg.Enum.CaidanPifuName.cangshugongzhu:
                 this.skeleton = lwg.Sk.cangshuTem.buildArmature(0);
                 this.skScale = 1;
 
                 break;
-            case lwg.Sk.PaintedPifu.haimianbaobao:
+            case lwg.Enum.CaidanPifuName.haimiangongzhu:
                 this.skeleton = lwg.Sk.haimianbaobaoTem.buildArmature(0);
                 this.skScale = 1;
 
                 break;
-            case lwg.Sk.PaintedPifu.kedaya:
+            case lwg.Enum.CaidanPifuName.zibiyazi:
                 this.skeleton = lwg.Sk.kedayaTem.buildArmature(0);
                 this.skScale = 1;
 
                 break;
-            case lwg.Sk.PaintedPifu.keji:
+            case lwg.Enum.CaidanPifuName.kejigongzhu:
                 this.skeleton = lwg.Sk.kejiTem.buildArmature(0);
                 this.skScale = 1;
 
                 break;
-            case lwg.Sk.PaintedPifu.pikaqiu:
+            case lwg.Enum.CaidanPifuName.huangpihaozi:
                 this.skeleton = lwg.Sk.pikaqiuTem.buildArmature(0);
                 this.skScale = 1;
 
                 break;
-            case lwg.Sk.PaintedPifu.shizi:
+            case lwg.Enum.CaidanPifuName.saiyaren:
                 this.skeleton = lwg.Sk.shiziTem.buildArmature(0);
                 this.skScale = 1;
 
