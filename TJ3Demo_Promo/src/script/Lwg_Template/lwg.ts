@@ -79,6 +79,9 @@ export module lwg {
         /**皮卡丘的皮肤是否存在了！*/
         export let _pikaqiu: boolean = false;
 
+        /**第二批彩蛋皮肤获取*/
+        export let _paintedPifu: Array<string> = [];
+
         /**当前在游戏结束后，看广告的模式*/
         export let _gameOverAdvModel: number;
 
@@ -220,6 +223,14 @@ export module lwg {
                 GoldNumNode = sp;
             }));
         }
+        /**增加体力*/
+        export function _addGold(number) {
+            lwg.Global._goldNum += number;
+            let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
+            Num.value = lwg.Global._goldNum.toString();
+
+            lwg.LocalStorage.addData();
+        }
 
         /**指代当前剩余体力节点*/
         export let ExecutionNumNode: Laya.Sprite;
@@ -241,6 +252,18 @@ export module lwg {
                 ExecutionNumNode = sp;
                 ExecutionNumNode.name = 'ExecutionNumNode';
             }));
+        }
+
+        /**增加体力*/
+        export function _addExecution(number) {
+            lwg.Global._execution += number;
+            if (lwg.Global._execution > 15) {
+                lwg.Global._execution = 15;
+            }
+            let num = lwg.Global.ExecutionNumNode.getChildByName('Num') as Laya.FontClip;
+            num.value = lwg.Global._execution.toString();
+
+            lwg.LocalStorage.addData();
         }
 
         /**指代当前暂停游戏节点*/
@@ -503,6 +526,7 @@ export module lwg {
                 '_currentPifu': lwg.Global._currentPifu,
                 '_havePifu': lwg.Global._havePifu,
                 '_watchAdsNum': lwg.Global._watchAdsNum,
+                '_pikaqiu': lwg.Global._pikaqiu,
                 // '_gameOverAdvModel': lwg.Global._gameOverAdvModel,
             }
             // 转换成字符串上传
@@ -536,6 +560,7 @@ export module lwg {
                 lwg.Global._currentPifu = Enum.PifuAllName[0];
                 lwg.Global._havePifu = ['01_gongzhu'];
                 lwg.Global._watchAdsNum = 0;
+                lwg.Global._pikaqiu = false;
                 // lwg.Global._gameOverAdvModel = 1;
                 // lwg.Global._whetherAdv = false;
                 return null;

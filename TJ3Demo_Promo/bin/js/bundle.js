@@ -897,6 +897,7 @@
             Global._buyNum = 1;
             Global._watchAdsNum = 0;
             Global._pikaqiu = false;
+            Global._paintedPifu = [];
             Global.pingceV = true;
             function _vibratingScreen() {
             }
@@ -991,6 +992,13 @@
                 }));
             }
             Global._createGoldNum = _createGoldNum;
+            function _addGold(number) {
+                lwg.Global._goldNum += number;
+                let Num = lwg.Global.GoldNumNode.getChildByName('Num');
+                Num.value = lwg.Global._goldNum.toString();
+                lwg.LocalStorage.addData();
+            }
+            Global._addGold = _addGold;
             function _createExecutionNum(parent) {
                 let sp;
                 Laya.loader.load('prefab/ExecutionNum.json', Laya.Handler.create(this, function (prefab) {
@@ -1007,6 +1015,16 @@
                 }));
             }
             Global._createExecutionNum = _createExecutionNum;
+            function _addExecution(number) {
+                lwg.Global._execution += number;
+                if (lwg.Global._execution > 15) {
+                    lwg.Global._execution = 15;
+                }
+                let num = lwg.Global.ExecutionNumNode.getChildByName('Num');
+                num.value = lwg.Global._execution.toString();
+                lwg.LocalStorage.addData();
+            }
+            Global._addExecution = _addExecution;
             function _createBtnPause(parent) {
                 let sp;
                 Laya.loader.load('prefab/BtnPause.json', Laya.Handler.create(this, function (prefab) {
@@ -6356,8 +6374,6 @@
             this.firstUseed = "1";
             this.lotteryGift = LotteryGift.prop1;
             this.lotteryindex = 0;
-            this.BtnState = 0;
-            this.lotterypropsshow = [];
             this.ImageX = 0;
             this.ImageY = 0;
             this.ImageCanMove = false;
@@ -6383,6 +6399,11 @@
             this.First = this.StartBtn.getChildByName("First");
             this.Second = this.StartBtn.getChildByName("Second");
             this.RefreshBtn();
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.owner.scene['BtnBack'], this, null, null, this.btnCloseUp, null);
+        }
+        btnCloseUp(e) {
+            e.currentTarget.scale(1, 1);
+            this.owner.scene.close();
         }
         RefreshBtn() {
             this.firstUseed = Laya.LocalStorage.getItem("firstUseed");
@@ -6423,114 +6444,76 @@
         StopLottery() {
             console.log("转盘停止");
             let ran = this.randomInRange_i(0, 100);
-            if (ran >= 0 && ran < 20) {
-                this.lotteryGift = LotteryGift.prop1;
-            }
-            else if (ran >= 20 && ran < 40) {
-                this.lotteryGift = LotteryGift.prop2;
-                if (lwg.Global._pikaqiu) {
-                    this.lotteryGift = LotteryGift.prop3;
-                }
-            }
-            else if (ran >= 40 && ran < 60) {
+            if (ran >= 20 && ran < 100) {
                 this.lotteryGift = LotteryGift.prop3;
-            }
-            else if (ran >= 60 && ran < 80) {
-                this.lotteryGift = LotteryGift.prop4;
-            }
-            else if (ran >= 80 && ran < 100) {
-                this.lotteryGift = LotteryGift.prop6;
             }
             let degree = 60 * this.lotteryGift + this.randomInRange_i(25, 35);
             this._rotateSelfPro.StopSpeed(degree, () => {
-                this.RewardPanel.visible = true;
                 this.lotteryindex = this.lotteryGift;
                 switch (this.lotteryGift) {
                     case 0:
-                        this.BtnState = 0;
-                        this.ADaction = () => {
-                        };
-                        this.Normalaction = () => {
-                            console.log("点击获取", this.lotteryGift);
-                        };
+                        lwg.Global._addExecution(3);
                         break;
                     case 1:
-                        this.BtnState = 0;
-                        this.ADaction = () => {
-                        };
-                        this.Normalaction = () => {
-                            console.log("点击获取", this.lotteryGift);
-                        };
+                        lwg.Global._paintedPifu.push[RewardDec.prop2];
                         break;
                     case 2:
-                        this.BtnState = 0;
-                        this.ADaction = () => {
-                        };
-                        this.Normalaction = () => {
-                            console.log("点击获取", this.lotteryGift);
-                        };
+                        lwg.Global._addGold(30);
                         break;
                     case 3:
-                        this.BtnState = 0;
-                        this.ADaction = () => {
-                        };
-                        this.Normalaction = () => {
-                            console.log("点击获取", this.lotteryGift);
-                        };
+                        lwg.Global._addExecution(2);
                         break;
                     case 4:
-                        this.BtnState = 0;
-                        this.ADaction = () => {
-                        };
-                        this.Normalaction = () => {
-                            console.log("点击获取", this.lotteryGift);
-                        };
+                        lwg.Global._addGold(60);
                         break;
                     case 5:
-                        this.BtnState = 0;
-                        this.ADaction = () => {
-                        };
-                        this.Normalaction = () => {
-                            console.log("点击获取", this.lotteryGift);
-                        };
                         break;
                 }
                 console.log("获取礼物", this.lotteryGift + 1);
-                this.ShowReward();
+                Laya.timer.once(500, this, this.ShowReward);
             });
         }
         RewardPanelInit() {
-            this.RewardPanel.visible = false;
-            this.lotteryShowBg = this.RewardPanel.getChildByName("Bg");
-            this.Props = this.lotteryShowBg.getChildByName("Props");
-            this.ADGetReward = this.lotteryShowBg.getChildByName("ADGetReward");
-            for (let i = 0; i < this.Props.numChildren; i++) {
-                this.lotterypropsshow.push(this.Props.getChildAt(i));
-            }
-            this.ADGetReward.on(Laya.Event.CLICK, this, this.ADGetRewardClick);
-            lwg.Click.on(lwg.Click.ClickType.largen, null, this.owner.scene['BtnBack'], this, null, null, this.btnCloseUp, null);
-            lwg.Click.on(lwg.Click.ClickType.largen, null, this.owner.scene['BtnNo'], this, null, null, this.btnNoUp, null);
+            let BtnADAgain = this.RewardPanel.getChildByName("BtnADAgain");
+            let BtnNo = this.RewardPanel.getChildByName("BtnNo");
+            console.log(BtnNo);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, BtnADAgain, this, null, null, this.btnADAgainUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, BtnNo, this, null, null, this.btnNoUp, null);
         }
-        btnCloseUp(e) {
-            e.currentTarget.scale(1, 1);
-            this.owner.scene.close();
+        btnADAgainUp() {
+            this.ClosePanel();
+            this.StartLottery();
+            this.StartBtn.visible = false;
         }
         btnNoUp(e) {
-            this.RewardPanel.visible = false;
+            this.ClosePanel();
         }
         ShowReward() {
+            this.RewardPanel.x = 0;
+            this.RewardPanel.y = 0;
             this.RefreshBtn();
             this.StartBtn.visible = true;
-            this.RewardPanel.visible = true;
-            this.lotterypropsshow.forEach((v, i) => {
-                if (this.lotteryindex == i) {
-                    v.visible = true;
+            let prop = this.RewardPanel.getChildByName('Prop');
+            let pic = prop.getChildByName('Pic');
+            pic.skin = RewardSkin['prop' + (this.lotteryindex + 1)];
+            let dec = prop.getChildByName('Dec');
+            dec.text = RewardDec['prop' + (this.lotteryindex + 1)];
+            if (this.lotteryindex + 1 === 2 || this.lotteryindex + 1 === 5) {
+                pic.scale(0.7, 0.7);
+                pic.x = 33;
+                pic.y = 6;
+            }
+            else {
+                pic.scale(3, 3);
+                if (this.lotteryindex + 1 === 1 || this.lotteryindex + 1 === 4) {
+                    pic.x = 15;
+                    pic.y = 26;
                 }
-                else {
-                    v.visible = false;
+                else if (this.lotteryindex + 1 === 3 || this.lotteryindex + 1 === 6) {
+                    pic.x = 6;
+                    pic.y = 14;
                 }
-            });
-            if (this.BtnState == 0) ;
+            }
         }
         GetRewardClick() {
             if (this.Normalaction != null) {
@@ -6539,18 +6522,17 @@
             this.ClosePanel();
         }
         ADGetRewardClick() {
-            if (this.ADaction != null) {
-                console.log("看广告");
-                ADManager.ShowReward(() => {
-                    this.ADaction();
-                    this.ClosePanel();
-                    this.StartLottery();
-                    this.StartBtn.visible = false;
-                });
-            }
+            console.log("看广告");
+            ADManager.ShowReward(() => {
+                this.ADaction();
+                this.ClosePanel();
+                this.StartLottery();
+                this.StartBtn.visible = false;
+            });
         }
         ClosePanel() {
-            this.RewardPanel.visible = false;
+            this.RewardPanel.x = 1500;
+            this.RewardPanel.y = 0;
         }
         CaiDanMoveInit() {
             this.CaiDanParnet = this.lotteryProps[4];
@@ -6599,7 +6581,6 @@
             if ((x * x + y * y) > 40000) {
                 console.log("位置恢复,触发");
                 this.lotteryindex = LotteryGift.prop6;
-                this.BtnState = 1;
                 this.ADaction = () => {
                     Laya.LocalStorage.setItem("LotteryCaidan", "1");
                     this.RefreshCaiDan();
@@ -6649,15 +6630,24 @@
         LotteryGift[LotteryGift["prop5"] = 4] = "prop5";
         LotteryGift[LotteryGift["prop6"] = 5] = "prop6";
     })(LotteryGift || (LotteryGift = {}));
-    var RewardName;
-    (function (RewardName) {
-        RewardName[RewardName["execution*3"] = 0] = "execution*3";
-        RewardName[RewardName["pikaqiu"] = 1] = "pikaqiu";
-        RewardName[RewardName["gold*30"] = 2] = "gold*30";
-        RewardName[RewardName["execution*2"] = 3] = "execution*2";
-        RewardName[RewardName["kedaya"] = 4] = "kedaya";
-        RewardName[RewardName["gold*60"] = 5] = "gold*60";
-    })(RewardName || (RewardName = {}));
+    var RewardDec;
+    (function (RewardDec) {
+        RewardDec["prop1"] = "\u4F53\u529Bx3";
+        RewardDec["prop2"] = "\u76AE\u5361\u4E18";
+        RewardDec["prop3"] = "\u91D1\u5E01x30";
+        RewardDec["prop4"] = "\u4F53\u529Bx2";
+        RewardDec["prop5"] = "\u53EF\u8FBE\u9E2D";
+        RewardDec["prop6"] = "\u91D1\u5E01x60";
+    })(RewardDec || (RewardDec = {}));
+    var RewardSkin;
+    (function (RewardSkin) {
+        RewardSkin["prop1"] = "UI_new/conmmon/icon_execution.png";
+        RewardSkin["prop2"] = "UI_new/conmmon/icon_qingdi.png";
+        RewardSkin["prop3"] = "UI_new/conmmon/icon_gold.png";
+        RewardSkin["prop4"] = "UI_new/conmmon/icon_execution.png";
+        RewardSkin["prop5"] = "UI_new/conmmon/icon_qingdi.png";
+        RewardSkin["prop6"] = "UI_new/conmmon/icon_gold.png";
+    })(RewardSkin || (RewardSkin = {}));
 
     class UIVictory extends lwg.Admin.Scene {
         constructor() { super(); }

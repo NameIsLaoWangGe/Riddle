@@ -120,6 +120,12 @@ export default class UILoding extends lwg.Admin.Scene {
                 lwg.Global._watchAdsNum = data._watchAdsNum;
             }
 
+            if (!data._pikaqiu) {
+                lwg.LocalStorage.addData();
+            } else {
+                lwg.Global._pikaqiu = data._pikaqiu;
+            }
+
             // lwg.Global._havePifu = ['01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao'];
             // lwg.Global._gameOverAdvModel = data._gameOverAdvModel;
             // lwg.Global._whetherAdv = data._whetherAdv;

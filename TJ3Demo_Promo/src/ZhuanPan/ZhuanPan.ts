@@ -47,6 +47,13 @@ export default class ZhuanPan extends Laya.Script {
         this.Second = this.StartBtn.getChildByName("Second") as Laya.Box;
         this.RefreshBtn();//按钮刷新
 
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.owner.scene['BtnBack'], this, null, null, this.btnCloseUp, null);
+
+    }
+
+    btnCloseUp(e: Laya.Event): void {
+        e.currentTarget.scale(1, 1);
+        this.owner.scene.close();
     }
 
     RefreshBtn()//第一次免费 后面看广告
@@ -68,12 +75,10 @@ export default class ZhuanPan extends Laya.Script {
             this.Second.visible = false;
             Laya.LocalStorage.setItem("firstUseed", "0")
         }
-
-
     }
+
     //开始转
     ZhunapanStart() {
-
         console.log("点击转盘");
         if (this.First.visible) {
             Laya.LocalStorage.setItem("firstUseed", "1")
@@ -98,6 +103,7 @@ export default class ZhuanPan extends Laya.Script {
         //let temptime = this.randomInRange_i(1500, 1500);
         Laya.timer.once(1500, this, this.StopLottery)
     }
+
     lotteryGift: LotteryGift = LotteryGift.prop1;
     //停止转
     StopLottery() {
@@ -108,6 +114,7 @@ export default class ZhuanPan extends Laya.Script {
         }
         else if (ran >= 20 && ran < 40) {
             this.lotteryGift = LotteryGift.prop2;
+            lwg.Global._pikaqiu = true;
             if (lwg.Global._pikaqiu) {
                 this.lotteryGift = LotteryGift.prop3;
             }
@@ -121,178 +128,111 @@ export default class ZhuanPan extends Laya.Script {
         else if (ran >= 80 && ran < 100) {
             this.lotteryGift = LotteryGift.prop6;
         }
-
         // this.lotteryGift = LotteryGift.prop6;  特殊皮肤奖励
         let degree = 60 * this.lotteryGift + this.randomInRange_i(25, 35);
         this._rotateSelfPro.StopSpeed(degree, () => {
-            this.RewardPanel.visible = true;
             this.lotteryindex = this.lotteryGift;
             switch (this.lotteryGift) {
                 case 0:
-
-                    this.BtnState = 0;
-                    this.ADaction = () => {
-
-
-                    }
-                    this.Normalaction = () => {
-                        console.log("点击获取", this.lotteryGift);
-
-                    }
+                    lwg.Global._addExecution(3);
                     break;
                 case 1:
-                    this.BtnState = 0;
-                    this.ADaction = () => {
-
-
-                    }
-                    this.Normalaction = () => {
-                        console.log("点击获取", this.lotteryGift);
-
-                    }
+                    lwg.Global._paintedPifu.push[RewardDec.prop2];
                     break;
                 case 2:
-                    this.BtnState = 0;
-                    this.ADaction = () => {
-
-
-                    }
-                    this.Normalaction = () => {
-                        console.log("点击获取", this.lotteryGift);
-
-                    }
+                    lwg.Global._addGold(30);
                     break;
                 case 3:
-                    this.BtnState = 0;
-                    this.ADaction = () => {
-
-
-                    }
-                    this.Normalaction = () => {
-                        console.log("点击获取", this.lotteryGift);
-
-                    }
+                    lwg.Global._addExecution(2);
                     break;
                 case 4:
-                    this.BtnState = 0;
-                    this.ADaction = () => {
-
-
-                    }
-                    this.Normalaction = () => {
-                        console.log("点击获取", this.lotteryGift);
-
-                    }
+                    lwg.Global._addGold(60);
                     break;
                 case 5:
-                    this.BtnState = 0;
-                    this.ADaction = () => {
-
-
-                    }
-                    this.Normalaction = () => {
-                        console.log("点击获取", this.lotteryGift);
-
-                    }
                     break;
             }
-
             console.log("获取礼物", this.lotteryGift + 1);
-            this.ShowReward()
+            Laya.timer.once(500, this, this.ShowReward);
         })
     }
     //#endregion
 
 
-
-
     //#region   /******************转盘奖励获取******************** */
-
-
     lotteryindex: number = 0;
-    BtnState: number = 0;
-    lotteryShowBg: Laya.Image;
-    Props: Laya.Box;
-    // GetReward: Laya.Image;
-    ADGetReward: Laya.Image;
-    lotterypropsshow: Laya.Image[] = [];
     ADaction: Function;
     Normalaction: Function
-    // CloseRewardBtn: Laya.Image;
     RewardPanelInit() {
-        this.RewardPanel.visible = false;
-        // this.CloseRewardBtn = this.RewardPanel.getChildByName("CloseRewardBtn") as Laya.Image;
-        this.lotteryShowBg = this.RewardPanel.getChildByName("Bg") as Laya.Image;
-        this.Props = this.lotteryShowBg.getChildByName("Props") as Laya.Box;
-        // this.GetReward = this.lotteryShowBg.getChildByName("GetReward") as Laya.Image;
-        this.ADGetReward = this.lotteryShowBg.getChildByName("ADGetReward") as Laya.Image;
-        for (let i = 0; i < this.Props.numChildren; i++) {
-            this.lotterypropsshow.push(this.Props.getChildAt(i) as Laya.Image);
-        }
-        // this.GetReward.on(Laya.Event.CLICK, this, this.GetRewardClick)
-        this.ADGetReward.on(Laya.Event.CLICK, this, this.ADGetRewardClick)
-
-        lwg.Click.on(lwg.Click.ClickType.largen, null, this.owner.scene['BtnBack'], this, null, null, this.btnCloseUp, null);
-        lwg.Click.on(lwg.Click.ClickType.largen, null, this.owner.scene['BtnNo'], this, null, null, this.btnNoUp, null);
-        // this.CloseRewardBtn.on(Laya.Event.CLICK, this, () => {
-        //     this.RewardPanel.visible = false;
+        let BtnADAgain = this.RewardPanel.getChildByName("BtnADAgain") as Laya.Image;
+        let BtnNo = this.RewardPanel.getChildByName("BtnNo") as Laya.Image;
+        console.log(BtnNo);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, BtnADAgain, this, null, null, this.btnADAgainUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, BtnNo, this, null, null, this.btnNoUp, null);
+    }
+    btnADAgainUp(): void {
+        // console.log("看广告");
+        // ADManager.ShowReward(() => {
+        this.ClosePanel();
+        this.StartLottery();
+        this.StartBtn.visible = false;
         // })
     }
-
-    btnCloseUp(e: Laya.Event): void {
-        e.currentTarget.scale(1, 1);
-        this.owner.scene.close();
-    }
     btnNoUp(e: Laya.Event): void {
-        this.RewardPanel.visible = false;
+        this.ClosePanel();
     }
 
     //index 奖励索引
     //BtnState 按钮状态 1 广告  0 普通
     //_action 事件 按钮点击后的事件
     ShowReward() {
+        this.RewardPanel.x = 0;
+        this.RewardPanel.y = 0;
         this.RefreshBtn();
         this.StartBtn.visible = true;
-        // this.GetReward.visible = false;
-        // this.ADGetReward.visible = false;
-        this.RewardPanel.visible = true;
-        this.lotterypropsshow.forEach((v, i) => {
-            if (this.lotteryindex == i) {
-                v.visible = true;
-            }
-            else {
-                v.visible = false;
-            }
-        });
 
-        if (this.BtnState == 0) {
-            // this.GetReward.visible = true;
+        // 奖励图片展示规则
+        let prop = this.RewardPanel.getChildByName('Prop') as Laya.Image;
+        let pic = prop.getChildByName('Pic') as Laya.Image;
+        pic.skin = RewardSkin['prop' + (this.lotteryindex + 1)];
+        let dec = prop.getChildByName('Dec') as Laya.Label;
+        dec.text = RewardDec['prop' + (this.lotteryindex + 1)];
+        if (this.lotteryindex + 1 === 2 || this.lotteryindex + 1 === 5) {
+            pic.scale(0.7, 0.7);
+            pic.x = 33;
+            pic.y = 6;
+        } else {
+            pic.scale(3, 3);
+            if (this.lotteryindex + 1 === 1 || this.lotteryindex + 1 === 4) {
+                pic.x = 15;
+                pic.y = 26;
+            } else if (this.lotteryindex + 1 === 3 || this.lotteryindex + 1 === 6) {
+                pic.x = 6;
+                pic.y = 14;
+            }
         }
-        else {
-            // this.ADGetReward.visible = true;
-        }
-        // this.CloseRewardBtn.visible = this.ADGetReward.visible;
+
     }
+
     GetRewardClick() {
         if (this.Normalaction != null) {
             this.Normalaction();
         }
         this.ClosePanel();
     }
+
     ADGetRewardClick() {
-        if (this.ADaction != null) {
-            //看视频获取----------------------------------------->
-            console.log("看广告");
-            ADManager.ShowReward(() => {
-                this.ADaction();
-                this.ClosePanel();
-                this.StartLottery();
-                this.StartBtn.visible = false;
-            })
-        }
+        //看视频获取----------------------------------------->
+        console.log("看广告");
+        ADManager.ShowReward(() => {
+            this.ADaction();
+            this.ClosePanel();
+            this.StartLottery();
+            this.StartBtn.visible = false;
+        })
     }
     ClosePanel() {
-        this.RewardPanel.visible = false;
+        this.RewardPanel.x = 1500;
+        this.RewardPanel.y = 0;
     }
     //#endregion
 
@@ -356,7 +296,6 @@ export default class ZhuanPan extends Laya.Script {
         if ((x * x + y * y) > 40000) {
             console.log("位置恢复,触发");
             this.lotteryindex = LotteryGift.prop6;
-            this.BtnState = 1;//看广告
             this.ADaction = () => {
                 //获取
                 Laya.LocalStorage.setItem("LotteryCaidan", "1");
@@ -421,13 +360,21 @@ export enum LotteryGift {
     prop6,
 }
 
-export enum RewardName {
-    'execution*3',
-    'pikaqiu',
-    'gold*30',
-    'execution*2',
-    'kedaya',
-    'gold*60',
+export enum RewardDec {
+    prop1 = '体力x3',
+    prop2 = '皮卡丘',
+    prop3 = '金币x30',
+    prop4 = '体力x2',
+    prop5 = '可达鸭',
+    prop6 = '金币x60'
+}
+export enum RewardSkin {
+    prop1 = 'UI_new/conmmon/icon_execution.png',
+    prop2 = 'UI_new/conmmon/icon_qingdi.png',
+    prop3 = 'UI_new/conmmon/icon_gold.png',
+    prop4 = 'UI_new/conmmon/icon_execution.png',
+    prop5 = 'UI_new/conmmon/icon_qingdi.png',
+    prop6 = 'UI_new/conmmon/icon_gold.png'
 }
 
 
