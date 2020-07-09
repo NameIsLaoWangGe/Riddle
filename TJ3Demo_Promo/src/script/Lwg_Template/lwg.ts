@@ -47,8 +47,10 @@ export module lwg {
 
         /**当前金币总数数量*/
         export let _goldNum = 0;
-        /**提示内容结合*/
+        /**提示内容集合*/
         export let _hintDec: any;
+        /**心灵鸡汤内容集合*/
+        export let _stimulateDec: any;
 
         /**互推开关*/
         export let _elect: boolean = true;
@@ -77,7 +79,13 @@ export module lwg {
         export let _watchAdsNum: number = 0;
 
         /**皮卡丘的皮肤是否存在了！*/
-        export let _pikaqiu: boolean = false;
+        export let _huangpihaozi: boolean = false;
+
+        /**皮卡丘的皮肤是否存在了！*/
+        export let _zibiyazi: boolean = false;
+
+        /**皮卡丘的皮肤是否存在了！*/
+        export let _kejigongzhu: boolean = false;
 
         /**第二批彩蛋皮肤获取*/
         export let _paintedPifu: Array<string> = [];
@@ -364,14 +372,7 @@ export module lwg {
         /**
          * 创建通用重来prefab
          * @param parent 父节点
-         * @param x x位置
          * @param y y位置
-         * @param soundUrl 音效的地址
-         * @param caller 指向脚本（this）引用
-         * @param down 按下函数
-         * @param move 移动函数
-         * @param up 抬起函数
-         * @param out 出屏幕函数
          */
         export function _createP201_01(parent): void {
             let sp: Laya.Sprite;
@@ -380,9 +381,31 @@ export module lwg {
                 _prefab.json = prefab;
                 sp = Laya.Pool.getItemByCreateFun('P201', _prefab.create, _prefab);
                 parent.addChild(sp);
-                sp.pos(90, 225);
+                sp.pos(90, 290);
                 sp.zOrder = 65;
                 P201_01Node = sp;
+            }));
+        }
+
+        /**动态创建一个心灵鸡汤*/
+        export let StimulateDecNode: Laya.Sprite;
+        /**
+         * 创建通用重来prefab
+         * @param parent 父节点
+         */
+        export function _createStimulateDec(parent, ): void {
+            let sp: Laya.Sprite;
+            Laya.loader.load('prefab/StimulateDec.json', Laya.Handler.create(this, function (prefab: Laya.Prefab) {
+                let _prefab = new Laya.Prefab();
+                _prefab.json = prefab;
+                sp = Laya.Pool.getItemByCreateFun('StimulateDec', _prefab.create, _prefab);
+                let dec = sp.getChildByName('Dec') as Laya.Label;
+                let num = lwg.Admin.openCustomName.substring(lwg.Admin.openCustomName.length - 3, lwg.Admin.openCustomName.length);
+                dec.text = lwg.Global._stimulateDec[Number(num) - 1]['dec'];
+                parent.addChild(sp);
+                sp.pos(100, 150);
+                sp.zOrder = 65;
+                StimulateDecNode = sp;
             }));
         }
 
@@ -526,8 +549,9 @@ export module lwg {
                 '_currentPifu': lwg.Global._currentPifu,
                 '_havePifu': lwg.Global._havePifu,
                 '_watchAdsNum': lwg.Global._watchAdsNum,
-                '_pikaqiu': lwg.Global._pikaqiu,
-                // '_gameOverAdvModel': lwg.Global._gameOverAdvModel,
+                '_huangpihaozi': lwg.Global._huangpihaozi,
+                '_zibiyazi': lwg.Global._zibiyazi,
+                '_kejigongzhu': lwg.Global._kejigongzhu
             }
             // 转换成字符串上传
             let data: string = JSON.stringify(storageData);
@@ -560,9 +584,10 @@ export module lwg {
                 lwg.Global._currentPifu = Enum.PifuAllName[0];
                 lwg.Global._havePifu = ['01_gongzhu'];
                 lwg.Global._watchAdsNum = 0;
-                lwg.Global._pikaqiu = false;
-                // lwg.Global._gameOverAdvModel = 1;
-                // lwg.Global._whetherAdv = false;
+                lwg.Global._huangpihaozi = false;
+                lwg.Global._zibiyazi = false;
+                lwg.Global._kejigongzhu = false;
+
                 return null;
             }
         }
@@ -593,7 +618,8 @@ export module lwg {
             UIPifuTry = 'UIPifuTry',
             UIRedeem = 'UIRedeem',
             UIAnchorXD = 'UIAnchorXD',
-            UITurntable = 'UITurntable'
+            UITurntable = 'UITurntable',
+            UICaiDanQiang = 'UICaiDanQiang'
 
         }
         /**游戏当前的状态*/
@@ -1506,9 +1532,9 @@ export module lwg {
 
         // 第二批
         export function createCangshuTem(): void {
-            xiaohuangyaTem.on(Laya.Event.COMPLETE, this, onCompelet);
-            xiaohuangyaTem.on(Laya.Event.ERROR, this, onError);
-            xiaohuangyaTem.loadAni("SK/cangshu.sk");
+            cangshuTem.on(Laya.Event.COMPLETE, this, onCompelet);
+            cangshuTem.on(Laya.Event.ERROR, this, onError);
+            cangshuTem.loadAni("SK/cangshu.sk");
         }
 
         export function createDajiTem(): void {
@@ -1642,7 +1668,6 @@ export module lwg {
         }
 
 
-
         /**皮肤图片顺序对应的地址*/
         export enum PifuSkin {
             'UI_new/Pifu/pifu_01_gongzhu.png',
@@ -1680,6 +1705,16 @@ export module lwg {
             'UI_new/Pifu/word_huangya.png',
             'UI_new/Pifu/word_changfa.png',
             'UI_new/Pifu/word_bingjing.png'
+        }
+
+        /**灰色皮肤顺序对应的地址*/
+        export enum CaidanPifuName {
+            '01_huangpihaozi',
+            '02_zibiyazi',
+            '03_cangshugongzhu',
+            '04_kejigongzhu',
+            '05_saiyaren',
+            '06_haimiangongzhu'
         }
 
         /**音效*/

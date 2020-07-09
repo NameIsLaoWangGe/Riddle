@@ -1,4 +1,25 @@
 D .
+D CaiDanQIang
+P BB3E700D anniu_mianfei.png
+P 04B9DF13 anniu_zhaohuan1.png
+P 91F5EDC4 anniu_zhaohuan2.png
+P DF76C962 biaoti.png
+P F7CE2DC4 daojukuang.png
+R 2423C19F dikuang.png
+P BBD55941 fangshi.png
+R E3E69B77 gezi.png
+P 19A58C80 gongxi.png
+P B122472A jiesuo.png
+R DCEDC703 kuang1.png
+P 0DB88696 laiyuan.png
+P 101B3822 longtou.png
+P 82D47135 longzhu1.png
+P 43020F4D longzhu2.png
+R 4B81684B qian.png
+P D8A95FD6 shipintubiao.png
+P F9C6DCC4 tiao.png
+P 973F6372 wenhao.png
+P 37C856CB xuanzhong.png
 D comp
 P 316AD948 btn_close.png
 P 5B258D17 button.png
@@ -188,6 +209,19 @@ P 4292E3F2 Prop4.png
 P 2446DB15 Prop5.png
 P 3F097904 Prop6.png
 R 45FB9211 tip.png
+D CaiDanQIang/Skin
+P 81C5517C 0.png
+R C6E38FBD 0_01.png
+P E52A11A9 1.png
+R 91BEDD04 1_01.png
+P 3DC3B298 2.png
+R 5FC1C105 2_01.png
+P 0C59F3A7 3.png
+R F6C75352 3_01.png
+P 5C9BCCF8 4.png
+R 6B2C1176 4_01.png
+P E0ABBA41 5.png
+R 6E845F12 5_01.png
 D TJ/Promo
 D UI_new/conmmon
 R 755485BC bg_blackmask.png
@@ -240,14 +274,15 @@ P 42A6985F board_01_btn.png
 P C5638B11 board_02_btn.png
 P 17F47C0D icon_again.png
 P 103AB3A1 icon_continue.png
+P 43CF242F icon_gantan.png
 P 143D5828 icon_hint.png
 P 9BEEDB20 icon_lookadv.png
 P 48C2C147 icon_pause.png
 P 76321D6F icon_start.png
+P D9F89E4B icon_yuan.png
 R 4C1D8DD2 ui_board_01.png
 P AAEB5B2E ui_board_02.png
 P 888C1E4E word_pause.png
-R 095C62EC xiaoguotu1.jpg
 P 9C2D373F xiaoguotu2.png
 D UI_new/GameStart
 P 3FACAD52 1428.png
@@ -339,6 +374,9 @@ P A5DEC702 word_xueer.png
 P 2A5D0E53 wrod_hongmao.png
 R 5ADCDE8D xiaoguotu.jpg
 D UI_new/PifuTry
+P 99A8E7DB anniu_bupei.png
+P 97AF1DBB anniu_yaoyong.png
+R 5CA344D8 di.png
 P D94A4353 free_btn1.png
 P 6D4DF994 free_btn2.png
 P AF97CBCD free_btn3.png
@@ -350,6 +388,7 @@ P 285C21F8 try_btn_02.png
 P 363A8649 ui_line.png
 P E614B6D5 word_freetry.png
 P 0D2E930A word_try.png
+R EEBF7E9E zi.png
 D UI_new/PifuXd
 P CC3D2631 adv_btn.png
 P 5F864DD3 logo.png

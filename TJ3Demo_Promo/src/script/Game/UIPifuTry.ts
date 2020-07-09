@@ -22,8 +22,8 @@ export default class UIPifuTry extends lwg.Admin.Scene {
         this.randomNoHave();
     }
     adaptive(): void {
-        this.self['SceneContent'].y = Laya.stage.height / 2;
-        this.self['P201'].y = Laya.stage.height * 0.237;
+        this.self['SceneContent'].y = Laya.stage.height * 0.589;
+        this.self['P201'].y = Laya.stage.height * 0.18;
 
         this.self['background_01'].height = Laya.stage.height;
     }
@@ -56,29 +56,33 @@ export default class UIPifuTry extends lwg.Admin.Scene {
     }
 
     btnOnClick(): void {
-        lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnCheck'], this, null, null, this.btnCheckUp, null);
+        // lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnCheck'], this, null, null, this.btnCheckUp, null);
         // lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnZanshi'], this, null, null, this.btnAdvUp, null);
 
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnGet'], this, null, null, this.btnAdvUp, null);
-        // lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
         // lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['Btn'], this, null, null, null, null);
     }
 
     btnAdvUp(event): void {
         ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_skintry');
         event.currentTarget.scale(1, 1);
-
-        let check = this.self['BtnCheck'].getChildByName('Check') as Laya.Sprite;
-        if (check.visible) {
-            ADManager.ShowReward(() => {
-                this.btnAdvFunc();
-            })
-        }else{
-            event.currentTarget.scale(1, 1);
-            this.self.close();
-            lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].openPlayScene();
-        }
+        ADManager.ShowReward(() => {
+            this.btnAdvFunc();
+        })
+        // let check = this.self['BtnCheck'].getChildByName('Check') as Laya.Sprite;
+        // if (check.visible) {
+        //     ADManager.ShowReward(() => {
+        //         this.btnAdvFunc();
+        //     })
+        // } 
+        // else {
+        //     event.currentTarget.scale(1, 1);
+        //     this.self.close();
+        //     lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].openPlayScene();
+        // }
     }
+
     btnCheckUp(e: Laya.Event): void {
         let check = this.self['BtnCheck'].getChildByName('Check') as Laya.Sprite;
         let word = this.self['BtnGet'].getChildByName('word') as Laya.Image;

@@ -88,10 +88,10 @@ export default class ZhuanPan extends Laya.Script {
         else {
             //看广告
             console.log("看广告");
-            // ADManager.ShowReward(() => {
-            this.StartLottery();
-            this.StartBtn.visible = false;
-            // })
+            ADManager.ShowReward(() => {
+                this.StartLottery();
+                this.StartBtn.visible = false;
+            })
         }
 
     }
@@ -105,20 +105,25 @@ export default class ZhuanPan extends Laya.Script {
     }
 
     lotteryGift: LotteryGift = LotteryGift.prop1;
+    /**旋转次数*/
+    lotteryNum: number = 0;
     //停止转
     StopLottery() {
+        this.lotteryNum++;
         console.log("转盘停止");
         let ran = this.randomInRange_i(0, 100);
         if (ran >= 0 && ran < 20) {
             this.lotteryGift = LotteryGift.prop1;
         }
         else if (ran >= 20 && ran < 40) {
-            this.lotteryGift = LotteryGift.prop2;
-            lwg.Global._pikaqiu = true;
-            if (lwg.Global._pikaqiu) {
+            if (lwg.Global._zibiyazi || this.lotteryNum === 1) {
                 this.lotteryGift = LotteryGift.prop3;
+            } else {
+                this.lotteryGift = LotteryGift.prop2;
+                lwg.Global._zibiyazi = true;
             }
         }
+
         else if (ran >= 40 && ran < 60) {
             this.lotteryGift = LotteryGift.prop3;
         }
@@ -171,11 +176,11 @@ export default class ZhuanPan extends Laya.Script {
     }
     btnADAgainUp(): void {
         // console.log("看广告");
-        // ADManager.ShowReward(() => {
-        this.ClosePanel();
-        this.StartLottery();
-        this.StartBtn.visible = false;
-        // })
+        ADManager.ShowReward(() => {
+            this.ClosePanel();
+            this.StartLottery();
+            this.StartBtn.visible = false;
+        })
     }
     btnNoUp(e: Laya.Event): void {
         this.ClosePanel();
@@ -237,87 +242,75 @@ export default class ZhuanPan extends Laya.Script {
     //#endregion
 
 
+
     //#region  /******************彩蛋1*********************/
-    CaiDanParnet: Laya.Box;
-    CaidanImage: Laya.Image;
-    ImageX: number = 0;
-    ImageY: number = 0;
-    ImageCanMove: boolean = false;//菜单是否可用
-
+    /**复制一个当前的一个奖励作为彩蛋*/
     CaiDanMoveInit() {
-        this.CaiDanParnet = this.lotteryProps[4];
-        this.CaidanImage = this.CaiDanParnet.getChildAt(1) as Laya.Image;
-        console.log("CaiDanParnet", this.CaiDanParnet, "CaidanImage", this.CaidanImage);
-        this.RefreshCaiDan();
+        lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.owner.scene['Caidan'], this, this.caidanDwon, null, null, null);
+        //免费领取彩蛋界面 
+        let BtnNo = this.owner.scene['Painted_Pikaqiu'].getChildByName('BtnNo');
+        let BtnFreeGet = this.owner.scene['Painted_Pikaqiu'].getChildByName('BtnFreeGet');
+        lwg.Click.on(lwg.Click.ClickType.largen, null, BtnNo, this, null, null, this.btnNoUp_P, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, BtnFreeGet, this, null, null, this.btnFreeGetUp_P, null);
     }
 
-    RefreshCaiDan() {
-        let use = Laya.LocalStorage.getItem("LotteryCaidan")//是否存在Key1
-        if (use) {
-            if (use == "0") {
-                this.CaidanImage.on(Laya.Event.MOUSE_DOWN, this, this.CaiDanDown);
-                this.CaidanImage.on(Laya.Event.MOUSE_UP, this, this.CaiDanUp);
-                this.CaidanImage.on(Laya.Event.MOUSE_OUT, this, this.CaidanMoveOut);
-            }
-            else {
-                this.CaidanImage.off(Laya.Event.MOUSE_DOWN, this, this.CaiDanDown);
-                this.CaidanImage.off(Laya.Event.MOUSE_UP, this, this.CaiDanUp);
-                this.CaidanImage.off(Laya.Event.MOUSE_OUT, this, this.CaidanMoveOut);
+    btnNoUp_P(e: Laya.Event): void {
+        e.currentTarget.scale(1, 1);
+        this.owner.scene['Painted_Pikaqiu'].x = 1500;
+        this.owner.scene['Painted_Pikaqiu'].y = 0;
+    }
+
+    btnFreeGetUp_P(e: Laya.Event): void {
+        e.currentTarget.scale(1, 1);
+        ADManager.ShowReward(() => {
+            lwg.Global._huangpihaozi = true;
+            lwg.LocalStorage.addData();
+            this.owner.scene['Painted_Pikaqiu'].x = 1500;
+            this.owner.scene['Painted_Pikaqiu'].y = 0;
+            lwg.Global._paintedPifu.push[RewardDec.prop5];
+        })
+    }
+
+    mouseDwon: boolean = false;
+    caidanDwon(): void {
+        if (!lwg.Global._huangpihaozi) {
+            this.mouseDwon = true;
+        } else {
+            console.log('已经获得了黄皮耗子皮肤！')
+        }
+    }
+    mouseMove: boolean = false;
+    onStageMouseMove(e: Laya.Event): void {
+        if (this.mouseDwon) {
+            this.mouseMove = true;
+            this.owner.scene.addChild(this.owner.scene['Caidan']);
+            this.owner.scene['Caidan'].x = e.stageX;
+            this.owner.scene['Caidan'].y = e.stageY;
+        }
+    }
+    onStageMouseUp(e: Laya.Event): void {
+        if (this.mouseMove) {
+            this.owner.scene['CaidanParent'].addChild(this.owner.scene['Caidan']);
+            this.owner.scene['Caidan'].x = 472;
+            this.owner.scene['Caidan'].y = 301;
+            this.mouseDwon = false;
+            this.mouseMove = false;
+
+            /**判断当前位置和转盘中心点距离，如果大于则弹出领取皮肤界面*/
+            let point = new Laya.Point(e.stageX, e.stageY);
+            let dis = point.distance(this.owner.scene['ZhunpanBG'].x, this.owner.scene['ZhunpanBG'].y);
+            if (dis - this.owner.scene['ZhunpanBG'].width / 2 > 0) {
+                this.owner.scene['Painted_Pikaqiu'].x = 0;
+                this.owner.scene['Painted_Pikaqiu'].y = 0;
             }
         }
-        else {
-            Laya.LocalStorage.setItem("LotteryCaidan", "0");
-            this.CaidanImage.on(Laya.Event.MOUSE_DOWN, this, this.CaiDanDown);
-            this.CaidanImage.on(Laya.Event.MOUSE_UP, this, this.CaiDanUp);
-            this.CaidanImage.on(Laya.Event.MOUSE_OUT, this, this.CaidanMoveOut);
-        }
-        this.ImageX = this.CaidanImage.x;
-        this.ImageY = this.CaidanImage.y;
     }
-
-    CaiDanDown() {
-        console.log("彩蛋点击事件");
-        this.CaidanImage.on(Laya.Event.MOUSE_MOVE, this, this.CaiDanMove);
-    }
-    CaiDanMove() {
-        this.CaidanImage.x = this.CaiDanParnet.mouseX;
-        this.CaidanImage.y = this.CaiDanParnet.mouseY;
-    }
-    CanGet: boolean = false;
-    CaidanMoveOut()//快速移动时 鼠标脱离物体
-    {
-        this.CaiDanUp();
-    }
-    CaiDanUp() {
-        this.CaidanImage.off(Laya.Event.MOUSE_MOVE, this, this.CaiDanMove);
-
-        let x = Math.abs(this.CaidanImage.x - this.ImageX);
-        let y = Math.abs(this.CaidanImage.y - this.ImageY);
-        if ((x * x + y * y) > 40000) {
-            console.log("位置恢复,触发");
-            this.lotteryindex = LotteryGift.prop6;
-            this.ADaction = () => {
-                //获取
-                Laya.LocalStorage.setItem("LotteryCaidan", "1");
-                this.RefreshCaiDan()
-
-            }
-            this.Normalaction = () => {
-                this.RefreshCaiDan()
-                console.log("点击获取", this.lotteryGift);
-            }
-            this.ShowReward();
-        }
-        else {
-            console.log("位置恢复,不触发");
-
-        }
-        this.CaidanImage.x = this.ImageX;
-        this.CaidanImage.y = this.ImageY;
-
-    }
-
     //#endregion
+
+
+
+
+
 
     /******************彩蛋*********************/
     Caidan1: Laya.Box;
@@ -362,10 +355,10 @@ export enum LotteryGift {
 
 export enum RewardDec {
     prop1 = '体力x3',
-    prop2 = '皮卡丘',
+    prop2 = '黄皮耗子',
     prop3 = '金币x30',
     prop4 = '体力x2',
-    prop5 = '可达鸭',
+    prop5 = '自闭鸭子',
     prop6 = '金币x60'
 }
 export enum RewardSkin {

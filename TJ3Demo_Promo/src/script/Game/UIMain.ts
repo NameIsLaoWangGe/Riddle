@@ -25,6 +25,7 @@ export default class UIMain extends lwg.Admin.Scene {
     lwgInit() {
         ADManager.TAPoint(TaT.LevelStart, 'level' + lwg.Admin.openLevelNum);
         RecordManager.startAutoRecord();
+
         // 关闭多点触控
         Laya.MouseManager.multiTouchEnabled = false;
         this.BtnAgain = this.self['BtnAgain'];
@@ -37,6 +38,10 @@ export default class UIMain extends lwg.Admin.Scene {
         lwg.Global._createBtnAgain(this.self);
         lwg.Global._createBtnPause(this.self);
         lwg.Global._createBtnHint(this.self);
+
+        if (lwg.Global._gameLevel <= 12) {
+            lwg.Global._createStimulateDec(this.self);
+        }
 
         if (lwg.Global._elect) {
             lwg.Global._createP201_01(this.self);

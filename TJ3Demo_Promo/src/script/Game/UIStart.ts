@@ -371,10 +371,12 @@ export default class UIStart extends lwg.Admin.Scene {
 
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnPainted'], this, null, null, this.btnPaintedUp, null);
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnTurntable'], this, null, null, this.btnTurntableUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnPainted'], this, null, null, this.btnPaintedUp, null);
     }
 
     btnPaintedUp(e): void {
         e.currentTarget.scale(1, 1);
+        lwg.Admin._openScene(lwg.Admin.SceneName.UICaiDanQiang, null, null, null);
     }
 
     btnTurntableUp(e): void {

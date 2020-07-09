@@ -896,7 +896,9 @@
             Global._allPifu = ['01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha'];
             Global._buyNum = 1;
             Global._watchAdsNum = 0;
-            Global._pikaqiu = false;
+            Global._huangpihaozi = false;
+            Global._zibiyazi = false;
+            Global._kejigongzhu = false;
             Global._paintedPifu = [];
             Global.pingceV = true;
             function _vibratingScreen() {
@@ -1098,12 +1100,28 @@
                     _prefab.json = prefab;
                     sp = Laya.Pool.getItemByCreateFun('P201', _prefab.create, _prefab);
                     parent.addChild(sp);
-                    sp.pos(90, 225);
+                    sp.pos(90, 290);
                     sp.zOrder = 65;
                     Global.P201_01Node = sp;
                 }));
             }
             Global._createP201_01 = _createP201_01;
+            function _createStimulateDec(parent) {
+                let sp;
+                Laya.loader.load('prefab/StimulateDec.json', Laya.Handler.create(this, function (prefab) {
+                    let _prefab = new Laya.Prefab();
+                    _prefab.json = prefab;
+                    sp = Laya.Pool.getItemByCreateFun('StimulateDec', _prefab.create, _prefab);
+                    let dec = sp.getChildByName('Dec');
+                    let num = lwg.Admin.openCustomName.substring(lwg.Admin.openCustomName.length - 3, lwg.Admin.openCustomName.length);
+                    dec.text = lwg.Global._stimulateDec[Number(num) - 1]['dec'];
+                    parent.addChild(sp);
+                    sp.pos(100, 150);
+                    sp.zOrder = 65;
+                    Global.StimulateDecNode = sp;
+                }));
+            }
+            Global._createStimulateDec = _createStimulateDec;
             function _createHint_01(type) {
                 let sp;
                 Laya.loader.load('prefab/HintPre_01.json', Laya.Handler.create(this, function (prefab) {
@@ -1216,6 +1234,9 @@
                     '_currentPifu': lwg.Global._currentPifu,
                     '_havePifu': lwg.Global._havePifu,
                     '_watchAdsNum': lwg.Global._watchAdsNum,
+                    '_huangpihaozi': lwg.Global._huangpihaozi,
+                    '_zibiyazi': lwg.Global._zibiyazi,
+                    '_kejigongzhu': lwg.Global._kejigongzhu
                 };
                 let data = JSON.stringify(storageData);
                 Laya.LocalStorage.setJSON('storageData', data);
@@ -1245,6 +1266,9 @@
                     lwg.Global._currentPifu = Enum.PifuAllName[0];
                     lwg.Global._havePifu = ['01_gongzhu'];
                     lwg.Global._watchAdsNum = 0;
+                    lwg.Global._huangpihaozi = false;
+                    lwg.Global._zibiyazi = false;
+                    lwg.Global._kejigongzhu = false;
                     return null;
                 }
             }
@@ -1272,6 +1296,7 @@
                 SceneName["UIRedeem"] = "UIRedeem";
                 SceneName["UIAnchorXD"] = "UIAnchorXD";
                 SceneName["UITurntable"] = "UITurntable";
+                SceneName["UICaiDanQiang"] = "UICaiDanQiang";
             })(SceneName = Admin.SceneName || (Admin.SceneName = {}));
             let GameState;
             (function (GameState) {
@@ -1905,9 +1930,9 @@
             }
             Sk.createZhenziTem = createZhenziTem;
             function createCangshuTem() {
-                Sk.xiaohuangyaTem.on(Laya.Event.COMPLETE, this, onCompelet);
-                Sk.xiaohuangyaTem.on(Laya.Event.ERROR, this, onError);
-                Sk.xiaohuangyaTem.loadAni("SK/cangshu.sk");
+                Sk.cangshuTem.on(Laya.Event.COMPLETE, this, onCompelet);
+                Sk.cangshuTem.on(Laya.Event.ERROR, this, onError);
+                Sk.cangshuTem.loadAni("SK/cangshu.sk");
             }
             Sk.createCangshuTem = createCangshuTem;
             function createDajiTem() {
@@ -2093,6 +2118,15 @@
                 PifuNameSkin[PifuNameSkin["UI_new/Pifu/word_changfa.png"] = 7] = "UI_new/Pifu/word_changfa.png";
                 PifuNameSkin[PifuNameSkin["UI_new/Pifu/word_bingjing.png"] = 8] = "UI_new/Pifu/word_bingjing.png";
             })(PifuNameSkin = Enum.PifuNameSkin || (Enum.PifuNameSkin = {}));
+            let CaidanPifuName;
+            (function (CaidanPifuName) {
+                CaidanPifuName[CaidanPifuName["01_huangpihaozi"] = 0] = "01_huangpihaozi";
+                CaidanPifuName[CaidanPifuName["02_zibiyazi"] = 1] = "02_zibiyazi";
+                CaidanPifuName[CaidanPifuName["03_cangshugongzhu"] = 2] = "03_cangshugongzhu";
+                CaidanPifuName[CaidanPifuName["04_kejigongzhu"] = 3] = "04_kejigongzhu";
+                CaidanPifuName[CaidanPifuName["05_saiyaren"] = 4] = "05_saiyaren";
+                CaidanPifuName[CaidanPifuName["06_haimiangongzhu"] = 5] = "06_haimiangongzhu";
+            })(CaidanPifuName = Enum.CaidanPifuName || (Enum.CaidanPifuName = {}));
             let voiceUrl;
             (function (voiceUrl) {
                 voiceUrl["btn"] = "voice/btn.wav";
@@ -3170,6 +3204,478 @@
         }
     }
 
+    class CaiDanData {
+        GetIconPath() {
+            this.IconPath = "CaiDanQIang/Skin/" + this.ID + ".png";
+            return this.IconPath;
+        }
+        GetIconPath_h() {
+            this.IconPath_h = "CaiDanQIang/Skin/" + this.ID + "_01.png";
+            return this.IconPath_h;
+        }
+    }
+
+    class CaiDanQiang extends Laya.Script {
+        constructor() {
+            super(...arguments);
+            this.icon = [
+                { ID: 0, Name: "黄皮耗子", Info: "", MesLiayuan: "转盘", MesFangshi: "直接把它从转盘拖出来", Tip: lwg.Enum.CaidanPifuName[0] },
+                { ID: 1, Name: "自闭鸭子", Info: "", MesLiayuan: "转盘", MesFangshi: "转盘抽奖获得", Tip: lwg.Enum.CaidanPifuName[1] },
+                { ID: 2, Name: "仓鼠公主", Info: "", MesLiayuan: "从彩蛋墙上的神蛋获得", MesFangshi: "点击左边的神蛋", Tip: lwg.Enum.CaidanPifuName[2] },
+                { ID: 3, Name: "柯基公主", Info: "", MesLiayuan: "召唤神龙许愿概率获得", MesFangshi: "同时点击彩弹墙的两个彩蛋", Tip: lwg.Enum.CaidanPifuName[3] },
+                { ID: 4, Name: "塞牙人", Info: "（也可能不是）", MesLiayuan: "彩蛋墙内神秘操作获得", MesFangshi: "长按这个皮肤的剪影3秒", Tip: lwg.Enum.CaidanPifuName[4] },
+                { ID: 5, Name: "海绵公主", Info: "", MesLiayuan: "主界面神秘操作获得", MesFangshi: "同时点击皮肤和彩蛋墙按钮", Tip: lwg.Enum.CaidanPifuName[5] }
+            ];
+            this.Caidan = [];
+            this.CaiDanDatas1 = [];
+            this.CaiDanDatas2 = [];
+            this.Skin = [];
+            this.Skinitems = [];
+            this.ImageX = 0;
+            this.ImageY = 0;
+            this.xmin = 160;
+            this.xmax = 255;
+            this.ymin = 103;
+            this.ymax = 210;
+            this.CanGet = false;
+            this.props = [];
+            this.Rewardindex = 5;
+        }
+        LoadXml() {
+            let self = this;
+            let loadXml = function () {
+                self.LoadXml2();
+            };
+            Laya.loader.load("CaiDanQIang/CaiDanConfig.xml", Laya.Handler.create(this, function () {
+                loadXml();
+            }));
+        }
+        LoadXml2() {
+            let xmlDom = Laya.Loader.getRes("CaiDanQIang/CaiDanConfig.xml");
+            console.log(xmlDom);
+            let attr = xmlDom.childNodes[0].childNodes;
+            for (var i = 0; i < attr.length; i++) {
+                let temp = new CaiDanData();
+                for (var j = 0; j < attr[i].attributes.length; j++) {
+                    if (attr[i].attributes[j].nodeName == "ID") {
+                        temp.ID = parseInt(attr[i].attributes[j].nodeValue);
+                    }
+                    else if (attr[i].attributes[j].nodeName == "Name") {
+                        temp.Name = attr[i].attributes[j].nodeValue;
+                    }
+                    else if (attr[i].attributes[j].nodeName == "MesLiayuan") {
+                        temp.MesLiayuan = attr[i].attributes[j].nodeValue;
+                    }
+                    else if (attr[i].attributes[j].nodeName == "MesFangshi") {
+                        temp.MesFangshi = attr[i].attributes[j].nodeValue;
+                    }
+                    else if (attr[i].attributes[j].nodeName == "Info") {
+                        temp.Info = attr[i].attributes[j].nodeValue;
+                    }
+                }
+                console.log(temp);
+                this.CaiDanDatas1.push(temp);
+            }
+        }
+        LoadJson() {
+            for (let i = 0; i < this.icon.length; i++) {
+                let temp = new CaiDanData();
+                temp.ID = this.icon[i].ID;
+                temp.Name = this.icon[i].Name;
+                temp.Info = this.icon[i].Info;
+                temp.MesLiayuan = this.icon[i].MesLiayuan;
+                temp.MesFangshi = this.icon[i].MesFangshi;
+                this.CaiDanDatas2.push(temp);
+            }
+        }
+        StorageInit() {
+            let firstuse = Laya.LocalStorage.getItem("firstuse");
+            if (firstuse) {
+                if (firstuse == "0") {
+                    this.CaiDanDatas2.forEach((v) => {
+                        Laya.LocalStorage.setItem("Caidanskin" + v.ID, "0_0_0");
+                    });
+                    Laya.LocalStorage.setItem("firstuse", "1");
+                }
+                else {
+                    this.CaiDanDatas2.forEach((v) => {
+                        if (Laya.LocalStorage.getItem("Caidanskin" + v.ID)) ;
+                        else {
+                            Laya.LocalStorage.setItem("Caidanskin" + v.ID, "0_0_0");
+                        }
+                    });
+                }
+            }
+            else {
+                this.CaiDanDatas2.forEach((v) => {
+                    Laya.LocalStorage.setItem("Caidanskin" + v.ID, "0_0_0");
+                });
+                Laya.LocalStorage.setItem("firstuse", "1");
+            }
+        }
+        onAwake() {
+            this.LoadJson();
+            this.Caidanqiang = this.owner;
+            this.CaiDanShow = this.Caidanqiang.getChildByName("CaiDanShow");
+            this.List0 = this.CaiDanShow.getChildByName("List0");
+            this.List1 = this.CaiDanShow.getChildByName("List1");
+            this.MesShow = this.Caidanqiang.getChildByName("MesShow");
+            this.Icon = this.MesShow.getChildByName("Icon");
+            this.IconDown = this.Icon.getChildByName("IconDown");
+            this.IconUp = this.Icon.getChildByName("IconUp");
+            this.MesLaiyuan = this.MesShow.getChildByName("MesLaiyuan");
+            this.MesFangshi = this.MesShow.getChildByName("MesFangshi");
+            this.Name = this.MesShow.getChildByName("Name");
+            this.Info = this.MesShow.getChildByName("Info");
+            this.LaiyuanADSafe = this.MesShow.getChildByName("LaiyuanADSafe");
+            this.FangshiADSafe = this.MesShow.getChildByName("FangshiADSafe");
+            this.LaiyuanADSafe.on(Laya.Event.CLICK, this, this.LaiyuanADcLICK);
+            this.FangshiADSafe.on(Laya.Event.CLICK, this, this.FangshiADClick);
+            this.CaidanRewardPanelinit1();
+            this.CaiDanInit();
+        }
+        onStart() {
+            this.StorageInit();
+            for (let i = 0; i < this.CaiDanShow.numChildren; i++) {
+                let listitem = this.CaiDanShow.getChildAt(i);
+                let itembox = listitem.getChildByName("ItermBox");
+                for (let j = 0; j < itembox.numChildren; j++) {
+                    this.Skin.push(itembox.getChildAt(j));
+                    let a = itembox.getChildAt(j).getComponent(SkinItem);
+                    this.Skinitems.push(a);
+                }
+            }
+            this.Skinitems.forEach((v, i) => {
+                v.Fell(this.CaiDanDatas2[i], this.Caidanqiang);
+            });
+            this.NowCaidanDataq = this.CaiDanDatas2[0];
+        }
+        RefreshView(skindata) {
+            this.NowCaidanDataq = skindata;
+            this.IconDown.skin = skindata.GetIconPath();
+            this.IconUp.skin = skindata.GetIconPath_h();
+            this.MesFangshi.text = skindata.MesFangshi;
+            this.MesLaiyuan.text = skindata.MesLiayuan;
+            this.Name.text = skindata.Name;
+            this.Info.text = skindata.Info;
+            let itemstorage = Laya.LocalStorage.getItem("Caidanskin" + skindata.ID);
+            let strs = itemstorage.split("_");
+            this.IconUp.visible = strs[0] == "0";
+            this.LaiyuanADSafe.visible = strs[1] == "0";
+            this.FangshiADSafe.visible = strs[2] == "0";
+        }
+        FangshiADClick() {
+            let skin = Laya.LocalStorage.getItem("Caidanskin" + this.NowCaidanDataq.ID);
+            let strs = skin.split("_");
+            Laya.LocalStorage.setItem("Caidanskin" + this.NowCaidanDataq.ID, strs[0] + "_" + strs[1] + "_" + "1");
+            this.RefreshView(this.NowCaidanDataq);
+        }
+        LaiyuanADcLICK() {
+            let skin = Laya.LocalStorage.getItem("Caidanskin" + this.NowCaidanDataq.ID);
+            let strs = skin.split("_");
+            Laya.LocalStorage.setItem("Caidanskin" + this.NowCaidanDataq.ID, strs[0] + "_" + "1" + "_" + strs[2]);
+            this.RefreshView(this.NowCaidanDataq);
+        }
+        CaidanRewardPanelinit1() {
+            this.CaidanRewardPanel1 = this.Caidanqiang.getChildByName("CaidanRewardPanel");
+            console.log(this.CaidanRewardPanel1);
+            this.RewardBg1 = this.CaidanRewardPanel1.getChildByName("RewardBG");
+            console.log(this.RewardBg1);
+            this.ADGetReward1 = this.RewardBg1.getChildByName("ADGetReward");
+            this.CloseRewardBtn1 = this.RewardBg1.getChildByName("CloseRewardBtn");
+            console.log(this.ADGetReward1);
+            console.log(this.CloseRewardBtn1);
+            this.CaidanJiemianHide1();
+            this.ADGetReward1.on(Laya.Event.CLICK, this, this.ADGetRewardClick1);
+            this.CloseRewardBtn1.on(Laya.Event.CLICK, this, this.CaidanJiemianHide1);
+        }
+        CaidanJiemianShow1() {
+            this.CaidanRewardPanel1.visible = true;
+        }
+        CaidanJiemianHide1() {
+            this.CaidanRewardPanel1.visible = false;
+        }
+        ADGetRewardClick1() {
+            ADManager.ShowReward(() => {
+            });
+            console.log('看广告');
+            let skin = Laya.LocalStorage.getItem("Caidanskin" + 4);
+            let strs = skin.split("_");
+            Laya.LocalStorage.setItem("Caidanskin" + 4, "1" + "_" + strs[1] + "_" + strs[2]);
+            this.CaidanJiemianHide1();
+            this.Skinitems.forEach((v, i) => {
+                v.Fell(this.CaiDanDatas2[i], this.Caidanqiang);
+            });
+        }
+        CaiDanInit() {
+            this.Caidan1 = this.Caidanqiang.getChildByName("Caidan1");
+            this.Caidan2 = this.Caidanqiang.getChildByName("Caidan2");
+            this.Caidan1Init();
+            this.Caidan2Init();
+        }
+        Caidan1Init() {
+            this.Caidan1.on(Laya.Event.CLICK, this, this.CaidanJiemianShow2);
+            this.CaidanRewardPanelinit2();
+        }
+        CaidanRewardPanelinit2() {
+            this.CaidanRewardPanel2 = this.Caidanqiang.getChildByName("CaidanRewardPanel2");
+            this.RewardBg2 = this.CaidanRewardPanel2.getChildByName("RewardBG");
+            this.ADGetReward2 = this.RewardBg2.getChildByName("ADGetReward");
+            this.CloseRewardBtn2 = this.RewardBg2.getChildByName("CloseRewardBtn");
+            this.CaidanJiemianHide2();
+            this.ADGetReward2.on(Laya.Event.CLICK, this, this.ADGetRewardClick2);
+            this.CloseRewardBtn2.on(Laya.Event.CLICK, this, this.CaidanJiemianHide2);
+        }
+        CaidanJiemianShow2() {
+            lwg.Animation.leftRight_Shake(this.Caidan1, 20, 100, 0, f => {
+                lwg.Animation.leftRight_Shake(this.Caidan1, 20, 100, 0, f => {
+                    let skin = Laya.LocalStorage.getItem("Caidanskin" + 2);
+                    let strs = skin.split("_");
+                    if (strs[0] == "1") ;
+                    else {
+                        this.CaidanRewardPanel2.visible = true;
+                    }
+                });
+            });
+        }
+        CaidanJiemianHide2() {
+            this.CaidanRewardPanel2.visible = false;
+        }
+        ADGetRewardClick2() {
+            ADManager.ShowReward(() => {
+                let skin = Laya.LocalStorage.getItem("Caidanskin" + 2);
+                let strs = skin.split("_");
+                Laya.LocalStorage.setItem("Caidanskin" + 2, "1" + "_" + strs[1] + "_" + strs[2]);
+                this.CaidanJiemianHide2();
+                this.Skinitems.forEach((v, i) => {
+                    v.Fell(this.CaiDanDatas2[i], this.Caidanqiang);
+                });
+            });
+        }
+        Caidan2Init() {
+            this.xmax = this.Caidan1.x + 100;
+            this.xmin = this.Caidan1.x - 100;
+            this.ymax = this.Caidan1.y + 100;
+            this.ymin = this.Caidan1.y - 100;
+            this.caidanDan = this.Caidan2.getChildAt(0);
+            console.log(this.caidanDan);
+            this.caidanDan.on(Laya.Event.MOUSE_DOWN, this, this.CaiDanDown);
+            this.caidanDan.on(Laya.Event.MOUSE_UP, this, this.CaiDanUp);
+            this.caidanDan.on(Laya.Event.MOUSE_OUT, this, this.CaidanMoveOut);
+            this.ImageX = this.caidanDan.x;
+            this.ImageY = this.caidanDan.y;
+            this.CaidanRewardPanelinit3();
+        }
+        CaiDanDown() {
+            console.log("彩蛋点击事件");
+            this.Caidanqiang.addChild(this.caidanDan);
+            this.caidanDan.x = this.Caidanqiang.mouseX;
+            this.caidanDan.y = this.Caidanqiang.mouseY;
+            this.caidanDan.on(Laya.Event.MOUSE_MOVE, this, this.CaiDanMove);
+        }
+        CaiDanMove() {
+            this.caidanDan.x = this.Caidanqiang.mouseX;
+            this.caidanDan.y = this.Caidanqiang.mouseY;
+            console.log(this.caidanDan.x, this.caidanDan.y);
+            console.log(this.Caidanqiang.mouseX, this.Caidanqiang.mouseY);
+        }
+        CaidanMoveOut() {
+            this.CaiDanUp();
+        }
+        CaiDanUp() {
+            this.Caidan2.addChild(this.caidanDan);
+            this.caidanDan.off(Laya.Event.MOUSE_MOVE, this, this.CaiDanMove);
+            let x = this.caidanDan.x;
+            let y = this.caidanDan.y;
+            console.log(x, y);
+            if (x > this.xmin && x < this.xmax && y > this.ymin && y < this.ymax) {
+                console.log("展示神龙");
+                this.CaidanRewardPanelShow();
+            }
+            else {
+                console.log("位置恢复,不触发");
+            }
+            this.caidanDan.x = this.ImageX;
+            this.caidanDan.y = this.ImageY;
+        }
+        CaidanRewardPanelinit3() {
+            this.CaidanRewardPanel3 = this.Caidanqiang.getChildByName("CaidanRewardPanel3");
+            this.Bg = this.CaidanRewardPanel3.getChildByName("Bg");
+            this.Props = this.Bg.getChildByName("Props");
+            this.ShenLongWenzi = this.Bg.getChildByName("ShenLongWenzi");
+            for (let index = 0; index < this.Props.numChildren; index++) {
+                this.props.push(this.Props.getChildAt(index));
+            }
+            this.ADGetReward = this.Bg.getChildByName("ADGetReward");
+            this.GetReward = this.Bg.getChildByName("GetReward");
+            this.ADGetReward.on(Laya.Event.CLICK, this, this.ADGetRewardClick);
+            this.GetReward.on(Laya.Event.CLICK, this, this.GetRewardClick);
+            console.log("this.props", this.props);
+            this.CaidanRewardPanelHide();
+        }
+        CaidanRewardPanelShow() {
+            this.ShenLongWenzi.visible = this.Rewardindex == 5;
+            this.Props.visible = !this.ShenLongWenzi.visible;
+            this.ADGetReward.getChildAt(1).visible = !this.ShenLongWenzi.visible;
+            this.CaidanRewardPanel3.visible = true;
+        }
+        CaidanRewardPanelHide() {
+            this.CaidanRewardPanel3.visible = false;
+        }
+        ShowReward() {
+            let ran = this.randomInRange_i(0, 100);
+            if (ran >= 0 && ran < 1) {
+                this.Rewardindex = 0;
+            }
+            else if (ran >= 1 && ran < 36) {
+                this.Rewardindex = 1;
+            }
+            else if (ran >= 36 && ran < 66) {
+                this.Rewardindex = 2;
+            }
+            else if (ran >= 66 && ran < 68) {
+                this.Rewardindex = 3;
+            }
+            else if (ran >= 68 && ran < 100) {
+                this.Rewardindex = 4;
+            }
+            this.Rewardindex = 4;
+            if (this.Rewardindex == 5) ;
+            else {
+                this.props.forEach((v, i) => {
+                    if (this.Rewardindex == i) {
+                        v.visible = true;
+                    }
+                    else {
+                        v.visible = false;
+                    }
+                });
+            }
+            this.ShenLongWenzi.visible = this.Rewardindex == 5;
+            this.Props.visible = !this.ShenLongWenzi.visible;
+            this.ADGetReward.getChildAt(1).visible = !this.ShenLongWenzi.visible;
+        }
+        ADGetRewardClick() {
+            console.log("看广告");
+            this.RewardGet();
+            this.ShowReward();
+        }
+        ClosePanel() {
+            this.RewardGet();
+            this.ClosePanel();
+        }
+        GetRewardClick() {
+            this.RewardGet();
+            this.Rewardindex = 5;
+            this.CaidanRewardPanelHide();
+        }
+        RewardGet() {
+            if (this.Rewardindex == 0) {
+                lwg.Global._addExecution(2);
+                console.log("礼物", this.Rewardindex);
+            }
+            else if (this.Rewardindex == 1) {
+                lwg.Global._addExecution(3);
+                console.log("礼物", this.Rewardindex);
+            }
+            else if (this.Rewardindex == 2) {
+                lwg.Global._addGold(20);
+                console.log("礼物", this.Rewardindex);
+            }
+            else if (this.Rewardindex == 3) {
+                lwg.Global._addGold(30);
+                console.log("礼物", this.Rewardindex);
+            }
+            else if (this.Rewardindex == 4) {
+                lwg.Global._kejigongzhu = true;
+                lwg.LocalStorage.addData();
+                let skin = Laya.LocalStorage.getItem("Caidanskin" + 3);
+                let strs = skin.split("_");
+                Laya.LocalStorage.setItem("Caidanskin" + 3, "1" + "_" + strs[1] + "_" + strs[2]);
+                console.log("礼物", this.Rewardindex);
+            }
+            else if (this.Rewardindex == 5) {
+                console.log("无礼物");
+            }
+            this.Skinitems.forEach((v, i) => {
+                v.Fell(this.CaiDanDatas2[i], this.Caidanqiang);
+            });
+        }
+        randomInRange_i(x, y, s = null) {
+            let rs;
+            if (x == y) {
+                rs = x;
+            }
+            else if (y > x) {
+                let v = (y - x) * (s == null ? Math.random() : s) + x;
+                rs = v.toFixed();
+            }
+            else {
+                throw `x > y`;
+            }
+            return Number(rs);
+        }
+        onDisable() {
+            let skin = Laya.LocalStorage.getItem("Caidanskin" + 2);
+            let strs = skin.split("_");
+            if (strs[0] === '1') {
+                lwg.Global._currentPifu = this.NowCaidanDataq.Tip;
+                lwg.LocalStorage.addData();
+            }
+        }
+    }
+
+    class SkinItem extends Laya.Script {
+        constructor() {
+            super(...arguments);
+            this.ID = 0;
+            this.IsDown = false;
+        }
+        onAwake() {
+            this.Skin = this.owner;
+            this.Icon = this.Skin.getChildByName("Icon");
+            this.Lock = this.Skin.getChildByName("Lock");
+            this.light = this.Skin.getChildByName("light");
+            console.log(this.Icon, this.Lock, this.light);
+            this.Skin.on(Laya.Event.MOUSE_DOWN, this, this.Down);
+            this.Skin.on(Laya.Event.MOUSE_UP, this, this.Up);
+            this.Skin.on(Laya.Event.MOUSE_OUT, this, this.Up);
+        }
+        Fell(_data, _caidanqiang) {
+            this.data = _data;
+            console.log("this.data ===>", this.data);
+            this.caidanqiang = _caidanqiang.getComponent(CaiDanQiang);
+            this.Refresh();
+        }
+        Refresh() {
+            this.ID = this.data.ID;
+            this.Icon.skin = this.data.GetIconPath();
+            this.Lock.skin = this.data.GetIconPath_h();
+            this.storage = Laya.LocalStorage.getItem("Caidanskin" + this.ID);
+            this.storages = this.storage.split("_");
+            this.light.visible = this.storages[0] == "1";
+            this.Lock.visible = this.storages[0] == "0";
+        }
+        Down() {
+            console.log("按下后3S 不移开或是不抬起 并且皮肤未解锁 如果该皮肤为彩蛋 弹出框");
+            if (this.ID == 4 && this.storages[0] == "0") {
+                Laya.timer.once(3000, this, this.ShowReward);
+            }
+            this.IsDown = true;
+        }
+        Up() {
+            if (this.IsDown) {
+                this.caidanqiang.RefreshView(this.data);
+                Laya.timer.clearAll(this);
+                this.IsDown = false;
+            }
+        }
+        ShowReward() {
+            console.log("展示奖励");
+            this.caidanqiang.CaidanJiemianShow1();
+        }
+    }
+
     class RecordManager {
         constructor() {
             this.GRV = null;
@@ -3495,6 +4001,130 @@
         }
     }
 
+    class UILoding extends lwg.Admin.Scene {
+        constructor() {
+            super(...arguments);
+            this.time = 0;
+        }
+        lwgInit() {
+            ADManager.TAPoint(TaT.PageEnter, 'UIPreload');
+            this.Mask = this.self['Mask'];
+            lwg.Global._gameLevel = 1;
+            lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
+            lwg.Sk.skLoding();
+            this.lodeUserInfo();
+            this.dataLoading();
+        }
+        adaptive() {
+            this.self['Logo'].y = Laya.stage.height * 0.242;
+            this.self['Progress'].y = Laya.stage.height * 0.811;
+        }
+        dataLoading() {
+            Laya.loader.load("Data/HintDec.json", Laya.Handler.create(this, this.levelsOnLoaded_01), null, Laya.Loader.JSON);
+            Laya.loader.load("Data/StimulateDec.json", Laya.Handler.create(this, this.levelsOnLoaded_02), null, Laya.Loader.JSON);
+        }
+        levelsOnLoaded_01() {
+            lwg.Global._hintDec = Laya.loader.getRes("Data/HintDec.json")["RECORDS"];
+            Laya.MouseManager.multiTouchEnabled = false;
+        }
+        levelsOnLoaded_02() {
+            lwg.Global._stimulateDec = Laya.loader.getRes("Data/StimulateDec.json")["RECORDS"];
+        }
+        lodeUserInfo() {
+            let data = lwg.LocalStorage.getData();
+            if (data) {
+                lwg.Global._gameLevel = data._gameLevel;
+                lwg.Global._goldNum = data._goldNum;
+                lwg.Global._execution = data._execution;
+                lwg.Global._exemptExTime = data._exemptExTime;
+                let d = new Date();
+                if (d.getDate() !== lwg.Global._exemptExTime) {
+                    lwg.Global._exemptEx = true;
+                    console.log('今天还有一次免体力进入的机会！');
+                }
+                else {
+                    lwg.Global._exemptEx = false;
+                    console.log('今天没有免体力进入的机会！');
+                }
+                lwg.Global._freeHintTime = data._freeHintTime;
+                if (d.getDate() !== lwg.Global._freeHintTime) {
+                    lwg.Global._freetHint = true;
+                    console.log('今天还有一次双击免费提示的机会！');
+                }
+                else {
+                    lwg.Global._freetHint = false;
+                    console.log('今天没有双击免费提示的机会！');
+                }
+                lwg.Global._hotShareTime = data._hotShareTime;
+                if (d.getDate() !== lwg.Global._hotShareTime) {
+                    lwg.Global._hotShare = true;
+                    console.log('今天还有一次热门分享的机会！');
+                }
+                else {
+                    lwg.Global._hotShare = false;
+                    console.log('今天没有热门分享的机会！');
+                }
+                lwg.Global._addExDate = data._addExDate;
+                lwg.Global._addExHours = data._addExHours;
+                lwg.Global._addMinutes = data._addMinutes;
+                if (!data._currentPifu) {
+                    lwg.LocalStorage.addData();
+                }
+                else {
+                    lwg.Global._currentPifu = data._currentPifu;
+                }
+                if (!data._havePifu) {
+                    lwg.LocalStorage.addData();
+                }
+                else {
+                    lwg.Global._havePifu = data._havePifu;
+                }
+                if (!data._buyNum) {
+                    lwg.LocalStorage.addData();
+                }
+                else {
+                    lwg.Global._buyNum = data._buyNum;
+                }
+                if (!data._watchAdsNum) {
+                    lwg.LocalStorage.addData();
+                }
+                else {
+                    lwg.Global._watchAdsNum = data._watchAdsNum;
+                }
+                if (!data._huangpihaozi) {
+                    lwg.LocalStorage.addData();
+                }
+                else {
+                    lwg.Global._huangpihaozi = data._huangpihaozi;
+                }
+                if (!data._zibiyazi) {
+                    lwg.LocalStorage.addData();
+                }
+                else {
+                    lwg.Global._zibiyazi = data._zibiyazi;
+                }
+                if (!data._kejigongzhu) {
+                    lwg.LocalStorage.addData();
+                }
+                else {
+                    lwg.Global._kejigongzhu = data._kejigongzhu;
+                }
+            }
+            lwg.Global._createGoldNum(Laya.stage);
+            lwg.Global._createExecutionNum(Laya.stage);
+        }
+        onUpdate() {
+            this.time++;
+            if (this.time === 60) {
+                this.Mask.x = -72;
+                ADManager.TAPoint(TaT.PageLeave, 'UIPreload');
+                lwg.Admin._openScene('UIStart', 0, this.self, f => {
+                });
+            }
+            else if (this.time === 80) ;
+        }
+    }
+
     class UIMain extends lwg.Admin.Scene {
         constructor() {
             super();
@@ -3513,6 +4143,9 @@
             lwg.Global._createBtnAgain(this.self);
             lwg.Global._createBtnPause(this.self);
             lwg.Global._createBtnHint(this.self);
+            if (lwg.Global._gameLevel <= 12) {
+                lwg.Global._createStimulateDec(this.self);
+            }
             if (lwg.Global._elect) {
                 lwg.Global._createP201_01(this.self);
             }
@@ -3591,120 +4224,6 @@
             }
             Laya.timer.clearAll(this);
             Laya.Tween.clearAll(this);
-        }
-    }
-
-    class UILoding extends lwg.Admin.Scene {
-        constructor() {
-            super(...arguments);
-            this.mianSceneOk = false;
-            this.time = 0;
-        }
-        lwgInit() {
-            ADManager.TAPoint(TaT.PageEnter, 'UIPreload');
-            this.Mask = this.self['Mask'];
-            lwg.Global._gameLevel = 1;
-            lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
-            lwg.Sk.skLoding();
-            this.lodeUserInfo();
-            this.dataLoading();
-        }
-        adaptive() {
-            this.self['Logo'].y = Laya.stage.height * 0.242;
-            this.self['Progress'].y = Laya.stage.height * 0.811;
-        }
-        dataLoading() {
-            Laya.loader.load("Data/HintDec.json", Laya.Handler.create(this, this.levelsOnLoaded), null, Laya.Loader.JSON);
-        }
-        levelsOnLoaded() {
-            lwg.Global._hintDec = Laya.loader.getRes("Data/HintDec.json")["RECORDS"];
-            Laya.MouseManager.multiTouchEnabled = false;
-        }
-        lodeMianScene3D() {
-            Laya.Scene3D.load("testScene/LayaScene_GameMain/Conventional/GameMain.ls", Laya.Handler.create(this, this.mianSceneComplete));
-        }
-        mianSceneComplete(scene) {
-            Laya.stage.addChildAt(scene, 0);
-            scene.addComponent(UIMain);
-            this.Mask.x = 0;
-            lwg.Admin._openScene('UIStart', 1, this.self, null);
-            this.lodeUserInfo();
-            this.mianSceneOk = true;
-        }
-        lodeUserInfo() {
-            let data = lwg.LocalStorage.getData();
-            if (data) {
-                lwg.Global._gameLevel = data._gameLevel;
-                lwg.Global._goldNum = data._goldNum;
-                lwg.Global._execution = data._execution;
-                lwg.Global._exemptExTime = data._exemptExTime;
-                let d = new Date();
-                if (d.getDate() !== lwg.Global._exemptExTime) {
-                    lwg.Global._exemptEx = true;
-                    console.log('今天还有一次免体力进入的机会！');
-                }
-                else {
-                    lwg.Global._exemptEx = false;
-                    console.log('今天没有免体力进入的机会！');
-                }
-                lwg.Global._freeHintTime = data._freeHintTime;
-                if (d.getDate() !== lwg.Global._freeHintTime) {
-                    lwg.Global._freetHint = true;
-                    console.log('今天还有一次双击免费提示的机会！');
-                }
-                else {
-                    lwg.Global._freetHint = false;
-                    console.log('今天没有双击免费提示的机会！');
-                }
-                lwg.Global._hotShareTime = data._hotShareTime;
-                if (d.getDate() !== lwg.Global._hotShareTime) {
-                    lwg.Global._hotShare = true;
-                    console.log('今天还有一次热门分享的机会！');
-                }
-                else {
-                    lwg.Global._hotShare = false;
-                    console.log('今天没有热门分享的机会！');
-                }
-                lwg.Global._addExDate = data._addExDate;
-                lwg.Global._addExHours = data._addExHours;
-                lwg.Global._addMinutes = data._addMinutes;
-                if (!data._currentPifu) {
-                    lwg.LocalStorage.addData();
-                }
-                else {
-                    lwg.Global._currentPifu = data._currentPifu;
-                }
-                if (!data._havePifu) {
-                    lwg.LocalStorage.addData();
-                }
-                else {
-                    lwg.Global._havePifu = data._havePifu;
-                }
-                if (!data._buyNum) {
-                    lwg.LocalStorage.addData();
-                }
-                else {
-                    lwg.Global._buyNum = data._buyNum;
-                }
-                if (!data._watchAdsNum) {
-                    lwg.LocalStorage.addData();
-                }
-                else {
-                    lwg.Global._watchAdsNum = data._watchAdsNum;
-                }
-            }
-            lwg.Global._createGoldNum(Laya.stage);
-            lwg.Global._createExecutionNum(Laya.stage);
-        }
-        onUpdate() {
-            this.time++;
-            if (this.time === 60) {
-                this.Mask.x = -72;
-                ADManager.TAPoint(TaT.PageLeave, 'UIPreload');
-                lwg.Admin._openScene('UIStart', 0, this.self, f => {
-                });
-            }
-            else if (this.time === 80) ;
         }
     }
 
@@ -5602,8 +6121,8 @@
             this.randomNoHave();
         }
         adaptive() {
-            this.self['SceneContent'].y = Laya.stage.height / 2;
-            this.self['P201'].y = Laya.stage.height * 0.237;
+            this.self['SceneContent'].y = Laya.stage.height * 0.589;
+            this.self['P201'].y = Laya.stage.height * 0.18;
             this.self['background_01'].height = Laya.stage.height;
         }
         openAni() {
@@ -5624,23 +6143,15 @@
             pifuImg.skin = lwg.Enum.PifuSkin[oder2];
         }
         btnOnClick() {
-            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnCheck'], this, null, null, this.btnCheckUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnGet'], this, null, null, this.btnAdvUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
         }
         btnAdvUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_skintry');
             event.currentTarget.scale(1, 1);
-            let check = this.self['BtnCheck'].getChildByName('Check');
-            if (check.visible) {
-                ADManager.ShowReward(() => {
-                    this.btnAdvFunc();
-                });
-            }
-            else {
-                event.currentTarget.scale(1, 1);
-                this.self.close();
-                lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].openPlayScene();
-            }
+            ADManager.ShowReward(() => {
+                this.btnAdvFunc();
+            });
         }
         btnCheckUp(e) {
             let check = this.self['BtnCheck'].getChildByName('Check');
@@ -6151,9 +6662,11 @@
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnSet'], this, null, null, this.btnSetUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnPainted'], this, null, null, this.btnPaintedUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnTurntable'], this, null, null, this.btnTurntableUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnPainted'], this, null, null, this.btnPaintedUp, null);
         }
         btnPaintedUp(e) {
             e.currentTarget.scale(1, 1);
+            lwg.Admin._openScene(lwg.Admin.SceneName.UICaiDanQiang, null, null, null);
         }
         btnTurntableUp(e) {
             e.currentTarget.scale(1, 1);
@@ -6373,11 +6886,10 @@
             this.lotteryProps = [];
             this.firstUseed = "1";
             this.lotteryGift = LotteryGift.prop1;
+            this.lotteryNum = 0;
             this.lotteryindex = 0;
-            this.ImageX = 0;
-            this.ImageY = 0;
-            this.ImageCanMove = false;
-            this.CanGet = false;
+            this.mouseDwon = false;
+            this.mouseMove = false;
         }
         onAwake() {
             lwg.Global._stageClick = false;
@@ -6432,8 +6944,10 @@
             }
             else {
                 console.log("看广告");
-                this.StartLottery();
-                this.StartBtn.visible = false;
+                ADManager.ShowReward(() => {
+                    this.StartLottery();
+                    this.StartBtn.visible = false;
+                });
             }
         }
         StartLottery() {
@@ -6442,10 +6956,29 @@
             Laya.timer.once(1500, this, this.StopLottery);
         }
         StopLottery() {
+            this.lotteryNum++;
             console.log("转盘停止");
             let ran = this.randomInRange_i(0, 100);
-            if (ran >= 20 && ran < 100) {
+            if (ran >= 0 && ran < 20) {
+                this.lotteryGift = LotteryGift.prop1;
+            }
+            else if (ran >= 20 && ran < 40) {
+                if (lwg.Global._zibiyazi || this.lotteryNum === 1) {
+                    this.lotteryGift = LotteryGift.prop3;
+                }
+                else {
+                    this.lotteryGift = LotteryGift.prop2;
+                    lwg.Global._zibiyazi = true;
+                }
+            }
+            else if (ran >= 40 && ran < 60) {
                 this.lotteryGift = LotteryGift.prop3;
+            }
+            else if (ran >= 60 && ran < 80) {
+                this.lotteryGift = LotteryGift.prop4;
+            }
+            else if (ran >= 80 && ran < 100) {
+                this.lotteryGift = LotteryGift.prop6;
             }
             let degree = 60 * this.lotteryGift + this.randomInRange_i(25, 35);
             this._rotateSelfPro.StopSpeed(degree, () => {
@@ -6481,9 +7014,11 @@
             lwg.Click.on(lwg.Click.ClickType.largen, null, BtnNo, this, null, null, this.btnNoUp, null);
         }
         btnADAgainUp() {
-            this.ClosePanel();
-            this.StartLottery();
-            this.StartBtn.visible = false;
+            ADManager.ShowReward(() => {
+                this.ClosePanel();
+                this.StartLottery();
+                this.StartBtn.visible = false;
+            });
         }
         btnNoUp(e) {
             this.ClosePanel();
@@ -6535,67 +7070,57 @@
             this.RewardPanel.y = 0;
         }
         CaiDanMoveInit() {
-            this.CaiDanParnet = this.lotteryProps[4];
-            this.CaidanImage = this.CaiDanParnet.getChildAt(1);
-            console.log("CaiDanParnet", this.CaiDanParnet, "CaidanImage", this.CaidanImage);
-            this.RefreshCaiDan();
+            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.owner.scene['Caidan'], this, this.caidanDwon, null, null, null);
+            let BtnNo = this.owner.scene['Painted_Pikaqiu'].getChildByName('BtnNo');
+            let BtnFreeGet = this.owner.scene['Painted_Pikaqiu'].getChildByName('BtnFreeGet');
+            lwg.Click.on(lwg.Click.ClickType.largen, null, BtnNo, this, null, null, this.btnNoUp_P, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, BtnFreeGet, this, null, null, this.btnFreeGetUp_P, null);
         }
-        RefreshCaiDan() {
-            let use = Laya.LocalStorage.getItem("LotteryCaidan");
-            if (use) {
-                if (use == "0") {
-                    this.CaidanImage.on(Laya.Event.MOUSE_DOWN, this, this.CaiDanDown);
-                    this.CaidanImage.on(Laya.Event.MOUSE_UP, this, this.CaiDanUp);
-                    this.CaidanImage.on(Laya.Event.MOUSE_OUT, this, this.CaidanMoveOut);
-                }
-                else {
-                    this.CaidanImage.off(Laya.Event.MOUSE_DOWN, this, this.CaiDanDown);
-                    this.CaidanImage.off(Laya.Event.MOUSE_UP, this, this.CaiDanUp);
-                    this.CaidanImage.off(Laya.Event.MOUSE_OUT, this, this.CaidanMoveOut);
-                }
+        btnNoUp_P(e) {
+            e.currentTarget.scale(1, 1);
+            this.owner.scene['Painted_Pikaqiu'].x = 1500;
+            this.owner.scene['Painted_Pikaqiu'].y = 0;
+        }
+        btnFreeGetUp_P(e) {
+            e.currentTarget.scale(1, 1);
+            ADManager.ShowReward(() => {
+                lwg.Global._huangpihaozi = true;
+                lwg.LocalStorage.addData();
+                this.owner.scene['Painted_Pikaqiu'].x = 1500;
+                this.owner.scene['Painted_Pikaqiu'].y = 0;
+                lwg.Global._paintedPifu.push[RewardDec.prop5];
+            });
+        }
+        caidanDwon() {
+            if (!lwg.Global._huangpihaozi) {
+                this.mouseDwon = true;
             }
             else {
-                Laya.LocalStorage.setItem("LotteryCaidan", "0");
-                this.CaidanImage.on(Laya.Event.MOUSE_DOWN, this, this.CaiDanDown);
-                this.CaidanImage.on(Laya.Event.MOUSE_UP, this, this.CaiDanUp);
-                this.CaidanImage.on(Laya.Event.MOUSE_OUT, this, this.CaidanMoveOut);
+                console.log('已经获得了黄皮耗子皮肤！');
             }
-            this.ImageX = this.CaidanImage.x;
-            this.ImageY = this.CaidanImage.y;
         }
-        CaiDanDown() {
-            console.log("彩蛋点击事件");
-            this.CaidanImage.on(Laya.Event.MOUSE_MOVE, this, this.CaiDanMove);
-        }
-        CaiDanMove() {
-            this.CaidanImage.x = this.CaiDanParnet.mouseX;
-            this.CaidanImage.y = this.CaiDanParnet.mouseY;
-        }
-        CaidanMoveOut() {
-            this.CaiDanUp();
-        }
-        CaiDanUp() {
-            this.CaidanImage.off(Laya.Event.MOUSE_MOVE, this, this.CaiDanMove);
-            let x = Math.abs(this.CaidanImage.x - this.ImageX);
-            let y = Math.abs(this.CaidanImage.y - this.ImageY);
-            if ((x * x + y * y) > 40000) {
-                console.log("位置恢复,触发");
-                this.lotteryindex = LotteryGift.prop6;
-                this.ADaction = () => {
-                    Laya.LocalStorage.setItem("LotteryCaidan", "1");
-                    this.RefreshCaiDan();
-                };
-                this.Normalaction = () => {
-                    this.RefreshCaiDan();
-                    console.log("点击获取", this.lotteryGift);
-                };
-                this.ShowReward();
+        onStageMouseMove(e) {
+            if (this.mouseDwon) {
+                this.mouseMove = true;
+                this.owner.scene.addChild(this.owner.scene['Caidan']);
+                this.owner.scene['Caidan'].x = e.stageX;
+                this.owner.scene['Caidan'].y = e.stageY;
             }
-            else {
-                console.log("位置恢复,不触发");
+        }
+        onStageMouseUp(e) {
+            if (this.mouseMove) {
+                this.owner.scene['CaidanParent'].addChild(this.owner.scene['Caidan']);
+                this.owner.scene['Caidan'].x = 472;
+                this.owner.scene['Caidan'].y = 301;
+                this.mouseDwon = false;
+                this.mouseMove = false;
+                let point = new Laya.Point(e.stageX, e.stageY);
+                let dis = point.distance(this.owner.scene['ZhunpanBG'].x, this.owner.scene['ZhunpanBG'].y);
+                if (dis - this.owner.scene['ZhunpanBG'].width / 2 > 0) {
+                    this.owner.scene['Painted_Pikaqiu'].x = 0;
+                    this.owner.scene['Painted_Pikaqiu'].y = 0;
+                }
             }
-            this.CaidanImage.x = this.ImageX;
-            this.CaidanImage.y = this.ImageY;
         }
         CaidanInit() {
             this.Caidan1 = this.Zhuanpan.getChildByName("CaiDan1");
@@ -6633,10 +7158,10 @@
     var RewardDec;
     (function (RewardDec) {
         RewardDec["prop1"] = "\u4F53\u529Bx3";
-        RewardDec["prop2"] = "\u76AE\u5361\u4E18";
+        RewardDec["prop2"] = "\u9EC4\u76AE\u8017\u5B50";
         RewardDec["prop3"] = "\u91D1\u5E01x30";
         RewardDec["prop4"] = "\u4F53\u529Bx2";
-        RewardDec["prop5"] = "\u53EF\u8FBE\u9E2D";
+        RewardDec["prop5"] = "\u81EA\u95ED\u9E2D\u5B50";
         RewardDec["prop6"] = "\u91D1\u5E01x60";
     })(RewardDec || (RewardDec = {}));
     var RewardSkin;
@@ -6983,6 +7508,8 @@
             reg("TJ/Promo/script/P205.ts", P205);
             reg("TJ/Promo/script/P106.ts", P106);
             reg("script/Game/UIAnchorXD.ts", UIAnchorXD);
+            reg("ZhuanPan/SkinItem.ts", SkinItem);
+            reg("ZhuanPan/CaiDanQiang.ts", CaiDanQiang);
             reg("script/Game/UIDefeated.ts", UIDefeated);
             reg("script/Game/UIExecutionHint.ts", UIExecutionHint);
             reg("script/Game/UILoding.ts", UILoding);

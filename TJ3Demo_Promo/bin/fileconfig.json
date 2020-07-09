@@ -42,6 +42,39 @@
             "vslider.png"
         ]
     ],
+        "res/atlas/CaiDanQIang.atlas": [
+        "CaiDanQIang/",
+        [
+            "anniu_mianfei.png",
+            "anniu_zhaohuan1.png",
+            "anniu_zhaohuan2.png",
+            "biaoti.png",
+            "daojukuang.png",
+            "fangshi.png",
+            "gongxi.png",
+            "jiesuo.png",
+            "laiyuan.png",
+            "longtou.png",
+            "longzhu1.png",
+            "longzhu2.png",
+            "shipintubiao.png",
+            "tiao.png",
+            "wenhao.png",
+            "xuanzhong.png"
+        ]
+    ],
+        "res/atlas/CaiDanQIang/Skin.atlas": [
+        "CaiDanQIang/Skin/",
+        [
+            "0.png",
+            "1.png",
+            "2.png",
+            "3.png",
+            "4.png",
+            "5.png",
+            "6.png"
+        ]
+    ],
     "res/atlas/Room.atlas": [
         "Room/",
         [
@@ -131,7 +164,7 @@
             "mask.png"
         ]
     ],
-       "res/atlas/UI_new/conmmon.atlas": [
+    "res/atlas/UI_new/conmmon.atlas": [
         "UI_new/conmmon/",
         [
             "get_02_btn.png",
@@ -181,7 +214,9 @@
             "word_pause.png",
             "xiaoguotu2.png",
             "icon_again.png",
-            "icon_lookadv.png"
+            "icon_lookadv.png",
+            "icon_gantan.png",
+            "icon_yuan.png"
         ]
     ],
     "res/atlas/UI_new/GameStart.atlas": [
@@ -334,7 +369,10 @@
             "word_freetry.png",
             "word_try.png",
             "try_btn_01.png",
-            "try_btn_02.png"
+            "try_btn_02.png",
+            "anniu_bupei.png",
+            "anniu_yaoyong.png",
+            "zi"
         ]
     ],
     "res/atlas/UI_new/PifuXd.atlas": [

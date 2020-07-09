@@ -8,6 +8,8 @@ import P204 from "./TJ/Promo/script/P204"
 import P205 from "./TJ/Promo/script/P205"
 import P106 from "./TJ/Promo/script/P106"
 import UIAnchorXD from "./script/Game/UIAnchorXD"
+import SkinItem from "./ZhuanPan/SkinItem"
+import CaiDanQiang from "./ZhuanPan/CaiDanQiang"
 import UIDefeated from "./script/Game/UIDefeated"
 import UIExecutionHint from "./script/Game/UIExecutionHint"
 import UILoding from "./script/Game/UILoding"
@@ -65,6 +67,8 @@ export default class GameConfig{
         reg("TJ/Promo/script/P205.ts",P205);
         reg("TJ/Promo/script/P106.ts",P106);
         reg("script/Game/UIAnchorXD.ts",UIAnchorXD);
+        reg("ZhuanPan/SkinItem.ts",SkinItem);
+        reg("ZhuanPan/CaiDanQiang.ts",CaiDanQiang);
         reg("script/Game/UIDefeated.ts",UIDefeated);
         reg("script/Game/UIExecutionHint.ts",UIExecutionHint);
         reg("script/Game/UILoding.ts",UILoding);

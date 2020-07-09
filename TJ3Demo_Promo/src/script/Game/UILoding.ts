@@ -23,36 +23,20 @@ export default class UILoding extends lwg.Admin.Scene {
 
     /**优先加载数据表*/
     dataLoading(): void {
-        Laya.loader.load("Data/HintDec.json", Laya.Handler.create(this, this.levelsOnLoaded), null, Laya.Loader.JSON);
+        Laya.loader.load("Data/HintDec.json", Laya.Handler.create(this, this.levelsOnLoaded_01), null, Laya.Loader.JSON);
+        Laya.loader.load("Data/StimulateDec.json", Laya.Handler.create(this, this.levelsOnLoaded_02), null, Laya.Loader.JSON);
     }
 
     /**回调函数*/
-    levelsOnLoaded(): void {
+    levelsOnLoaded_01(): void {
         lwg.Global._hintDec = Laya.loader.getRes("Data/HintDec.json")["RECORDS"];
         // 关闭多点触控
         Laya.MouseManager.multiTouchEnabled = false;
-        // console.log(lwg.Global._hintDec);
-        // this.lodeMianScene3D();
     }
-
-    /**加载游戏内的3D场景，两个场景同时出现*/
-    lodeMianScene3D(): void {
-        Laya.Scene3D.load("testScene/LayaScene_GameMain/Conventional/GameMain.ls", Laya.Handler.create(this, this.mianSceneComplete));
-    }
-
-    /**记录游戏主场景是否完成，用于进度条的进度控制*/
-    private mianSceneOk: boolean = false;
     /**回调函数*/
-    mianSceneComplete(scene: Laya.Scene3D): void {
-        // 将场景加到舞台上，注意层级
-        Laya.stage.addChildAt(scene, 0);
-        scene.addComponent(UIMain);
-        // 进度条加满
-        this.Mask.x = 0;
-        // 打开开始游戏界面并关闭自己
-        lwg.Admin._openScene('UIStart', 1, this.self, null);
-        this.lodeUserInfo();
-        this.mianSceneOk = true;
+    levelsOnLoaded_02(): void {
+        lwg.Global._stimulateDec = Laya.loader.getRes("Data/StimulateDec.json")["RECORDS"];
+        // 关闭多点触控
     }
 
     /**加载玩家信息*/
@@ -120,15 +104,23 @@ export default class UILoding extends lwg.Admin.Scene {
                 lwg.Global._watchAdsNum = data._watchAdsNum;
             }
 
-            if (!data._pikaqiu) {
+            if (!data._huangpihaozi) {
                 lwg.LocalStorage.addData();
             } else {
-                lwg.Global._pikaqiu = data._pikaqiu;
+                lwg.Global._huangpihaozi = data._huangpihaozi;
             }
 
-            // lwg.Global._havePifu = ['01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao'];
-            // lwg.Global._gameOverAdvModel = data._gameOverAdvModel;
-            // lwg.Global._whetherAdv = data._whetherAdv;
+            if (!data._zibiyazi) {
+                lwg.LocalStorage.addData();
+            } else {
+                lwg.Global._zibiyazi = data._zibiyazi;
+            }
+
+            if (!data._kejigongzhu) {
+                lwg.LocalStorage.addData();
+            } else {
+                lwg.Global._kejigongzhu = data._kejigongzhu;
+            }
         }
 
         lwg.Global._createGoldNum(Laya.stage);
