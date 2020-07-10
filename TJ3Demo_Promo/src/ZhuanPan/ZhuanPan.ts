@@ -87,7 +87,6 @@ export default class ZhuanPan extends Laya.Script {
         }
         else {
             //看广告
-            console.log("看广告");
             ADManager.ShowReward(() => {
                 this.StartLottery();
                 this.StartBtn.visible = false;
@@ -113,25 +112,28 @@ export default class ZhuanPan extends Laya.Script {
         console.log("转盘停止");
         let ran = this.randomInRange_i(0, 100);
         if (ran >= 0 && ran < 20) {
-            this.lotteryGift = LotteryGift.prop1;
+            this.lotteryGift = 0;
         }
         else if (ran >= 20 && ran < 40) {
             if (lwg.Global._zibiyazi || this.lotteryNum === 1) {
-                this.lotteryGift = LotteryGift.prop3;
+                this.lotteryGift = 2;
             } else {
-                this.lotteryGift = LotteryGift.prop2;
+                this.lotteryGift = 1;
                 lwg.Global._zibiyazi = true;
             }
         }
-
         else if (ran >= 40 && ran < 60) {
-            this.lotteryGift = LotteryGift.prop3;
+            this.lotteryGift = 2;
         }
         else if (ran >= 60 && ran < 80) {
-            this.lotteryGift = LotteryGift.prop4;
+            this.lotteryGift = 3;
         }
+        // else if (ran >= 80 && ran < 100) {
+        // 彩蛋皮肤转不到
+        //     this.lotteryGift = 4;
+        // }
         else if (ran >= 80 && ran < 100) {
-            this.lotteryGift = LotteryGift.prop6;
+            this.lotteryGift = 5;
         }
         // this.lotteryGift = LotteryGift.prop6;  特殊皮肤奖励
         let degree = 60 * this.lotteryGift + this.randomInRange_i(25, 35);
@@ -143,6 +145,7 @@ export default class ZhuanPan extends Laya.Script {
                     break;
                 case 1:
                     lwg.Global._paintedPifu.push[RewardDec.prop2];
+                    lwg.Global._createHint_01(lwg.Enum.HintType.zibiyazi);
                     break;
                 case 2:
                     lwg.Global._addGold(30);
@@ -151,9 +154,10 @@ export default class ZhuanPan extends Laya.Script {
                     lwg.Global._addExecution(2);
                     break;
                 case 4:
-                    lwg.Global._addGold(60);
+                    // 彩蛋皮肤赚不到
                     break;
                 case 5:
+                    lwg.Global._addGold(60);
                     break;
             }
             console.log("获取礼物", this.lotteryGift + 1);
@@ -180,6 +184,7 @@ export default class ZhuanPan extends Laya.Script {
             this.ClosePanel();
             this.StartLottery();
             this.StartBtn.visible = false;
+
         })
     }
     btnNoUp(e: Laya.Event): void {
@@ -202,39 +207,21 @@ export default class ZhuanPan extends Laya.Script {
         let dec = prop.getChildByName('Dec') as Laya.Label;
         dec.text = RewardDec['prop' + (this.lotteryindex + 1)];
         if (this.lotteryindex + 1 === 2 || this.lotteryindex + 1 === 5) {
-            pic.scale(0.7, 0.7);
-            pic.x = 33;
-            pic.y = 6;
+            pic.scale(0.55, 0.55);
+            pic.x = 0;
+            pic.y = -65;
         } else {
             pic.scale(3, 3);
             if (this.lotteryindex + 1 === 1 || this.lotteryindex + 1 === 4) {
-                pic.x = 15;
+                pic.x = 21;
                 pic.y = 26;
             } else if (this.lotteryindex + 1 === 3 || this.lotteryindex + 1 === 6) {
-                pic.x = 6;
-                pic.y = 14;
+                pic.x = 11;
+                pic.y = 18;
             }
         }
-
     }
 
-    GetRewardClick() {
-        if (this.Normalaction != null) {
-            this.Normalaction();
-        }
-        this.ClosePanel();
-    }
-
-    ADGetRewardClick() {
-        //看视频获取----------------------------------------->
-        console.log("看广告");
-        ADManager.ShowReward(() => {
-            this.ADaction();
-            this.ClosePanel();
-            this.StartLottery();
-            this.StartBtn.visible = false;
-        })
-    }
     ClosePanel() {
         this.RewardPanel.x = 1500;
         this.RewardPanel.y = 0;
@@ -268,6 +255,7 @@ export default class ZhuanPan extends Laya.Script {
             this.owner.scene['Painted_Pikaqiu'].x = 1500;
             this.owner.scene['Painted_Pikaqiu'].y = 0;
             lwg.Global._paintedPifu.push[RewardDec.prop5];
+            lwg.Global._createHint_01(lwg.Enum.HintType.saiyaren);
         })
     }
 
@@ -355,18 +343,18 @@ export enum LotteryGift {
 
 export enum RewardDec {
     prop1 = '体力x3',
-    prop2 = '黄皮耗子',
+    prop2 = '自闭鸭子',
     prop3 = '金币x30',
     prop4 = '体力x2',
-    prop5 = '自闭鸭子',
+    prop5 = '黄皮耗子',
     prop6 = '金币x60'
 }
 export enum RewardSkin {
     prop1 = 'UI_new/conmmon/icon_execution.png',
-    prop2 = 'UI_new/conmmon/icon_qingdi.png',
+    prop2 = 'CaiDanQIang/Skin/1.png',
     prop3 = 'UI_new/conmmon/icon_gold.png',
     prop4 = 'UI_new/conmmon/icon_execution.png',
-    prop5 = 'UI_new/conmmon/icon_qingdi.png',
+    prop5 = 'CaiDanQIang/Skin/0.png',
     prop6 = 'UI_new/conmmon/icon_gold.png'
 }
 

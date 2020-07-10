@@ -39,13 +39,11 @@ export default class UIPifu extends lwg.Admin.Scene {
         if (lwg.Enum.PifuAllName[lwg.Global._currentPifu]) {
             this.listFirstIndex = lwg.Enum.PifuAllName[lwg.Global._currentPifu];
         } else {
-            this.listFirstIndex = -1;
+            this.listFirstIndex = lwg.Enum.PifuAllName['01_gongzhu'];
         }
         lwg.Global.notHavePifuSubXD();
         this.createPifuList();
         this.priceDisplay();
-
-
     }
 
     /**一些节点的适配*/

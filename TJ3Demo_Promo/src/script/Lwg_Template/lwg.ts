@@ -1648,7 +1648,14 @@ export module lwg {
             '分享成功，获得125金币！',
             '限定皮肤已经获得，请前往商店查看。',
             '分享失败！',
-            '兑换码错误！'
+            '兑换码错误！',
+            '获得柯基公主皮肤，前往彩蛋墙查看！',
+            '获得黄皮耗子皮肤，前往彩蛋墙查看！',
+            '获得赛牙人皮肤，前往彩蛋墙查看！',
+            '获得海绵公主皮肤，前往彩蛋墙查看！',
+            '获得仓鼠公主皮肤，前往彩蛋墙查看！',
+            '获得自闭鸭子皮肤，前往彩蛋墙查看！',
+
         }
 
         /**提示类型*/
@@ -1669,7 +1676,13 @@ export module lwg {
             'shareyes',
             "getXD",
             "sharefailNoAward",
-            "inputerr"
+            "inputerr",
+            'kejigongzhu',
+            'huangpihaozi',
+            'saiyaren',
+            'haimiangongzhu',
+            'cangshugongzhu',
+            'zibiyazi',
         }
         /**皮肤的顺序以及名称*/
         export enum PifuOrder {

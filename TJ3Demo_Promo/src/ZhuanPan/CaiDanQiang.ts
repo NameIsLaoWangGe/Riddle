@@ -241,7 +241,7 @@ export default class CaiDanQiang extends Laya.Script {
         this.NowCaidanDataq = skindata;
         lwg.Global._pickPaintedNum = this.NowCaidanDataq.ID;
         this.IconDown.skin = skindata.GetIconPath();
-        this.IconUp.skin = skindata.GetIconPath_h();
+        this.IconUp.skin = skindata.GetIconPath();
         this.MesFangshi.text = skindata.MesFangshi;
         this.MesLaiyuan.text = skindata.MesLiayuan;
         this.Name.text = skindata.Name;
@@ -309,14 +309,15 @@ export default class CaiDanQiang extends Laya.Script {
     ADGetRewardClick1() {
         //看广告   彩蛋皮肤 编码4  
         ADManager.ShowReward(() => {
-        })
-        console.log('看广告');
-        let skin = Laya.LocalStorage.getItem("Caidanskin" + 4);
-        let strs = skin.split("_");
-        Laya.LocalStorage.setItem("Caidanskin" + 4, "1" + "_" + strs[1] + "_" + strs[2]);
-        this.CaidanJiemianHide1();
-        this.Skinitems.forEach((v, i) => {
-            v.Fell(this.CaiDanDatas2[i], this.Caidanqiang);
+            console.log('看广告');
+            let skin = Laya.LocalStorage.getItem("Caidanskin" + 4);
+            let strs = skin.split("_");
+            Laya.LocalStorage.setItem("Caidanskin" + 4, "1" + "_" + strs[1] + "_" + strs[2]);
+            this.CaidanJiemianHide1();
+            this.Skinitems.forEach((v, i) => {
+                v.Fell(this.CaiDanDatas2[i], this.Caidanqiang);
+            })
+            lwg.Global._createHint_01(lwg.Enum.HintType.saiyaren);
         })
     }
 
@@ -377,11 +378,13 @@ export default class CaiDanQiang extends Laya.Script {
             let skin = Laya.LocalStorage.getItem("Caidanskin" + 2);
             let strs = skin.split("_");
             Laya.LocalStorage.setItem("Caidanskin" + 2, "1" + "_" + strs[1] + "_" + strs[2]);
-
             this.CaidanJiemianHide2();
             this.Skinitems.forEach((v, i) => {
                 v.Fell(this.CaiDanDatas2[i], this.Caidanqiang);
             })
+
+            lwg.Global._createHint_01(lwg.Enum.HintType.cangshugongzhu);
+
         })
     }
 
@@ -509,9 +512,14 @@ export default class CaiDanQiang extends Laya.Script {
             this.Rewardindex = 3;
         }
         else if (ran >= 68 && ran < 100) {
-            this.Rewardindex = 4;
+            if (lwg.Global._kejigongzhu) {
+                this.Rewardindex = 3;
+
+            } else {
+                this.Rewardindex = 4;
+            }
+
         }
-        this.Rewardindex = 4;
         if (this.Rewardindex == 5)//空礼物 显示文字
         {
 
@@ -526,7 +534,7 @@ export default class CaiDanQiang extends Laya.Script {
                 }
             });
         }
-        this.ShenLongWenzi.visible = this.Rewardindex == 5;;
+        this.ShenLongWenzi.visible = this.Rewardindex == 5;
         this.Props.visible = !this.ShenLongWenzi.visible;;
         (this.ADGetReward.getChildAt(1) as Laya.Image).visible = !this.ShenLongWenzi.visible;
     }
@@ -535,9 +543,8 @@ export default class CaiDanQiang extends Laya.Script {
         ADManager.ShowReward(() => {
             //看视频获取----------------------------------------->
             console.log("看广告");
-
-            this.RewardGet();
             this.ShowReward();//展示奖励
+            this.RewardGet();
         })
     }
 
@@ -579,6 +586,8 @@ export default class CaiDanQiang extends Laya.Script {
             let strs = skin.split("_");
             Laya.LocalStorage.setItem("Caidanskin" + 3, "1" + "_" + strs[1] + "_" + strs[2]);
             console.log("礼物", this.Rewardindex);
+            lwg.Global._createHint_01(lwg.Enum.HintType.kejigongzhu);
+
         }
         else if (this.Rewardindex == 5) {
             console.log("无礼物");
