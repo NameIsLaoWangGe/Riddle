@@ -19,6 +19,7 @@ export default class UICaidanPifu extends lwg.Admin.Scene {
     constructor() { super(); }
 
     lwgInit(): void {
+        ADManager.TAPoint(TaT.PageEnter, 'HMskinpage');
         this.SceneContent = this.self['SceneContent'];
         lwg.Global._stageClick = false;
     }
@@ -41,10 +42,12 @@ export default class UICaidanPifu extends lwg.Admin.Scene {
         event.currentTarget.scale(1, 1);
         ADManager.ShowReward(() => {
             lwg.Global._haimiangongzhu = true;
+            this.self.close();
         })
     }
 
     lwgDisable(): void {
+        ADManager.TAPoint(TaT.PageLeave, 'HMskinpage');
         lwg.Global._stageClick = true;
     }
 }

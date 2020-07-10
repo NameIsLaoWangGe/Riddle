@@ -50,8 +50,7 @@ export default class UIStart extends lwg.Admin.Scene {
             this.self['P201'].visible = false;
             this.self['P204'].visible = false;
         }
-
-        // 关闭多点触控
+        // 开启多点触控
         Laya.MouseManager.multiTouchEnabled = true;
     }
 
@@ -366,20 +365,22 @@ export default class UIStart extends lwg.Admin.Scene {
     btnOnClick(): void {
 
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnStart, this, null, null, this.btnStartClickUp, null);
-        lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnPifu, this, null, null, this.btnPifuClickUp, null);
+
         lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.BtnLocation, this, null, null, this.btnLocationUp, null);
         lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.CustomsList, this, null, null, this.customsListUp, null);
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnXD'], this, null, null, this.btnXDUp, null);
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnSet'], this, null, null, this.btnSetUp, null);
 
 
-
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnPainted'], this, this.btnPaintedDown, null, this.btnPaintedUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnPifu, this, this.btnPifuDown, null, this.btnPifuUp, null);
 
-        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnTurntable'], this, this.btnTurntableDown, null, this.btnTurntableUp, null);
+
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnTurntable'], this, null, null, this.btnTurntableUp, null);
 
     }
 
+    /**彩蛋按钮相关*/
     btnPainted = false;
     btnPaintedDown(e: Laya.Event): void {
         e.stopPropagation();
@@ -388,46 +389,42 @@ export default class UIStart extends lwg.Admin.Scene {
         }
         e.currentTarget.scale(1.1, 1.1);
         this.btnPainted = true;
-        let bool = this.candanFunc();
     }
-
     btnPaintedUp(e): void {
         e.currentTarget.scale(1, 1);
         if (!this.candanFunc()) {
             lwg.Admin._openScene(lwg.Admin.SceneName.UICaiDanQiang, null, null, null);
         }
-
         this.btnPainted = false;
-        this.btnTurntable = false;
+        this.btnPifu = false;
     }
 
-    btnTurntable = false;
-    btnTurntableDown(e: Laya.Event): void {
+    /**皮肤按钮相关*/
+    btnPifu: boolean = false;
+    btnPifuDown(e: Laya.Event): void {
         e.stopPropagation();
         if (lwg.Global._haimiangongzhu) {
             return;
         }
         e.currentTarget.scale(1.1, 1.1);
-        this.btnTurntable = true;
-        this.candanFunc();
+        this.btnPifu = true;
     }
 
-    btnTurntableUp(e): void {
-        e.currentTarget.scale(1, 1);
+    btnPifuUp(event): void {
+        event.currentTarget.scale(1, 1);
         if (!this.candanFunc()) {
-            lwg.Admin._openScene(lwg.Admin.SceneName.UITurntable, null, null, null);
+            lwg.Admin._openScene('UIPifu', null, null, null);
         }
         this.btnPainted = false;
-        this.btnTurntable = false;
-
+        this.btnPifu = false;
     }
 
     candanFunc(): boolean {
-        if (this.btnPainted && this.btnTurntable) {
-            // lwg.Global._createHint_InPut('btnPainted: ' + this.btnPainted.toString() + '   ' + 'btnTurntable: ' + this.btnTurntable.toString());
+        if (this.btnPainted && this.btnPifu) {
+            // lwg.Global._createHint_InPut('btnPainted: ' + this.btnPainted.toString() + '   ' + 'btnTurntable: ' + this.btnPifu.toString());
             lwg.Admin._openScene(lwg.Admin.SceneName.UICaidanPifu, null, null, f => {
-                this.btnTurntable = false;
                 this.btnPainted = false;
+                this.btnPifu = false;
             });
             return true;
         } else {
@@ -435,6 +432,11 @@ export default class UIStart extends lwg.Admin.Scene {
         }
     }
 
+    btnTurntableUp(e): void {
+        e.currentTarget.scale(1, 1);
+        lwg.Admin._openScene(lwg.Admin.SceneName.UITurntable, null, null, null);
+
+    }
 
     btnSetUp(): void {
         lwg.Admin._openScene(lwg.Admin.SceneName.UISet, null, null, null);
@@ -506,10 +508,6 @@ export default class UIStart extends lwg.Admin.Scene {
         this.self.close();
     }
 
-    btnPifuClickUp(event): void {
-        event.currentTarget.scale(1, 1);
-        lwg.Admin._openScene('UIPifu', null, null, null);
-    }
 
     btnLocationUp(event): void {
         event.currentTarget.scale(1, 1);

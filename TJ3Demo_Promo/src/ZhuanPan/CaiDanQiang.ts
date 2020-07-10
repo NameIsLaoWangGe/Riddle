@@ -1,10 +1,9 @@
 import CaiDanData from "./CaidanData";
 import SkinItem from "./SkinItem";
 import { lwg } from "../script/Lwg_Template/lwg";
-import ADManager from "../TJ/Admanager";
+import ADManager, { TaT } from "../TJ/Admanager";
 
 export default class CaiDanQiang extends Laya.Script {
-
     //#region  数据处理
     /***********方式一  Xml加载 数据组较大 不方便放在程序组 异步加载 慢 *********/
 
@@ -90,6 +89,7 @@ export default class CaiDanQiang extends Laya.Script {
     MesShow: Laya.Image;
     Icon: Laya.Image;
     IconUp: Laya.Image;//裁影
+    IconUp_w: Laya.Image;//问号
     IconDown: Laya.Image;//实图
     MesLaiyuan: Laya.Label;
     MesFangshi: Laya.Label;
@@ -169,6 +169,7 @@ export default class CaiDanQiang extends Laya.Script {
 
     onAwake()//加载需放在 start之前初始化
     {
+        ADManager.CloseBanner();
         // this.LoadXml();//大表推荐
         this.LoadJson();//小表推荐 
 
@@ -177,10 +178,13 @@ export default class CaiDanQiang extends Laya.Script {
         this.CaiDanShow = this.Caidanqiang.getChildByName("CaiDanShow") as Laya.Box;
         this.List0 = this.CaiDanShow.getChildByName("List0") as Laya.Box;
         this.List1 = this.CaiDanShow.getChildByName("List1") as Laya.Box;
+
         this.MesShow = this.Caidanqiang.getChildByName("MesShow") as Laya.Image;
         this.Icon = this.MesShow.getChildByName("Icon") as Laya.Image;
         this.IconDown = this.Icon.getChildByName("IconDown") as Laya.Image;
         this.IconUp = this.Icon.getChildByName("IconUp") as Laya.Image;
+        this.IconUp_w = this.Icon.getChildByName("IconUp_w") as Laya.Image;
+
         this.MesLaiyuan = this.MesShow.getChildByName("MesLaiyuan") as Laya.Label;
         this.MesFangshi = this.MesShow.getChildByName("MesFangshi") as Laya.Label;
         this.Name = this.MesShow.getChildByName("Name") as Laya.Label;
@@ -190,13 +194,15 @@ export default class CaiDanQiang extends Laya.Script {
 
         lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.LaiyuanADSafe, this, null, null, this.LaiyuanADcLICK, null);
         lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.FangshiADSafe, this, null, null, this.FangshiADClick, null);
-        lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.owner.scene['BtnBack'], this, null, null, this.btnBackUP, null);
+
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.owner.scene['BtnBack'], this, null, null, this.btnBackUP, null);
 
         this.CaidanRewardPanelinit1();
         this.CaiDanInit();
     }
 
-    btnBackUP(): void {
+    btnBackUP(e: Laya.Event): void {
+        e.currentTarget.scale(1, 1);
         this.owner.scene.close();
     }
 
@@ -232,7 +238,6 @@ export default class CaiDanQiang extends Laya.Script {
             this.NowCaidanDataq = this.CaiDanDatas2[0];
         }
 
-
     }
 
     //刷新界面 每次处理过之后要刷新菜单展示
@@ -249,6 +254,7 @@ export default class CaiDanQiang extends Laya.Script {
         let itemstorage = Laya.LocalStorage.getItem("Caidanskin" + skindata.ID);
         let strs = itemstorage.split("_");
         this.IconUp.visible = strs[0] == "0";
+        this.IconUp_w.visible = this.IconUp.visible;
         this.LaiyuanADSafe.visible = strs[1] == "0";
         this.FangshiADSafe.visible = strs[2] == "0";
 
@@ -301,15 +307,17 @@ export default class CaiDanQiang extends Laya.Script {
     }
 
     CaidanJiemianShow1() {
+        ADManager.TAPoint(TaT.PageEnter, 'SYskinpage');
         this.CaidanRewardPanel1.visible = true;
     }
     CaidanJiemianHide1() {
         this.CaidanRewardPanel1.visible = false;
+        ADManager.TAPoint(TaT.PageLeave, 'SYskinpage');
     }
     ADGetRewardClick1() {
         //看广告   彩蛋皮肤 编码4  
+        console.log('看广告');
         ADManager.ShowReward(() => {
-            console.log('看广告');
             let skin = Laya.LocalStorage.getItem("Caidanskin" + 4);
             let strs = skin.split("_");
             Laya.LocalStorage.setItem("Caidanskin" + 4, "1" + "_" + strs[1] + "_" + strs[2]);
@@ -365,6 +373,8 @@ export default class CaiDanQiang extends Laya.Script {
                 }
                 else {
                     this.CaidanRewardPanel2.visible = true;
+                    ADManager.TAPoint(TaT.PageEnter, 'CSskinpage');
+
                 }
             });
         });
@@ -374,7 +384,10 @@ export default class CaiDanQiang extends Laya.Script {
     }
     ADGetRewardClick2() {
         //看广告   彩蛋皮肤 编码2
+        console.log('看广告!');
         ADManager.ShowReward(() => {
+            ADManager.TAPoint(TaT.PageLeave, 'CSskinpage');
+
             let skin = Laya.LocalStorage.getItem("Caidanskin" + 2);
             let strs = skin.split("_");
             Laya.LocalStorage.setItem("Caidanskin" + 2, "1" + "_" + strs[1] + "_" + strs[2]);
@@ -478,12 +491,12 @@ export default class CaiDanQiang extends Laya.Script {
         this.ADGetReward.on(Laya.Event.CLICK, this, this.ADGetRewardClick);
         this.GetReward.on(Laya.Event.CLICK, this, this.GetRewardClick);
 
-
         console.log("this.props", this.props);
 
         this.CaidanRewardPanelHide();
     }
     CaidanRewardPanelShow() {
+        ADManager.TAPoint(TaT.PageEnter, 'dragonpage');
         //第一次显示文字
         this.ShenLongWenzi.visible = this.Rewardindex == 5;;
         this.Props.visible = !this.ShenLongWenzi.visible;
@@ -537,18 +550,21 @@ export default class CaiDanQiang extends Laya.Script {
         this.ShenLongWenzi.visible = this.Rewardindex == 5;
         this.Props.visible = !this.ShenLongWenzi.visible;;
         (this.ADGetReward.getChildAt(1) as Laya.Image).visible = !this.ShenLongWenzi.visible;
+        ADManager.TAPoint(TaT.PageEnter, 'dragongiftpage');
     }
 
     ADGetRewardClick() {
+        ADManager.TAPoint(TaT.PageLeave, 'dragongiftpage');
+        console.log("看广告");
         ADManager.ShowReward(() => {
             //看视频获取----------------------------------------->
-            console.log("看广告");
             this.ShowReward();//展示奖励
             this.RewardGet();
         })
     }
 
     ClosePanel() {
+        ADManager.TAPoint(TaT.PageLeave, 'dragonpage');
         this.RewardGet();
         this.ClosePanel();
     }
@@ -617,8 +633,8 @@ export default class CaiDanQiang extends Laya.Script {
             lwg.Global._currentPifu = this.NowCaidanDataq.Tip;
             lwg.LocalStorage.addData();
         }
-        console.log(this.NowCaidanDataq);
         console.log(lwg.Global._currentPifu);
+        ADManager.ShowBanner();
     }
 
     //#endregion

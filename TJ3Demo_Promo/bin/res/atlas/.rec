@@ -187,9 +187,9 @@ D UI
 P D8F10A65 1.png
 P F638ABFB 2.png
 P 27BA4EB9 3.png
-P ABA5EDBC 75b774cd-5d5f-4c0d-8bd0-7ec4d388c85d.png
-P D594683E 770947bf-ac61-4198-919a-734bd94d7e40.png
-P CAAF7702 ec8071c1-4577-4d6c-9231-2357a90145b1.png
+P ABA5EDBC 4.png
+P D594683E 5.png
+P CAAF7702 6.png
 D UI_new
 D voice
 R DF5F5D4D bgm.mp3
@@ -232,7 +232,9 @@ P C245FC34 icon_adv_big.png
 P BE41F222 icon_check.png
 P F9C107BA icon_checkYes.png
 P 549E1435 icon_execution.png
+P C36AA67B icon_execution_big.png
 P 4CB05733 icon_gold.png
+P A5763191 icon_gold_big.png
 P C90B8077 icon_qingdi.png
 P 8CC6C67B icon_share.png
 P 8E8870A9 no_btn.png
@@ -423,7 +425,6 @@ P 1F78459A green_btn.png
 P 1DF9AE7D icon_adv_green.png
 P 8E52ABD9 icon_adv_h.png
 P 19A70E3D icon_adv_red.png
-P A5763191 icon_biggold.png
 P FA691F6B last_btn.png
 P 0129378A logo_victory.png
 P A6CD0CAF rede_btn.png

@@ -1,4 +1,5 @@
 import UIMain from "../Game/UIMain";
+import ADManager, { TaT } from "../../TJ/Admanager";
 // import ADManager, { TaT } from "../../TJ/Admanager";
 
 /**综合模板*/
@@ -102,13 +103,10 @@ export module lwg {
         /**当前是否为评测版本,隐藏某些功能*/
         export let pingceV: boolean = true;
 
-
-
-
         /**屏幕震动*/
         export function _vibratingScreen(): void {
-
         }
+
         /**找出还没有获得的皮肤,不包括限定皮肤*/
         export function notHavePifuSubXD(): void {
             // 所有皮肤赋值给新数组
@@ -390,7 +388,7 @@ export module lwg {
                 _prefab.json = prefab;
                 sp = Laya.Pool.getItemByCreateFun('P201', _prefab.create, _prefab);
                 parent.addChild(sp);
-                sp.pos(90, 290);
+                sp.pos(80, 290);
                 sp.zOrder = 65;
                 P201_01Node = sp;
             }));
@@ -412,7 +410,7 @@ export module lwg {
                 let num = lwg.Admin.openCustomName.substring(lwg.Admin.openCustomName.length - 3, lwg.Admin.openCustomName.length);
                 dec.text = lwg.Global._stimulateDec[Number(num) - 1]['dec'];
                 parent.addChild(sp);
-                sp.pos(100, 150);
+                sp.pos(35, 150);
                 sp.zOrder = 65;
                 StimulateDecNode = sp;
             }));
@@ -482,7 +480,7 @@ export module lwg {
                 Laya.stage.addChild(sp);
                 sp.pos(Laya.stage.width / 2, Laya.stage.height / 2);
                 let dec = sp.getChildByName('dec') as Laya.Label;
-                dec.text =input
+                dec.text = input
                 sp.zOrder = 100;
 
                 dec.alpha = 0;
@@ -847,100 +845,114 @@ export module lwg {
             _sceneControl[openCustomName].close();
         }
 
-        // /**场景打点次数*/
-        // let printPointNum: number = 0;
-        // /**
-        // * 场景打点,记录玩家进场景和出场景的次数
-        // * @param type 两种类型，一种是离开打点，一种是进入打点
-        // */
-        // export function printPoint(type, name: string): void {
-        //     switch (name) {
-        //         case SceneName.UILoding:
-        //             if (type === 'on') {
-        //                 ADManager.TAPoint(TaT.PageEnter, 'UIPreload');
-        //             } else if (type === 'dis') {
-        //                 ADManager.TAPoint(TaT.PageLeave, 'UIPreload');
-        //             }
-        //             break;
-        //         case SceneName.UIStart:
-        //             if (type === 'on') {
-        //                 ADManager.TAPoint(TaT.PageEnter, 'mianpage');
-        //             } else if (type === 'dis') {
-        //                 ADManager.TAPoint(TaT.PageLeave, 'mianpage');
-        //             }
-        //             break;
-        //         case SceneName.UIVictory:
-        //             if (type === 'on') {
-        //                 ADManager.TAPoint(TaT.PageEnter, 'successpage');
-        //             } else if (type === 'dis') {
-        //                 ADManager.TAPoint(TaT.PageLeave, 'successpage');
-        //             }
-        //             break;
+        /**场景打点次数*/
+        let printPointNum: number = 0;
+        /**
+        * 场景打点,记录玩家进场景和出场景的次数
+        * @param type 两种类型，一种是离开打点，一种是进入打点
+        */
+        export function printPoint(type, name: string): void {
+            switch (name) {
+                case SceneName.UILoding:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'UIPreload');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'UIPreload');
+                    }
+                    break;
+                case SceneName.UIStart:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'mianpage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'mianpage');
+                    }
+                    break;
+                case SceneName.UIVictory:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'successpage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'successpage');
+                    }
+                    break;
 
-        //         case SceneName.UIDefeated:
-        //             if (type === 'on') {
-        //                 ADManager.TAPoint(TaT.PageEnter, 'failpage');
-        //             } else if (type === 'dis') {
-        //                 ADManager.TAPoint(TaT.PageLeave, 'failpage');
-        //             }
-        //             break;
+                case SceneName.UIDefeated:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'failpage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'failpage');
+                    }
+                    break;
 
-        //         case SceneName.UIExecutionHint:
-        //             if (type === 'on') {
-        //                 ADManager.TAPoint(TaT.PageEnter, 'noticketpage');
-        //             } else if (type === 'dis') {
-        //                 ADManager.TAPoint(TaT.PageLeave, 'noticketpage');
-        //             }
-        //             break;
-        //         case SceneName.UIPassHint:
-        //             if (type === 'on') {
-        //                 ADManager.TAPoint(TaT.PageEnter, 'freegiftpage');
-        //             } else if (type === 'dis') {
-        //                 ADManager.TAPoint(TaT.PageLeave, 'freegiftpage');
-        //             }
-        //             break;
-        //         case SceneName.UIPuase:
-        //             if (type === 'on') {
-        //                 ADManager.TAPoint(TaT.PageEnter, 'pausepage');
-        //             } else if (type === 'dis') {
-        //                 ADManager.TAPoint(TaT.PageLeave, 'pausepage');
-        //             }
-        //             break;
-        //         case SceneName.UIShare:
-        //             if (type === 'on') {
-        //                 ADManager.TAPoint(TaT.PageEnter, 'sharepage');
-        //             } else if (type === 'dis') {
-        //                 ADManager.TAPoint(TaT.PageLeave, 'sharepage');
-        //             }
-        //             break;
-        //         case SceneName.UIPifu:
-        //             if (type === 'on') {
-        //                 ADManager.TAPoint(TaT.PageEnter, 'skinpage');
-        //             } else if (type === 'dis') {
-        //                 ADManager.TAPoint(TaT.PageLeave, 'skinpage');
-        //             }
-        //             break;
-        //         case SceneName.UIPifuTry:
-        //             if (type === 'on') {
-        //                 ADManager.TAPoint(TaT.PageEnter, 'skintrypage');
-        //             } else if (type === 'dis') {
-        //                 ADManager.TAPoint(TaT.PageLeave, 'skintrypage');
-        //             }
-        //             break;
-        //         case SceneName.UIXDpifu:
-        //             if (type === 'on') {
-        //                 ADManager.TAPoint(TaT.PageEnter, 'limitskinpage');
-        //             } else if (type === 'dis') {
-        //                 ADManager.TAPoint(TaT.PageLeave, 'limitskinpage');
-        //             }
-        //             break;
-        //         default:
+                case SceneName.UIExecutionHint:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'noticketpage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'noticketpage');
+                    }
+                    break;
+                case SceneName.UIPassHint:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'freegiftpage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'freegiftpage');
+                    }
+                    break;
+                case SceneName.UIPuase:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'pausepage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'pausepage');
+                    }
+                    break;
+                case SceneName.UIShare:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'sharepage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'sharepage');
+                    }
+                    break;
+                case SceneName.UIPifu:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'skinpage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'skinpage');
+                    }
+                    break;
+                case SceneName.UIPifuTry:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'skintrypage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'skintrypage');
+                    }
+                    break;
+                case SceneName.UIXDpifu:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'limitskinpage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'limitskinpage');
+                    }
+                    break;
+                case SceneName.UICaiDanQiang:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'CDwallpage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'CDwallpage');
+                    }
+                    break;
+                case SceneName.UITurntable:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'turnpage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'turnpage');
+                    }
+                    break;
+                default:
 
-        //             break;
-        //     }
-        //     // printPointNum++;
-        //     // console.log('场景打点', printPointNum);
-        // }
+                    break;
+            }
+            // printPointNum++;
+            // console.log('场景打点', printPointNum);
+        }
 
         /**场景通用父类*/
         export class Scene extends Laya.Script {
@@ -962,7 +974,7 @@ export module lwg {
                 this.btnOnClick();
                 this.adaptive();
                 this.openAni();
-                // printPoint('on', this.calssName);
+                printPoint('on', this.calssName);
             }
             /**场景内全局节点*/
             selfVars(): void {
@@ -1004,7 +1016,7 @@ export module lwg {
             vanishAni(): void {
             }
             onDisable(): void {
-                // printPoint('dis', this.calssName);
+                printPoint('dis', this.calssName);
                 this.lwgDisable();
             }
             /**离开时执行，子类不执行onDisable，只执行lwgDisable*/

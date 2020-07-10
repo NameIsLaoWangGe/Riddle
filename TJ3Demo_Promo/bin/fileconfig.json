@@ -42,7 +42,7 @@
             "vslider.png"
         ]
     ],
-        "res/atlas/CaiDanQIang.atlas": [
+    "res/atlas/CaiDanQIang.atlas": [
         "CaiDanQIang/",
         [
             "anniu_mianfei.png",
@@ -63,7 +63,7 @@
             "xuanzhong.png"
         ]
     ],
-        "res/atlas/CaiDanQIang/Skin.atlas": [
+    "res/atlas/CaiDanQIang/Skin.atlas": [
         "CaiDanQIang/Skin/",
         [
             "0.png",
@@ -180,7 +180,9 @@
             "icon_adv_big.png",
             "word_freeAdv.png",
             "icon_check",
-            "icon_checkYes.png"
+            "icon_checkYes.png",
+            "icon_execution_big.png",
+            "icon_gold_big.png"
         ]
     ],
     "res/atlas/UI_new/Defeated.atlas": [
@@ -252,7 +254,6 @@
             "green_btn.png",
             "icon_adv_green.png",
             "icon_adv_red.png",
-            "icon_biggold.png",
             "last_btn.png",
             "logo_victory.png",
             "rede_btn.png",

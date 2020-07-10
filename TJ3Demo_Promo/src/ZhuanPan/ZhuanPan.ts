@@ -1,7 +1,7 @@
 import ZhiZhen from "./RotateSelfPro";
 import RotateSelfPro from "./RotateSelfPro";
 import { lwg } from "../script/Lwg_Template/lwg";
-import ADManager from "../TJ/Admanager";
+import ADManager, { TaT } from "../TJ/Admanager";
 
 
 export default class ZhuanPan extends Laya.Script {
@@ -24,6 +24,7 @@ export default class ZhuanPan extends Laya.Script {
     Second: Laya.Box;
 
     onAwake() {
+        ADManager.CloseBanner();
         lwg.Global._stageClick = false;
 
         this.Zhuanpan = this.owner as Laya.Image;
@@ -180,11 +181,11 @@ export default class ZhuanPan extends Laya.Script {
     }
     btnADAgainUp(): void {
         // console.log("看广告");
+
         ADManager.ShowReward(() => {
             this.ClosePanel();
             this.StartLottery();
             this.StartBtn.visible = false;
-
         })
     }
     btnNoUp(e: Laya.Event): void {
@@ -195,6 +196,7 @@ export default class ZhuanPan extends Laya.Script {
     //BtnState 按钮状态 1 广告  0 普通
     //_action 事件 按钮点击后的事件
     ShowReward() {
+        ADManager.TAPoint(TaT.PageEnter, 'turngiftpage');
         this.RewardPanel.x = 0;
         this.RewardPanel.y = 0;
         this.RefreshBtn();
@@ -207,31 +209,29 @@ export default class ZhuanPan extends Laya.Script {
         let dec = prop.getChildByName('Dec') as Laya.Label;
         dec.text = RewardDec['prop' + (this.lotteryindex + 1)];
         if (this.lotteryindex + 1 === 2 || this.lotteryindex + 1 === 5) {
-            pic.scale(0.55, 0.55);
-            pic.x = 0;
-            pic.y = -65;
+            pic.scale(0.5, 0.5);
+            pic.x = -35;
+            pic.y = -53;
         } else {
-            pic.scale(3, 3);
             if (this.lotteryindex + 1 === 1 || this.lotteryindex + 1 === 4) {
-                pic.x = 21;
+                pic.x = 12.5;
                 pic.y = 26;
             } else if (this.lotteryindex + 1 === 3 || this.lotteryindex + 1 === 6) {
-                pic.x = 11;
-                pic.y = 18;
+                pic.x = 12.5;
+                pic.y = 26;
             }
+            pic.scale(1, 1);
         }
     }
 
     ClosePanel() {
+        ADManager.TAPoint(TaT.PageLeave, 'turngiftpage');
         this.RewardPanel.x = 1500;
         this.RewardPanel.y = 0;
     }
     //#endregion
 
-
-
     //#region  /******************彩蛋1*********************/
-    /**复制一个当前的一个奖励作为彩蛋*/
     CaiDanMoveInit() {
         lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.owner.scene['Caidan'], this, this.caidanDwon, null, null, null);
         //免费领取彩蛋界面 
@@ -242,6 +242,8 @@ export default class ZhuanPan extends Laya.Script {
     }
 
     btnNoUp_P(e: Laya.Event): void {
+        ADManager.TAPoint(TaT.PageLeave, 'PKskinQpage');
+
         e.currentTarget.scale(1, 1);
         this.owner.scene['Painted_Pikaqiu'].x = 1500;
         this.owner.scene['Painted_Pikaqiu'].y = 0;
@@ -250,6 +252,7 @@ export default class ZhuanPan extends Laya.Script {
     btnFreeGetUp_P(e: Laya.Event): void {
         e.currentTarget.scale(1, 1);
         ADManager.ShowReward(() => {
+
             lwg.Global._huangpihaozi = true;
             lwg.LocalStorage.addData();
             this.owner.scene['Painted_Pikaqiu'].x = 1500;
@@ -288,31 +291,13 @@ export default class ZhuanPan extends Laya.Script {
             let point = new Laya.Point(e.stageX, e.stageY);
             let dis = point.distance(this.owner.scene['ZhunpanBG'].x, this.owner.scene['ZhunpanBG'].y);
             if (dis - this.owner.scene['ZhunpanBG'].width / 2 > 0) {
+                ADManager.TAPoint(TaT.PageEnter, 'PKskinQpage');
+
                 this.owner.scene['Painted_Pikaqiu'].x = 0;
                 this.owner.scene['Painted_Pikaqiu'].y = 0;
             }
         }
     }
-    //#endregion
-
-
-
-
-
-
-    /******************彩蛋*********************/
-    Caidan1: Laya.Box;
-    Caidan2: Laya.Box;
-    Caidan1item: Laya.Image;
-    Caidan2item: Laya.Image;
-
-    CaidanInit() {
-        this.Caidan1 = this.Zhuanpan.getChildByName("CaiDan1") as Laya.Box;
-        this.Caidan2 = this.Zhuanpan.getChildByName("Caidan2") as Laya.Box;
-        this.Caidan1item = this.Caidan1.getChildByName("Caidan1item") as Laya.Image;
-        this.Caidan2item = this.Caidan2.getChildByName("Caidan2item") as Laya.Image;
-    }
-
     randomInRange_i(x: number, y: number, s = null): number {
         let rs;
         if (x == y) {
@@ -325,9 +310,10 @@ export default class ZhuanPan extends Laya.Script {
         }
         return Number(rs);
     }
-
     onDisable(): void {
         lwg.Global._stageClick = true;
+        ADManager.ShowBanner();
+
     }
 
 }
@@ -350,12 +336,12 @@ export enum RewardDec {
     prop6 = '金币x60'
 }
 export enum RewardSkin {
-    prop1 = 'UI_new/conmmon/icon_execution.png',
+    prop1 = 'UI_new/conmmon/icon_execution_big.png',
     prop2 = 'CaiDanQIang/Skin/1.png',
-    prop3 = 'UI_new/conmmon/icon_gold.png',
-    prop4 = 'UI_new/conmmon/icon_execution.png',
+    prop3 = 'UI_new/conmmon/icon_gold_big.png',
+    prop4 = 'UI_new/conmmon/icon_execution_big.png',
     prop5 = 'CaiDanQIang/Skin/0.png',
-    prop6 = 'UI_new/conmmon/icon_gold.png'
+    prop6 = 'UI_new/conmmon/icon_gold_big.png'
 }
 
 

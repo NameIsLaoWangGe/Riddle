@@ -872,6 +872,149 @@
     }
     P106.style = "P106";
 
+    class ADManager {
+        constructor() {
+        }
+        static ShowBanner() {
+            let p = new TJ.ADS.Param();
+            p.place = TJ.ADS.Place.BOTTOM | TJ.ADS.Place.CENTER;
+            TJ.ADS.Api.ShowBanner(p);
+        }
+        static CloseBanner() {
+            let p = new TJ.ADS.Param();
+            p.place = TJ.ADS.Place.BOTTOM | TJ.ADS.Place.CENTER;
+            TJ.ADS.Api.RemoveBanner(p);
+        }
+        static ShowNormal() {
+            TJ.API.AdService.ShowNormal(new TJ.API.AdService.Param());
+        }
+        static showNormal2() {
+            TJ.API.AdService.ShowNormal(new TJ.API.AdService.Param());
+        }
+        static ShowReward(rewardAction, CDTime = 500) {
+            if (ADManager.CanShowCD) {
+                lwg.PalyAudio.stopMusic();
+                console.log("?????");
+                let p = new TJ.ADS.Param();
+                p.extraAd = true;
+                let getReward = false;
+                p.cbi.Add(TJ.Define.Event.Reward, () => {
+                    getReward = true;
+                    lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
+                    if (rewardAction != null)
+                        rewardAction();
+                });
+                p.cbi.Add(TJ.Define.Event.Close, () => {
+                    if (!getReward) {
+                        lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
+                        lwg.Global._createHint_01(lwg.Enum.HintType.lookend);
+                    }
+                });
+                p.cbi.Add(TJ.Define.Event.NoAds, () => {
+                    lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
+                    lwg.Global._createHint_01(lwg.Enum.HintType.noAdv);
+                });
+                TJ.ADS.Api.ShowReward(p);
+                ADManager.CanShowCD = false;
+                setTimeout(() => {
+                    ADManager.CanShowCD = true;
+                }, CDTime);
+            }
+        }
+        static Event(param, value) {
+            console.log("Param:>" + param + "Value:>" + value);
+            let p = new TJ.GSA.Param();
+            if (value == null) {
+                p.id = param;
+            }
+            else {
+                p.id = param + value;
+            }
+            console.log(p.id);
+            TJ.GSA.Api.Event(p);
+        }
+        static initShare() {
+            if (TJ.API.AppInfo.Channel() == TJ.Define.Channel.AppRt.WX_AppRt) {
+                this.wx.onShareAppMessage(() => {
+                    return {
+                        title: this.shareContent,
+                        imageUrl: this.shareImgUrl,
+                        query: ""
+                    };
+                });
+                this.wx.showShareMenu({
+                    withShareTicket: true,
+                    success: null,
+                    fail: null,
+                    complete: null
+                });
+            }
+        }
+        static lureShare() {
+            if (TJ.API.AppInfo.Channel() == TJ.Define.Channel.AppRt.WX_AppRt) {
+                this.wx.shareAppMessage({
+                    title: this.shareContent,
+                    imageUrl: this.shareImgUrl,
+                    query: ""
+                });
+            }
+        }
+        static VibrateShort() {
+            TJ.API.Vibrate.Short();
+        }
+        static Vibratelong() {
+            TJ.API.Vibrate.Long();
+        }
+        static TAPoint(type, name) {
+            let p = new TJ.API.TA.Param();
+            p.id = name;
+            switch (type) {
+                case TaT.BtnShow:
+                    TJ.API.TA.Event_Button_Show(p);
+                    break;
+                case TaT.BtnClick:
+                    TJ.API.TA.Event_Button_Click(p);
+                    break;
+                case TaT.PageShow:
+                    TJ.API.TA.Event_Page_Show(p);
+                    break;
+                case TaT.PageEnter:
+                    TJ.API.TA.Event_Page_Enter(p);
+                    break;
+                case TaT.PageLeave:
+                    TJ.API.TA.Event_Page_Leave(p);
+                    break;
+                case TaT.LevelStart:
+                    TJ.API.TA.Event_Level_Start(p);
+                    console.log('本关开始打点');
+                    break;
+                case TaT.LevelFail:
+                    TJ.API.TA.Event_Level_Fail(p);
+                    console.log('本关失败打点');
+                    break;
+                case TaT.LevelFinish:
+                    TJ.API.TA.Event_Level_Finish(p);
+                    console.log('本关胜利打点');
+                    break;
+            }
+        }
+    }
+    ADManager.CanShowCD = true;
+    ADManager.wx = Laya.Browser.window.wx;
+    ADManager.shareImgUrl = "http://image.tomatojoy.cn/6847506204006681a5d5fa0cd91ce408";
+    ADManager.shareContent = "快把锅甩给队友！";
+    var TaT;
+    (function (TaT) {
+        TaT[TaT["BtnShow"] = 0] = "BtnShow";
+        TaT[TaT["BtnClick"] = 1] = "BtnClick";
+        TaT[TaT["PageShow"] = 2] = "PageShow";
+        TaT[TaT["PageEnter"] = 3] = "PageEnter";
+        TaT[TaT["PageLeave"] = 4] = "PageLeave";
+        TaT[TaT["LevelStart"] = 5] = "LevelStart";
+        TaT[TaT["LevelFinish"] = 6] = "LevelFinish";
+        TaT[TaT["LevelFail"] = 7] = "LevelFail";
+    })(TaT || (TaT = {}));
+
     var lwg;
     (function (lwg) {
         let Global;
@@ -1102,7 +1245,7 @@
                     _prefab.json = prefab;
                     sp = Laya.Pool.getItemByCreateFun('P201', _prefab.create, _prefab);
                     parent.addChild(sp);
-                    sp.pos(90, 290);
+                    sp.pos(80, 290);
                     sp.zOrder = 65;
                     Global.P201_01Node = sp;
                 }));
@@ -1118,7 +1261,7 @@
                     let num = lwg.Admin.openCustomName.substring(lwg.Admin.openCustomName.length - 3, lwg.Admin.openCustomName.length);
                     dec.text = lwg.Global._stimulateDec[Number(num) - 1]['dec'];
                     parent.addChild(sp);
-                    sp.pos(100, 150);
+                    sp.pos(35, 150);
                     sp.zOrder = 65;
                     Global.StimulateDecNode = sp;
                 }));
@@ -1473,6 +1616,117 @@
                 Admin._sceneControl[Admin.openCustomName].close();
             }
             Admin._closeCustomScene = _closeCustomScene;
+            function printPoint(type, name) {
+                switch (name) {
+                    case SceneName.UILoding:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'UIPreload');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'UIPreload');
+                        }
+                        break;
+                    case SceneName.UIStart:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'mianpage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'mianpage');
+                        }
+                        break;
+                    case SceneName.UIVictory:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'successpage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'successpage');
+                        }
+                        break;
+                    case SceneName.UIDefeated:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'failpage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'failpage');
+                        }
+                        break;
+                    case SceneName.UIExecutionHint:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'noticketpage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'noticketpage');
+                        }
+                        break;
+                    case SceneName.UIPassHint:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'freegiftpage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'freegiftpage');
+                        }
+                        break;
+                    case SceneName.UIPuase:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'pausepage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'pausepage');
+                        }
+                        break;
+                    case SceneName.UIShare:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'sharepage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'sharepage');
+                        }
+                        break;
+                    case SceneName.UIPifu:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'skinpage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'skinpage');
+                        }
+                        break;
+                    case SceneName.UIPifuTry:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'skintrypage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'skintrypage');
+                        }
+                        break;
+                    case SceneName.UIXDpifu:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'limitskinpage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'limitskinpage');
+                        }
+                        break;
+                    case SceneName.UICaiDanQiang:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'CDwallpage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'CDwallpage');
+                        }
+                        break;
+                    case SceneName.UITurntable:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'turnpage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'turnpage');
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            Admin.printPoint = printPoint;
             class Scene extends Laya.Script {
                 constructor() {
                     super();
@@ -1487,6 +1741,7 @@
                     this.btnOnClick();
                     this.adaptive();
                     this.openAni();
+                    printPoint('on', this.calssName);
                 }
                 selfVars() {
                 }
@@ -1519,6 +1774,7 @@
                 vanishAni() {
                 }
                 onDisable() {
+                    printPoint('dis', this.calssName);
                     this.lwgDisable();
                 }
                 lwgDisable() {
@@ -3084,149 +3340,6 @@
         })(Tools = lwg.Tools || (lwg.Tools = {}));
     })(lwg || (lwg = {}));
 
-    class ADManager {
-        constructor() {
-        }
-        static ShowBanner() {
-            let p = new TJ.ADS.Param();
-            p.place = TJ.ADS.Place.BOTTOM | TJ.ADS.Place.CENTER;
-            TJ.ADS.Api.ShowBanner(p);
-        }
-        static CloseBanner() {
-            let p = new TJ.ADS.Param();
-            p.place = TJ.ADS.Place.BOTTOM | TJ.ADS.Place.CENTER;
-            TJ.ADS.Api.RemoveBanner(p);
-        }
-        static ShowNormal() {
-            TJ.API.AdService.ShowNormal(new TJ.API.AdService.Param());
-        }
-        static showNormal2() {
-            TJ.API.AdService.ShowNormal(new TJ.API.AdService.Param());
-        }
-        static ShowReward(rewardAction, CDTime = 500) {
-            if (ADManager.CanShowCD) {
-                lwg.PalyAudio.stopMusic();
-                console.log("?????");
-                let p = new TJ.ADS.Param();
-                p.extraAd = true;
-                let getReward = false;
-                p.cbi.Add(TJ.Define.Event.Reward, () => {
-                    getReward = true;
-                    lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
-                    if (rewardAction != null)
-                        rewardAction();
-                });
-                p.cbi.Add(TJ.Define.Event.Close, () => {
-                    if (!getReward) {
-                        lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
-                        lwg.Global._createHint_01(lwg.Enum.HintType.lookend);
-                    }
-                });
-                p.cbi.Add(TJ.Define.Event.NoAds, () => {
-                    lwg.PalyAudio.playMusic(lwg.Enum.voiceUrl.bgm, 0, 1000);
-                    lwg.Global._createHint_01(lwg.Enum.HintType.noAdv);
-                });
-                TJ.ADS.Api.ShowReward(p);
-                ADManager.CanShowCD = false;
-                setTimeout(() => {
-                    ADManager.CanShowCD = true;
-                }, CDTime);
-            }
-        }
-        static Event(param, value) {
-            console.log("Param:>" + param + "Value:>" + value);
-            let p = new TJ.GSA.Param();
-            if (value == null) {
-                p.id = param;
-            }
-            else {
-                p.id = param + value;
-            }
-            console.log(p.id);
-            TJ.GSA.Api.Event(p);
-        }
-        static initShare() {
-            if (TJ.API.AppInfo.Channel() == TJ.Define.Channel.AppRt.WX_AppRt) {
-                this.wx.onShareAppMessage(() => {
-                    return {
-                        title: this.shareContent,
-                        imageUrl: this.shareImgUrl,
-                        query: ""
-                    };
-                });
-                this.wx.showShareMenu({
-                    withShareTicket: true,
-                    success: null,
-                    fail: null,
-                    complete: null
-                });
-            }
-        }
-        static lureShare() {
-            if (TJ.API.AppInfo.Channel() == TJ.Define.Channel.AppRt.WX_AppRt) {
-                this.wx.shareAppMessage({
-                    title: this.shareContent,
-                    imageUrl: this.shareImgUrl,
-                    query: ""
-                });
-            }
-        }
-        static VibrateShort() {
-            TJ.API.Vibrate.Short();
-        }
-        static Vibratelong() {
-            TJ.API.Vibrate.Long();
-        }
-        static TAPoint(type, name) {
-            let p = new TJ.API.TA.Param();
-            p.id = name;
-            switch (type) {
-                case TaT.BtnShow:
-                    TJ.API.TA.Event_Button_Show(p);
-                    break;
-                case TaT.BtnClick:
-                    TJ.API.TA.Event_Button_Click(p);
-                    break;
-                case TaT.PageShow:
-                    TJ.API.TA.Event_Page_Show(p);
-                    break;
-                case TaT.PageEnter:
-                    TJ.API.TA.Event_Page_Enter(p);
-                    break;
-                case TaT.PageLeave:
-                    TJ.API.TA.Event_Page_Leave(p);
-                    break;
-                case TaT.LevelStart:
-                    TJ.API.TA.Event_Level_Start(p);
-                    console.log('本关开始打点');
-                    break;
-                case TaT.LevelFail:
-                    TJ.API.TA.Event_Level_Fail(p);
-                    console.log('本关失败打点');
-                    break;
-                case TaT.LevelFinish:
-                    TJ.API.TA.Event_Level_Finish(p);
-                    console.log('本关胜利打点');
-                    break;
-            }
-        }
-    }
-    ADManager.CanShowCD = true;
-    ADManager.wx = Laya.Browser.window.wx;
-    ADManager.shareImgUrl = "http://image.tomatojoy.cn/6847506204006681a5d5fa0cd91ce408";
-    ADManager.shareContent = "快把锅甩给队友！";
-    var TaT;
-    (function (TaT) {
-        TaT[TaT["BtnShow"] = 0] = "BtnShow";
-        TaT[TaT["BtnClick"] = 1] = "BtnClick";
-        TaT[TaT["PageShow"] = 2] = "PageShow";
-        TaT[TaT["PageEnter"] = 3] = "PageEnter";
-        TaT[TaT["PageLeave"] = 4] = "PageLeave";
-        TaT[TaT["LevelStart"] = 5] = "LevelStart";
-        TaT[TaT["LevelFinish"] = 6] = "LevelFinish";
-        TaT[TaT["LevelFail"] = 7] = "LevelFail";
-    })(TaT || (TaT = {}));
-
     class UIAnchorXD extends lwg.Admin.Scene {
         btnOnClick() {
             lwg.Click.on('largen', null, this.self['BtnYes'], this, null, null, this.btnYesClickUP, null);
@@ -3250,6 +3363,7 @@
     class UICaidanPifu extends lwg.Admin.Scene {
         constructor() { super(); }
         lwgInit() {
+            ADManager.TAPoint(TaT.PageEnter, 'HMskinpage');
             this.SceneContent = this.self['SceneContent'];
             lwg.Global._stageClick = false;
         }
@@ -3267,9 +3381,11 @@
             event.currentTarget.scale(1, 1);
             ADManager.ShowReward(() => {
                 lwg.Global._haimiangongzhu = true;
+                this.self.close();
             });
         }
         lwgDisable() {
+            ADManager.TAPoint(TaT.PageLeave, 'HMskinpage');
             lwg.Global._stageClick = true;
         }
     }
@@ -3415,6 +3531,7 @@
             }
         }
         onAwake() {
+            ADManager.CloseBanner();
             this.LoadJson();
             this.Caidanqiang = this.owner;
             this.CaiDanShow = this.Caidanqiang.getChildByName("CaiDanShow");
@@ -3424,6 +3541,7 @@
             this.Icon = this.MesShow.getChildByName("Icon");
             this.IconDown = this.Icon.getChildByName("IconDown");
             this.IconUp = this.Icon.getChildByName("IconUp");
+            this.IconUp_w = this.Icon.getChildByName("IconUp_w");
             this.MesLaiyuan = this.MesShow.getChildByName("MesLaiyuan");
             this.MesFangshi = this.MesShow.getChildByName("MesFangshi");
             this.Name = this.MesShow.getChildByName("Name");
@@ -3432,11 +3550,12 @@
             this.FangshiADSafe = this.MesShow.getChildByName("FangshiADSafe");
             lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.LaiyuanADSafe, this, null, null, this.LaiyuanADcLICK, null);
             lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.FangshiADSafe, this, null, null, this.FangshiADClick, null);
-            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.owner.scene['BtnBack'], this, null, null, this.btnBackUP, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.owner.scene['BtnBack'], this, null, null, this.btnBackUP, null);
             this.CaidanRewardPanelinit1();
             this.CaiDanInit();
         }
-        btnBackUP() {
+        btnBackUP(e) {
+            e.currentTarget.scale(1, 1);
             this.owner.scene.close();
         }
         onStart() {
@@ -3476,6 +3595,7 @@
             let itemstorage = Laya.LocalStorage.getItem("Caidanskin" + skindata.ID);
             let strs = itemstorage.split("_");
             this.IconUp.visible = strs[0] == "0";
+            this.IconUp_w.visible = this.IconUp.visible;
             this.LaiyuanADSafe.visible = strs[1] == "0";
             this.FangshiADSafe.visible = strs[2] == "0";
             this.Skinitems.forEach((v, i) => {
@@ -3512,14 +3632,16 @@
             this.CloseRewardBtn1.on(Laya.Event.CLICK, this, this.CaidanJiemianHide1);
         }
         CaidanJiemianShow1() {
+            ADManager.TAPoint(TaT.PageEnter, 'SYskinpage');
             this.CaidanRewardPanel1.visible = true;
         }
         CaidanJiemianHide1() {
             this.CaidanRewardPanel1.visible = false;
+            ADManager.TAPoint(TaT.PageLeave, 'SYskinpage');
         }
         ADGetRewardClick1() {
+            console.log('看广告');
             ADManager.ShowReward(() => {
-                console.log('看广告');
                 let skin = Laya.LocalStorage.getItem("Caidanskin" + 4);
                 let strs = skin.split("_");
                 Laya.LocalStorage.setItem("Caidanskin" + 4, "1" + "_" + strs[1] + "_" + strs[2]);
@@ -3557,6 +3679,7 @@
                     if (strs[0] == "1") ;
                     else {
                         this.CaidanRewardPanel2.visible = true;
+                        ADManager.TAPoint(TaT.PageEnter, 'CSskinpage');
                     }
                 });
             });
@@ -3565,7 +3688,9 @@
             this.CaidanRewardPanel2.visible = false;
         }
         ADGetRewardClick2() {
+            console.log('看广告!');
             ADManager.ShowReward(() => {
+                ADManager.TAPoint(TaT.PageLeave, 'CSskinpage');
                 let skin = Laya.LocalStorage.getItem("Caidanskin" + 2);
                 let strs = skin.split("_");
                 Laya.LocalStorage.setItem("Caidanskin" + 2, "1" + "_" + strs[1] + "_" + strs[2]);
@@ -3638,6 +3763,7 @@
             this.CaidanRewardPanelHide();
         }
         CaidanRewardPanelShow() {
+            ADManager.TAPoint(TaT.PageEnter, 'dragonpage');
             this.ShenLongWenzi.visible = this.Rewardindex == 5;
             this.Props.visible = !this.ShenLongWenzi.visible;
             this.ADGetReward.getChildAt(1).visible = !this.ShenLongWenzi.visible;
@@ -3682,15 +3808,18 @@
             this.ShenLongWenzi.visible = this.Rewardindex == 5;
             this.Props.visible = !this.ShenLongWenzi.visible;
             this.ADGetReward.getChildAt(1).visible = !this.ShenLongWenzi.visible;
+            ADManager.TAPoint(TaT.PageEnter, 'dragongiftpage');
         }
         ADGetRewardClick() {
+            ADManager.TAPoint(TaT.PageLeave, 'dragongiftpage');
+            console.log("看广告");
             ADManager.ShowReward(() => {
-                console.log("看广告");
                 this.ShowReward();
                 this.RewardGet();
             });
         }
         ClosePanel() {
+            ADManager.TAPoint(TaT.PageLeave, 'dragonpage');
             this.RewardGet();
             this.ClosePanel();
         }
@@ -3753,8 +3882,8 @@
                 lwg.Global._currentPifu = this.NowCaidanDataq.Tip;
                 lwg.LocalStorage.addData();
             }
-            console.log(this.NowCaidanDataq);
             console.log(lwg.Global._currentPifu);
+            ADManager.ShowBanner();
         }
     }
 
@@ -3898,7 +4027,7 @@
             console.log("******************吊起分享 ？？？？？", RecordManager.grv, RecordManager.grv.videoPath);
             if (RecordManager.grv.videoPath) {
                 let p = new TJ.Platform.AppRt.Extern.TT.ShareAppMessageParam();
-                p.extra.videoTopics = ["甩锅给队友", "回来吧刺激战场", "番茄小游戏", "抖音小游戏"];
+                p.extra.videoTopics = ["解救小王子", "番茄小游戏", "抖音小游戏"];
                 p.channel = "video";
                 p.success = () => {
                     lwg.Global._createHint_01(lwg.Enum.HintType.sharesuccess);
@@ -6521,7 +6650,7 @@
             this.listWPos = new Laya.Point();
             this.moveSwitch = false;
             this.btnPainted = false;
-            this.btnTurntable = false;
+            this.btnPifu = false;
         }
         selfVars() {
             this.CustomsList = this.self['CustomsList'];
@@ -6818,13 +6947,13 @@
         }
         btnOnClick() {
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnStart, this, null, null, this.btnStartClickUp, null);
-            lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnPifu, this, null, null, this.btnPifuClickUp, null);
             lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.BtnLocation, this, null, null, this.btnLocationUp, null);
             lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.CustomsList, this, null, null, this.customsListUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnXD'], this, null, null, this.btnXDUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnSet'], this, null, null, this.btnSetUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnPainted'], this, this.btnPaintedDown, null, this.btnPaintedUp, null);
-            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnTurntable'], this, this.btnTurntableDown, null, this.btnTurntableUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnPifu, this, this.btnPifuDown, null, this.btnPifuUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnTurntable'], this, null, null, this.btnTurntableUp, null);
         }
         btnPaintedDown(e) {
             e.stopPropagation();
@@ -6833,7 +6962,6 @@
             }
             e.currentTarget.scale(1.1, 1.1);
             this.btnPainted = true;
-            let bool = this.candanFunc();
         }
         btnPaintedUp(e) {
             e.currentTarget.scale(1, 1);
@@ -6841,36 +6969,39 @@
                 lwg.Admin._openScene(lwg.Admin.SceneName.UICaiDanQiang, null, null, null);
             }
             this.btnPainted = false;
-            this.btnTurntable = false;
+            this.btnPifu = false;
         }
-        btnTurntableDown(e) {
+        btnPifuDown(e) {
             e.stopPropagation();
             if (lwg.Global._haimiangongzhu) {
                 return;
             }
             e.currentTarget.scale(1.1, 1.1);
-            this.btnTurntable = true;
-            this.candanFunc();
+            this.btnPifu = true;
         }
-        btnTurntableUp(e) {
-            e.currentTarget.scale(1, 1);
+        btnPifuUp(event) {
+            event.currentTarget.scale(1, 1);
             if (!this.candanFunc()) {
-                lwg.Admin._openScene(lwg.Admin.SceneName.UITurntable, null, null, null);
+                lwg.Admin._openScene('UIPifu', null, null, null);
             }
             this.btnPainted = false;
-            this.btnTurntable = false;
+            this.btnPifu = false;
         }
         candanFunc() {
-            if (this.btnPainted && this.btnTurntable) {
+            if (this.btnPainted && this.btnPifu) {
                 lwg.Admin._openScene(lwg.Admin.SceneName.UICaidanPifu, null, null, f => {
-                    this.btnTurntable = false;
                     this.btnPainted = false;
+                    this.btnPifu = false;
                 });
                 return true;
             }
             else {
                 return false;
             }
+        }
+        btnTurntableUp(e) {
+            e.currentTarget.scale(1, 1);
+            lwg.Admin._openScene(lwg.Admin.SceneName.UITurntable, null, null, null);
         }
         btnSetUp() {
             lwg.Admin._openScene(lwg.Admin.SceneName.UISet, null, null, null);
@@ -6918,10 +7049,6 @@
         openPlayScene_exemptEx() {
             lwg.Admin._openNumCustom(this.listFirstIndex);
             this.self.close();
-        }
-        btnPifuClickUp(event) {
-            event.currentTarget.scale(1, 1);
-            lwg.Admin._openScene('UIPifu', null, null, null);
         }
         btnLocationUp(event) {
             event.currentTarget.scale(1, 1);
@@ -7093,6 +7220,7 @@
             this.mouseMove = false;
         }
         onAwake() {
+            ADManager.CloseBanner();
             lwg.Global._stageClick = false;
             this.Zhuanpan = this.owner;
             this.zhuanpanParent = this.Zhuanpan.getChildByName("zhuanpanParent");
@@ -7225,6 +7353,7 @@
             this.ClosePanel();
         }
         ShowReward() {
+            ADManager.TAPoint(TaT.PageEnter, 'turngiftpage');
             this.RewardPanel.x = 0;
             this.RewardPanel.y = 0;
             this.RefreshBtn();
@@ -7235,23 +7364,24 @@
             let dec = prop.getChildByName('Dec');
             dec.text = RewardDec['prop' + (this.lotteryindex + 1)];
             if (this.lotteryindex + 1 === 2 || this.lotteryindex + 1 === 5) {
-                pic.scale(0.55, 0.55);
-                pic.x = 0;
-                pic.y = -65;
+                pic.scale(0.5, 0.5);
+                pic.x = -35;
+                pic.y = -53;
             }
             else {
-                pic.scale(3, 3);
                 if (this.lotteryindex + 1 === 1 || this.lotteryindex + 1 === 4) {
-                    pic.x = 21;
+                    pic.x = 12.5;
                     pic.y = 26;
                 }
                 else if (this.lotteryindex + 1 === 3 || this.lotteryindex + 1 === 6) {
-                    pic.x = 11;
-                    pic.y = 18;
+                    pic.x = 12.5;
+                    pic.y = 26;
                 }
+                pic.scale(1, 1);
             }
         }
         ClosePanel() {
+            ADManager.TAPoint(TaT.PageLeave, 'turngiftpage');
             this.RewardPanel.x = 1500;
             this.RewardPanel.y = 0;
         }
@@ -7263,6 +7393,7 @@
             lwg.Click.on(lwg.Click.ClickType.largen, null, BtnFreeGet, this, null, null, this.btnFreeGetUp_P, null);
         }
         btnNoUp_P(e) {
+            ADManager.TAPoint(TaT.PageLeave, 'PKskinQpage');
             e.currentTarget.scale(1, 1);
             this.owner.scene['Painted_Pikaqiu'].x = 1500;
             this.owner.scene['Painted_Pikaqiu'].y = 0;
@@ -7304,16 +7435,11 @@
                 let point = new Laya.Point(e.stageX, e.stageY);
                 let dis = point.distance(this.owner.scene['ZhunpanBG'].x, this.owner.scene['ZhunpanBG'].y);
                 if (dis - this.owner.scene['ZhunpanBG'].width / 2 > 0) {
+                    ADManager.TAPoint(TaT.PageEnter, 'PKskinQpage');
                     this.owner.scene['Painted_Pikaqiu'].x = 0;
                     this.owner.scene['Painted_Pikaqiu'].y = 0;
                 }
             }
-        }
-        CaidanInit() {
-            this.Caidan1 = this.Zhuanpan.getChildByName("CaiDan1");
-            this.Caidan2 = this.Zhuanpan.getChildByName("Caidan2");
-            this.Caidan1item = this.Caidan1.getChildByName("Caidan1item");
-            this.Caidan2item = this.Caidan2.getChildByName("Caidan2item");
         }
         randomInRange_i(x, y, s = null) {
             let rs;
@@ -7331,6 +7457,7 @@
         }
         onDisable() {
             lwg.Global._stageClick = true;
+            ADManager.ShowBanner();
         }
     }
     var LotteryGift;
@@ -7353,12 +7480,12 @@
     })(RewardDec || (RewardDec = {}));
     var RewardSkin;
     (function (RewardSkin) {
-        RewardSkin["prop1"] = "UI_new/conmmon/icon_execution.png";
+        RewardSkin["prop1"] = "UI_new/conmmon/icon_execution_big.png";
         RewardSkin["prop2"] = "CaiDanQIang/Skin/1.png";
-        RewardSkin["prop3"] = "UI_new/conmmon/icon_gold.png";
-        RewardSkin["prop4"] = "UI_new/conmmon/icon_execution.png";
+        RewardSkin["prop3"] = "UI_new/conmmon/icon_gold_big.png";
+        RewardSkin["prop4"] = "UI_new/conmmon/icon_execution_big.png";
         RewardSkin["prop5"] = "CaiDanQIang/Skin/0.png";
-        RewardSkin["prop6"] = "UI_new/conmmon/icon_gold.png";
+        RewardSkin["prop6"] = "UI_new/conmmon/icon_gold_big.png";
     })(RewardSkin || (RewardSkin = {}));
 
     class UIVictory extends lwg.Admin.Scene {
