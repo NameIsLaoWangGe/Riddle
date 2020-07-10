@@ -20,10 +20,10 @@ export default class UICaidanPifu extends lwg.Admin.Scene {
 
     lwgInit(): void {
         this.SceneContent = this.self['SceneContent'];
+        lwg.Global._stageClick = false;
     }
     adaptive(): void {
         this.SceneContent.y = Laya.stage.height * 0.528;
-        this.self['background_01'].height = Laya.stage.height;
     }
 
     btnOnClick(): void {
@@ -38,15 +38,13 @@ export default class UICaidanPifu extends lwg.Admin.Scene {
 
     /**看广告按钮抬起*/
     btnFreeUp(event): void {
-        ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_limitskin');
         event.currentTarget.scale(1, 1);
-
         ADManager.ShowReward(() => {
             lwg.Global._haimiangongzhu = true;
         })
     }
 
     lwgDisable(): void {
-
+        lwg.Global._stageClick = true;
     }
 }

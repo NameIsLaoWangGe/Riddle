@@ -190,7 +190,7 @@ export default class UIStart extends lwg.Admin.Scene {
     private firstY: number;
     /**list列表第一个第几个单元，因为0位置是空位，所以标记从1开始，而不是0置*/
     private listFirstIndex: number;
-    onStageMouseDown() {
+    onStageMouseDown(e: Laya.Event) {
         if (!lwg.Global._stageClick || lwg.Global._openXD) {
             return;
         }
@@ -372,41 +372,69 @@ export default class UIStart extends lwg.Admin.Scene {
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnXD'], this, null, null, this.btnXDUp, null);
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnSet'], this, null, null, this.btnSetUp, null);
 
+
+
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnPainted'], this, this.btnPaintedDown, null, this.btnPaintedUp, null);
-        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnTurntable'], this, null, null, this.btnTurntableUp, null);
-        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnPainted'], this, null, null, this.btnPaintedUp, null);
+
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnTurntable'], this, this.btnTurntableDown, null, this.btnTurntableUp, null);
+
     }
 
-    candan: boolean = true;
-
-    btnPainted: boolean = false;
-    btnPaintedDown(): void {
-        this.btnPainted = true;
-        if (this.btnTurntable) {
-            lwg.Admin._openScene(lwg.Admin.SceneName.UICaidanPifu, null, null, null);
-            this.candan = false;
+    btnPainted = false;
+    btnPaintedDown(e: Laya.Event): void {
+        e.stopPropagation();
+        if (lwg.Global._haimiangongzhu) {
+            return;
         }
+        e.currentTarget.scale(1.1, 1.1);
+        this.btnPainted = true;
+        let bool = this.candanFunc();
     }
 
     btnPaintedUp(e): void {
-        this.btnPainted = false;
         e.currentTarget.scale(1, 1);
-        lwg.Admin._openScene(lwg.Admin.SceneName.UICaiDanQiang, null, null, null);
+        if (!this.candanFunc()) {
+            lwg.Admin._openScene(lwg.Admin.SceneName.UICaiDanQiang, null, null, null);
+        }
+
+        this.btnPainted = false;
+        this.btnTurntable = false;
     }
 
-    btnTurntable: boolean = false;
-    btnTurntableDown(): void {
+    btnTurntable = false;
+    btnTurntableDown(e: Laya.Event): void {
+        e.stopPropagation();
+        if (lwg.Global._haimiangongzhu) {
+            return;
+        }
+        e.currentTarget.scale(1.1, 1.1);
         this.btnTurntable = true;
-        if (this.btnPainted) {
-            lwg.Admin._openScene(lwg.Admin.SceneName.UICaidanPifu, null, null, null);
-            this.candan = false;
+        this.candanFunc();
+    }
+
+    btnTurntableUp(e): void {
+        e.currentTarget.scale(1, 1);
+        if (!this.candanFunc()) {
+            lwg.Admin._openScene(lwg.Admin.SceneName.UITurntable, null, null, null);
+        }
+        this.btnPainted = false;
+        this.btnTurntable = false;
+
+    }
+
+    candanFunc(): boolean {
+        if (this.btnPainted && this.btnTurntable) {
+            // lwg.Global._createHint_InPut('btnPainted: ' + this.btnPainted.toString() + '   ' + 'btnTurntable: ' + this.btnTurntable.toString());
+            lwg.Admin._openScene(lwg.Admin.SceneName.UICaidanPifu, null, null, f => {
+                this.btnTurntable = false;
+                this.btnPainted = false;
+            });
+            return true;
+        } else {
+            return false;
         }
     }
-    btnTurntableUp(e): void {
-        this.btnTurntable = false;
-        e.currentTarget.scale(1, 1);
-        lwg.Admin._openScene(lwg.Admin.SceneName.UITurntable, null, null, null);
-    }
+
 
     btnSetUp(): void {
         lwg.Admin._openScene(lwg.Admin.SceneName.UISet, null, null, null);

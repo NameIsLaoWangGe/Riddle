@@ -1165,6 +1165,30 @@
                 }));
             }
             Global._createHint_02 = _createHint_02;
+            function _createHint_InPut(input) {
+                let sp;
+                Laya.loader.load('prefab/HintPre_01.json', Laya.Handler.create(this, function (prefab) {
+                    let _prefab = new Laya.Prefab();
+                    _prefab.json = prefab;
+                    sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
+                    Laya.stage.addChild(sp);
+                    sp.pos(Laya.stage.width / 2, Laya.stage.height / 2);
+                    let dec = sp.getChildByName('dec');
+                    dec.text = input;
+                    sp.zOrder = 100;
+                    dec.alpha = 0;
+                    Animation.scale_Alpha(sp, 0, 1, 0, 1, 1, 1, 200, 0, f => {
+                        Animation.fadeOut(dec, 0, 1, 150, 0, f => {
+                            Animation.fadeOut(dec, 1, 0, 200, 1500, f => {
+                                Animation.scale_Alpha(sp, 1, 1, 1, 1, 0, 0, 200, 0, f => {
+                                    sp.removeSelf();
+                                });
+                            });
+                        });
+                    });
+                }));
+            }
+            Global._createHint_InPut = _createHint_InPut;
             function createConsumeEx(subEx) {
                 let label = Laya.Pool.getItemByClass('label', Laya.Label);
                 label.name = 'label';
@@ -2392,7 +2416,6 @@
                 }
             }
             move(event) {
-                event.currentTarget.scale(1, 1);
             }
             up(event) {
                 event.currentTarget.scale(1, 1);
@@ -3221,6 +3244,33 @@
         btnNoClickUP(event) {
             event.currentTarget.scale(1, 1);
             this.self.close();
+        }
+    }
+
+    class UICaidanPifu extends lwg.Admin.Scene {
+        constructor() { super(); }
+        lwgInit() {
+            this.SceneContent = this.self['SceneContent'];
+            lwg.Global._stageClick = false;
+        }
+        adaptive() {
+            this.SceneContent.y = Laya.stage.height * 0.528;
+        }
+        btnOnClick() {
+            lwg.Click.on('largen', null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
+            lwg.Click.on('largen', null, this.self['BtnFreeGet'], this, null, null, this.btnFreeUp, null);
+        }
+        btnNoUp(event) {
+            this.self.close();
+        }
+        btnFreeUp(event) {
+            event.currentTarget.scale(1, 1);
+            ADManager.ShowReward(() => {
+                lwg.Global._haimiangongzhu = true;
+            });
+        }
+        lwgDisable() {
+            lwg.Global._stageClick = true;
         }
     }
 
@@ -6470,7 +6520,6 @@
             super();
             this.listWPos = new Laya.Point();
             this.moveSwitch = false;
-            this.candan = true;
             this.btnPainted = false;
             this.btnTurntable = false;
         }
@@ -6597,7 +6646,7 @@
                 this.BtnLocation.visible = false;
             }
         }
-        onStageMouseDown() {
+        onStageMouseDown(e) {
             if (!lwg.Global._stageClick || lwg.Global._openXD) {
                 return;
             }
@@ -6775,32 +6824,53 @@
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnXD'], this, null, null, this.btnXDUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnSet'], this, null, null, this.btnSetUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnPainted'], this, this.btnPaintedDown, null, this.btnPaintedUp, null);
-            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnTurntable'], this, null, null, this.btnTurntableUp, null);
-            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnPainted'], this, null, null, this.btnPaintedUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnTurntable'], this, this.btnTurntableDown, null, this.btnTurntableUp, null);
         }
-        btnPaintedDown() {
-            this.btnPainted = true;
-            if (this.btnTurntable) {
-                lwg.Admin._openScene(lwg.Admin.SceneName.UICaidanPifu, null, null, null);
-                this.candan = false;
+        btnPaintedDown(e) {
+            e.stopPropagation();
+            if (lwg.Global._haimiangongzhu) {
+                return;
             }
+            e.currentTarget.scale(1.1, 1.1);
+            this.btnPainted = true;
+            let bool = this.candanFunc();
         }
         btnPaintedUp(e) {
-            this.btnPainted = false;
             e.currentTarget.scale(1, 1);
-            lwg.Admin._openScene(lwg.Admin.SceneName.UICaiDanQiang, null, null, null);
-        }
-        btnTurntableDown() {
-            this.btnTurntable = true;
-            if (this.btnPainted) {
-                lwg.Admin._openScene(lwg.Admin.SceneName.UICaidanPifu, null, null, null);
-                this.candan = false;
+            if (!this.candanFunc()) {
+                lwg.Admin._openScene(lwg.Admin.SceneName.UICaiDanQiang, null, null, null);
             }
+            this.btnPainted = false;
+            this.btnTurntable = false;
+        }
+        btnTurntableDown(e) {
+            e.stopPropagation();
+            if (lwg.Global._haimiangongzhu) {
+                return;
+            }
+            e.currentTarget.scale(1.1, 1.1);
+            this.btnTurntable = true;
+            this.candanFunc();
         }
         btnTurntableUp(e) {
-            this.btnTurntable = false;
             e.currentTarget.scale(1, 1);
-            lwg.Admin._openScene(lwg.Admin.SceneName.UITurntable, null, null, null);
+            if (!this.candanFunc()) {
+                lwg.Admin._openScene(lwg.Admin.SceneName.UITurntable, null, null, null);
+            }
+            this.btnPainted = false;
+            this.btnTurntable = false;
+        }
+        candanFunc() {
+            if (this.btnPainted && this.btnTurntable) {
+                lwg.Admin._openScene(lwg.Admin.SceneName.UICaidanPifu, null, null, f => {
+                    this.btnTurntable = false;
+                    this.btnPainted = false;
+                });
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         btnSetUp() {
             lwg.Admin._openScene(lwg.Admin.SceneName.UISet, null, null, null);
@@ -7625,6 +7695,7 @@
             reg("TJ/Promo/script/P205.ts", P205);
             reg("TJ/Promo/script/P106.ts", P106);
             reg("script/Game/UIAnchorXD.ts", UIAnchorXD);
+            reg("script/Game/UICaidanPifu.ts", UICaidanPifu);
             reg("ZhuanPan/SkinItem.ts", SkinItem);
             reg("ZhuanPan/CaiDanQiang.ts", CaiDanQiang);
             reg("script/Game/UIDefeated.ts", UIDefeated);

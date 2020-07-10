@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":2,
-    "selecteID":59,
+    "selectedBox":48,
+    "selecteID":52,
     "searchKey":"View",
     "props":{"width":720,"sceneColor":"#000000","height":1280},
     "nodeParent":-1,
-    "maxID":60,
+    "maxID":61,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -102,7 +102,7 @@
                             "x":45,
                             "type":"Image",
                             "searchKey":"Image,Pic",
-                            "props":{"y":-78,"x":0,"skin":"CaiDanQIang/Skin/5.png","scaleY":0.5,"scaleX":0.5,"name":"Pic"},
+                            "props":{"y":-78,"x":-32,"skin":"CaiDanQIang/Skin/5.png","scaleY":0.5,"scaleX":0.5,"name":"Pic"},
                             "nodeParent":52,
                             "label":"Pic",
                             "isOpen":true,
@@ -158,6 +158,23 @@
                         }]
                 }],
             "$HIDDEN":false
+        },
+        {
+            "x":15,
+            "type":"Script",
+            "switchAble":true,
+            "source":"src/script/Game/UICaidanPifu.ts",
+            "searchKey":"Script,UICaidanPifu",
+            "removeAble":true,
+            "props":{},
+            "nodeParent":2,
+            "label":"UICaidanPifu",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":60,
+            "child":[
+                ]
         }],
     "animations":[
         {

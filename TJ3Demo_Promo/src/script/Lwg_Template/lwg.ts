@@ -470,6 +470,34 @@ export module lwg {
         }
 
         /**
+        * 创建提示框prefab
+        * @param input 类型，也就是提示文字类型
+        */
+        export function _createHint_InPut(input: string): void {
+            let sp: Laya.Sprite;
+            Laya.loader.load('prefab/HintPre_01.json', Laya.Handler.create(this, function (prefab: Laya.Prefab) {
+                let _prefab = new Laya.Prefab();
+                _prefab.json = prefab;
+                sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
+                Laya.stage.addChild(sp);
+                sp.pos(Laya.stage.width / 2, Laya.stage.height / 2);
+                let dec = sp.getChildByName('dec') as Laya.Label;
+                dec.text =input
+                sp.zOrder = 100;
+
+                dec.alpha = 0;
+                Animation.scale_Alpha(sp, 0, 1, 0, 1, 1, 1, 200, 0, f => {
+                    Animation.fadeOut(dec, 0, 1, 150, 0, f => {
+                        Animation.fadeOut(dec, 1, 0, 200, 1500, f => {
+                            Animation.scale_Alpha(sp, 1, 1, 1, 1, 0, 0, 200, 0, f => {
+                                sp.removeSelf();
+                            });
+                        });
+                    });
+                });
+            }));
+        }
+        /**
          * 创建体力消耗动画
          * @param  subEx 消耗多少体力值
         */
@@ -2121,7 +2149,8 @@ export module lwg {
         }
         /**移动*/
         move(event): void {
-            event.currentTarget.scale(1, 1);
+            // event.currentTarget.scale(1, 1);
+            // console.log('不做处理')
         }
 
         /**抬起*/
