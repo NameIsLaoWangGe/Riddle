@@ -1,4 +1,0 @@
-{
-  "code": "export default class CaiDanData {\r\n    GetIconPath() {\r\n        this.IconPath = \"CaiDanQIang/Skin/\" + this.ID + \".png\";\r\n        return this.IconPath;\r\n    }\r\n    GetIconPath_h() {\r\n        this.IconPath_h = \"CaiDanQIang/Skin/\" + this.ID + \"_01.png\";\r\n        return this.IconPath_h;\r\n    }\r\n}\r\n",
-  "references": []
-}

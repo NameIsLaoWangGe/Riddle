@@ -1,10 +1,9 @@
 import UIMain from "../Game/UIMain";
 import ADManager, { TaT } from "../../TJ/Admanager";
-// import ADManager, { TaT } from "../../TJ/Admanager";
 
 /**综合模板*/
 export module lwg {
-    /**全局控制,全局变量*/
+    /**全局方法,全局变量，每个游戏不一样*/
     export module Global {
         /**当前的关卡是第几关*/
         export let _gameLevel: number = 1;
@@ -632,6 +631,51 @@ export module lwg {
         }
     }
 
+    /**事件类*/
+    export module Event {
+
+        export enum EventType {
+            btnOnClick = 'btnOnClick',
+        }
+        export let dispatcher: Laya.EventDispatcher = new Laya.EventDispatcher();
+        export function dispatcherOn(type, caller, func): void {
+            dispatcher.on(type.toString(), caller, func);
+        }
+
+        // export class Mgr {
+        //     static I: Mgr;
+
+        //     dispatcher: Laya.EventDispatcher = new Laya.EventDispatcher();
+
+        //     init(segment) {
+        //         Mgr.notify("preloadStep", segment);
+        //     }
+
+        //     static reg(type: any, caller: any, listener: Function) {
+        //         if (!caller) {
+        //             console.error("caller must exist!");
+        //         }
+        //         Mgr.I.dispatcher.on(type.toString(), caller, listener);
+        //     }
+
+        //     static notify(type: any, args?: any) {
+        //         Mgr.I.dispatcher.event(type.toString(), args);
+        //     }
+
+        //     static off(type: any, caller: any, listener: Function) {
+        //         Mgr.I.dispatcher.off(type.toString(), caller, listener);
+        //     }
+
+        //     static offAll(type: any) {
+        //         Mgr.I.dispatcher.offAll(type.toString());
+        //     }
+
+        //     static offCaller(caller: any) {
+        //         Mgr.I.dispatcher.offAllCaller(caller);
+        //     }
+        // }
+    }
+
     /*场景和UI模块的一些通用属性*/
     export module Admin {
         /**场景控制,访问特定场景用_sceneControl[name]方位*/
@@ -698,8 +742,8 @@ export module lwg {
                     if (openName.substring(0, 6) === 'UIMain') {
                         background.width = null;
                         background.height = null;
-                        background.x = 360,
-                            background.y = 640;
+                        background.x = 360;
+                        background.y = 640;
                         // background.pivotX = background.width / 2;
                         // background.pivotY = background.height / 2;
                         // background.x = Laya.stage.width / 2;
@@ -962,24 +1006,30 @@ export module lwg {
             constructor() {
                 super();
             }
-            onEnable() {
+            onAwake(): void {
                 this.self = this.owner as Laya.Scene;
                 // 类名
                 this.calssName = this['__proto__']['constructor'].name;
                 this.gameState(this.calssName);
+                this.selfVars();
+                this.variateInit();
+                this.adaptive();
+            }
+            onEnable() {
                 // 组件变为的self属性
                 this.self[this.calssName] = this;
-                this.selfVars();
                 this.lwgInit();
-                this.btnOnClick();
-                this.adaptive();
-                this.openAni();
+                this.btnAndOpenAni();
                 printPoint('on', this.calssName);
             }
-            /**场景内全局节点*/
+            /**声明场景里的一些节点*/
             selfVars(): void {
+
             }
-            /**游戏当前的状态*/
+            /**初始化一些变量*/
+            variateInit() {
+            }
+            /**游戏当前的状态,有些页面没有状态*/
             gameState(calssName): void {
                 switch (calssName) {
                     case SceneName.UIStart:
@@ -1003,21 +1053,38 @@ export module lwg {
             lwgInit(): void {
                 // console.log('父类的初始化！');
             }
-            /**点击事件注册*/
+            /**通过openni返回的时间来延时开启点击事件*/
+            btnAndOpenAni(): void {
+                let time = this.openAni();
+                if (time) {
+                    Laya.timer.once(time, this, f => {
+                        this.btnOnClick();
+                    });
+                } else {
+                    this.btnOnClick();
+                }
+            }
+            /**按钮点击事件注册*/
             btnOnClick(): void {
             }
+            /**开场动画,返回的数字用于开启点击事件*/
+            openAni(): number {
+                return 0;
+            }
+
             /**一些节点自适应*/
             adaptive(): void {
             }
-            /**开场动画*/
-            openAni(): void {
-            }
+
             /**离场动画*/
-            vanishAni(): void {
+            vanishAni(): number {
+                return 0;
             }
+
             onDisable(): void {
                 printPoint('dis', this.calssName);
                 this.lwgDisable();
+                Laya.timer.clearAll(this);
             }
             /**离开时执行，子类不执行onDisable，只执行lwgDisable*/
             lwgDisable(): void {
@@ -2486,15 +2553,16 @@ export module lwg {
         /**
          * 简单下落
          * @param node 节点
-         * @param targetY 目标位置
+         * @param fY 初始Y位置
+         * @param tY 目标Y位置
          * @param rotation 落地角度
          * @param time 花费时间
          * @param delayed 延时时间
          * @param func 回调函数
          */
-        export function drop_Simple(node, targetY, rotation, time, delayed, func): void {
-
-            Laya.Tween.to(node, { y: targetY, rotation: rotation }, time, Laya.Ease.expoIn, Laya.Handler.create(this, function () {
+        export function drop_Simple(node, fY, tY, rotation, time, delayed, func): void {
+            node.y = fY;
+            Laya.Tween.to(node, { y: tY, rotation: rotation }, time, Laya.Ease.circOut, Laya.Handler.create(this, function () {
                 if (func !== null) {
                     func();
                 }
@@ -2508,8 +2576,7 @@ export module lwg {
           * @param firstY 初始位置
           * @param targetY 目标位置
           * @param extendY 延伸长度
-          * @param time1 第一阶段花费时间
-          * @param time2 第二阶段花费时间
+          * @param time1 花费时间
           * @param delayed 延时时间
           * @param func 结束回调函数
           * */
@@ -2518,7 +2585,7 @@ export module lwg {
             target.alpha = fAlpha;
             target.y = firstY;
 
-            Laya.Tween.to(target, { alpha: 1, y: targetY + extendY }, time1, Laya.Ease.expoIn, Laya.Handler.create(this, function () {
+            Laya.Tween.to(target, { alpha: 1, y: targetY + extendY }, time1, null, Laya.Handler.create(this, function () {
 
                 Laya.Tween.to(target, { y: targetY - extendY / 2 }, time1 / 2, null, Laya.Handler.create(this, function () {
 
@@ -2920,7 +2987,7 @@ export module lwg {
         }
 
         /**
-        * 简单的透明度渐变闪烁动画
+        * 简单的透明度渐变闪烁动画,闪一下消失
         * @param target 节点
         * @param minAlpha 最低到多少透明度
         * @param maXalpha 最高透明度
@@ -2928,7 +2995,7 @@ export module lwg {
         * @param delayed 延迟时间
         * @param func 完成后的回调
         */
-        export function blink_FadeOut(target, minAlpha, maXalpha, time, delayed, func): void {
+        export function blink_FadeOut_v(target, minAlpha, maXalpha, time, delayed, func): void {
             target.alpha = minAlpha;
             Laya.Tween.to(target, { alpha: maXalpha }, time, null, Laya.Handler.create(this, function () {
                 // 原始状态
@@ -2936,6 +3003,29 @@ export module lwg {
                     if (func !== null) {
                         func()
                     }
+                }), 0);
+            }), delayed);
+        }
+
+        /**
+       * 简单的透明度渐变闪烁动画，闪烁后不消失
+       * @param target 节点
+       * @param minAlpha 最低到多少透明度
+       * @param maXalpha 最高透明度
+       * @param time 花费时间
+       * @param delayed 延迟时间
+       * @param func 完成后的回调
+       */
+        export function blink_FadeOut(target, minAlpha, maXalpha, time, delayed, func): void {
+            target.alpha = minAlpha;
+            Laya.Tween.to(target, { alpha: maXalpha }, time, null, Laya.Handler.create(this, function () {
+                // 原始状态
+                Laya.Tween.to(target, { alpha: minAlpha }, time, null, Laya.Handler.create(this, function () {
+                    Laya.Tween.to(target, { alpha: maXalpha }, time, null, Laya.Handler.create(this, function () {
+                        if (func !== null) {
+                            func()
+                        }
+                    }), 0);
                 }), 0);
             }), delayed);
         }
@@ -3320,3 +3410,14 @@ export module lwg {
     }
 }
 export default lwg;
+export let Admin = lwg.Admin;
+export let Click = lwg.Click;
+export let Global = lwg.Global;
+export let Animation = lwg.Animation;
+export let Event = lwg.Event;
+export let Tools = lwg.Tools;
+export let Effects = lwg.Effects;
+
+
+
+

@@ -1,4 +1,4 @@
-import { lwg } from "../Lwg_Template/lwg";
+import { lwg, Animation } from "../Lwg_Template/lwg";
 import UIMain from "./UIMain";
 import RecordManager from "../../TJ/RecordManager";
 import ADManager, { TaT } from "../../TJ/Admanager";
@@ -34,6 +34,7 @@ export default class UIStart extends lwg.Admin.Scene {
     }
 
     lwgInit(): void {
+        lwg.Global._stageClick = false;
         ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
 
         this.BtnLocation.visible = false;
@@ -60,21 +61,45 @@ export default class UIStart extends lwg.Admin.Scene {
         this.SceneContent.y = Laya.stage.height - 75 - 80 - this.SceneContent.height / 2;
     }
 
-    openAni(): void {
+    openAni(): number {
+        let time: number = 80;
+        let delayed: number = 100;
+
+        Animation.drop_KickBack(this.self['BtnTurntable'], 0, -1200, this.self['BtnTurntable'].y, 30, time * 4, 0, f => { });
+        Animation.drop_KickBack(this.self['BtnPainted'], 0, -1200, this.self['BtnPainted'].y, 30, time * 4, delayed * 2, f => { });
+        Animation.drop_KickBack(this.self['BtnPifu'], 0, -1200, this.self['BtnPifu'].y, 30, time * 4, delayed * 3, f => { });
+
         //皮肤限定盖章动画
         if (this.self['BtnXD'].visible) {
             let wordXd = this.self['BtnXD'].getChildByName('wordXd') as Laya.Sprite;
             let wordXd_01 = this.self['BtnXD'].getChildByName('wordXd_01') as Laya.Sprite;
             wordXd_01.alpha = 0;
-            lwg.Animation.move_Scale(wordXd, 1, 200, 75, 99, 59, 2, 300, 200, f => {
-                lwg.Animation.move_Scale(wordXd, wordXd.scaleX, wordXd.x, wordXd.y, 68, 73, 1, 100, 0, f => {
-                    wordXd.removeSelf();
-                    wordXd_01.alpha = 1;
-                    lwg.Animation.rotate_Scale(this.self['BtnXD'], 0, 1, 1, 0, 0.88, 0.88, 120, 0, f => { });
+            wordXd.alpha = 0;
+            Animation.drop_KickBack(this.self['BtnXD'], 0, -1200, this.self['BtnXD'].y, 30, time * 4, delayed * 1, f => {
+                wordXd.alpha = 1;
+                lwg.Animation.move_Scale(wordXd, 1, 200, 75, 99, 59, 2, time * 3, 200, f => {
+                    lwg.Animation.move_Scale(wordXd, wordXd.scaleX, wordXd.x, wordXd.y, 68, 73, 1, time * 0.7, 0, f => {
+                        wordXd.removeSelf();
+                        wordXd_01.alpha = 1;
+                        lwg.Animation.rotate_Scale(this.self['BtnXD'], 0, 1, 1, 0, 0.88, 0.88, time * 1.2, 0, f => {
+                            lwg.Global._stageClick = true
+                        });
+                    })
                 })
-            })
+            });
         }
+
+        Animation.bombs_Appear(this.BtnStart, 0, 1, 1.1, 0, time * 3, time, delayed, null, f => {
+            Animation.swell_shrink(this.BtnStart, 1, 1.2, time * 1.5, delayed, f => { });
+        });
+        Animation.blink_FadeOut(lwg.Global.ExecutionNumNode, 0, 1, time * 2, delayed * 2, f => {
+        });
+        Animation.blink_FadeOut(lwg.Global.GoldNumNode, 0, 1, time * 2, delayed * 2, f => {
+        });
+        return time;
     }
+    /**限定皮肤的单独效果*/
+
 
     /**创建关卡list*/
     createCustomsList(): void {
@@ -457,20 +482,6 @@ export default class UIStart extends lwg.Admin.Scene {
             if (lwg.Global._execution < 2) {
                 lwg.Admin._openScene('UIExecutionHint', null, null, null);
             } else {
-                // if (this.listFirstIndex >= 4) {
-                //     // 格式
-                //     if (this.listFirstIndex <= 9) {
-                //         lwg.Admin.openCustomName = 'UIMain_00' + this.listFirstIndex;
-                //     } else if (9 < this.listFirstIndex || this.listFirstIndex <= 99) {
-                //         lwg.Admin.openCustomName = 'UIMain_0' + this.listFirstIndex;
-                //     }
-                //     lwg.Admin.openLevelNum = this.listFirstIndex;
-                //     lwg.Admin._openScene('UIPassHint', null, null, null);
-                // } else {
-                //     // console.log(this.listFirstIndex);
-                //     this.openPlayScene();
-                // }
-                // console.log(lwg.Global._havePifu);
                 if (lwg.Global._havePifu.length < 7) {
                     // 格式
                     if (this.listFirstIndex <= 9) {
@@ -531,10 +542,6 @@ export default class UIStart extends lwg.Admin.Scene {
         } else {
             lock.visible = false;
         }
-    }
-
-    vanishAni(): void {
-
     }
 
     customsListUp(): void {

@@ -18,28 +18,26 @@ export default class UIXDpifu extends lwg.Admin.Scene {
 
     constructor() { super(); }
 
-    lwgInit(): void {
-        lwg.Global._openXD = true;
-        lwg.Global.GoldNumNode.alpha = 0;
-        lwg.Global.ExecutionNumNode.alpha = 0;
+    selfVars(): void {
         this.BtnBack = this.self['BtnBack'];
         this.BtnGet = this.self['BtnGet'];
         this.SceneContent = this.self['SceneContent'];
         this.background = this.self['background'];
         this.logo = this.self['logo'];
+    }
 
+    lwgInit(): void {
+        lwg.Global._openXD = true;
+        lwg.Global.GoldNumNode.alpha = 0;
+        lwg.Global.ExecutionNumNode.alpha = 0;
         ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_limitskin');
         ADManager.TAPoint(TaT.BtnShow, 'close_limitskin');
-
         this.btnGetNum();
     }
 
     adaptive(): void {
         this.SceneContent.y = Laya.stage.height * 0.528;
         this.self['background_01'].height = Laya.stage.height;
-    }
-    openAni(): void {
-
     }
     /**开场动画回调*/
     openAniFunc(): void {

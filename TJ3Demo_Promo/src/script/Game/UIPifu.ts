@@ -65,8 +65,6 @@ export default class UIPifu extends lwg.Admin.Scene {
         num.text = 'x' + price.toString();
     }
 
-    openAni(): void {
-    }
 
     /**创建皮肤list*/
     createPifuList(): void {

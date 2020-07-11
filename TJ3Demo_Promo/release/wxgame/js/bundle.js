@@ -4027,7 +4027,7 @@
             console.log("******************吊起分享 ？？？？？", RecordManager.grv, RecordManager.grv.videoPath);
             if (RecordManager.grv.videoPath) {
                 let p = new TJ.Platform.AppRt.Extern.TT.ShareAppMessageParam();
-                p.extra.videoTopics = ["甩锅给队友", "回来吧刺激战场", "番茄小游戏", "抖音小游戏"];
+                p.extra.videoTopics = ["解救小王子", "番茄小游戏", "抖音小游戏"];
                 p.channel = "video";
                 p.success = () => {
                     lwg.Global._createHint_01(lwg.Enum.HintType.sharesuccess);
@@ -7810,8 +7810,7 @@
     }
 
     class GameConfig {
-        constructor() {
-        }
+        constructor() { }
         static init() {
             var reg = Laya.ClassUtils.regClass;
             reg("TJ/Promo/script/PromoOpen.ts", PromoOpen);

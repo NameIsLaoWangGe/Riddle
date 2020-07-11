@@ -1,1 +1,41 @@
-gongzhu.pngsize:89,89format:RGBA8888filter:Linear,Linearrepeat:nonegunrotate:falsexy:2,9size:21,78orig:21,78offset:0,0index:-1shentirotate:truexy:25,6size:37,48orig:37,48offset:0,0index:-1tourotate:falsexy:25,45size:46,42orig:46,42offset:0,0index:-1youxiurotate:falsexy:73,73size:14,14orig:14,14offset:0,0index:-1zuoxiurotate:falsexy:73,57size:13,14orig:13,14offset:0,0index:-1
+
+gongzhu.png
+size: 89,89
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+gun
+  rotate: false
+  xy: 2, 9
+  size: 21, 78
+  orig: 21, 78
+  offset: 0, 0
+  index: -1
+shenti
+  rotate: true
+  xy: 25, 6
+  size: 37, 48
+  orig: 37, 48
+  offset: 0, 0
+  index: -1
+tou
+  rotate: false
+  xy: 25, 45
+  size: 46, 42
+  orig: 46, 42
+  offset: 0, 0
+  index: -1
+youxiu
+  rotate: false
+  xy: 73, 73
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+zuoxiu
+  rotate: false
+  xy: 73, 57
+  size: 13, 14
+  orig: 13, 14
+  offset: 0, 0
+  index: -1
