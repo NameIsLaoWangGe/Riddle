@@ -38,11 +38,13 @@ export default class UIDefeated extends lwg.Admin.Scene {
         this.self['sceneContent'].y = Laya.stage.height / 2;
     }
 
-    openAni(): void {
+    openAni(): number {
         this.self['BtnBack'].visible = false;
         setTimeout(() => {
             this.self['BtnBack'].visible = true;
         }, lwg.Global._btnDelayed);
+
+        return 0;
     }
 
     /**关卡数显示，有两种情况，一种是显示当前真实关卡，一种是重玩以前的关卡*/

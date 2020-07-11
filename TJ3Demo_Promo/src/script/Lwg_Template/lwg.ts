@@ -632,14 +632,18 @@ export module lwg {
     }
 
     /**事件类*/
-    export module Event {
+    export module EventAdmin {
 
         export enum EventType {
             btnOnClick = 'btnOnClick',
+            aniComplete = 'aniComplete',
         }
         export let dispatcher: Laya.EventDispatcher = new Laya.EventDispatcher();
+        /**事件注册*/
         export function dispatcherOn(type, caller, func): void {
-            dispatcher.on(type.toString(), caller, func);
+            if (!caller) {
+                dispatcher.on(type.toString(), caller, func);
+            }
         }
 
         // export class Mgr {
@@ -1053,6 +1057,8 @@ export module lwg {
             lwgInit(): void {
                 // console.log('父类的初始化！');
             }
+
+
             /**通过openni返回的时间来延时开启点击事件*/
             btnAndOpenAni(): void {
                 let time = this.openAni();
@@ -1063,13 +1069,23 @@ export module lwg {
                 } else {
                     this.btnOnClick();
                 }
+
+                EventAdmin.dispatcher.event(EventAdmin.EventType.aniComplete, f => {
+                    console.log('时间派发！');
+                    lwg.Global._gameStart = true;
+                });
             }
             /**按钮点击事件注册*/
             btnOnClick(): void {
             }
+
+            /**开场或者离场动画单位时间*/
+            aniTime: number = 0;
+            /**开场或者离场动画单位延迟时间*/
+            aniDelayde: number = 0;
             /**开场动画,返回的数字用于开启点击事件*/
             openAni(): number {
-                return 0;
+                return this.aniTime;
             }
 
             /**一些节点自适应*/
@@ -1079,6 +1095,14 @@ export module lwg {
             /**离场动画*/
             vanishAni(): number {
                 return 0;
+            }
+
+            onUpdate(): void {
+                this.lwgOnUpdta();
+            }
+
+            lwgOnUpdta(): void {
+
             }
 
             onDisable(): void {
@@ -1102,6 +1126,13 @@ export module lwg {
             rig: Laya.RigidBody;
             constructor() {
                 super();
+            }
+
+            onAwake(): void {
+
+            }
+            lwgOnAwake(): void {
+
             }
             onEnable(): void {
                 this.self = this.owner as Laya.Sprite;
@@ -1130,6 +1161,8 @@ export module lwg {
             constructor() {
                 super();
             }
+
+
             onEnable(): void {
                 this.self = this.owner as Laya.Sprite;
                 this.selfScene = this.self.scene;
@@ -1226,12 +1259,14 @@ export module lwg {
             /**初始角度*/
             startRotat: number;
 
-
             /**随机旋转方向*/
             startDir: number;
             /**随机消失时间*/
-            vanishTime: number;
+            continueTime: number;
 
+            onAwake(): void {
+                this.initProperty();
+            }
             onEnable(): void {
                 this.self = this.owner as Laya.Sprite;
                 this.selfScene = this.self.scene;
@@ -1241,7 +1276,6 @@ export module lwg {
                 this.self.pivotY = this.self.height / 2;
                 this.timer = 0;
                 this.lwgInit();
-                this.initProperty();
                 this.propertyAssign();
             }
             /**初始化，在onEnable中执行，重写即可覆盖*/
@@ -1286,22 +1320,31 @@ export module lwg {
          * 创建普通爆炸动画，四周爆炸随机散开
          * @param parent 父节点
          * @param quantity 数量
+         * @param speed 速度
+         * @param continueTime 持续时间（按帧数计算）
          * @param x X轴位置
          * @param y Y轴位置
          */
-        export function createCommonExplosion(parent, quantity, x, y): void {
+        export function createCommonExplosion(parent, quantity, x, y, style, speed, continueTime): void {
             for (let index = 0; index < quantity; index++) {
                 let ele = Laya.Pool.getItemByClass('ele', Laya.Image) as Laya.Image;
                 ele.name = 'ele';//标识符和名称一样
-                let num = Math.floor(Math.random() * 12);
-                ele.alpha = 1;
+                let num
+                if (style === 'star') {
+                    num = 12 + Math.floor(Math.random() * 12);
+                } else if (style === 'dot') {
+                    num = Math.floor(Math.random() * 12);
+                }
                 ele.skin = SkinUrl[num];
+                ele.alpha = 1;
                 parent.addChild(ele);
                 ele.pos(x, y);
                 let scirpt = ele.getComponent(commonExplosion);
                 if (!scirpt) {
-                    ele.addComponent(commonExplosion);
+                    scirpt = ele.addComponent(commonExplosion);
                 }
+                scirpt.startSpeed = 5 * Math.random() + speed;
+                scirpt.continueTime = 8 * Math.random() + continueTime;
             }
         }
 
@@ -1312,14 +1355,14 @@ export module lwg {
                 this.startSpeed = 5 * Math.random() + 8;
                 this.startScale = 0.4 + Math.random() * 0.6;
                 this.accelerated = 0.1;
-                this.vanishTime = 8 + Math.random() * 10;
+                this.continueTime = 8 + Math.random() * 10;
             }
             moveRules(): void {
                 this.timer++;
-                if (this.timer >= this.vanishTime / 2) {
-                    this.self.alpha -= 0.15;
+                if (this.timer >= this.continueTime / 2) {
+                    this.self.alpha -= 0.1;
                 }
-                if (this.timer >= this.vanishTime) {
+                if (this.timer >= this.continueTime) {
                     this.self.removeSelf();
                 } else {
                     this.commonSpeedXYByAngle(this.startAngle, this.startSpeed + this.accelerated);
@@ -1426,14 +1469,14 @@ export module lwg {
                 this.startSpeed = 5 * Math.random() + 5;
                 this.startScale = 0.4 + Math.random() * 0.6;
                 this.accelerated = 0.1;
-                this.vanishTime = 200 + Math.random() * 10;
+                this.continueTime = 200 + Math.random() * 10;
             }
             moveRules(): void {
                 this.timer++;
-                if (this.timer >= this.vanishTime * 3 / 5) {
+                if (this.timer >= this.continueTime * 3 / 5) {
                     this.self.alpha -= 0.1;
                 }
-                if (this.timer >= this.vanishTime) {
+                if (this.timer >= this.continueTime) {
                     this.self.removeSelf();
                 } else {
                     this.commonSpeedXYByAngle(this.startAngle, this.startSpeed);
@@ -1488,15 +1531,15 @@ export module lwg {
                 this.startSpeed = 10 * Math.random() + 3;
                 this.startScale = 0.4 + Math.random() * 0.6;
                 this.accelerated = 0.1;
-                this.vanishTime = 300 + Math.random() * 50;
+                this.continueTime = 300 + Math.random() * 50;
                 this.randomRotate = 1 + Math.random() * 20;
             }
             moveRules(): void {
                 this.timer++;
-                if (this.timer >= this.vanishTime * 3 / 5) {
+                if (this.timer >= this.continueTime * 3 / 5) {
                     this.self.alpha -= 0.1;
                 }
-                if (this.timer >= this.vanishTime) {
+                if (this.timer >= this.continueTime) {
                     this.self.removeSelf();
                 } else {
                     this.commonSpeedXYByAngle(this.startAngle, this.startSpeed);
@@ -3008,23 +3051,43 @@ export module lwg {
         }
 
         /**
-       * 简单的透明度渐变闪烁动画，闪烁后不消失
-       * @param target 节点
-       * @param minAlpha 最低到多少透明度
-       * @param maXalpha 最高透明度
-       * @param time 花费时间
-       * @param delayed 延迟时间
-       * @param func 完成后的回调
-       */
+          * 简单的透明度渐变闪烁动画，闪烁后不消失
+          * @param target 节点
+          * @param minAlpha 最低到多少透明度
+          * @param maXalpha 最高透明度
+          * @param time 花费时间
+          * @param delayed 延迟时间
+          * @param func 完成后的回调
+          */
         export function blink_FadeOut(target, minAlpha, maXalpha, time, delayed, func): void {
-            target.alpha = minAlpha;
-            Laya.Tween.to(target, { alpha: maXalpha }, time, null, Laya.Handler.create(this, function () {
+            Laya.Tween.to(target, { alpha: minAlpha }, time, null, Laya.Handler.create(this, function () {
                 // 原始状态
-                Laya.Tween.to(target, { alpha: minAlpha }, time, null, Laya.Handler.create(this, function () {
-                    Laya.Tween.to(target, { alpha: maXalpha }, time, null, Laya.Handler.create(this, function () {
-                        if (func !== null) {
-                            func()
-                        }
+                Laya.Tween.to(target, { alpha: maXalpha }, time, null, Laya.Handler.create(this, function () {
+                    if (func !== null) {
+                        func()
+                    }
+                }), 0);
+            }), delayed);
+        }
+
+        /**
+          * 根据节点的锚点进行摇头动画，类似于不倒翁动画
+          * @param target 节点
+          * @param rotate 摇摆的幅度
+          * @param time 花费时间
+          * @param delayed 延迟时间
+          * @param func 完成后的回调
+          */
+        export function shookHead_Simple(target, rotate, time, delayed, func): void {
+            let firstR = target.rotation;
+            Laya.Tween.to(target, { rotation: firstR + rotate }, time, null, Laya.Handler.create(this, function () {
+                Laya.Tween.to(target, { rotation: firstR - rotate * 2 }, time, null, Laya.Handler.create(this, function () {
+                    Laya.Tween.to(target, { rotation: firstR + rotate }, time, null, Laya.Handler.create(this, function () {
+                        Laya.Tween.to(target, { rotation: firstR }, time, null, Laya.Handler.create(this, function () {
+                            if (func !== null) {
+                                func()
+                            }
+                        }), 0);
                     }), 0);
                 }), 0);
             }), delayed);
@@ -3414,7 +3477,7 @@ export let Admin = lwg.Admin;
 export let Click = lwg.Click;
 export let Global = lwg.Global;
 export let Animation = lwg.Animation;
-export let Event = lwg.Event;
+export let EventAdmin = lwg.EventAdmin;
 export let Tools = lwg.Tools;
 export let Effects = lwg.Effects;
 

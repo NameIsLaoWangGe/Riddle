@@ -372,8 +372,7 @@
             "try_btn_01.png",
             "try_btn_02.png",
             "anniu_bupei.png",
-            "anniu_yaoyong.png",
-            "zi"
+            "anniu_yaoyong.png"
         ]
     ],
     "res/atlas/UI_new/PifuXd.atlas": [
@@ -426,7 +425,10 @@
             "touying.png",
             "tubiao_caidang.png",
             "tubiao_zhuanpang.png",
-            "zhizheng.png"
+            "zhizheng.png",
+            "icon_zhuanpan.png",
+            "icon_zhizhen.png",
+            "icon_caidan.png"
         ]
     ]
 }

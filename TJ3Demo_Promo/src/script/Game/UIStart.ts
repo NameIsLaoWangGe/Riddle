@@ -1,4 +1,4 @@
-import { lwg, Animation } from "../Lwg_Template/lwg";
+import { lwg, Animation, Effects } from "../Lwg_Template/lwg";
 import UIMain from "./UIMain";
 import RecordManager from "../../TJ/RecordManager";
 import ADManager, { TaT } from "../../TJ/Admanager";
@@ -65,8 +65,36 @@ export default class UIStart extends lwg.Admin.Scene {
         let time: number = 80;
         let delayed: number = 100;
 
-        Animation.drop_KickBack(this.self['BtnTurntable'], 0, -1200, this.self['BtnTurntable'].y, 30, time * 4, 0, f => { });
-        Animation.drop_KickBack(this.self['BtnPainted'], 0, -1200, this.self['BtnPainted'].y, 30, time * 4, delayed * 2, f => { });
+        let zhuanpan = this.self['BtnTurntable'].getChildByName('zhuanpan') as Laya.Sprite;
+        Animation.drop_KickBack(this.self['BtnTurntable'], 0, -1200, this.self['BtnTurntable'].y, 30, time * 4, 0, f => {
+            Laya.timer.frameLoop(1, this, f => {
+                zhuanpan.rotation++;
+            });
+        });
+
+        let dan = this.self['BtnPainted'].getChildByName('dan');
+        Animation.drop_KickBack(this.self['BtnPainted'], 0, -1200, this.self['BtnPainted'].y, 30, time * 4, delayed * 2, f => {
+            Laya.timer.loop(3000, this, f => {
+                Animation.shookHead_Simple(dan, 10, time * 3, 0, f => { });
+            });
+            Laya.timer.loop(1500, this, f => {
+                let scope = 20;
+                let ranX;
+                if (Math.floor(Math.random() * 2) === 1) {
+                    ranX = this.self['BtnPainted'].width / 2 + Math.random() * scope;
+                } else {
+                    ranX = this.self['BtnPainted'].width / 2 - Math.random() * scope;
+                }
+                let ranY;
+                if (Math.floor(Math.random() * 2) === 1) {
+                    ranY = this.self['BtnPainted'].height / 2 + Math.random() * scope - 25;
+                } else {
+                    ranY = this.self['BtnPainted'].height / 2 - Math.random() * scope - 25;
+                }
+                Effects.createCommonExplosion(this.self['BtnPainted'], 10, ranX, ranY, 'star', 0, 20);
+            });
+        });
+
         Animation.drop_KickBack(this.self['BtnPifu'], 0, -1200, this.self['BtnPifu'].y, 30, time * 4, delayed * 3, f => { });
 
         //皮肤限定盖章动画
@@ -82,7 +110,7 @@ export default class UIStart extends lwg.Admin.Scene {
                         wordXd.removeSelf();
                         wordXd_01.alpha = 1;
                         lwg.Animation.rotate_Scale(this.self['BtnXD'], 0, 1, 1, 0, 0.88, 0.88, time * 1.2, 0, f => {
-                            lwg.Global._stageClick = true
+                            lwg.Global._stageClick = true;
                         });
                     })
                 })
@@ -90,13 +118,18 @@ export default class UIStart extends lwg.Admin.Scene {
         }
 
         Animation.bombs_Appear(this.BtnStart, 0, 1, 1.1, 0, time * 3, time, delayed, null, f => {
-            Animation.swell_shrink(this.BtnStart, 1, 1.2, time * 1.5, delayed, f => { });
+            Animation.swell_shrink(this.BtnStart, 1, 1.1, time * 1.5, delayed, f => {
+                Laya.timer.loop(3000, this, f => {
+                    Animation.swell_shrink(this.BtnStart, 1, 1.1, time * 1.5, delayed, f => {
+                    });
+                });
+            });
         });
-        Animation.blink_FadeOut(lwg.Global.ExecutionNumNode, 0, 1, time * 2, delayed * 2, f => {
+        Animation.blink_FadeOut(lwg.Global.ExecutionNumNode, 0, 1, time * 5, delayed * 2, f => {
         });
-        Animation.blink_FadeOut(lwg.Global.GoldNumNode, 0, 1, time * 2, delayed * 2, f => {
+        Animation.blink_FadeOut(lwg.Global.GoldNumNode, 0, 1, time * 5, delayed * 2, f => {
         });
-        return time;
+        return time * 4;
     }
     /**限定皮肤的单独效果*/
 
@@ -120,7 +153,7 @@ export default class UIStart extends lwg.Admin.Scene {
       * */
     listOpenAni(): void {
         this.CustomsList.scrollTo(lwg.Global._CustomsNum);
-        this.CustomsList.tweenTo(this.listFirstIndex, 100, Laya.Handler.create(this, f => {
+        this.CustomsList.tweenTo(this.listFirstIndex, 1000, Laya.Handler.create(this, f => {
             let cell = this.CustomsList.getCell(this.listFirstIndex);
             cell.alpha = 1;
             let pic = cell.getChildByName('pic') as Laya.Image;

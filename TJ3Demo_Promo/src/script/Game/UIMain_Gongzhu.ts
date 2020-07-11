@@ -1,4 +1,4 @@
-import { lwg } from "../Lwg_Template/lwg";
+import { lwg, EventAdmin } from "../Lwg_Template/lwg";
 
 export default class UIMain_Gongzhu extends lwg.Admin.Person {
     /**目前角色属于那个房间*/
@@ -19,12 +19,19 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
     private drumstick: boolean = false;
     /**标志地址*/
     signSkin: string;
+
+
     lwgInit(): void {
         this.createskeleton();
         this.notCommon();
         this.createPlaint();
-        this.setBelongRoom();
         this.directionJudge();
+
+        EventAdmin.dispatcherOn(EventAdmin.EventType.aniComplete, this, f => {
+            console.log('设置初始碰撞');
+            lwg.Global._gameStart = true;
+            this.setBelongRoom();
+        });
     }
     /**所有角色不会通用的一些属性*/
     notCommon(): void {
@@ -463,14 +470,17 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         // 判断是否是悬空状态下来的，如果是那么换方向
         // console.log(otherOwnerName + '地板连接前是：' + this.personState);
         let belongName = otherOwnerName.substring(otherOwnerName.length - 5, otherOwnerName.length);
-        if (this.belongRoom.name === belongName) {
-            if (this.personState === lwg.Enum.MoveState.onLadder) {
-                this.moveDirection = this.beforeLadderDir;
-            } else if (this.personState === lwg.Enum.MoveState.inAir) {
-                this.moveDirection = this.beforeInAirDir;
+
+        if (this.belongRoom) {
+            if (this.belongRoom.name === belongName) {
+                if (this.personState === lwg.Enum.MoveState.onLadder) {
+                    this.moveDirection = this.beforeLadderDir;
+                } else if (this.personState === lwg.Enum.MoveState.inAir) {
+                    this.moveDirection = this.beforeInAirDir;
+                }
+                this.personState = lwg.Enum.MoveState.onFloor;
+                this.currentFloor = otherOwner;
             }
-            this.personState = lwg.Enum.MoveState.onFloor;
-            this.currentFloor = otherOwner;
         }
         // console.log(otherOwnerName + '地板连接后' + this.personState);
     }

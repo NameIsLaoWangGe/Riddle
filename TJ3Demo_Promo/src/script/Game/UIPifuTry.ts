@@ -28,11 +28,12 @@ export default class UIPifuTry extends lwg.Admin.Scene {
         this.self['background_01'].height = Laya.stage.height;
     }
 
-    openAni(): void {
+    openAni(): number {
         // this.self['BtnNo'].visible = false;
         // setTimeout(() => {
         //     this.self['BtnNo'].visible = true;
         // }, lwg.Global._btnDelayed);
+        return 0;
     }
 
     /**随机出一个还没有获得的皮肤放在皮肤加载位置*/

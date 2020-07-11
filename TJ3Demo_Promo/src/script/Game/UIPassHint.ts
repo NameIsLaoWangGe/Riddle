@@ -17,7 +17,7 @@ export default class UIPassHint extends lwg.Admin.Scene {
 
     /**时间到了后有没有看广告*/
     advAfter: boolean = false;
-    openAni(): void {
+    openAni(): number {
         this.self['BtnNo'].visible = false;
         setTimeout(() => {
             if (this.intoScene === 'UIMain') {
@@ -32,6 +32,8 @@ export default class UIPassHint extends lwg.Admin.Scene {
                 this.self['BtnNo'].visible = true;
             }
         }, lwg.Global._btnDelayed);
+
+        return 0;
     }
 
     /**用于免费提示彩蛋中弹出的界面样式*/

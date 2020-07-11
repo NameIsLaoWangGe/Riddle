@@ -246,7 +246,7 @@ export default class CaiDanQiang extends Laya.Script {
         this.NowCaidanDataq = skindata;
         lwg.Global._pickPaintedNum = this.NowCaidanDataq.ID;
         this.IconDown.skin = skindata.GetIconPath();
-        this.IconUp.skin = skindata.GetIconPath();
+        this.IconUp.skin = skindata.GetIconPath_h();
         this.MesFangshi.text = skindata.MesFangshi;
         this.MesLaiyuan.text = skindata.MesLiayuan;
         this.Name.text = skindata.Name;

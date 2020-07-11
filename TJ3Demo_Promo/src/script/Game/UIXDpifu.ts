@@ -84,7 +84,8 @@ export default class UIXDpifu extends lwg.Admin.Scene {
         }
         lwg.LocalStorage.addData();
     }
-
+    lwgOnUpdta(): void {
+    }
     lwgDisable(): void {
         lwg.Global._openXD = false;
         lwg.Global.GoldNumNode.alpha = 1;

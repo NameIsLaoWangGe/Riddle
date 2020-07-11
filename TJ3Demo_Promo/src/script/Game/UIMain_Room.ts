@@ -1,4 +1,4 @@
-import { lwg } from "../Lwg_Template/lwg";
+import { lwg, EventAdmin } from "../Lwg_Template/lwg";
 import UIMain_Follow from "./UIMain_Follow";
 
 export default class UIMain_Room extends lwg.Admin.Object {
@@ -18,6 +18,7 @@ export default class UIMain_Room extends lwg.Admin.Object {
         this.collisionNodeFollow();
         this.boxColliderSet();
         this.wallpaperSet();
+
     }
 
     /**房间碰撞框格式设置*/

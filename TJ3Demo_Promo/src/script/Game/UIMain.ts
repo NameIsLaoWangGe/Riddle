@@ -1,4 +1,4 @@
-import { lwg } from "../Lwg_Template/lwg";
+import { lwg, Animation, EventAdmin } from "../Lwg_Template/lwg";
 import RecordManager from "../../TJ/RecordManager";
 import ADManager, { TaT } from "../../TJ/Admanager";
 import UIMain_Wangzi from "./UIMain_Wangzi";
@@ -53,7 +53,38 @@ export default class UIMain extends lwg.Admin.Scene {
         }
     }
 
-    openAni(): void {
+    openAni(): number {
+        let num1 = 0;
+        let num2 = 0;
+        let num3 = 0;
+        let num4 = 0;
+        this.aniTime = 500;
+        this.aniDelayde = 100;
+        for (let index = 0; index < this.self.numChildren; index++) {
+            const element = this.self.getChildAt(index) as Laya.Image;
+            if (element.name.substring(0, 4) === 'Room') {
+                if (element.x > Laya.stage.width / 2 && element.y > Laya.stage.height / 2) {
+                    num1++;
+                    Animation.move_Simple(element, 1500, element.y, element.x, element.y, this.aniTime * num1, this.aniDelayde * 0, f => { });
+
+                } else if (element.x > Laya.stage.width / 2 && element.y <= Laya.stage.height / 2) {
+                    num2++;
+                    Animation.move_Simple(element, 1500, element.y, element.x, element.y, this.aniTime * num2, this.aniDelayde * 0, f => { });
+
+                } else if (element.x <= Laya.stage.width / 2 && element.y > Laya.stage.height / 2) {
+                    num3++;
+                    Animation.move_Simple(element, -800, element.y, element.x, element.y, this.aniTime * num3, this.aniDelayde * 0, f => { });
+
+                } else if (element.x <= Laya.stage.width / 2 && element.y <= Laya.stage.height / 2) {
+                    num4++;
+                    Animation.move_Simple(element, -800, element.y, element.x, element.y, this.aniTime * num4, this.aniDelayde * 0, f => { });
+                }
+            }
+        }
+
+        let arr = [num1, num2, num3, num3];
+        arr.sort();
+        return this.aniTime * arr[arr.length - 1];
     }
 
     btnOnClick(): void {

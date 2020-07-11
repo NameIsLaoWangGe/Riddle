@@ -55,7 +55,7 @@ export default class UIVictory extends lwg.Admin.Scene {
         this.self['sceneContent'].y = Laya.stage.height / 2;
     }
 
-    openAni(): void {
+    openAni(): number {
         lwg.Effects.createFireworks(this.self['sceneContent'], 30, 430, 40);
         lwg.Effects.createFireworks(this.self['sceneContent'], 30, 109, 49.5);
 
@@ -68,6 +68,8 @@ export default class UIVictory extends lwg.Admin.Scene {
         }, lwg.Global._btnDelayed);
 
         this.self['BtnBack'].visible = false;
+
+        return 0;
     }
 
     /**

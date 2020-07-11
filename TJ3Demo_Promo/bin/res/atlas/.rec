@@ -197,18 +197,6 @@ R 626CADAF btn.wav
 R 9B501DC8 chijinbi.wav
 R E23D09D2 guoguan.wav
 R 6E72E92F wancheng.wav
-D ZhuanPan
-P 291EA52D 1.png
-P 62DF0FE9 Button.png
-P D6C8155A cha.png
-R A7CEE6C7 Di.png
-P 3ADB5653 JianTou.png
-P 0B96B03E Prop1.png
-P E1779259 Prop2.png
-P 4292E3F2 Prop4.png
-P 2446DB15 Prop5.png
-P 3F097904 Prop6.png
-R 45FB9211 tip.png
 D CaiDanQIang/Skin
 P 06370B6A 0.png
 P 26744458 0_01.png
@@ -295,7 +283,7 @@ P B944CFF0 icon_box02.png
 P 8F0851A8 icon_box02_open.png
 P E46E9B34 icon_set.png
 P F2325940 icon_unlock.png
-P A8007217 location_btn.png
+P 7557DEF2 location_btn.png
 P 770C0BB4 person_gongzhu.png
 P AD0D2013 start_btn.png
 P E3CB7F60 ui_board_01.png
@@ -319,11 +307,14 @@ P 22828B4F biaoti.png
 R 2423C19F dikuang.png
 P 7ECC535E fanhui.png
 P 19A58C80 gongxi.png
+P DFDF7324 icon_caidan.png
+P 4AD2BDBB icon_zhizhen.png
+P 74A17B03 icon_zhuanpan.png
 P B122472A jiesuo.png
 P 8983CF14 liang.png
 P E818FE29 touying.png
-P B724424D tubiao_caidang.png
-P D67F7BF8 tubiao_zhuanpang.png
+P 7457813D tubiao_caidang.png
+P 25B5602A tubiao_zhuanpang.png
 P 4AAA27AB zhizheng.png
 R 12BAE4DD zhuanpan.png
 D UI_new/PassHint
@@ -338,24 +329,24 @@ P 0A40FA13 yes_btn.png
 D UI_new/Pifu
 P D6D76169 icon_lock.png
 P DE115A9E logo.png
-P 3F36BB5C pifu_01_gongzhu.png
-P AE0E9889 pifu_01_gongzhu_h.png
-P 439DAD79 pifu_02_chiji.png
-P 7AFA16F8 pifu_02_chiji_h.png
+P 16F0CCB6 pifu_01_gongzhu.png
+P 0B82CFFB pifu_01_gongzhu_h.png
+P 2D9FDD43 pifu_02_chiji.png
+P D843A050 pifu_02_chiji_h.png
 P 9484A33F pifu_03_change.png
-P 3C895015 pifu_03_change_h.png
-P E86B36A2 pifu_04_huiguniang.png
-P A2FD4962 pifu_04_huiguniang_h.png
-P 916B06B5 pifu_05_tianshi.png
-P 32F5B9E6 pifu_05_tianshi_h.png
-P 5B9BBEE0 pifu_06_xiaohongmao.png
-P A2BC559B pifu_06_xiaohongmao_h.png
-P 003D9285 pifu_07_xiaohuangya.png
-P 4570C416 pifu_07_xiaohuangya_h.png
-P 8ABB3DE4 pifu_08_zhenzi.png
-P BB652E6D pifu_08_zhenzi_h.png
-P AD051EC0 pifu_09_aisha.png
-P 7EDD6C4B pifu_09_aisha_h.png
+P 8B537AA5 pifu_03_change_h.png
+P AC62F9F4 pifu_04_huiguniang.png
+P 5B354DD5 pifu_04_huiguniang_h.png
+P DBE25D9C pifu_05_tianshi.png
+P 753FFCB0 pifu_05_tianshi_h.png
+P 691C68D9 pifu_06_xiaohongmao.png
+P 339A4D54 pifu_06_xiaohongmao_h.png
+P 43E4719D pifu_07_xiaohuangya.png
+P 53268490 pifu_07_xiaohuangya_h.png
+P FD94A236 pifu_08_zhenzi.png
+P 36CE02EB pifu_08_zhenzi_h.png
+P 6CBAACBA pifu_09_aisha.png
+P FBF6945F pifu_09_aisha_h.png
 P 1C114509 UI_board_01.png
 P E806D1D4 ui_board_02.png
 P D495C5C0 ui_dot_01.png

@@ -93,7 +93,6 @@ export default class ZhuanPan extends Laya.Script {
                 this.StartBtn.visible = false;
             })
         }
-
     }
 
     StartLottery() {

@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":11,
-    "selecteID":7,
+    "selectedBox":104,
+    "selecteID":108,
     "searchKey":"View",
     "props":{"width":720,"sceneColor":"#000000","height":1280},
     "nodeParent":-1,
-    "maxID":106,
+    "maxID":109,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -682,29 +682,72 @@
                     "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,BtnPainted,BtnPainted",
-                    "props":{"y":334,"x":81,"width":110,"var":"BtnPainted","texture":"UI_new/Painted/tubiao_caidang.png","pivotY":63,"pivotX":55,"name":"BtnPainted","height":125},
+                    "props":{"y":334,"x":81,"var":"BtnPainted","texture":"UI_new/Painted/tubiao_caidang.png","pivotY":63,"pivotX":55,"name":"BtnPainted"},
                     "nodeParent":87,
                     "label":"BtnPainted",
-                    "isDirectory":false,
+                    "isOpen":true,
+                    "isDirectory":true,
                     "isAniNode":true,
-                    "hasChild":false,
+                    "hasChild":true,
                     "compId":104,
                     "child":[
-                        ]
+                        {
+                            "x":45,
+                            "type":"Sprite",
+                            "searchKey":"Sprite,dan,dan",
+                            "props":{"y":65,"x":55,"width":66,"var":"dan","texture":"UI_new/Painted/icon_caidan.png","pivotY":61,"pivotX":33,"name":"dan","height":78},
+                            "nodeParent":104,
+                            "label":"dan",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":108,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
                     "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,BtnTurntable,BtnTurntable",
-                    "props":{"y":498,"x":81,"width":110,"var":"BtnTurntable","texture":"UI_new/Painted/tubiao_zhuanpang.png","pivotY":63,"pivotX":55,"name":"BtnTurntable","height":125},
+                    "props":{"y":498,"x":81,"var":"BtnTurntable","texture":"UI_new/Painted/tubiao_zhuanpang.png","pivotY":63,"pivotX":55,"name":"BtnTurntable"},
                     "nodeParent":87,
                     "label":"BtnTurntable",
-                    "isDirectory":false,
+                    "isOpen":true,
+                    "isDirectory":true,
                     "isAniNode":true,
-                    "hasChild":false,
+                    "hasChild":true,
                     "compId":105,
                     "child":[
-                        ]
+                        {
+                            "x":45,
+                            "type":"Sprite",
+                            "searchKey":"Sprite,zhuanpan",
+                            "props":{"y":40,"x":55,"width":83,"texture":"UI_new/Painted/icon_zhuanpan.png","pivotY":46,"pivotX":42,"name":"zhuanpan","height":91},
+                            "nodeParent":105,
+                            "label":"zhuanpan",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":106,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Sprite",
+                            "searchKey":"Sprite",
+                            "props":{"y":23.5,"x":42.5,"texture":"UI_new/Painted/icon_zhizhen.png"},
+                            "nodeParent":105,
+                            "label":"Sprite",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":107,
+                            "child":[
+                                ]
+                        }]
                 }]
         },
         {
