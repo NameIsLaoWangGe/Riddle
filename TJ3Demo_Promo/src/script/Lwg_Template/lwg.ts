@@ -780,7 +780,8 @@ export module lwg {
             let num;
             // 大于30关后从第一关开始循环
             if (lwg.Global._gameLevel > 30) {
-                num = lwg.Global._gameLevel - 30;
+                // num = lwg.Global._gameLevel - 30;
+                num = lwg.Global._gameLevel % 30;
             } else {
                 num = lwg.Global._gameLevel;
             }
@@ -806,7 +807,8 @@ export module lwg {
             // 大于30关后从第一关开始循环
             openLevelNum = num;
             if (num > 30) {
-                num = num - 30;
+                // num = num - 30;
+                num = num % 30;
             }
             // 格式
             if (num <= 9) {
@@ -1070,10 +1072,6 @@ export module lwg {
                     this.btnOnClick();
                 }
 
-                EventAdmin.dispatcher.event(EventAdmin.EventType.aniComplete, f => {
-                    console.log('时间派发！');
-                    lwg.Global._gameStart = true;
-                });
             }
             /**按钮点击事件注册*/
             btnOnClick(): void {
@@ -2018,7 +2016,7 @@ export module lwg {
             'Room/room_purple_wallpaper.png',
             'Room/room_red_wallpaper.png',
             'Room/room_yellow_wallpaper.png',
-            'Room/room_yellowish_wallpaper.png'
+            'Room/room_yellowish_wallpaper.png',
         }
 
 

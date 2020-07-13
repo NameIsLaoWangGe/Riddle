@@ -30,6 +30,7 @@ export default class UIMain_Room extends lwg.Admin.Object {
         boxCol.y = 3;
     }
 
+    /**墙纸设置*/
     wallpaperSet(): void {
         let wallpaper = this.self.getChildByName('wallpaper') as Laya.Sprite;
         if (wallpaper) {

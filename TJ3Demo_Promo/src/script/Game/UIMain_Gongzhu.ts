@@ -26,12 +26,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         this.notCommon();
         this.createPlaint();
         this.directionJudge();
-
-        EventAdmin.dispatcherOn(EventAdmin.EventType.aniComplete, this, f => {
-            console.log('设置初始碰撞');
-            lwg.Global._gameStart = true;
-            this.setBelongRoom();
-        });
+        this.setBelongRoom();
     }
     /**所有角色不会通用的一些属性*/
     notCommon(): void {

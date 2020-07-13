@@ -1447,6 +1447,21 @@
             }
             LocalStorage.getData = getData;
         })(LocalStorage = lwg.LocalStorage || (lwg.LocalStorage = {}));
+        let EventAdmin;
+        (function (EventAdmin) {
+            let EventType;
+            (function (EventType) {
+                EventType["btnOnClick"] = "btnOnClick";
+                EventType["aniComplete"] = "aniComplete";
+            })(EventType = EventAdmin.EventType || (EventAdmin.EventType = {}));
+            EventAdmin.dispatcher = new Laya.EventDispatcher();
+            function dispatcherOn(type, caller, func) {
+                if (!caller) {
+                    EventAdmin.dispatcher.on(type.toString(), caller, func);
+                }
+            }
+            EventAdmin.dispatcherOn = dispatcherOn;
+        })(EventAdmin = lwg.EventAdmin || (lwg.EventAdmin = {}));
         let Admin;
         (function (Admin) {
             Admin._sceneControl = {};
@@ -1497,8 +1512,8 @@
                         if (openName.substring(0, 6) === 'UIMain') {
                             background.width = null;
                             background.height = null;
-                            background.x = 360,
-                                background.y = 640;
+                            background.x = 360;
+                            background.y = 640;
                         }
                         else {
                             background.width = Laya.stage.width;
@@ -1518,7 +1533,7 @@
                 let sceneName;
                 let num;
                 if (lwg.Global._gameLevel > 30) {
-                    num = lwg.Global._gameLevel - 30;
+                    num = lwg.Global._gameLevel % 30;
                 }
                 else {
                     num = lwg.Global._gameLevel;
@@ -1541,7 +1556,7 @@
                 let sceneName;
                 Admin.openLevelNum = num;
                 if (num > 30) {
-                    num = num - 30;
+                    num = num % 30;
                 }
                 if (num <= 9) {
                     sceneName = 'UIMain_00' + num;
@@ -1730,20 +1745,26 @@
             class Scene extends Laya.Script {
                 constructor() {
                     super();
+                    this.aniTime = 0;
+                    this.aniDelayde = 0;
                 }
-                onEnable() {
+                onAwake() {
                     this.self = this.owner;
                     this.calssName = this['__proto__']['constructor'].name;
                     this.gameState(this.calssName);
-                    this.self[this.calssName] = this;
                     this.selfVars();
-                    this.lwgInit();
-                    this.btnOnClick();
+                    this.variateInit();
                     this.adaptive();
-                    this.openAni();
+                }
+                onEnable() {
+                    this.self[this.calssName] = this;
+                    this.lwgInit();
+                    this.btnAndOpenAni();
                     printPoint('on', this.calssName);
                 }
                 selfVars() {
+                }
+                variateInit() {
                 }
                 gameState(calssName) {
                     switch (calssName) {
@@ -1765,17 +1786,36 @@
                 }
                 lwgInit() {
                 }
+                btnAndOpenAni() {
+                    let time = this.openAni();
+                    if (time) {
+                        Laya.timer.once(time, this, f => {
+                            this.btnOnClick();
+                        });
+                    }
+                    else {
+                        this.btnOnClick();
+                    }
+                }
                 btnOnClick() {
+                }
+                openAni() {
+                    return this.aniTime;
                 }
                 adaptive() {
                 }
-                openAni() {
-                }
                 vanishAni() {
+                    return 0;
+                }
+                onUpdate() {
+                    this.lwgOnUpdta();
+                }
+                lwgOnUpdta() {
                 }
                 onDisable() {
                     printPoint('dis', this.calssName);
                     this.lwgDisable();
+                    Laya.timer.clearAll(this);
                 }
                 lwgDisable() {
                 }
@@ -1784,6 +1824,10 @@
             class Person extends Laya.Script {
                 constructor() {
                     super();
+                }
+                onAwake() {
+                }
+                lwgOnAwake() {
                 }
                 onEnable() {
                     this.self = this.owner;
@@ -1860,6 +1904,9 @@
                 SkinUrl[SkinUrl["Effects/icon_biggold.png"] = 24] = "Effects/icon_biggold.png";
             })(SkinUrl = Effects.SkinUrl || (Effects.SkinUrl = {}));
             class EffectsBase extends Laya.Script {
+                onAwake() {
+                    this.initProperty();
+                }
                 onEnable() {
                     this.self = this.owner;
                     this.selfScene = this.self.scene;
@@ -1869,7 +1916,6 @@
                     this.self.pivotY = this.self.height / 2;
                     this.timer = 0;
                     this.lwgInit();
-                    this.initProperty();
                     this.propertyAssign();
                 }
                 lwgInit() {
@@ -1901,19 +1947,27 @@
                 }
             }
             Effects.EffectsBase = EffectsBase;
-            function createCommonExplosion(parent, quantity, x, y) {
+            function createCommonExplosion(parent, quantity, x, y, style, speed, continueTime) {
                 for (let index = 0; index < quantity; index++) {
                     let ele = Laya.Pool.getItemByClass('ele', Laya.Image);
                     ele.name = 'ele';
-                    let num = Math.floor(Math.random() * 12);
-                    ele.alpha = 1;
+                    let num;
+                    if (style === 'star') {
+                        num = 12 + Math.floor(Math.random() * 12);
+                    }
+                    else if (style === 'dot') {
+                        num = Math.floor(Math.random() * 12);
+                    }
                     ele.skin = SkinUrl[num];
+                    ele.alpha = 1;
                     parent.addChild(ele);
                     ele.pos(x, y);
                     let scirpt = ele.getComponent(commonExplosion);
                     if (!scirpt) {
-                        ele.addComponent(commonExplosion);
+                        scirpt = ele.addComponent(commonExplosion);
                     }
+                    scirpt.startSpeed = 5 * Math.random() + speed;
+                    scirpt.continueTime = 8 * Math.random() + continueTime;
                 }
             }
             Effects.createCommonExplosion = createCommonExplosion;
@@ -1923,14 +1977,14 @@
                     this.startSpeed = 5 * Math.random() + 8;
                     this.startScale = 0.4 + Math.random() * 0.6;
                     this.accelerated = 0.1;
-                    this.vanishTime = 8 + Math.random() * 10;
+                    this.continueTime = 8 + Math.random() * 10;
                 }
                 moveRules() {
                     this.timer++;
-                    if (this.timer >= this.vanishTime / 2) {
-                        this.self.alpha -= 0.15;
+                    if (this.timer >= this.continueTime / 2) {
+                        this.self.alpha -= 0.1;
                     }
-                    if (this.timer >= this.vanishTime) {
+                    if (this.timer >= this.continueTime) {
                         this.self.removeSelf();
                     }
                     else {
@@ -2010,14 +2064,14 @@
                     this.startSpeed = 5 * Math.random() + 5;
                     this.startScale = 0.4 + Math.random() * 0.6;
                     this.accelerated = 0.1;
-                    this.vanishTime = 200 + Math.random() * 10;
+                    this.continueTime = 200 + Math.random() * 10;
                 }
                 moveRules() {
                     this.timer++;
-                    if (this.timer >= this.vanishTime * 3 / 5) {
+                    if (this.timer >= this.continueTime * 3 / 5) {
                         this.self.alpha -= 0.1;
                     }
-                    if (this.timer >= this.vanishTime) {
+                    if (this.timer >= this.continueTime) {
                         this.self.removeSelf();
                     }
                     else {
@@ -2066,15 +2120,15 @@
                     this.startSpeed = 10 * Math.random() + 3;
                     this.startScale = 0.4 + Math.random() * 0.6;
                     this.accelerated = 0.1;
-                    this.vanishTime = 300 + Math.random() * 50;
+                    this.continueTime = 300 + Math.random() * 50;
                     this.randomRotate = 1 + Math.random() * 20;
                 }
                 moveRules() {
                     this.timer++;
-                    if (this.timer >= this.vanishTime * 3 / 5) {
+                    if (this.timer >= this.continueTime * 3 / 5) {
                         this.self.alpha -= 0.1;
                     }
-                    if (this.timer >= this.vanishTime) {
+                    if (this.timer >= this.continueTime) {
                         this.self.removeSelf();
                     }
                     else {
@@ -2858,8 +2912,9 @@
                 }), 0);
             }
             Animation.rotate_Scale = rotate_Scale;
-            function drop_Simple(node, targetY, rotation, time, delayed, func) {
-                Laya.Tween.to(node, { y: targetY, rotation: rotation }, time, Laya.Ease.expoIn, Laya.Handler.create(this, function () {
+            function drop_Simple(node, fY, tY, rotation, time, delayed, func) {
+                node.y = fY;
+                Laya.Tween.to(node, { y: tY, rotation: rotation }, time, Laya.Ease.circOut, Laya.Handler.create(this, function () {
                     if (func !== null) {
                         func();
                     }
@@ -2869,7 +2924,7 @@
             function drop_KickBack(target, fAlpha, firstY, targetY, extendY, time1, delayed, func) {
                 target.alpha = fAlpha;
                 target.y = firstY;
-                Laya.Tween.to(target, { alpha: 1, y: targetY + extendY }, time1, Laya.Ease.expoIn, Laya.Handler.create(this, function () {
+                Laya.Tween.to(target, { alpha: 1, y: targetY + extendY }, time1, null, Laya.Handler.create(this, function () {
                     Laya.Tween.to(target, { y: targetY - extendY / 2 }, time1 / 2, null, Laya.Handler.create(this, function () {
                         Laya.Tween.to(target, { y: targetY }, time1 / 4, null, Laya.Handler.create(this, function () {
                             if (func !== null) {
@@ -3090,7 +3145,7 @@
                 }), delayed);
             }
             Animation.move_Deform_Y = move_Deform_Y;
-            function blink_FadeOut(target, minAlpha, maXalpha, time, delayed, func) {
+            function blink_FadeOut_v(target, minAlpha, maXalpha, time, delayed, func) {
                 target.alpha = minAlpha;
                 Laya.Tween.to(target, { alpha: maXalpha }, time, null, Laya.Handler.create(this, function () {
                     Laya.Tween.to(target, { alpha: minAlpha }, time, null, Laya.Handler.create(this, function () {
@@ -3100,7 +3155,32 @@
                     }), 0);
                 }), delayed);
             }
+            Animation.blink_FadeOut_v = blink_FadeOut_v;
+            function blink_FadeOut(target, minAlpha, maXalpha, time, delayed, func) {
+                Laya.Tween.to(target, { alpha: minAlpha }, time, null, Laya.Handler.create(this, function () {
+                    Laya.Tween.to(target, { alpha: maXalpha }, time, null, Laya.Handler.create(this, function () {
+                        if (func !== null) {
+                            func();
+                        }
+                    }), 0);
+                }), delayed);
+            }
             Animation.blink_FadeOut = blink_FadeOut;
+            function shookHead_Simple(target, rotate, time, delayed, func) {
+                let firstR = target.rotation;
+                Laya.Tween.to(target, { rotation: firstR + rotate }, time, null, Laya.Handler.create(this, function () {
+                    Laya.Tween.to(target, { rotation: firstR - rotate * 2 }, time, null, Laya.Handler.create(this, function () {
+                        Laya.Tween.to(target, { rotation: firstR + rotate }, time, null, Laya.Handler.create(this, function () {
+                            Laya.Tween.to(target, { rotation: firstR }, time, null, Laya.Handler.create(this, function () {
+                                if (func !== null) {
+                                    func();
+                                }
+                            }), 0);
+                        }), 0);
+                    }), 0);
+                }), delayed);
+            }
+            Animation.shookHead_Simple = shookHead_Simple;
             function HintAni_01(target, upNum, time1, stopTime, downNum, time2, func) {
                 target.alpha = 0;
                 Laya.Tween.to(target, { alpha: 1, y: target.y - upNum }, time1, null, Laya.Handler.create(this, function () {
@@ -3339,6 +3419,13 @@
             Tools.converteNum = converteNum;
         })(Tools = lwg.Tools || (lwg.Tools = {}));
     })(lwg || (lwg = {}));
+    let Admin = lwg.Admin;
+    let Click = lwg.Click;
+    let Global = lwg.Global;
+    let Animation = lwg.Animation;
+    let EventAdmin = lwg.EventAdmin;
+    let Tools = lwg.Tools;
+    let Effects = lwg.Effects;
 
     class UIAnchorXD extends lwg.Admin.Scene {
         btnOnClick() {
@@ -3587,7 +3674,7 @@
             this.NowCaidanDataq = skindata;
             lwg.Global._pickPaintedNum = this.NowCaidanDataq.ID;
             this.IconDown.skin = skindata.GetIconPath();
-            this.IconUp.skin = skindata.GetIconPath();
+            this.IconUp.skin = skindata.GetIconPath_h();
             this.MesFangshi.text = skindata.MesFangshi;
             this.MesLaiyuan.text = skindata.MesLiayuan;
             this.Name.text = skindata.Name;
@@ -4076,6 +4163,7 @@
             setTimeout(() => {
                 this.self['BtnBack'].visible = true;
             }, lwg.Global._btnDelayed);
+            return 0;
         }
         LvNumDisplay() {
             if (lwg.Admin.openLevelNum >= lwg.Global._gameLevel) {
@@ -4426,9 +4514,7 @@
             lwg.Global._createBtnAgain(this.self);
             lwg.Global._createBtnPause(this.self);
             lwg.Global._createBtnHint(this.self);
-            if (lwg.Global._gameLevel <= 12) {
-                lwg.Global._createStimulateDec(this.self);
-            }
+            lwg.Global._createStimulateDec(this.self);
             if (lwg.Global._elect) {
                 lwg.Global._createP201_01(this.self);
             }
@@ -4438,6 +4524,7 @@
             }
         }
         openAni() {
+            return 0;
         }
         btnOnClick() {
             this.self.on(Laya.Event.DOUBLE_CLICK, this, this.stageDB);
@@ -4609,7 +4696,7 @@
                 lwg.Animation.move_Simple(parent, parent.x, parent.y, parent.x + diffX, parent.y + diffY, 10, 0, f => { });
                 parent['UIMain_Room']._roomMove = false;
                 lwg.Global._roomPickup = null;
-                lwg.Effects.createCommonExplosion(Laya.stage, 15, posX, posY);
+                lwg.Effects.createCommonExplosion(Laya.stage, 15, posX, posY, 'dot', 7, 10);
             }
             if ((Math.abs(diffX) > 10 || Math.abs(diffY) > 10) || parent['UIMain_Room']._roomMove) {
                 this.openSwitch = false;
@@ -4717,8 +4804,8 @@
             this.createskeleton();
             this.notCommon();
             this.createPlaint();
-            this.setBelongRoom();
             this.directionJudge();
+            this.setBelongRoom();
         }
         notCommon() {
             this.buffState = null;
@@ -5044,15 +5131,17 @@
             let otherOwner = other.owner;
             let otherOwnerName = otherOwner.name;
             let belongName = otherOwnerName.substring(otherOwnerName.length - 5, otherOwnerName.length);
-            if (this.belongRoom.name === belongName) {
-                if (this.personState === lwg.Enum.MoveState.onLadder) {
-                    this.moveDirection = this.beforeLadderDir;
+            if (this.belongRoom) {
+                if (this.belongRoom.name === belongName) {
+                    if (this.personState === lwg.Enum.MoveState.onLadder) {
+                        this.moveDirection = this.beforeLadderDir;
+                    }
+                    else if (this.personState === lwg.Enum.MoveState.inAir) {
+                        this.moveDirection = this.beforeInAirDir;
+                    }
+                    this.personState = lwg.Enum.MoveState.onFloor;
+                    this.currentFloor = otherOwner;
                 }
-                else if (this.personState === lwg.Enum.MoveState.inAir) {
-                    this.moveDirection = this.beforeInAirDir;
-                }
-                this.personState = lwg.Enum.MoveState.onFloor;
-                this.currentFloor = otherOwner;
             }
         }
         ladderAndPerson(other, self) {
@@ -5988,6 +6077,7 @@
                     this.self['BtnNo'].visible = true;
                 }
             }, lwg.Global._btnDelayed);
+            return 0;
         }
         setStyle() {
             this.self['Pic'].skin = 'UI_new/PassHint/word_yes.png';
@@ -6157,8 +6247,6 @@
             let price = 250 * lwg.Global._buyNum - 150;
             let num = this.BtnBuy.getChildByName('Num');
             num.text = 'x' + price.toString();
-        }
-        openAni() {
         }
         createPifuList() {
             this.PifuList.hScrollBarSkin = "";
@@ -6415,6 +6503,7 @@
             this.self['background_01'].height = Laya.stage.height;
         }
         openAni() {
+            return 0;
         }
         randomNoHave() {
             let len = lwg.Global._notHavePifuSubXD.length;
@@ -6588,12 +6677,12 @@
         btnOnClick() {
             ADManager.TAPoint(TaT.BtnShow, 'home_pause');
             ADManager.TAPoint(TaT.BtnShow, 'continue_pause');
-            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['background'], this, null, null, this.backgroundUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['Photo'], this, null, null, this.photoUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnNoShare'], this, null, null, this.btnNoShareUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
         }
-        backgroundUp(event) {
-            console.log('点击背景也是分享！');
+        photoUp(event) {
+            event.currentTarget.scale(1, 1);
             RecordManager._share('award', () => {
                 this.btnShareUpFunc();
             });
@@ -6660,6 +6749,7 @@
             this.BtnLocation = this.self['BtnLocation'];
         }
         lwgInit() {
+            lwg.Global._stageClick = false;
             ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
             this.BtnLocation.visible = false;
             if (lwg.Global._watchAdsNum >= 3) {
@@ -6681,18 +6771,70 @@
             this.SceneContent.y = Laya.stage.height - 75 - 80 - this.SceneContent.height / 2;
         }
         openAni() {
+            let time = 80;
+            let delayed = 100;
+            let zhuanpan = this.self['BtnTurntable'].getChildByName('zhuanpan');
+            Animation.drop_KickBack(this.self['BtnTurntable'], 0, -1200, this.self['BtnTurntable'].y, 30, time * 4, 0, f => {
+                Laya.timer.frameLoop(1, this, f => {
+                    zhuanpan.rotation++;
+                });
+            });
+            let dan = this.self['BtnPainted'].getChildByName('dan');
+            Animation.drop_KickBack(this.self['BtnPainted'], 0, -1200, this.self['BtnPainted'].y, 30, time * 4, delayed * 2, f => {
+                Laya.timer.loop(3000, this, f => {
+                    Animation.shookHead_Simple(dan, 10, time * 3, 0, f => { });
+                });
+                Laya.timer.loop(1500, this, f => {
+                    let scope = 20;
+                    let ranX;
+                    if (Math.floor(Math.random() * 2) === 1) {
+                        ranX = this.self['BtnPainted'].width / 2 + Math.random() * scope;
+                    }
+                    else {
+                        ranX = this.self['BtnPainted'].width / 2 - Math.random() * scope;
+                    }
+                    let ranY;
+                    if (Math.floor(Math.random() * 2) === 1) {
+                        ranY = this.self['BtnPainted'].height / 2 + Math.random() * scope - 25;
+                    }
+                    else {
+                        ranY = this.self['BtnPainted'].height / 2 - Math.random() * scope - 25;
+                    }
+                    Effects.createCommonExplosion(this.self['BtnPainted'], 10, ranX, ranY, 'star', 0, 20);
+                });
+            });
+            Animation.drop_KickBack(this.self['BtnPifu'], 0, -1200, this.self['BtnPifu'].y, 30, time * 4, delayed * 3, f => { });
             if (this.self['BtnXD'].visible) {
                 let wordXd = this.self['BtnXD'].getChildByName('wordXd');
                 let wordXd_01 = this.self['BtnXD'].getChildByName('wordXd_01');
                 wordXd_01.alpha = 0;
-                lwg.Animation.move_Scale(wordXd, 1, 200, 75, 99, 59, 2, 300, 200, f => {
-                    lwg.Animation.move_Scale(wordXd, wordXd.scaleX, wordXd.x, wordXd.y, 68, 73, 1, 100, 0, f => {
-                        wordXd.removeSelf();
-                        wordXd_01.alpha = 1;
-                        lwg.Animation.rotate_Scale(this.self['BtnXD'], 0, 1, 1, 0, 0.88, 0.88, 120, 0, f => { });
+                wordXd.alpha = 0;
+                Animation.drop_KickBack(this.self['BtnXD'], 0, -1200, this.self['BtnXD'].y, 30, time * 4, delayed * 1, f => {
+                    wordXd.alpha = 1;
+                    lwg.Animation.move_Scale(wordXd, 1, 200, 75, 99, 59, 2, time * 3, 200, f => {
+                        lwg.Animation.move_Scale(wordXd, wordXd.scaleX, wordXd.x, wordXd.y, 68, 73, 1, time * 0.7, 0, f => {
+                            wordXd.removeSelf();
+                            wordXd_01.alpha = 1;
+                            lwg.Animation.rotate_Scale(this.self['BtnXD'], 0, 1, 1, 0, 0.88, 0.88, time * 1.2, 0, f => {
+                                lwg.Global._stageClick = true;
+                            });
+                        });
                     });
                 });
             }
+            Animation.bombs_Appear(this.BtnStart, 0, 1, 1.1, 0, time * 3, time, delayed, null, f => {
+                Animation.swell_shrink(this.BtnStart, 1, 1.1, time * 1.5, delayed, f => {
+                    Laya.timer.loop(3000, this, f => {
+                        Animation.swell_shrink(this.BtnStart, 1, 1.1, time * 1.5, delayed, f => {
+                        });
+                    });
+                });
+            });
+            Animation.blink_FadeOut(lwg.Global.ExecutionNumNode, 0, 1, time * 5, delayed * 2, f => {
+            });
+            Animation.blink_FadeOut(lwg.Global.GoldNumNode, 0, 1, time * 5, delayed * 2, f => {
+            });
+            return time * 4;
         }
         createCustomsList() {
             this.CustomsList.selectEnable = false;
@@ -6705,7 +6847,7 @@
         }
         listOpenAni() {
             this.CustomsList.scrollTo(lwg.Global._CustomsNum);
-            this.CustomsList.tweenTo(this.listFirstIndex, 100, Laya.Handler.create(this, f => {
+            this.CustomsList.tweenTo(this.listFirstIndex, 600, Laya.Handler.create(this, f => {
                 let cell = this.CustomsList.getCell(this.listFirstIndex);
                 cell.alpha = 1;
                 let pic = cell.getChildByName('pic');
@@ -7071,8 +7213,6 @@
             else {
                 lock.visible = false;
             }
-        }
-        vanishAni() {
         }
         customsListUp() {
         }
@@ -7527,6 +7667,7 @@
                 this.BtnNext.visible = true;
             }, lwg.Global._btnDelayed);
             this.self['BtnBack'].visible = false;
+            return 0;
         }
         getGoldAni(number, thisFunc) {
             let x = this.self['GetGold'].x + this.self['sceneContent'].x - this.self['sceneContent'].width / 2;
@@ -7670,15 +7811,17 @@
 
     class UIXDpifu extends lwg.Admin.Scene {
         constructor() { super(); }
-        lwgInit() {
-            lwg.Global._openXD = true;
-            lwg.Global.GoldNumNode.alpha = 0;
-            lwg.Global.ExecutionNumNode.alpha = 0;
+        selfVars() {
             this.BtnBack = this.self['BtnBack'];
             this.BtnGet = this.self['BtnGet'];
             this.SceneContent = this.self['SceneContent'];
             this.background = this.self['background'];
             this.logo = this.self['logo'];
+        }
+        lwgInit() {
+            lwg.Global._openXD = true;
+            lwg.Global.GoldNumNode.alpha = 0;
+            lwg.Global.ExecutionNumNode.alpha = 0;
             ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_limitskin');
             ADManager.TAPoint(TaT.BtnShow, 'close_limitskin');
             this.btnGetNum();
@@ -7686,8 +7829,6 @@
         adaptive() {
             this.SceneContent.y = Laya.stage.height * 0.528;
             this.self['background_01'].height = Laya.stage.height;
-        }
-        openAni() {
         }
         openAniFunc() {
         }
@@ -7722,6 +7863,8 @@
                 lwg.Global._createHint_01(lwg.Enum.HintType.getXD);
             }
             lwg.LocalStorage.addData();
+        }
+        lwgOnUpdta() {
         }
         lwgDisable() {
             lwg.Global._openXD = false;

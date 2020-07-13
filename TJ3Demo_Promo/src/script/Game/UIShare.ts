@@ -15,12 +15,12 @@ export default class UIShare extends lwg.Admin.Scene {
         ADManager.TAPoint(TaT.BtnShow, 'home_pause');
         ADManager.TAPoint(TaT.BtnShow, 'continue_pause');
 
-        lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['background'], this, null, null, this.backgroundUp, null);
+        lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['Photo'], this, null, null, this.photoUp, null);
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnNoShare'], this, null, null, this.btnNoShareUp, null);
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
     }
-    backgroundUp(event): void {
-        console.log('点击背景也是分享！');
+    photoUp(event): void {
+        event.currentTarget.scale(1, 1);
         RecordManager._share('award', () => {
             this.btnShareUpFunc();
         })

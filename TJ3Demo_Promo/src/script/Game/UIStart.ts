@@ -153,7 +153,7 @@ export default class UIStart extends lwg.Admin.Scene {
       * */
     listOpenAni(): void {
         this.CustomsList.scrollTo(lwg.Global._CustomsNum);
-        this.CustomsList.tweenTo(this.listFirstIndex, 1000, Laya.Handler.create(this, f => {
+        this.CustomsList.tweenTo(this.listFirstIndex, 600, Laya.Handler.create(this, f => {
             let cell = this.CustomsList.getCell(this.listFirstIndex);
             cell.alpha = 1;
             let pic = cell.getChildByName('pic') as Laya.Image;

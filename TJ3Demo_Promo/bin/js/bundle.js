@@ -1533,7 +1533,7 @@
                 let sceneName;
                 let num;
                 if (lwg.Global._gameLevel > 30) {
-                    num = lwg.Global._gameLevel - 30;
+                    num = lwg.Global._gameLevel % 30;
                 }
                 else {
                     num = lwg.Global._gameLevel;
@@ -1556,7 +1556,7 @@
                 let sceneName;
                 Admin.openLevelNum = num;
                 if (num > 30) {
-                    num = num - 30;
+                    num = num % 30;
                 }
                 if (num <= 9) {
                     sceneName = 'UIMain_00' + num;
@@ -1796,10 +1796,6 @@
                     else {
                         this.btnOnClick();
                     }
-                    EventAdmin.dispatcher.event(EventAdmin.EventType.aniComplete, f => {
-                        console.log('时间派发！');
-                        lwg.Global._gameStart = true;
-                    });
                 }
                 btnOnClick() {
                 }
@@ -4514,13 +4510,10 @@
             this.Wangzi = this.self['Wangzi'];
             this.KeyNum = this.self['KeyNum'];
             this.Gongzhu = this.self['Gongzhu'];
-            lwg.Global._gameStart = true;
             lwg.Global._createBtnAgain(this.self);
             lwg.Global._createBtnPause(this.self);
             lwg.Global._createBtnHint(this.self);
-            if (lwg.Global._gameLevel <= 12) {
-                lwg.Global._createStimulateDec(this.self);
-            }
+            lwg.Global._createStimulateDec(this.self);
             if (lwg.Global._elect) {
                 lwg.Global._createP201_01(this.self);
             }
@@ -4530,36 +4523,8 @@
             }
         }
         openAni() {
-            let num1 = 0;
-            let num2 = 0;
-            let num3 = 0;
-            let num4 = 0;
-            this.aniTime = 500;
-            this.aniDelayde = 100;
-            for (let index = 0; index < this.self.numChildren; index++) {
-                const element = this.self.getChildAt(index);
-                if (element.name.substring(0, 4) === 'Room') {
-                    if (element.x > Laya.stage.width / 2 && element.y > Laya.stage.height / 2) {
-                        num1++;
-                        Animation.move_Simple(element, 1500, element.y, element.x, element.y, this.aniTime * num1, this.aniDelayde * 0, f => { });
-                    }
-                    else if (element.x > Laya.stage.width / 2 && element.y <= Laya.stage.height / 2) {
-                        num2++;
-                        Animation.move_Simple(element, 1500, element.y, element.x, element.y, this.aniTime * num2, this.aniDelayde * 0, f => { });
-                    }
-                    else if (element.x <= Laya.stage.width / 2 && element.y > Laya.stage.height / 2) {
-                        num3++;
-                        Animation.move_Simple(element, -800, element.y, element.x, element.y, this.aniTime * num3, this.aniDelayde * 0, f => { });
-                    }
-                    else if (element.x <= Laya.stage.width / 2 && element.y <= Laya.stage.height / 2) {
-                        num4++;
-                        Animation.move_Simple(element, -800, element.y, element.x, element.y, this.aniTime * num4, this.aniDelayde * 0, f => { });
-                    }
-                }
-            }
-            let arr = [num1, num2, num3, num3];
-            arr.sort();
-            return this.aniTime * arr[arr.length - 1];
+            lwg.Global._gameStart = false;
+            return 0;
         }
         btnOnClick() {
             this.self.on(Laya.Event.DOUBLE_CLICK, this, this.stageDB);
@@ -4840,11 +4805,7 @@
             this.notCommon();
             this.createPlaint();
             this.directionJudge();
-            EventAdmin.dispatcherOn(EventAdmin.EventType.aniComplete, this, f => {
-                console.log('设置初始碰撞');
-                lwg.Global._gameStart = true;
-                this.setBelongRoom();
-            });
+            this.setBelongRoom();
         }
         notCommon() {
             this.buffState = null;
@@ -6716,12 +6677,12 @@
         btnOnClick() {
             ADManager.TAPoint(TaT.BtnShow, 'home_pause');
             ADManager.TAPoint(TaT.BtnShow, 'continue_pause');
-            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['background'], this, null, null, this.backgroundUp, null);
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['Photo'], this, null, null, this.photoUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnNoShare'], this, null, null, this.btnNoShareUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
         }
-        backgroundUp(event) {
-            console.log('点击背景也是分享！');
+        photoUp(event) {
+            event.currentTarget.scale(1, 1);
             RecordManager._share('award', () => {
                 this.btnShareUpFunc();
             });
@@ -6886,7 +6847,7 @@
         }
         listOpenAni() {
             this.CustomsList.scrollTo(lwg.Global._CustomsNum);
-            this.CustomsList.tweenTo(this.listFirstIndex, 1000, Laya.Handler.create(this, f => {
+            this.CustomsList.tweenTo(this.listFirstIndex, 600, Laya.Handler.create(this, f => {
                 let cell = this.CustomsList.getCell(this.listFirstIndex);
                 cell.alpha = 1;
                 let pic = cell.getChildByName('pic');
