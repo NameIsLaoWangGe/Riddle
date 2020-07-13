@@ -444,5 +444,17 @@
             "icon_zhizhen.png",
             "icon_caidan.png"
         ]
+    ],
+    "res/atlas/UI_new/VictoryBox.atlas": [
+        "UI_new/VictoryBox/",
+        [
+            "btnAgain.png",
+            "btnNo.png",
+            "guanggao.png",
+            "icon_advbox.png",
+            "icon_chai.png",
+            "word_xuanze.png",
+            "ui_borad_01.png"
+        ]
     ]
 }

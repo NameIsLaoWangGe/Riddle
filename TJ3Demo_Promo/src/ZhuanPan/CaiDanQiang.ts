@@ -286,7 +286,7 @@ export default class CaiDanQiang extends Laya.Script {
     //#endregion
 
 
-    //#region  获取界面
+    //赛亚人
     CaidanRewardPanel1: Laya.Box;
     RewardBg1: Laya.Image;
     ADGetReward1: Laya.Image;

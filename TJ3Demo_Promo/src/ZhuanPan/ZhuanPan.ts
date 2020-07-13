@@ -257,7 +257,7 @@ export default class ZhuanPan extends Laya.Script {
             this.owner.scene['Painted_Pikaqiu'].x = 1500;
             this.owner.scene['Painted_Pikaqiu'].y = 0;
             lwg.Global._paintedPifu.push[RewardDec.prop5];
-            lwg.Global._createHint_01(lwg.Enum.HintType.saiyaren);
+            lwg.Global._createHint_01(lwg.Enum.HintType.huangpihaozi);
         })
     }
 

@@ -22,17 +22,21 @@ export default class UIMain extends lwg.Admin.Scene {
     _roomPickup: Laya.Image;
     /**本关是胜利还是失败*/
     victory: boolean = false;
+
+    selfVars(): void {
+        this.BtnAgain = this.self['BtnAgain'];
+        this.Wangzi = this.self['Wangzi'];
+        this.KeyNum = this.self['KeyNum'];
+        this.Gongzhu = this.self['Gongzhu'];
+    }
     lwgInit() {
         ADManager.TAPoint(TaT.LevelStart, 'level' + lwg.Admin.openLevelNum);
         RecordManager.startAutoRecord();
 
         // 关闭多点触控
         Laya.MouseManager.multiTouchEnabled = false;
-        this.BtnAgain = this.self['BtnAgain'];
-        this.Wangzi = this.self['Wangzi'];
-        this.KeyNum = this.self['KeyNum'];
-        this.Gongzhu = this.self['Gongzhu'];
 
+        lwg.Global._gameStart = true;
 
         lwg.Global._createBtnAgain(this.self);
         lwg.Global._createBtnPause(this.self);
@@ -48,10 +52,14 @@ export default class UIMain extends lwg.Admin.Scene {
             this.self['Finger'].visible = false;
             this.self['guideRoom'].visible = false;
         }
+
+        EventAdmin.register(EventAdmin.EventType.victory, this, f => {
+            this.victoryAni();
+        })
     }
 
     openAni(): number {
-        lwg.Global._gameStart = false;
+        // lwg.Global._gameStart = false;
 
 
         // let num1 = 0;
@@ -126,7 +134,8 @@ export default class UIMain extends lwg.Admin.Scene {
         lwg.Animation.move_Scale(self, 1, self.x, self.y, Laya.stage.width / 2, Laya.stage.height / 2, 2, 500, 100, f => {
             // lwg.Effects.createFireworks()
             Laya.timer.frameOnce(90, this, f => {
-                lwg.Admin._openScene('UIVictory', null, null, null);
+                // lwg.Admin._openScene('UIVictory', null, null, null);
+                lwg.Admin._openScene(lwg.Admin.SceneName.UIVictoryBox, null, null, null);
             });
         });
     }

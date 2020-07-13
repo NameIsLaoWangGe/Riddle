@@ -78,15 +78,15 @@ export module lwg {
         /**限定皮肤剩余点击看广告的次数*/
         export let _watchAdsNum: number = 0;
 
-        /**皮卡丘的皮肤是否存在了！*/
+        /**皮卡丘的皮肤是否已经存在了！*/
         export let _huangpihaozi: boolean = false;
 
-        /**皮卡丘的皮肤是否存在了！*/
+        /**皮卡丘的皮肤是否已经存在了！*/
         export let _zibiyazi: boolean = false;
 
-        /**皮卡丘的皮肤是否存在了！*/
+        /**皮卡丘的皮肤是否已经存在了！*/
         export let _kejigongzhu: boolean = false;
-        /**皮卡丘的皮肤是否存在了！*/
+        /**海绵公主的皮肤是否已经存在了！*/
         export let _haimiangongzhu: boolean = false;
 
         /**第二批彩蛋皮肤获取*/
@@ -634,50 +634,41 @@ export module lwg {
     /**事件类*/
     export module EventAdmin {
 
+        /**事件类型*/
         export enum EventType {
             btnOnClick = 'btnOnClick',
             aniComplete = 'aniComplete',
+            victory = 'victory'
         }
         export let dispatcher: Laya.EventDispatcher = new Laya.EventDispatcher();
-        /**事件注册*/
-        export function dispatcherOn(type, caller, func): void {
+
+        /**注册事件*/
+        export function register(type: any, caller: any, listener: Function) {
             if (!caller) {
-                dispatcher.on(type.toString(), caller, func);
+                console.error("caller must exist!");
             }
+            dispatcher.on(type.toString(), caller, listener);
         }
 
-        // export class Mgr {
-        //     static I: Mgr;
+        /**通知*/
+        export function notify(type: any, args?: any) {
+            dispatcher.event(type.toString(), args);
+        }
 
-        //     dispatcher: Laya.EventDispatcher = new Laya.EventDispatcher();
+        /**关闭某个事件*/
+        export function off(type: any, caller: any, listener: Function) {
+            dispatcher.off(type.toString(), caller, listener);
+        }
 
-        //     init(segment) {
-        //         Mgr.notify("preloadStep", segment);
-        //     }
+        /**关闭所有事件*/
+        export function offAll(type: any) {
+            dispatcher.offAll(type.toString());
+        }
 
-        //     static reg(type: any, caller: any, listener: Function) {
-        //         if (!caller) {
-        //             console.error("caller must exist!");
-        //         }
-        //         Mgr.I.dispatcher.on(type.toString(), caller, listener);
-        //     }
-
-        //     static notify(type: any, args?: any) {
-        //         Mgr.I.dispatcher.event(type.toString(), args);
-        //     }
-
-        //     static off(type: any, caller: any, listener: Function) {
-        //         Mgr.I.dispatcher.off(type.toString(), caller, listener);
-        //     }
-
-        //     static offAll(type: any) {
-        //         Mgr.I.dispatcher.offAll(type.toString());
-        //     }
-
-        //     static offCaller(caller: any) {
-        //         Mgr.I.dispatcher.offAllCaller(caller);
-        //     }
-        // }
+        /**关闭某个caller上的事件*/
+        export function offCaller(caller: any) {
+            dispatcher.offAllCaller(caller);
+        }
     }
 
     /*场景和UI模块的一些通用属性*/
@@ -707,7 +698,8 @@ export module lwg {
             UIAnchorXD = 'UIAnchorXD',
             UITurntable = 'UITurntable',
             UICaiDanQiang = 'UICaiDanQiang',
-            UICaidanPifu = 'UICaidanPifu'
+            UICaidanPifu = 'UICaidanPifu',
+            UIVictoryBox = 'UIVictoryBox'
         }
         /**游戏当前的状态*/
         export enum GameState {
@@ -1107,6 +1099,7 @@ export module lwg {
                 printPoint('dis', this.calssName);
                 this.lwgDisable();
                 Laya.timer.clearAll(this);
+                Laya.Tween.clearAll(this);
             }
             /**离开时执行，子类不执行onDisable，只执行lwgDisable*/
             lwgDisable(): void {
@@ -1159,7 +1152,6 @@ export module lwg {
             constructor() {
                 super();
             }
-
 
             onEnable(): void {
                 this.self = this.owner as Laya.Sprite;
@@ -1799,7 +1791,7 @@ export module lwg {
             '兑换码错误！',
             '获得柯基公主皮肤，前往彩蛋墙查看！',
             '获得黄皮耗子皮肤，前往彩蛋墙查看！',
-            '获得赛牙人皮肤，前往彩蛋墙查看！',
+            '获得塞牙人皮肤，前往彩蛋墙查看！',
             '获得海绵公主皮肤，前往彩蛋墙查看！',
             '获得仓鼠公主皮肤，前往彩蛋墙查看！',
             '获得自闭鸭子皮肤，前往彩蛋墙查看！',
@@ -2339,6 +2331,8 @@ export module lwg {
 
     /**动画模块*/
     export module Animation {
+
+
         /**
           * 按中心点旋转动画
           * @param node 节点
@@ -3137,6 +3131,26 @@ export module lwg {
                 if (func !== null) {
                     func()
                 }
+            }), delayed);
+        }
+
+        /**
+          * 放大缩小,类似于呼吸或者是持续提示
+          * @param target 节点
+          * @param fScale 初始缩放大小
+          * @param eScale 最终缩放大小
+          * @param time 花费时间
+          * @param delayed 延迟时间
+          * @param func 结束回调
+          */
+        export function scale_Scale(target, fScale, eScale, time, delayed, func): void {
+            target.scale(fScale, fScale);
+            Laya.Tween.to(target, { scaleX: eScale, scaleY: eScale }, time / 2, null, Laya.Handler.create(this, function () {
+                Laya.Tween.to(target, { scaleX: fScale, scaleY: fScale }, time / 2, null, Laya.Handler.create(this, function () {
+                    if (func !== null) {
+                        func()
+                    }
+                }), 0);
             }), delayed);
         }
 

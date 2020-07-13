@@ -11,6 +11,7 @@ import UIAnchorXD from "./script/Game/UIAnchorXD"
 import UICaidanPifu from "./script/Game/UICaidanPifu"
 import SkinItem from "./ZhuanPan/SkinItem"
 import CaiDanQiang from "./ZhuanPan/CaiDanQiang"
+import UIXDpifu from "./script/Game/UIXDpifu"
 import UIDefeated from "./script/Game/UIDefeated"
 import UIExecutionHint from "./script/Game/UIExecutionHint"
 import UILoding from "./script/Game/UILoding"
@@ -38,7 +39,8 @@ import UIStart_House from "./script/Game/UIStart_House"
 import RotateSelfPro from "./ZhuanPan/RotateSelfPro"
 import ZhuanPan from "./ZhuanPan/ZhuanPan"
 import UIVictory from "./script/Game/UIVictory"
-import UIXDpifu from "./script/Game/UIXDpifu"
+import UIVictoryBox_Cell from "./script/Game/UIVictoryBox_Cell"
+import UIVictoryBox from "./script/Game/UIVictoryBox"
 import UILoding_ExecutionNumNode from "./script/Game/UILoding_ExecutionNumNode"
 /*
 * 游戏初始化配置;
@@ -71,6 +73,7 @@ export default class GameConfig{
         reg("script/Game/UICaidanPifu.ts",UICaidanPifu);
         reg("ZhuanPan/SkinItem.ts",SkinItem);
         reg("ZhuanPan/CaiDanQiang.ts",CaiDanQiang);
+        reg("script/Game/UIXDpifu.ts",UIXDpifu);
         reg("script/Game/UIDefeated.ts",UIDefeated);
         reg("script/Game/UIExecutionHint.ts",UIExecutionHint);
         reg("script/Game/UILoding.ts",UILoding);
@@ -98,7 +101,8 @@ export default class GameConfig{
         reg("ZhuanPan/RotateSelfPro.ts",RotateSelfPro);
         reg("ZhuanPan/ZhuanPan.ts",ZhuanPan);
         reg("script/Game/UIVictory.ts",UIVictory);
-        reg("script/Game/UIXDpifu.ts",UIXDpifu);
+        reg("script/Game/UIVictoryBox_Cell.ts",UIVictoryBox_Cell);
+        reg("script/Game/UIVictoryBox.ts",UIVictoryBox);
         reg("script/Game/UILoding_ExecutionNumNode.ts",UILoding_ExecutionNumNode);
     }
 }

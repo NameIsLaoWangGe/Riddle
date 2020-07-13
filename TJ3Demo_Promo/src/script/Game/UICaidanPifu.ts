@@ -17,10 +17,12 @@ export default class UICaidanPifu extends lwg.Admin.Scene {
     private person: Laya.Sprite;
 
     constructor() { super(); }
+    selfVars(): void {
+        this.SceneContent = this.self['SceneContent'];
+    }
 
     lwgInit(): void {
         ADManager.TAPoint(TaT.PageEnter, 'HMskinpage');
-        this.SceneContent = this.self['SceneContent'];
         lwg.Global._stageClick = false;
     }
     adaptive(): void {
@@ -42,6 +44,8 @@ export default class UICaidanPifu extends lwg.Admin.Scene {
         event.currentTarget.scale(1, 1);
         ADManager.ShowReward(() => {
             lwg.Global._haimiangongzhu = true;
+            lwg.Global._createHint_01(lwg.Enum.HintType.haimiangongzhu);
+            lwg.LocalStorage.addData();
             this.self.close();
         })
     }

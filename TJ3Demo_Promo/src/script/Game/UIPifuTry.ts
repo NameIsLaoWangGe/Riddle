@@ -1,4 +1,4 @@
-import { lwg } from "../Lwg_Template/lwg";
+import { lwg, Animation } from "../Lwg_Template/lwg";
 import ADManager, { TaT } from "../../TJ/Admanager";
 
 export default class UIPifuTry extends lwg.Admin.Scene {
@@ -24,15 +24,22 @@ export default class UIPifuTry extends lwg.Admin.Scene {
     adaptive(): void {
         this.self['SceneContent'].y = Laya.stage.height * 0.589;
         this.self['P201'].y = Laya.stage.height * 0.18;
-
         this.self['background_01'].height = Laya.stage.height;
     }
 
     openAni(): number {
-        // this.self['BtnNo'].visible = false;
-        // setTimeout(() => {
-        //     this.self['BtnNo'].visible = true;
-        // }, lwg.Global._btnDelayed);
+        this.self['BtnNo'].visible = false;
+        setTimeout(() => {
+            this.self['BtnNo'].visible = true;
+        }, lwg.Global._btnDelayed);
+
+        let time = 1000;
+        Animation.scale_Scale(this.self['BtnGet'], 1, 1.1, time * 1.2, 0, f => {
+        });
+        Laya.timer.loop(time * 1.2, this, f => {
+            Animation.scale_Scale(this.self['BtnGet'], 1, 1.1, time * 1.2 + 50, 0, f => { });
+        })
+
         return 0;
     }
 

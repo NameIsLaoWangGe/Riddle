@@ -211,6 +211,23 @@ P CC194331 4_01.png
 P C376EFFB 5.png
 P EDEE4FB0 5_01.png
 D TJ/Promo
+D UI_new/CheckIn
+P 6D4528A2 btnCircle.png
+P CDEAFA3D btnDot.png
+P E489365A di.png
+P EDD12098 qidi.png
+P AB74DED9 word_1tian.png
+P CC1715FD word_2tian.png
+P E21C7BF3 word_3tian.png
+P 8BC75B83 word_4tian.png
+P C4885A54 word_5tian.png
+P 7257BAD5 word_6tian.png
+P A40F1159 word_7tian.png
+P D542403C word_get.png
+P 934028E4 word_qiandao.png
+P C7F53734 word_three.png
+R 623A079C xiaoguotu.png
+P E2316AB0 yiingqu .png
 D UI_new/conmmon
 R 755485BC bg_blackmask.png
 R F871B17C bg_yeloow.png
@@ -426,6 +443,15 @@ R 7A97DDA1 ui_board_02.png
 P 595C1B75 word_11.png
 P 733E91EE word_add3.png
 P C1EEC766 word_threeget.png
+D UI_new/VictoryBox
+P DB7DE379 btnAgain.png
+P 764C8377 btnNo.png
+P A9C8DB69 guanggao.png
+P 6A497301 icon_advbox.png
+P 5E8CDFD1 icon_chai.png
+P 6E3FFDAC ui_borad_01.png
+P 72A38BFC word_xuanze.png
+R CCA2E30C xiaoguotu.jpg
 D UI_new/wrod
 P D838A605 di.png
 P 21AC7169 guan.png
