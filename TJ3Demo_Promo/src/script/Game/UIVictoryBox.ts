@@ -7,6 +7,8 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
 
     /**初始剩余点击次数为三次*/
     getNum: number = 3;
+
+    ranArray: Array<number>;
     constructor() { super(); }
 
     selfVars(): void {
@@ -15,21 +17,44 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
 
     lwgInit(): void {
         this.createBoxList();
+        this.randomAdvBox();
     }
 
     /**一些节点的适配*/
     adaptive(): void {
-        this.self['sceneContent'].y = Laya.stage.height / 2;
+        this.self['SceneContent'].y = Laya.stage.height / 2;
+    }
+
+    // 随机选择三个宝箱是看广告的宝箱
+    randomAdvBox(): void {
+        let arr = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+        let ran1 = Math.floor(Math.random() * (arr.length - 1));
+        let a1 = arr[ran1];
+        arr.splice(ran1, 1);
+
+        console.log('1',arr)
+        let ran2 = Math.floor(Math.random() * (arr.length - 1));
+        let a2 = arr[ran2];
+        arr.splice(ran2, 1);
+        
+        
+        console.log('2',arr)
+        let ran3 = Math.floor(Math.random() * (arr.length - 1));
+        let a3 = arr[ran3];
+        
+        this.ranArray = [a1, a2, a3];
+        console.log(this.ranArray);
+        
     }
 
 
     /**创建皮肤list*/
     createBoxList(): void {
-        this.BoxList.selectEnable = true;
+        // this.BoxList.selectEnable = true;
         this.BoxList.vScrollBarSkin = "";
         // this.BoxList.scrollBar.elasticBackTime = 0;//设置橡皮筋回弹时间。单位为毫秒。
         // this.BoxList.scrollBar.elasticDistance = 500;//设置橡皮筋极限距离。
-        this.BoxList.spaceX = 25;
+        this.BoxList.spaceX = 36;
         this.BoxList.spaceY = 20;
         this.BoxList.selectHandler = new Laya.Handler(this, this.onSelect_List);
         this.BoxList.renderHandler = new Laya.Handler(this, this.updateItem);
@@ -58,12 +83,21 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
             let num: number = Math.floor(Math.random() * 10) + 5;
             let pic_Box: boolean = true;
             let index: string = m.toString();
+
+            let adv = false;
+            // for (let index = 0; index < this.ranArray.length; index++) {
+            //     if (this.ranArray[index]) {
+            //         adv = true;
+            //         break;
+            //     }
+            // }
             // push全部信息
             data.push({
                 pic_Gold,
                 num,
                 pic_Box,
-                index
+                index,
+                adv
             });
         }
         // 重制array信息列表
@@ -86,8 +120,14 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
         Num.text = dataSource.num;
         Num.visible = Pic_Gold.visible;
 
-        let Pic_Box = cell.getChildByName('Pic_Box') as Laya.Label;
+        let Pic_Box = cell.getChildByName('Pic_Box') as Laya.Image;
         Pic_Box.visible = dataSource.pic_Box;
+
+        if (dataSource.adv) {
+            Pic_Box.skin = 'UI_new/VictoryBox/icon_advbox.png';
+        } else {
+            Pic_Box.skin = 'UI_new/VictoryBox/icon_chai.png';
+        }
 
         cell.name = dataSource.index;
     }
@@ -112,8 +152,8 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
         } else {
             // ADManager.ShowReward(() => {
             lwg.Global._createHint_01(lwg.Enum.HintType.getBoxOne);
-            this.getNum++;
-            this.maxAdvGet--;
+            this.getNum += 3;
+            this.maxAdvGet -= 3;
             // })
         }
     }

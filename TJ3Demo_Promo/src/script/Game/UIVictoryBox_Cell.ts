@@ -11,7 +11,20 @@ export default class UIVictoryBox_Cell extends lwg.Admin.Object {
     /**是否被领取了*/
     byGet: boolean = false;
 
+    /**记录列表中每个box的坐标*/
+    posArr: Array<Array<number>>
+
+
+    SceneContent: Laya.Sprite;
+
     lwgInit(): void {
+        this.posArr = [
+            [129.5, 254], [295, 254], [458.5, 254],
+            [129.5, 403.5], [295, 403.5], [458.5, 403.5],
+            [129.5, 553], [295, 553], [458.5, 553],
+        ];
+
+        this.SceneContent = this.selfScene['SceneContent'] as Laya.Sprite;
         this.Pic_Gold = this.self.getChildByName('Pic_Gold') as Laya.Image;
         this.Num = this.self.getChildByName('Num') as Laya.Text;
         this.Pic_Box = this.self.getChildByName('Pic_Box') as Laya.Image;
@@ -35,23 +48,28 @@ export default class UIVictoryBox_Cell extends lwg.Admin.Object {
             let number = Number(this.Num.text);
 
             Animation.shookHead_Simple(this.Pic_Box, 10, 100, 0, f => {
-                Effects.createCommonExplosion(this.self, 20, this.Pic_Box.x, this.Pic_Box.x, 'star', 10, 15);
+
+                Effects.createCommonExplosion(this.SceneContent, 25, this.posArr[nameNum][0], this.posArr[nameNum][1], 'star', 3, 20);
 
                 this.BoxList.array[nameNum].pic_Gold = true;
                 this.BoxList.array[nameNum].pic_Box = false;
+                this.BoxList.refresh();
 
-                lwg.Effects.getGoldAni(Laya.stage, number, Laya.stage.width / 2, Laya.stage.height / 2, lwg.Global.GoldNumNode.x - 53, lwg.Global.GoldNumNode.y - 12, f => {
-                    lwg.Global._addGoldDisPlay(1);
-                    this.BoxList.refresh();
-                }, f => {
-                    lwg.Global._addGold(number);
-                    this.BoxList.refresh();
-                });
+                Laya.timer.frameOnce(20, this, f => {
+                    lwg.Effects.getGoldAni(Laya.stage, number, Laya.stage.width / 2, Laya.stage.height / 2, lwg.Global.GoldNumNode.x - 53, lwg.Global.GoldNumNode.y - 12, f => {
+                        lwg.Global._addGoldDisPlay(1);
+                        this.BoxList.refresh();
+                    }, f => {
+                        lwg.Global._addGold(number);
+                        this.BoxList.refresh();
+                    });
+                })
+
             });
 
             this.byGet = true;
         } else {
-            console.log('已经没有领取次数了，或者当前这个领取过了 ！')
+            lwg.Global._createHint_01(lwg.Enum.HintType.watchAdv);
         }
     }
 

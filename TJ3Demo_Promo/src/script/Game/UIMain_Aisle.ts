@@ -140,7 +140,7 @@ export default class UIMain_Aisle extends lwg.Admin.Object {
             // 只吸附一次。
             lwg.Global._roomPickup = null;
 
-            lwg.Effects.createCommonExplosion(Laya.stage, 15, posX, posY, 'dot', 7, 10);
+            lwg.Effects.createCommonExplosion(Laya.stage, 15, posX, posY, 'dot', 1, 10);
 
         }
         // 如果距离太远则断开连接状态

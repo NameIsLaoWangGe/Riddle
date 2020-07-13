@@ -91,7 +91,7 @@ export default class UIStart extends lwg.Admin.Scene {
                 } else {
                     ranY = this.self['BtnPainted'].height / 2 - Math.random() * scope - 25;
                 }
-                Effects.createCommonExplosion(this.self['BtnPainted'], 10, ranX, ranY, 'star', 0, 20);
+                Effects.createCommonExplosion(this.self['BtnPainted'], 10, ranX, ranY, 'star', -5, 20);
             });
         });
 

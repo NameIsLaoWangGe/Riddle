@@ -1991,8 +1991,8 @@
                     if (!scirpt) {
                         scirpt = ele.addComponent(commonExplosion);
                     }
-                    scirpt.startSpeed = 5 * Math.random() + speed;
-                    scirpt.continueTime = 8 * Math.random() + continueTime;
+                    scirpt.startSpeed = 10 * Math.random() + speed;
+                    scirpt.continueTime = 3 * Math.random() + continueTime;
                 }
             }
             Effects.createCommonExplosion = createCommonExplosion;
@@ -2007,7 +2007,7 @@
                 moveRules() {
                     this.timer++;
                     if (this.timer >= this.continueTime / 2) {
-                        this.self.alpha -= 0.1;
+                        this.self.alpha -= 0.05;
                     }
                     if (this.timer >= this.continueTime) {
                         this.self.removeSelf();
@@ -2428,6 +2428,7 @@
                 HintDec[HintDec["\u83B7\u5F97\u81EA\u95ED\u9E2D\u5B50\u76AE\u80A4\uFF0C\u524D\u5F80\u5F69\u86CB\u5899\u67E5\u770B\uFF01"] = 22] = "\u83B7\u5F97\u81EA\u95ED\u9E2D\u5B50\u76AE\u80A4\uFF0C\u524D\u5F80\u5F69\u86CB\u5899\u67E5\u770B\uFF01";
                 HintDec[HintDec["\u6CA1\u6709\u9886\u53D6\u6B21\u6570\u4E86\uFF01"] = 23] = "\u6CA1\u6709\u9886\u53D6\u6B21\u6570\u4E86\uFF01";
                 HintDec[HintDec["\u83B7\u53D6\u4E00\u6B21\u5F00\u542F\u5B9D\u7BB1\u6B21\u6570\uFF01"] = 24] = "\u83B7\u53D6\u4E00\u6B21\u5F00\u542F\u5B9D\u7BB1\u6B21\u6570\uFF01";
+                HintDec[HintDec["\u89C2\u770B\u5E7F\u544A\u53EF\u4EE5\u83B7\u5F97\u4E09\u6B21\u5F00\u5B9D\u7BB1\u6B21\u6570\uFF01"] = 25] = "\u89C2\u770B\u5E7F\u544A\u53EF\u4EE5\u83B7\u5F97\u4E09\u6B21\u5F00\u5B9D\u7BB1\u6B21\u6570\uFF01";
             })(HintDec = Enum.HintDec || (Enum.HintDec = {}));
             let HintType;
             (function (HintType) {
@@ -2456,6 +2457,7 @@
                 HintType[HintType["zibiyazi"] = 22] = "zibiyazi";
                 HintType[HintType["noGetNum"] = 23] = "noGetNum";
                 HintType[HintType["getBoxOne"] = 24] = "getBoxOne";
+                HintType[HintType["watchAdv"] = 25] = "watchAdv";
             })(HintType = Enum.HintType || (Enum.HintType = {}));
             let PifuOrder;
             (function (PifuOrder) {
@@ -4827,7 +4829,7 @@
                 lwg.Animation.move_Simple(parent, parent.x, parent.y, parent.x + diffX, parent.y + diffY, 10, 0, f => { });
                 parent['UIMain_Room']._roomMove = false;
                 lwg.Global._roomPickup = null;
-                lwg.Effects.createCommonExplosion(Laya.stage, 15, posX, posY, 'dot', 7, 10);
+                lwg.Effects.createCommonExplosion(Laya.stage, 15, posX, posY, 'dot', 1, 10);
             }
             if ((Math.abs(diffX) > 10 || Math.abs(diffY) > 10) || parent['UIMain_Room']._roomMove) {
                 this.openSwitch = false;
@@ -6941,7 +6943,7 @@
                     else {
                         ranY = this.self['BtnPainted'].height / 2 - Math.random() * scope - 25;
                     }
-                    Effects.createCommonExplosion(this.self['BtnPainted'], 10, ranX, ranY, 'star', 0, 20);
+                    Effects.createCommonExplosion(this.self['BtnPainted'], 10, ranX, ranY, 'star', -5, 20);
                 });
             });
             Animation.drop_KickBack(this.self['BtnPifu'], 0, -1200, this.self['BtnPifu'].y, 30, time * 4, delayed * 3, f => { });
@@ -7956,6 +7958,12 @@
             this.byGet = false;
         }
         lwgInit() {
+            this.posArr = [
+                [129.5, 254], [295, 254], [458.5, 254],
+                [129.5, 403.5], [295, 403.5], [458.5, 403.5],
+                [129.5, 553], [295, 553], [458.5, 553],
+            ];
+            this.SceneContent = this.selfScene['SceneContent'];
             this.Pic_Gold = this.self.getChildByName('Pic_Gold');
             this.Num = this.self.getChildByName('Num');
             this.Pic_Box = this.self.getChildByName('Pic_Box');
@@ -7973,21 +7981,24 @@
                 let nameNum = Number(this.self.name);
                 let number = Number(this.Num.text);
                 Animation.shookHead_Simple(this.Pic_Box, 10, 100, 0, f => {
-                    Effects.createCommonExplosion(this.self, 10, this.Pic_Box.x, this.Pic_Box.x, 'star', 5, 15);
+                    Effects.createCommonExplosion(this.SceneContent, 25, this.posArr[nameNum][0], this.posArr[nameNum][1], 'star', 3, 20);
                     this.BoxList.array[nameNum].pic_Gold = true;
                     this.BoxList.array[nameNum].pic_Box = false;
-                    lwg.Effects.getGoldAni(Laya.stage, number, Laya.stage.width / 2, Laya.stage.height / 2, lwg.Global.GoldNumNode.x - 53, lwg.Global.GoldNumNode.y - 12, f => {
-                        lwg.Global._addGoldDisPlay(1);
-                        this.BoxList.refresh();
-                    }, f => {
-                        lwg.Global._addGold(number);
-                        this.BoxList.refresh();
+                    this.BoxList.refresh();
+                    Laya.timer.frameOnce(20, this, f => {
+                        lwg.Effects.getGoldAni(Laya.stage, number, Laya.stage.width / 2, Laya.stage.height / 2, lwg.Global.GoldNumNode.x - 53, lwg.Global.GoldNumNode.y - 12, f => {
+                            lwg.Global._addGoldDisPlay(1);
+                            this.BoxList.refresh();
+                        }, f => {
+                            lwg.Global._addGold(number);
+                            this.BoxList.refresh();
+                        });
                     });
                 });
                 this.byGet = true;
             }
             else {
-                console.log('已经没有领取次数了，或者当前这个领取过了 ！');
+                lwg.Global._createHint_01(lwg.Enum.HintType.watchAdv);
             }
         }
         lwgDisable() {
@@ -8005,14 +8016,29 @@
         }
         lwgInit() {
             this.createBoxList();
+            this.randomAdvBox();
         }
         adaptive() {
-            this.self['sceneContent'].y = Laya.stage.height / 2;
+            this.self['SceneContent'].y = Laya.stage.height / 2;
+        }
+        randomAdvBox() {
+            let arr = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+            let ran1 = Math.floor(Math.random() * (arr.length - 1));
+            let a1 = arr[ran1];
+            arr.splice(ran1, 1);
+            console.log('1', arr);
+            let ran2 = Math.floor(Math.random() * (arr.length - 1));
+            let a2 = arr[ran2];
+            arr.splice(ran2, 1);
+            console.log('2', arr);
+            let ran3 = Math.floor(Math.random() * (arr.length - 1));
+            let a3 = arr[ran3];
+            this.ranArray = [a1, a2, a3];
+            console.log(this.ranArray);
         }
         createBoxList() {
-            this.BoxList.selectEnable = true;
             this.BoxList.vScrollBarSkin = "";
-            this.BoxList.spaceX = 25;
+            this.BoxList.spaceX = 36;
             this.BoxList.spaceY = 20;
             this.BoxList.selectHandler = new Laya.Handler(this, this.onSelect_List);
             this.BoxList.renderHandler = new Laya.Handler(this, this.updateItem);
@@ -8028,11 +8054,13 @@
                 let num = Math.floor(Math.random() * 10) + 5;
                 let pic_Box = true;
                 let index = m.toString();
+                let adv = false;
                 data.push({
                     pic_Gold,
                     num,
                     pic_Box,
-                    index
+                    index,
+                    adv
                 });
             }
             this.BoxList.array = data;
@@ -8048,6 +8076,12 @@
             Num.visible = Pic_Gold.visible;
             let Pic_Box = cell.getChildByName('Pic_Box');
             Pic_Box.visible = dataSource.pic_Box;
+            if (dataSource.adv) {
+                Pic_Box.skin = 'UI_new/VictoryBox/icon_advbox.png';
+            }
+            else {
+                Pic_Box.skin = 'UI_new/VictoryBox/icon_chai.png';
+            }
             cell.name = dataSource.index;
         }
         btnOnClick() {
@@ -8066,8 +8100,8 @@
             }
             else {
                 lwg.Global._createHint_01(lwg.Enum.HintType.getBoxOne);
-                this.getNum++;
-                this.maxAdvGet--;
+                this.getNum += 3;
+                this.maxAdvGet -= 3;
             }
         }
         lwgDisable() {

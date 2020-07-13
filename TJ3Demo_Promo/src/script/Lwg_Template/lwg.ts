@@ -1341,8 +1341,8 @@ export module lwg {
                 if (!scirpt) {
                     scirpt = ele.addComponent(commonExplosion);
                 }
-                scirpt.startSpeed = 5 * Math.random() + speed;
-                scirpt.continueTime = 8 * Math.random() + continueTime;
+                scirpt.startSpeed = 10 * Math.random() + speed;
+                scirpt.continueTime = 3 * Math.random() + continueTime;
             }
         }
 
@@ -1358,7 +1358,7 @@ export module lwg {
             moveRules(): void {
                 this.timer++;
                 if (this.timer >= this.continueTime / 2) {
-                    this.self.alpha -= 0.1;
+                    this.self.alpha -= 0.05;
                 }
                 if (this.timer >= this.continueTime) {
                     this.self.removeSelf();
@@ -1832,7 +1832,7 @@ export module lwg {
             '获得自闭鸭子皮肤，前往彩蛋墙查看！',
             '没有领取次数了！',
             '获取一次开启宝箱次数！',
-
+            '观看广告可以获得三次开宝箱次数！',
         }
 
         /**提示类型*/
@@ -1862,6 +1862,8 @@ export module lwg {
             'zibiyazi',
             'noGetNum',
             'getBoxOne',
+            'watchAdv',
+
         }
         /**皮肤的顺序以及名称*/
         export enum PifuOrder {
