@@ -5,7 +5,7 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
     /**list列表*/
     BoxList: Laya.List;
 
-    /**点击次数为三次*/ 
+    /**初始剩余点击次数为三次*/
     getNum: number = 3;
     constructor() { super(); }
 
@@ -29,8 +29,8 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
         this.BoxList.vScrollBarSkin = "";
         // this.BoxList.scrollBar.elasticBackTime = 0;//设置橡皮筋回弹时间。单位为毫秒。
         // this.BoxList.scrollBar.elasticDistance = 500;//设置橡皮筋极限距离。
-        this.BoxList.spaceX = 70;
-        this.BoxList.spaceY = 45;
+        this.BoxList.spaceX = 25;
+        this.BoxList.spaceY = 20;
         this.BoxList.selectHandler = new Laya.Handler(this, this.onSelect_List);
         this.BoxList.renderHandler = new Laya.Handler(this, this.updateItem);
         this.refreshListData();
@@ -103,8 +103,19 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
         this.self.close();
     }
 
+    /**看广告获取的最大次数为6次*/
+    maxAdvGet: number = 6;
     btnAgainUp(event): void {
         event.currentTarget.scale(1, 1);
+        if (this.maxAdvGet <= 0) {
+            lwg.Global._createHint_01(lwg.Enum.HintType.noGetNum);
+        } else {
+            // ADManager.ShowReward(() => {
+            lwg.Global._createHint_01(lwg.Enum.HintType.getBoxOne);
+            this.getNum++;
+            this.maxAdvGet--;
+            // })
+        }
     }
 
 

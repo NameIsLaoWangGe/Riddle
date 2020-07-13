@@ -237,7 +237,8 @@ export module lwg {
                 GoldNumNode = sp;
             }));
         }
-        /**增加体力*/
+
+        /**增加金币*/
         export function _addGold(number) {
             lwg.Global._goldNum += number;
             let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
@@ -245,6 +246,13 @@ export module lwg {
 
             lwg.LocalStorage.addData();
         }
+
+        /**增加金币动画，并不是真正增加金币*/
+        export function _addGoldDisPlay(number) {
+            let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
+            Num.value = (Number(Num.value) + number).toString();
+        }
+
 
         /**指代当前剩余体力节点*/
         export let ExecutionNumNode: Laya.Sprite;
@@ -1361,6 +1369,33 @@ export module lwg {
         }
 
         /**
+         * 金币移动动画
+         * @param parent 父节点
+         * @param number 产生金币的数量
+         * @param fX 初始位置X
+         * @param fY 初始位置Y
+         * @param tX 目标X
+         * @param tY 目标Y
+         * @param func1 每一个金币产生后执行的回调
+         * @param func2 金币创建完成后的回调
+         */
+        export function getGoldAni(parent, number, fX, fY, tX, tY, func1, func2): void {
+            for (let index = 0; index < number; index++) {
+                lwg.Effects.createAddGold(parent, index, fX, fY, tX, tY, f => {
+                    if (index === number - 1) {
+                        if (func2 !== null) {
+                            func2();
+                        }
+                    } else {
+                        if (func1 !== null) {
+                            func1();
+                        }
+                    }
+                });
+            }
+        }
+
+        /**
          * 创建单个金币动画
          * @param parent 父节点
          * @param quantity 数量
@@ -1795,6 +1830,8 @@ export module lwg {
             '获得海绵公主皮肤，前往彩蛋墙查看！',
             '获得仓鼠公主皮肤，前往彩蛋墙查看！',
             '获得自闭鸭子皮肤，前往彩蛋墙查看！',
+            '没有领取次数了！',
+            '获取一次开启宝箱次数！',
 
         }
 
@@ -1823,6 +1860,8 @@ export module lwg {
             'haimiangongzhu',
             'cangshugongzhu',
             'zibiyazi',
+            'noGetNum',
+            'getBoxOne',
         }
         /**皮肤的顺序以及名称*/
         export enum PifuOrder {
@@ -2331,7 +2370,6 @@ export module lwg {
 
     /**动画模块*/
     export module Animation {
-
 
         /**
           * 按中心点旋转动画
@@ -3485,9 +3523,10 @@ export module lwg {
     }
 }
 export default lwg;
+export let Enum = lwg.Enum;
+export let Global = lwg.Global;
 export let Admin = lwg.Admin;
 export let Click = lwg.Click;
-export let Global = lwg.Global;
 export let Animation = lwg.Animation;
 export let EventAdmin = lwg.EventAdmin;
 export let Tools = lwg.Tools;

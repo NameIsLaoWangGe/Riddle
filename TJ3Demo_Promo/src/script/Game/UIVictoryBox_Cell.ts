@@ -1,4 +1,4 @@
-import { lwg } from "../Lwg_Template/lwg";
+import { lwg, Animation, Effects } from "../Lwg_Template/lwg";
 import ADManager, { TaT } from "../../TJ/Admanager";
 
 export default class UIVictoryBox_Cell extends lwg.Admin.Object {
@@ -28,15 +28,26 @@ export default class UIVictoryBox_Cell extends lwg.Admin.Object {
         let getNum = this.selfScene[lwg.Admin.SceneName.UIVictoryBox].getNum;
 
         if (!this.byGet && getNum >= 1) {
+            this.selfScene[lwg.Admin.SceneName.UIVictoryBox].getNum -= 1;
+
             let nameNum = Number(this.self.name);
-            console.log(nameNum);
 
-            this.BoxList.array[nameNum].pic_Gold = true;
-            this.BoxList.array[nameNum].pic_Box = false;
+            let number = Number(this.Num.text);
 
-            this.BoxList.refresh();
+            Animation.shookHead_Simple(this.Pic_Box, 10, 100, 0, f => {
+                Effects.createCommonExplosion(this.self, 20, this.Pic_Box.x, this.Pic_Box.x, 'star', 10, 15);
 
-            
+                this.BoxList.array[nameNum].pic_Gold = true;
+                this.BoxList.array[nameNum].pic_Box = false;
+
+                lwg.Effects.getGoldAni(Laya.stage, number, Laya.stage.width / 2, Laya.stage.height / 2, lwg.Global.GoldNumNode.x - 53, lwg.Global.GoldNumNode.y - 12, f => {
+                    lwg.Global._addGoldDisPlay(1);
+                    this.BoxList.refresh();
+                }, f => {
+                    lwg.Global._addGold(number);
+                    this.BoxList.refresh();
+                });
+            });
 
             this.byGet = true;
         } else {

@@ -1146,6 +1146,11 @@
                 lwg.LocalStorage.addData();
             }
             Global._addGold = _addGold;
+            function _addGoldDisPlay(number) {
+                let Num = lwg.Global.GoldNumNode.getChildByName('Num');
+                Num.value = (Number(Num.value) + number).toString();
+            }
+            Global._addGoldDisPlay = _addGoldDisPlay;
             function _createExecutionNum(parent) {
                 let sp;
                 Laya.loader.load('prefab/ExecutionNum.json', Laya.Handler.create(this, function (prefab) {
@@ -2013,6 +2018,23 @@
                 }
             }
             Effects.commonExplosion = commonExplosion;
+            function getGoldAni(parent, number, fX, fY, tX, tY, func1, func2) {
+                for (let index = 0; index < number; index++) {
+                    lwg.Effects.createAddGold(parent, index, fX, fY, tX, tY, f => {
+                        if (index === number - 1) {
+                            if (func2 !== null) {
+                                func2();
+                            }
+                        }
+                        else {
+                            if (func1 !== null) {
+                                func1();
+                            }
+                        }
+                    });
+                }
+            }
+            Effects.getGoldAni = getGoldAni;
             function createAddGold(parent, index, x, y, targetX, targetY, func) {
                 let ele = Laya.Pool.getItemByClass('addGold', Laya.Image);
                 ele.name = 'addGold';
@@ -2404,6 +2426,8 @@
                 HintDec[HintDec["\u83B7\u5F97\u6D77\u7EF5\u516C\u4E3B\u76AE\u80A4\uFF0C\u524D\u5F80\u5F69\u86CB\u5899\u67E5\u770B\uFF01"] = 20] = "\u83B7\u5F97\u6D77\u7EF5\u516C\u4E3B\u76AE\u80A4\uFF0C\u524D\u5F80\u5F69\u86CB\u5899\u67E5\u770B\uFF01";
                 HintDec[HintDec["\u83B7\u5F97\u4ED3\u9F20\u516C\u4E3B\u76AE\u80A4\uFF0C\u524D\u5F80\u5F69\u86CB\u5899\u67E5\u770B\uFF01"] = 21] = "\u83B7\u5F97\u4ED3\u9F20\u516C\u4E3B\u76AE\u80A4\uFF0C\u524D\u5F80\u5F69\u86CB\u5899\u67E5\u770B\uFF01";
                 HintDec[HintDec["\u83B7\u5F97\u81EA\u95ED\u9E2D\u5B50\u76AE\u80A4\uFF0C\u524D\u5F80\u5F69\u86CB\u5899\u67E5\u770B\uFF01"] = 22] = "\u83B7\u5F97\u81EA\u95ED\u9E2D\u5B50\u76AE\u80A4\uFF0C\u524D\u5F80\u5F69\u86CB\u5899\u67E5\u770B\uFF01";
+                HintDec[HintDec["\u6CA1\u6709\u9886\u53D6\u6B21\u6570\u4E86\uFF01"] = 23] = "\u6CA1\u6709\u9886\u53D6\u6B21\u6570\u4E86\uFF01";
+                HintDec[HintDec["\u83B7\u53D6\u4E00\u6B21\u5F00\u542F\u5B9D\u7BB1\u6B21\u6570\uFF01"] = 24] = "\u83B7\u53D6\u4E00\u6B21\u5F00\u542F\u5B9D\u7BB1\u6B21\u6570\uFF01";
             })(HintDec = Enum.HintDec || (Enum.HintDec = {}));
             let HintType;
             (function (HintType) {
@@ -2430,6 +2454,8 @@
                 HintType[HintType["haimiangongzhu"] = 20] = "haimiangongzhu";
                 HintType[HintType["cangshugongzhu"] = 21] = "cangshugongzhu";
                 HintType[HintType["zibiyazi"] = 22] = "zibiyazi";
+                HintType[HintType["noGetNum"] = 23] = "noGetNum";
+                HintType[HintType["getBoxOne"] = 24] = "getBoxOne";
             })(HintType = Enum.HintType || (Enum.HintType = {}));
             let PifuOrder;
             (function (PifuOrder) {
@@ -3450,9 +3476,10 @@
             Tools.converteNum = converteNum;
         })(Tools = lwg.Tools || (lwg.Tools = {}));
     })(lwg || (lwg = {}));
+    let Enum = lwg.Enum;
+    let Global = lwg.Global;
     let Admin = lwg.Admin;
     let Click = lwg.Click;
-    let Global = lwg.Global;
     let Animation = lwg.Animation;
     let EventAdmin = lwg.EventAdmin;
     let Tools = lwg.Tools;
@@ -7940,13 +7967,27 @@
         }
         up(e) {
             e.currentTarget.scale(1, 1);
-            if (!this.byGet) {
+            let getNum = this.selfScene[lwg.Admin.SceneName.UIVictoryBox].getNum;
+            if (!this.byGet && getNum >= 1) {
+                this.selfScene[lwg.Admin.SceneName.UIVictoryBox].getNum -= 1;
                 let nameNum = Number(this.self.name);
-                console.log(nameNum);
-                this.BoxList.array[nameNum].pic_Gold = true;
-                this.BoxList.array[nameNum].pic_Box = false;
-                this.BoxList.refresh();
+                let number = Number(this.Num.text);
+                Animation.shookHead_Simple(this.Pic_Box, 10, 100, 0, f => {
+                    Effects.createCommonExplosion(this.self, 10, this.Pic_Box.x, this.Pic_Box.x, 'star', 5, 15);
+                    this.BoxList.array[nameNum].pic_Gold = true;
+                    this.BoxList.array[nameNum].pic_Box = false;
+                    lwg.Effects.getGoldAni(Laya.stage, number, Laya.stage.width / 2, Laya.stage.height / 2, lwg.Global.GoldNumNode.x - 53, lwg.Global.GoldNumNode.y - 12, f => {
+                        lwg.Global._addGoldDisPlay(1);
+                        this.BoxList.refresh();
+                    }, f => {
+                        lwg.Global._addGold(number);
+                        this.BoxList.refresh();
+                    });
+                });
                 this.byGet = true;
+            }
+            else {
+                console.log('已经没有领取次数了，或者当前这个领取过了 ！');
             }
         }
         lwgDisable() {
@@ -7954,7 +7995,11 @@
     }
 
     class UIVictoryBox extends lwg.Admin.Scene {
-        constructor() { super(); }
+        constructor() {
+            super();
+            this.getNum = 3;
+            this.maxAdvGet = 6;
+        }
         selfVars() {
             this.BoxList = this.self['BoxList'];
         }
@@ -7967,8 +8012,8 @@
         createBoxList() {
             this.BoxList.selectEnable = true;
             this.BoxList.vScrollBarSkin = "";
-            this.BoxList.spaceX = 70;
-            this.BoxList.spaceY = 45;
+            this.BoxList.spaceX = 25;
+            this.BoxList.spaceY = 20;
             this.BoxList.selectHandler = new Laya.Handler(this, this.onSelect_List);
             this.BoxList.renderHandler = new Laya.Handler(this, this.updateItem);
             this.refreshListData();
@@ -8016,6 +8061,14 @@
         }
         btnAgainUp(event) {
             event.currentTarget.scale(1, 1);
+            if (this.maxAdvGet <= 0) {
+                lwg.Global._createHint_01(lwg.Enum.HintType.noGetNum);
+            }
+            else {
+                lwg.Global._createHint_01(lwg.Enum.HintType.getBoxOne);
+                this.getNum++;
+                this.maxAdvGet--;
+            }
         }
         lwgDisable() {
         }
