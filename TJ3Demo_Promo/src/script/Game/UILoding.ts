@@ -133,6 +133,29 @@ export default class UILoding extends lwg.Admin.Scene {
             } else {
                 lwg.Global._pickPaintedNum = data._pickPaintedNum;
             }
+
+
+            if (!data._todayCheckIn) {
+                lwg.LocalStorage.addData();
+            } else {
+                lwg.Global._todayCheckIn = data._todayCheckIn;
+            }
+
+            if (!data._CheckInNum) {
+                lwg.LocalStorage.addData();
+            } else {
+                lwg.Global._CheckInNum = data._CheckInNum;
+            }
+
+            lwg.Global._lastCheckIn = data._lastCheckIn;
+            if (d.getDate() !== lwg.Global._hotShareTime) {
+                lwg.Global._todayCheckIn = false;
+                console.log('今天还没有签到！');
+            } else {
+
+                lwg.Global._todayCheckIn = true;
+                console.log('今天已经签到了！');
+            }
         }
 
         lwg.Global._createGoldNum(Laya.stage);

@@ -41,36 +41,51 @@ export default class UIVictoryBox_Cell extends lwg.Admin.Object {
         let getNum = this.selfScene[lwg.Admin.SceneName.UIVictoryBox].getNum;
 
         if (!this.byGet && getNum >= 1) {
-            this.selfScene[lwg.Admin.SceneName.UIVictoryBox].getNum -= 1;
+            //两个不同的宝箱，一个是需要看广告的，一个是不需要的
+            let url1 = 'UI_new/VictoryBox/icon_chai.png';
+            let url2 = 'UI_new/VictoryBox/icon_advbox.png';
+            if (this.Pic_Box.skin === url1) {
+                this.upFunc();
 
-            let nameNum = Number(this.self.name);
-
-            let number = Number(this.Num.text);
-
-            Animation.shookHead_Simple(this.Pic_Box, 10, 100, 0, f => {
-
-                Effects.createCommonExplosion(this.SceneContent, 25, this.posArr[nameNum][0], this.posArr[nameNum][1], 'star', 3, 20);
-
-                this.BoxList.array[nameNum].pic_Gold = true;
-                this.BoxList.array[nameNum].pic_Box = false;
-                this.BoxList.refresh();
-
-                Laya.timer.frameOnce(20, this, f => {
-                    lwg.Effects.getGoldAni(Laya.stage, number, Laya.stage.width / 2, Laya.stage.height / 2, lwg.Global.GoldNumNode.x - 53, lwg.Global.GoldNumNode.y - 12, f => {
-                        lwg.Global._addGoldDisPlay(1);
-                        this.BoxList.refresh();
-                    }, f => {
-                        lwg.Global._addGold(number);
-                        this.BoxList.refresh();
-                    });
+            } else {
+                ADManager.ShowReward(() => {
+                    this.upFunc();
                 })
+            }
 
-            });
-
-            this.byGet = true;
         } else {
             lwg.Global._createHint_01(lwg.Enum.HintType.watchAdv);
         }
+    }
+
+    upFunc(): void {
+
+        this.selfScene[lwg.Admin.SceneName.UIVictoryBox].getNum -= 1;
+
+        let nameNum = Number(this.self.name);
+
+        let number = Number(this.Num.text);
+
+        Animation.shookHead_Simple(this.Pic_Box, 10, 100, 0, f => {
+
+            Effects.createExplosion_Rotate(this.SceneContent, 25, this.posArr[nameNum][0], this.posArr[nameNum][1], 'star', 10, 15);
+
+            this.BoxList.array[nameNum].pic_Gold = true;
+            this.BoxList.array[nameNum].pic_Box = false;
+            this.BoxList.refresh();
+
+            Laya.timer.frameOnce(20, this, f => {
+                lwg.Effects.getGoldAni(Laya.stage, number, Laya.stage.width / 2, Laya.stage.height / 2, lwg.Global.GoldNumNode.x - 53, lwg.Global.GoldNumNode.y - 12, f => {
+                    lwg.Global._addGoldDisPlay(1);
+                    this.BoxList.refresh();
+                }, f => {
+                    lwg.Global._addGold(number);
+                    this.BoxList.refresh();
+                });
+            })
+
+        });
+        this.byGet = true;
     }
 
     lwgDisable(): void {

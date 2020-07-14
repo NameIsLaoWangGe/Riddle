@@ -91,7 +91,7 @@ export default class UIStart extends lwg.Admin.Scene {
                 } else {
                     ranY = this.self['BtnPainted'].height / 2 - Math.random() * scope - 25;
                 }
-                Effects.createCommonExplosion(this.self['BtnPainted'], 10, ranX, ranY, 'star', -5, 20);
+                Effects.createExplosion_Rotate(this.self['BtnPainted'], 10, ranX, ranY, 'star', 3, 15);
             });
         });
 
@@ -112,6 +112,10 @@ export default class UIStart extends lwg.Admin.Scene {
                         lwg.Animation.rotate_Scale(this.self['BtnXD'], 0, 1, 1, 0, 0.88, 0.88, time * 1.2, 0, f => {
                             lwg.Global._stageClick = true;
                         });
+
+                        if (!lwg.Global._todayCheckIn) {
+                            lwg.Admin._openScene(lwg.Admin.SceneName.UICheckIn, null, null, null);
+                        }
                     })
                 })
             });
@@ -129,7 +133,7 @@ export default class UIStart extends lwg.Admin.Scene {
         });
         Animation.blink_FadeOut(lwg.Global.GoldNumNode, 0, 1, time * 5, delayed * 2, f => {
         });
-        return time * 4;
+        return time * 5;
     }
     /**限定皮肤的单独效果*/
 

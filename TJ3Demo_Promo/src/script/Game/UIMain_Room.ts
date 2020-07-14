@@ -47,7 +47,7 @@ export default class UIMain_Room extends lwg.Admin.Object {
         let mask = new Laya.Sprite();
         mask.loadImage(lwg.Enum.WallpaperSkin[lwg.Enum.RoomSkinZoder[(this.self as Laya.Image).skin]]);
         wallpaper0.mask = mask;
-        mask.width = this.self.width - 31;
+        mask.width = this.self.width - 30;
         mask.height = 200;
         mask.y = -10;
     }
@@ -88,7 +88,7 @@ export default class UIMain_Room extends lwg.Admin.Object {
     private _roomX: number;
     private _roomY: number;
     /**房子按下*/
-    houseDwon(): void {
+    houseDwon(e: Laya.Event): void {
         if (!lwg.Global._gameStart) {
             return;
         }

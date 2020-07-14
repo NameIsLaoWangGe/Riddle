@@ -456,5 +456,26 @@
             "word_xuanze.png",
             "ui_borad_01.png"
         ]
+    ],
+    "res/atlas/UI_new/CheckIn.atlas": [
+        "UI_new/CheckIn/",
+        [
+            "btnCircle.png",
+            "btnDot.png",
+            "di.png",
+            "qidi.png",
+            "word_1tian.png",
+            "word_2tian.png",
+            "word_3tian.png",
+            "word_3tian.png",
+            "word_4tian.png",
+            "word_5tian.png",
+            "word_6tian.png",
+            "word_7tian.png",
+            "word_get.png",
+            "word_qiandao.png",
+            "word_three.png",
+            "yiingqu .png"
+        ]
     ]
 }
