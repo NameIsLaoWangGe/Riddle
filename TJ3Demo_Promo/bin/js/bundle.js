@@ -6829,21 +6829,11 @@
             this.randomNoHave();
         }
         adaptive() {
-            this.self['SceneContent'].y = Laya.stage.height * 0.589;
-            this.self['P201'].y = Laya.stage.height * 0.18;
+            this.self['SceneContent'].y = Laya.stage.height / 2;
+            this.self['P201'].y = Laya.stage.height * 0.237;
             this.self['background_01'].height = Laya.stage.height;
         }
         openAni() {
-            this.self['BtnNo'].visible = false;
-            setTimeout(() => {
-                this.self['BtnNo'].visible = true;
-            }, lwg.Global._btnDelayed);
-            let time = 1000;
-            Animation.scale_Scale(this.self['BtnGet'], 1, 1.1, time * 1.2, 0, f => {
-            });
-            Laya.timer.loop(time * 1.2, this, f => {
-                Animation.scale_Scale(this.self['BtnGet'], 1, 1.1, time * 1.2 + 50, 0, f => { });
-            });
             return 0;
         }
         randomNoHave() {
@@ -6862,15 +6852,23 @@
             pifuImg.skin = lwg.Enum.PifuSkin[oder2];
         }
         btnOnClick() {
+            lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.self['BtnCheck'], this, null, null, this.btnCheckUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnGet'], this, null, null, this.btnAdvUp, null);
-            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
         }
         btnAdvUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_skintry');
             event.currentTarget.scale(1, 1);
-            ADManager.ShowReward(() => {
-                this.btnAdvFunc();
-            });
+            let check = this.self['BtnCheck'].getChildByName('Check');
+            if (check.visible) {
+                ADManager.ShowReward(() => {
+                    this.btnAdvFunc();
+                });
+            }
+            else {
+                event.currentTarget.scale(1, 1);
+                this.self.close();
+                lwg.Admin._sceneControl[lwg.Admin.SceneName.UIStart]['UIStart'].openPlayScene();
+            }
         }
         btnCheckUp(e) {
             let check = this.self['BtnCheck'].getChildByName('Check');
