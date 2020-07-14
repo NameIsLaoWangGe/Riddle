@@ -1026,6 +1026,7 @@
             Global._exemptEx = true;
             Global._hotShare = true;
             Global._freetHint = true;
+            Global._victoryBoxNum = 0;
             Global._todayCheckIn = false;
             Global._lastCheckIn = null;
             Global._CheckInNum = 0;
@@ -2039,8 +2040,8 @@
                         this.self.rotation -= this.rotateRan;
                     }
                     if (this.timer >= this.continueTime / 2) {
-                        this.self.alpha -= 0.03;
-                        if (this.self.alpha <= 0.6) {
+                        this.self.alpha -= 0.04;
+                        if (this.self.alpha <= 0.65) {
                             this.self.removeSelf();
                         }
                     }
@@ -4276,9 +4277,13 @@
         btnOnClick() {
             lwg.Click.on('largen', null, this.self['BtnGet'], this, null, null, this.btnGetUp, null);
             lwg.Click.on('largen', null, this.self['BtnSelect'], this, null, null, this.btnSelectUp, null);
+            lwg.Click.on('largen', null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
+        }
+        btnBackUp(event) {
+            event.currentTarget.scale(1, 1);
+            this.self.close();
         }
         btnGetUp(event) {
-            event.currentTarget.scale(1, 1);
             let dot = this.self['BtnSelect'].getChildAt(0);
             if (dot.visible) {
                 ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_sign');
@@ -5027,7 +5032,7 @@
                 lwg.Animation.move_Simple(parent, parent.x, parent.y, parent.x + diffX, parent.y + diffY, 10, 0, f => { });
                 parent['UIMain_Room']._roomMove = false;
                 lwg.Global._roomPickup = null;
-                lwg.Effects.createCommonExplosion(Laya.stage, 15, posX, posY, 'dot', 5, 15);
+                lwg.Effects.createCommonExplosion(Laya.stage, 15, posX, posY, 'dot', 7, 8);
             }
             if ((Math.abs(diffX) > 10 || Math.abs(diffY) > 10) || parent['UIMain_Room']._roomMove) {
                 this.openSwitch = false;
@@ -8239,6 +8244,7 @@
             this.BoxList = this.self['BoxList'];
         }
         lwgInit() {
+            lwg.Global._victoryBoxNum++;
             ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_box');
             this.randomAdvBox();
             this.createBoxList();
@@ -8279,10 +8285,12 @@
                 let pic_Box = true;
                 let index = m.toString();
                 let adv = false;
-                for (let index = 0; index < this.ranArray.length; index++) {
-                    if (m === this.ranArray[index]) {
-                        adv = true;
-                        break;
+                if (lwg.Global._victoryBoxNum !== 1) {
+                    for (let index = 0; index < this.ranArray.length; index++) {
+                        if (m === this.ranArray[index]) {
+                            adv = true;
+                            break;
+                        }
                     }
                 }
                 data.push({

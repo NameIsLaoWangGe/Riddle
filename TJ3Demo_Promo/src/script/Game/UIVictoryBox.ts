@@ -17,6 +17,7 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
     }
 
     lwgInit(): void {
+        lwg.Global._victoryBoxNum++;
         ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_box');
         this.randomAdvBox();
         this.createBoxList();
@@ -39,7 +40,6 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
         let a2 = arr[ran2];
         arr.splice(ran2, 1);
 
-
         console.log('2', arr)
         let ran3 = Math.floor(Math.random() * (arr.length - 1));
         let a3 = arr[ran3];
@@ -48,7 +48,6 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
         console.log(this.ranArray);
 
     }
-
 
     /**创建皮肤list*/
     createBoxList(): void {
@@ -87,12 +86,15 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
             let index: string = m.toString();
 
             let adv = false;
-            for (let index = 0; index < this.ranArray.length; index++) {
-                if (m === this.ranArray[index]) {
-                    adv = true;
-                    break;
+            if (lwg.Global._victoryBoxNum !== 1) {
+                for (let index = 0; index < this.ranArray.length; index++) {
+                    if (m === this.ranArray[index]) {
+                        adv = true;
+                        break;
+                    }
                 }
             }
+
             // push全部信息
             data.push({
                 pic_Gold,

@@ -33,6 +33,8 @@ export module lwg {
         export let _addExHours: number;
         export let _addMinutes: number;
 
+        /**宝箱界面弹了多少次*/
+        export let _victoryBoxNum: number = 0;
 
         /**今日是否已经签到了！*/
         export let _todayCheckIn: boolean = false;
@@ -40,6 +42,7 @@ export module lwg {
         export let _lastCheckIn: number = null;
         /**签到次数7天为一个循环*/
         export let _CheckInNum: number = 0;
+
 
         /**最后一次被拾取的房间，用于被吸附到另一个房间*/
         export let _roomPickup: Laya.Image;
@@ -1396,8 +1399,8 @@ export module lwg {
                     this.self.rotation -= this.rotateRan;
                 }
                 if (this.timer >= this.continueTime / 2) {
-                    this.self.alpha -= 0.03;
-                    if (this.self.alpha <= 0.6) {
+                    this.self.alpha -= 0.04;
+                    if (this.self.alpha <= 0.65) {
                         this.self.removeSelf();
                     }
                 }

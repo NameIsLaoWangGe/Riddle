@@ -16,8 +16,6 @@ export default class UICheckIn extends lwg.Admin.Scene {
     selfVars(): void {
         this.checkList = this.self['CheckList'];
         this.createCheckList();
-
-
     }
 
     aniSwitch: boolean = true;
@@ -128,13 +126,17 @@ export default class UICheckIn extends lwg.Admin.Scene {
 
     btnOnClick(): void {
 
-
         lwg.Click.on('largen', null, this.self['BtnGet'], this, null, null, this.btnGetUp, null);
         lwg.Click.on('largen', null, this.self['BtnSelect'], this, null, null, this.btnSelectUp, null);
+        lwg.Click.on('largen', null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
+    }
+
+    btnBackUp(event):void{
+        event.currentTarget.scale(1, 1);
+        this.self.close();
     }
 
     btnGetUp(event): void {
-        event.currentTarget.scale(1, 1);
 
         let dot = (this.self['BtnSelect'] as Laya.Sprite).getChildAt(0) as Laya.Sprite;
         if (dot.visible) {
