@@ -8,8 +8,9 @@ export default class UICheckIn extends lwg.Admin.Scene {
     /**初始剩余点击次数为三次*/
     getNum: number = 3;
 
-    /**随机三个作为看广告宝箱*/
-    ranArray: Array<number> = [];
+    /**记录列表中每个box的坐标*/
+    posArr: Array<Array<number>>
+
     constructor() { super(); }
 
     selfVars(): void {
@@ -19,7 +20,14 @@ export default class UICheckIn extends lwg.Admin.Scene {
     lwgInit(): void {
         lwg.Global._stageClick = false;
         this.createCheckList();
+
+        this.posArr = [
+            [126, 262], [292, 262], [457, 262],
+            [126, 422.5], [292, 422.5], [457, 422.5],
+            [295, 588]
+        ];
     }
+
 
     /**一些节点的适配*/
     adaptive(): void {
@@ -100,9 +108,9 @@ export default class UICheckIn extends lwg.Admin.Scene {
 
         let dot = (this.self['BtnSelect'] as Laya.Sprite).getChildAt(0) as Laya.Sprite;
         if (dot.visible) {
-            ADManager.ShowReward(() => {
-                this.btnGetUpFunc(3)
-            })
+            // ADManager.ShowReward(() => {
+            this.btnGetUpFunc(3)
+            // })
         } else {
             this.btnGetUpFunc(1);
         }
@@ -111,10 +119,11 @@ export default class UICheckIn extends lwg.Admin.Scene {
 
     btnGetUpFunc(number): void {
         if (lwg.Global._CheckInNum === 7) {
-            lwg.Global._addGold(50 * number);
+
+            this.goldAni(50 * number)
 
         } else {
-            lwg.Global._addGold(25 * number);
+            this.goldAni(25 * number)
         }
         lwg.Global._CheckInNum++;
         if (lwg.Global._CheckInNum > 7) {
@@ -122,8 +131,20 @@ export default class UICheckIn extends lwg.Admin.Scene {
         }
         lwg.Global._lastCheckIn = (new Date).getDate();
         lwg.LocalStorage.addData();
+    }
 
-        this.self.close();
+    goldAni(number) {
+        Laya.timer.frameOnce(20, this, f => {
+            lwg.Effects.getGoldAni(Laya.stage, 10, Laya.stage.width / 2, Laya.stage.height / 2, lwg.Global.GoldNumNode.x - 53, lwg.Global.GoldNumNode.y - 12, f => {
+
+                lwg.Global._addGoldDisPlay(1);
+                this.checkList.refresh();
+            }, f => {
+                lwg.Global._addGold(number);
+                this.checkList.refresh();
+                this.self.close();
+            });
+        })
     }
 
     btnSelectUp(event): void {

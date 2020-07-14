@@ -148,7 +148,7 @@ export default class UILoding extends lwg.Admin.Scene {
             }
 
             lwg.Global._lastCheckIn = data._lastCheckIn;
-            if (d.getDate() !== lwg.Global._hotShareTime) {
+            if (d.getDate() !== lwg.Global._lastCheckIn) {
                 lwg.Global._todayCheckIn = false;
                 console.log('今天还没有签到！');
             } else {

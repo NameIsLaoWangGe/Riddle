@@ -4168,7 +4168,6 @@
         constructor() {
             super();
             this.getNum = 3;
-            this.ranArray = [];
         }
         selfVars() {
             this.checkList = this.self['CheckList'];
@@ -4176,6 +4175,11 @@
         lwgInit() {
             lwg.Global._stageClick = false;
             this.createCheckList();
+            this.posArr = [
+                [126, 262], [292, 262], [457, 262],
+                [126, 422.5], [292, 422.5], [457, 422.5],
+                [295, 588]
+            ];
         }
         adaptive() {
             console.log(this.self['SceneContent']);
@@ -4221,9 +4225,7 @@
             event.currentTarget.scale(1, 1);
             let dot = this.self['BtnSelect'].getChildAt(0);
             if (dot.visible) {
-                ADManager.ShowReward(() => {
-                    this.btnGetUpFunc(3);
-                });
+                this.btnGetUpFunc(3);
             }
             else {
                 this.btnGetUpFunc(1);
@@ -4231,10 +4233,10 @@
         }
         btnGetUpFunc(number) {
             if (lwg.Global._CheckInNum === 7) {
-                lwg.Global._addGold(50 * number);
+                this.goldAni(50 * number);
             }
             else {
-                lwg.Global._addGold(25 * number);
+                this.goldAni(25 * number);
             }
             lwg.Global._CheckInNum++;
             if (lwg.Global._CheckInNum > 7) {
@@ -4242,7 +4244,18 @@
             }
             lwg.Global._lastCheckIn = (new Date).getDate();
             lwg.LocalStorage.addData();
-            this.self.close();
+        }
+        goldAni(number) {
+            Laya.timer.frameOnce(20, this, f => {
+                lwg.Effects.getGoldAni(Laya.stage, 10, Laya.stage.width / 2, Laya.stage.height / 2, lwg.Global.GoldNumNode.x - 53, lwg.Global.GoldNumNode.y - 12, f => {
+                    lwg.Global._addGoldDisPlay(1);
+                    this.checkList.refresh();
+                }, f => {
+                    lwg.Global._addGold(number);
+                    this.checkList.refresh();
+                    this.self.close();
+                });
+            });
         }
         btnSelectUp(event) {
             event.currentTarget.scale(1, 1);
@@ -4720,7 +4733,7 @@
                     lwg.Global._CheckInNum = data._CheckInNum;
                 }
                 lwg.Global._lastCheckIn = data._lastCheckIn;
-                if (d.getDate() !== lwg.Global._hotShareTime) {
+                if (d.getDate() !== lwg.Global._lastCheckIn) {
                     lwg.Global._todayCheckIn = false;
                     console.log('今天还没有签到！');
                 }
