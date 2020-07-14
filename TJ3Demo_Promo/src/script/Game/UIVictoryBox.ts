@@ -17,6 +17,7 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
     }
 
     lwgInit(): void {
+        ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_box');
         this.randomAdvBox();
         this.createBoxList();
     }
@@ -147,6 +148,7 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
     /**看广告获取的最大次数为6次*/
     maxAdvGet: number = 6;
     btnAgainUp(event): void {
+        ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_box');
         event.currentTarget.scale(1, 1);
         if (this.maxAdvGet <= 0) {
             lwg.Global._createHint_01(lwg.Enum.HintType.noGetNum);

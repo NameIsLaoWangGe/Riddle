@@ -36,6 +36,9 @@ export default class UIStart extends lwg.Admin.Scene {
     lwgInit(): void {
         lwg.Global._stageClick = false;
         ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
+        ADManager.TAPoint(TaT.BtnShow, 'CDwall_mainpage');
+        ADManager.TAPoint(TaT.BtnShow, 'turn_mainpage');
+
 
         this.BtnLocation.visible = false;
         if (lwg.Global._watchAdsNum >= 3) {
@@ -44,7 +47,6 @@ export default class UIStart extends lwg.Admin.Scene {
         this.listWPos.x = this.CustomsList.x + this.SceneContent.x - this.SceneContent.width / 2;
         this.listWPos.y = this.CustomsList.y + this.SceneContent.y - this.SceneContent.height / 2;
         this.createCustomsList();
-        ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
         ADManager.ShowBanner();
 
         if (!lwg.Global._elect) {
@@ -114,6 +116,7 @@ export default class UIStart extends lwg.Admin.Scene {
                         });
 
                         if (!lwg.Global._todayCheckIn) {
+                            lwg.Global._todayCheckIn = true;
                             lwg.Admin._openScene(lwg.Admin.SceneName.UICheckIn, null, null, null);
                         }
                     })
@@ -453,6 +456,8 @@ export default class UIStart extends lwg.Admin.Scene {
         this.btnPainted = true;
     }
     btnPaintedUp(e): void {
+        ADManager.TAPoint(TaT.BtnClick, 'CDwall_mainpage');
+
         e.currentTarget.scale(1, 1);
         if (!this.candanFunc()) {
             lwg.Admin._openScene(lwg.Admin.SceneName.UICaiDanQiang, null, null, null);
@@ -497,6 +502,8 @@ export default class UIStart extends lwg.Admin.Scene {
     btnTurntableUp(e): void {
         e.currentTarget.scale(1, 1);
         lwg.Admin._openScene(lwg.Admin.SceneName.UITurntable, null, null, null);
+
+        ADManager.TAPoint(TaT.BtnClick, 'turn_mainpage');
 
     }
 

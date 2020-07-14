@@ -22,6 +22,7 @@ export default class UICaidanPifu extends lwg.Admin.Scene {
     }
 
     lwgInit(): void {
+        ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_HMskin');
         ADManager.TAPoint(TaT.PageEnter, 'HMskinpage');
         lwg.Global._stageClick = false;
     }
@@ -41,6 +42,8 @@ export default class UICaidanPifu extends lwg.Admin.Scene {
 
     /**看广告按钮抬起*/
     btnFreeUp(event): void {
+        ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_HMskin');
+        
         event.currentTarget.scale(1, 1);
         ADManager.ShowReward(() => {
             lwg.Global._haimiangongzhu = true;

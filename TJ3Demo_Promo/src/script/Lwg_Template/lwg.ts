@@ -1011,6 +1011,20 @@ export module lwg {
                         ADManager.TAPoint(TaT.PageLeave, 'turnpage');
                     }
                     break;
+                case SceneName.UICheckIn:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'signpage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'signpage');
+                    }
+                    break;
+                case SceneName.UIVictoryBox:
+                    if (type === 'on') {
+                        ADManager.TAPoint(TaT.PageEnter, 'boxpage');
+                    } else if (type === 'dis') {
+                        ADManager.TAPoint(TaT.PageLeave, 'boxpage');
+                    }
+                    break;
                 default:
 
                     break;

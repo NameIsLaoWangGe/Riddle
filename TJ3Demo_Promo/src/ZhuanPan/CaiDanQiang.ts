@@ -169,6 +169,11 @@ export default class CaiDanQiang extends Laya.Script {
 
     onAwake()//加载需放在 start之前初始化
     {
+
+        ADManager.TAPoint(TaT.BtnShow, 'ADreward1bt_CDwall');
+        ADManager.TAPoint(TaT.BtnShow, 'ADreward2bt_CDwall');
+        ADManager.TAPoint(TaT.BtnShow, 'close_CDwall');
+
         ADManager.CloseBanner();
         // this.LoadXml();//大表推荐
         this.LoadJson();//小表推荐 
@@ -202,6 +207,7 @@ export default class CaiDanQiang extends Laya.Script {
     }
 
     btnBackUP(e: Laya.Event): void {
+        ADManager.TAPoint(TaT.BtnClick, 'close_CDwall');
         e.currentTarget.scale(1, 1);
         this.owner.scene.close();
     }
@@ -266,6 +272,8 @@ export default class CaiDanQiang extends Laya.Script {
     FangshiADClick()//方式解锁
     {
         ADManager.ShowReward(() => {
+            ADManager.TAPoint(TaT.BtnClick, 'ADreward2bt_CDwall');
+
             let skin = Laya.LocalStorage.getItem("Caidanskin" + this.NowCaidanDataq.ID);
             let strs = skin.split("_");
             Laya.LocalStorage.setItem("Caidanskin" + this.NowCaidanDataq.ID, strs[0] + "_" + strs[1] + "_" + "1");
@@ -275,6 +283,8 @@ export default class CaiDanQiang extends Laya.Script {
     }
     LaiyuanADcLICK()//来源解锁
     {
+        ADManager.TAPoint(TaT.BtnClick, 'ADreward1bt_CDwall');
+
         ADManager.ShowReward(() => {
             let skin = Laya.LocalStorage.getItem("Caidanskin" + this.NowCaidanDataq.ID);
             let strs = skin.split("_");
@@ -286,7 +296,7 @@ export default class CaiDanQiang extends Laya.Script {
     //#endregion
 
 
-    //赛亚人
+    //彩蛋一，塞牙人
     CaidanRewardPanel1: Laya.Box;
     RewardBg1: Laya.Image;
     ADGetReward1: Laya.Image;
@@ -307,6 +317,7 @@ export default class CaiDanQiang extends Laya.Script {
     }
 
     CaidanJiemianShow1() {
+        ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_SYskin');
         ADManager.TAPoint(TaT.PageEnter, 'SYskinpage');
         this.CaidanRewardPanel1.visible = true;
     }
@@ -315,6 +326,7 @@ export default class CaiDanQiang extends Laya.Script {
         ADManager.TAPoint(TaT.PageLeave, 'SYskinpage');
     }
     ADGetRewardClick1() {
+        ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_SYskin');
         //看广告   彩蛋皮肤 编码4  
         console.log('看广告');
         ADManager.ShowReward(() => {
@@ -331,7 +343,7 @@ export default class CaiDanQiang extends Laya.Script {
 
     //#endregion
 
-    //#region  彩蛋1触发   点击一个蛋  弹出界面
+    //#region  彩蛋2触发   点击一个蛋  弹出界面 仓鼠
 
     Caidan1: Laya.Box;
     Caidan2: Laya.Box;
@@ -364,6 +376,8 @@ export default class CaiDanQiang extends Laya.Script {
     }
 
     CaidanJiemianShow2() {
+        ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_CSskin');
+        
         lwg.Animation.leftRight_Shake(this.Caidan1, 20, 100, 0, f => {
             lwg.Animation.leftRight_Shake(this.Caidan1, 20, 100, 0, f => {
                 let skin = Laya.LocalStorage.getItem("Caidanskin" + 2);
@@ -383,6 +397,7 @@ export default class CaiDanQiang extends Laya.Script {
         this.CaidanRewardPanel2.visible = false;
     }
     ADGetRewardClick2() {
+        ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_CSskin');
         //看广告   彩蛋皮肤 编码2
         console.log('看广告!');
         ADManager.ShowReward(() => {
@@ -403,7 +418,8 @@ export default class CaiDanQiang extends Laya.Script {
 
 
 
-    /*********** 彩蛋2触发****************/
+    /*********** 彩蛋3触发****************/
+     //彩蛋三，神龙
     ImageX: number = 0;
     ImageY: number = 0;
     caidanDan: Laya.Image;
@@ -478,6 +494,7 @@ export default class CaiDanQiang extends Laya.Script {
     ADGetReward: Laya.Image;
     GetReward: Laya.Label;
     CaidanRewardPanelinit3() {
+
         this.CaidanRewardPanel3 = this.Caidanqiang.getChildByName("CaidanRewardPanel3") as Laya.Box;
         this.Bg = this.CaidanRewardPanel3.getChildByName("Bg") as Laya.Image;
         this.Props = this.Bg.getChildByName("Props") as Laya.Image;
@@ -496,6 +513,7 @@ export default class CaiDanQiang extends Laya.Script {
         this.CaidanRewardPanelHide();
     }
     CaidanRewardPanelShow() {
+        ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_dragongift');
         ADManager.TAPoint(TaT.PageEnter, 'dragonpage');
         //第一次显示文字
         this.ShenLongWenzi.visible = this.Rewardindex == 5;;
@@ -555,6 +573,8 @@ export default class CaiDanQiang extends Laya.Script {
 
     ADGetRewardClick() {
         ADManager.TAPoint(TaT.PageLeave, 'dragongiftpage');
+        ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_dragongift');
+
         console.log("看广告");
         ADManager.ShowReward(() => {
             //看视频获取----------------------------------------->

@@ -25,6 +25,8 @@ export default class ZhuanPan extends Laya.Script {
 
     onAwake() {
         ADManager.CloseBanner();
+        ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_turn');
+
         lwg.Global._stageClick = false;
 
         this.Zhuanpan = this.owner as Laya.Image;
@@ -80,6 +82,8 @@ export default class ZhuanPan extends Laya.Script {
 
     //开始转
     ZhunapanStart() {
+        ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_turn');
+
         console.log("点击转盘");
         if (this.First.visible) {
             Laya.LocalStorage.setItem("firstUseed", "1")
@@ -179,6 +183,7 @@ export default class ZhuanPan extends Laya.Script {
         lwg.Click.on(lwg.Click.ClickType.largen, null, BtnNo, this, null, null, this.btnNoUp, null);
     }
     btnADAgainUp(): void {
+        ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_turngift');
         // console.log("看广告");
 
         ADManager.ShowReward(() => {
@@ -196,6 +201,8 @@ export default class ZhuanPan extends Laya.Script {
     //_action 事件 按钮点击后的事件
     ShowReward() {
         ADManager.TAPoint(TaT.PageEnter, 'turngiftpage');
+        ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_turngift');
+
         this.RewardPanel.x = 0;
         this.RewardPanel.y = 0;
         this.RefreshBtn();
@@ -230,18 +237,20 @@ export default class ZhuanPan extends Laya.Script {
     }
     //#endregion
 
-    //#region  /******************彩蛋1*********************/
+    //#region  /******************彩蛋1黄皮耗子*********************/
     CaiDanMoveInit() {
         lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.owner.scene['Caidan'], this, this.caidanDwon, null, null, null);
         //免费领取彩蛋界面 
         let BtnNo = this.owner.scene['Painted_Pikaqiu'].getChildByName('BtnNo');
         let BtnFreeGet = this.owner.scene['Painted_Pikaqiu'].getChildByName('BtnFreeGet');
+        ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_dragongift');
         lwg.Click.on(lwg.Click.ClickType.largen, null, BtnNo, this, null, null, this.btnNoUp_P, null);
         lwg.Click.on(lwg.Click.ClickType.largen, null, BtnFreeGet, this, null, null, this.btnFreeGetUp_P, null);
     }
 
     btnNoUp_P(e: Laya.Event): void {
         ADManager.TAPoint(TaT.PageLeave, 'PKskinQpage');
+        ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_PKskin');
 
         e.currentTarget.scale(1, 1);
         this.owner.scene['Painted_Pikaqiu'].x = 1500;
@@ -249,6 +258,8 @@ export default class ZhuanPan extends Laya.Script {
     }
 
     btnFreeGetUp_P(e: Laya.Event): void {
+        ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_PKskin');
+
         e.currentTarget.scale(1, 1);
         ADManager.ShowReward(() => {
 
@@ -266,7 +277,7 @@ export default class ZhuanPan extends Laya.Script {
         if (!lwg.Global._huangpihaozi) {
             this.mouseDwon = true;
         } else {
-            console.log('已经获得了黄皮耗子皮肤！')
+            console.log('已经获得了黄皮耗子皮肤！');
         }
     }
     mouseMove: boolean = false;

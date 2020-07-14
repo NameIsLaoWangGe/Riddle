@@ -1769,6 +1769,22 @@
                             ADManager.TAPoint(TaT.PageLeave, 'turnpage');
                         }
                         break;
+                    case SceneName.UICheckIn:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'signpage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'signpage');
+                        }
+                        break;
+                    case SceneName.UIVictoryBox:
+                        if (type === 'on') {
+                            ADManager.TAPoint(TaT.PageEnter, 'boxpage');
+                        }
+                        else if (type === 'dis') {
+                            ADManager.TAPoint(TaT.PageLeave, 'boxpage');
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -3579,6 +3595,7 @@
             this.SceneContent = this.self['SceneContent'];
         }
         lwgInit() {
+            ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_HMskin');
             ADManager.TAPoint(TaT.PageEnter, 'HMskinpage');
             lwg.Global._stageClick = false;
         }
@@ -3593,6 +3610,7 @@
             this.self.close();
         }
         btnFreeUp(event) {
+            ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_HMskin');
             event.currentTarget.scale(1, 1);
             ADManager.ShowReward(() => {
                 lwg.Global._haimiangongzhu = true;
@@ -3748,6 +3766,9 @@
             }
         }
         onAwake() {
+            ADManager.TAPoint(TaT.BtnShow, 'ADreward1bt_CDwall');
+            ADManager.TAPoint(TaT.BtnShow, 'ADreward2bt_CDwall');
+            ADManager.TAPoint(TaT.BtnShow, 'close_CDwall');
             ADManager.CloseBanner();
             this.LoadJson();
             this.Caidanqiang = this.owner;
@@ -3772,6 +3793,7 @@
             this.CaiDanInit();
         }
         btnBackUP(e) {
+            ADManager.TAPoint(TaT.BtnClick, 'close_CDwall');
             e.currentTarget.scale(1, 1);
             this.owner.scene.close();
         }
@@ -3821,6 +3843,7 @@
         }
         FangshiADClick() {
             ADManager.ShowReward(() => {
+                ADManager.TAPoint(TaT.BtnClick, 'ADreward2bt_CDwall');
                 let skin = Laya.LocalStorage.getItem("Caidanskin" + this.NowCaidanDataq.ID);
                 let strs = skin.split("_");
                 Laya.LocalStorage.setItem("Caidanskin" + this.NowCaidanDataq.ID, strs[0] + "_" + strs[1] + "_" + "1");
@@ -3828,6 +3851,7 @@
             });
         }
         LaiyuanADcLICK() {
+            ADManager.TAPoint(TaT.BtnClick, 'ADreward1bt_CDwall');
             ADManager.ShowReward(() => {
                 let skin = Laya.LocalStorage.getItem("Caidanskin" + this.NowCaidanDataq.ID);
                 let strs = skin.split("_");
@@ -3849,6 +3873,7 @@
             this.CloseRewardBtn1.on(Laya.Event.CLICK, this, this.CaidanJiemianHide1);
         }
         CaidanJiemianShow1() {
+            ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_SYskin');
             ADManager.TAPoint(TaT.PageEnter, 'SYskinpage');
             this.CaidanRewardPanel1.visible = true;
         }
@@ -3857,6 +3882,7 @@
             ADManager.TAPoint(TaT.PageLeave, 'SYskinpage');
         }
         ADGetRewardClick1() {
+            ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_SYskin');
             console.log('看广告');
             ADManager.ShowReward(() => {
                 let skin = Laya.LocalStorage.getItem("Caidanskin" + 4);
@@ -3889,6 +3915,7 @@
             this.CloseRewardBtn2.on(Laya.Event.CLICK, this, this.CaidanJiemianHide2);
         }
         CaidanJiemianShow2() {
+            ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_CSskin');
             lwg.Animation.leftRight_Shake(this.Caidan1, 20, 100, 0, f => {
                 lwg.Animation.leftRight_Shake(this.Caidan1, 20, 100, 0, f => {
                     let skin = Laya.LocalStorage.getItem("Caidanskin" + 2);
@@ -3905,6 +3932,7 @@
             this.CaidanRewardPanel2.visible = false;
         }
         ADGetRewardClick2() {
+            ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_CSskin');
             console.log('看广告!');
             ADManager.ShowReward(() => {
                 ADManager.TAPoint(TaT.PageLeave, 'CSskinpage');
@@ -3980,6 +4008,7 @@
             this.CaidanRewardPanelHide();
         }
         CaidanRewardPanelShow() {
+            ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_dragongift');
             ADManager.TAPoint(TaT.PageEnter, 'dragonpage');
             this.ShenLongWenzi.visible = this.Rewardindex == 5;
             this.Props.visible = !this.ShenLongWenzi.visible;
@@ -4029,6 +4058,7 @@
         }
         ADGetRewardClick() {
             ADManager.TAPoint(TaT.PageLeave, 'dragongiftpage');
+            ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_dragongift');
             console.log("看广告");
             ADManager.ShowReward(() => {
                 this.ShowReward();
@@ -4168,25 +4198,51 @@
         constructor() {
             super();
             this.getNum = 3;
+            this.aniSwitch = true;
         }
         selfVars() {
             this.checkList = this.self['CheckList'];
+            this.createCheckList();
         }
         lwgInit() {
-            lwg.Global._stageClick = false;
-            this.createCheckList();
+            ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_sign');
+            let ChinkTip = this.self['BtnSeven'].getChildByName('ChinkTip');
+            ChinkTip.visible = false;
             this.posArr = [
                 [126, 262], [292, 262], [457, 262],
                 [126, 422.5], [292, 422.5], [457, 422.5],
                 [295, 588]
             ];
+            if (lwg.Global._CheckInNum === 6) {
+                Animation.shookHead_Simple(this.self['BtnSeven'], 10, 200, 0, f => {
+                });
+                Laya.timer.loop(1500, this, f => {
+                    if (!this.aniSwitch) {
+                        return;
+                    }
+                    Animation.shookHead_Simple(this.self['BtnSeven'], 10, 100, 0, f => {
+                    });
+                });
+            }
+            else {
+                let todayCell = this.checkList.getCell(lwg.Global._CheckInNum);
+                Animation.shookHead_Simple(todayCell, 10, 200, 0, f => {
+                });
+                Laya.timer.loop(1500, this, f => {
+                    if (!this.aniSwitch) {
+                        return;
+                    }
+                    Animation.shookHead_Simple(todayCell, 10, 100, 0, f => {
+                    });
+                });
+            }
         }
         adaptive() {
-            console.log(this.self['SceneContent']);
+            this.self['SceneContent'].y = Laya.stage.height / 2;
         }
         createCheckList() {
-            this.checkList.spaceX = 36;
-            this.checkList.spaceY = 26;
+            this.checkList.spaceX = 5;
+            this.checkList.spaceY = 0;
             this.checkList.selectHandler = new Laya.Handler(this, this.onSelect_List);
             this.checkList.renderHandler = new Laya.Handler(this, this.updateItem);
             this.refreshListData();
@@ -4199,7 +4255,7 @@
             for (var m = 0; m < 6; m++) {
                 let index = m.toString();
                 let url = 'UI_new/CheckIn/word_' + (m + 1) + 'tian.png';
-                let check = lwg.Global._CheckInNum >= m ? true : false;
+                let check = lwg.Global._CheckInNum > m ? true : false;
                 data.push({
                     index,
                     url,
@@ -4225,31 +4281,39 @@
             event.currentTarget.scale(1, 1);
             let dot = this.self['BtnSelect'].getChildAt(0);
             if (dot.visible) {
-                this.btnGetUpFunc(3);
+                ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_sign');
+                ADManager.ShowReward(() => {
+                    this.aniSwitch = false;
+                    this.btnGetUpFunc(3);
+                });
             }
             else {
                 this.btnGetUpFunc(1);
+                this.aniSwitch = false;
             }
         }
         btnGetUpFunc(number) {
-            if (lwg.Global._CheckInNum === 7) {
+            if (lwg.Global._CheckInNum === 6) {
+                let ChinkTip = this.self['BtnSeven'].getChildByName('ChinkTip');
+                ChinkTip.visible = true;
                 this.goldAni(50 * number);
             }
             else {
+                this.checkList.array[lwg.Global._CheckInNum].check = true;
+                this.checkList.refresh();
                 this.goldAni(25 * number);
             }
             lwg.Global._CheckInNum++;
-            if (lwg.Global._CheckInNum > 7) {
+            if (lwg.Global._CheckInNum > 6) {
                 lwg.Global._CheckInNum = 0;
             }
             lwg.Global._lastCheckIn = (new Date).getDate();
             lwg.LocalStorage.addData();
         }
         goldAni(number) {
-            Laya.timer.frameOnce(20, this, f => {
+            Laya.timer.frameOnce(30, this, f => {
                 lwg.Effects.getGoldAni(Laya.stage, 10, Laya.stage.width / 2, Laya.stage.height / 2, lwg.Global.GoldNumNode.x - 53, lwg.Global.GoldNumNode.y - 12, f => {
                     lwg.Global._addGoldDisPlay(1);
-                    this.checkList.refresh();
                 }, f => {
                     lwg.Global._addGold(number);
                     this.checkList.refresh();
@@ -4268,6 +4332,7 @@
             }
         }
         lwgOnUpdta() {
+            lwg.Global._stageClick = false;
         }
         lwgDisable() {
             lwg.Global._stageClick = true;
@@ -7027,6 +7092,8 @@
         lwgInit() {
             lwg.Global._stageClick = false;
             ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
+            ADManager.TAPoint(TaT.BtnShow, 'CDwall_mainpage');
+            ADManager.TAPoint(TaT.BtnShow, 'turn_mainpage');
             this.BtnLocation.visible = false;
             if (lwg.Global._watchAdsNum >= 3) {
                 this.self['BtnXD'].removeSelf();
@@ -7034,7 +7101,6 @@
             this.listWPos.x = this.CustomsList.x + this.SceneContent.x - this.SceneContent.width / 2;
             this.listWPos.y = this.CustomsList.y + this.SceneContent.y - this.SceneContent.height / 2;
             this.createCustomsList();
-            ADManager.TAPoint(TaT.BtnShow, 'startbt_main');
             ADManager.ShowBanner();
             if (!lwg.Global._elect) {
                 this.self['P201'].visible = false;
@@ -7095,6 +7161,7 @@
                                 lwg.Global._stageClick = true;
                             });
                             if (!lwg.Global._todayCheckIn) {
+                                lwg.Global._todayCheckIn = true;
                                 lwg.Admin._openScene(lwg.Admin.SceneName.UICheckIn, null, null, null);
                             }
                         });
@@ -7385,6 +7452,7 @@
             this.btnPainted = true;
         }
         btnPaintedUp(e) {
+            ADManager.TAPoint(TaT.BtnClick, 'CDwall_mainpage');
             e.currentTarget.scale(1, 1);
             if (!this.candanFunc()) {
                 lwg.Admin._openScene(lwg.Admin.SceneName.UICaiDanQiang, null, null, null);
@@ -7423,6 +7491,7 @@
         btnTurntableUp(e) {
             e.currentTarget.scale(1, 1);
             lwg.Admin._openScene(lwg.Admin.SceneName.UITurntable, null, null, null);
+            ADManager.TAPoint(TaT.BtnClick, 'turn_mainpage');
         }
         btnSetUp() {
             lwg.Admin._openScene(lwg.Admin.SceneName.UISet, null, null, null);
@@ -7640,6 +7709,7 @@
         }
         onAwake() {
             ADManager.CloseBanner();
+            ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_turn');
             lwg.Global._stageClick = false;
             this.Zhuanpan = this.owner;
             this.zhuanpanParent = this.Zhuanpan.getChildByName("zhuanpanParent");
@@ -7684,6 +7754,7 @@
             }
         }
         ZhunapanStart() {
+            ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_turn');
             console.log("点击转盘");
             if (this.First.visible) {
                 Laya.LocalStorage.setItem("firstUseed", "1");
@@ -7762,6 +7833,7 @@
             lwg.Click.on(lwg.Click.ClickType.largen, null, BtnNo, this, null, null, this.btnNoUp, null);
         }
         btnADAgainUp() {
+            ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_turngift');
             ADManager.ShowReward(() => {
                 this.ClosePanel();
                 this.StartLottery();
@@ -7773,6 +7845,7 @@
         }
         ShowReward() {
             ADManager.TAPoint(TaT.PageEnter, 'turngiftpage');
+            ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_turngift');
             this.RewardPanel.x = 0;
             this.RewardPanel.y = 0;
             this.RefreshBtn();
@@ -7808,16 +7881,19 @@
             lwg.Click.on(lwg.Click.ClickType.noEffect, null, this.owner.scene['Caidan'], this, this.caidanDwon, null, null, null);
             let BtnNo = this.owner.scene['Painted_Pikaqiu'].getChildByName('BtnNo');
             let BtnFreeGet = this.owner.scene['Painted_Pikaqiu'].getChildByName('BtnFreeGet');
+            ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_dragongift');
             lwg.Click.on(lwg.Click.ClickType.largen, null, BtnNo, this, null, null, this.btnNoUp_P, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, BtnFreeGet, this, null, null, this.btnFreeGetUp_P, null);
         }
         btnNoUp_P(e) {
             ADManager.TAPoint(TaT.PageLeave, 'PKskinQpage');
+            ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_PKskin');
             e.currentTarget.scale(1, 1);
             this.owner.scene['Painted_Pikaqiu'].x = 1500;
             this.owner.scene['Painted_Pikaqiu'].y = 0;
         }
         btnFreeGetUp_P(e) {
+            ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_PKskin');
             e.currentTarget.scale(1, 1);
             ADManager.ShowReward(() => {
                 lwg.Global._huangpihaozi = true;
@@ -8094,6 +8170,7 @@
             this.byGet = false;
         }
         lwgInit() {
+            ADManager.TAPoint(TaT.BtnShow, 'ADrewardbox_box');
             this.posArr = [
                 [129.5, 254], [295, 254], [458.5, 254],
                 [129.5, 403.5], [295, 403.5], [458.5, 403.5],
@@ -8118,6 +8195,7 @@
                     this.upFunc();
                 }
                 else {
+                    ADManager.TAPoint(TaT.BtnClick, 'ADrewardbox_box');
                     ADManager.ShowReward(() => {
                         this.upFunc();
                     });
@@ -8163,6 +8241,7 @@
             this.BoxList = this.self['BoxList'];
         }
         lwgInit() {
+            ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_box');
             this.randomAdvBox();
             this.createBoxList();
         }
@@ -8247,6 +8326,7 @@
             this.self.close();
         }
         btnAgainUp(event) {
+            ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_box');
             event.currentTarget.scale(1, 1);
             if (this.maxAdvGet <= 0) {
                 lwg.Global._createHint_01(lwg.Enum.HintType.noGetNum);
