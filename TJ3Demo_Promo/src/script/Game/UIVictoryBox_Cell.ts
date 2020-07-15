@@ -19,7 +19,7 @@ export default class UIVictoryBox_Cell extends lwg.Admin.Object {
 
     lwgInit(): void {
         ADManager.TAPoint(TaT.BtnShow, 'ADrewardbox_box');
-        
+
         this.posArr = [
             [129.5, 254], [295, 254], [458.5, 254],
             [129.5, 403.5], [295, 403.5], [458.5, 403.5],

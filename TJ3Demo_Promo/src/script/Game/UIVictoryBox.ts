@@ -21,6 +21,10 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
         ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_box');
         this.randomAdvBox();
         this.createBoxList();
+
+        this.self['BtnAgain'].visible = false;
+        this.self['BtnNo'].visible = false;
+
     }
 
     /**一些节点的适配*/
@@ -159,10 +163,22 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
                 lwg.Global._createHint_01(lwg.Enum.HintType.getBoxOne);
                 this.getNum += 3;
                 this.maxAdvGet -= 3;
+
+                this.self['BtnAgain'].visible = false;
+                this.self['BtnNo'].visible = false;
             })
         }
     }
 
+    lwgOnUpdta(): void {
+        if (this.getNum > 0) {
+            this.self['BtnAgain'].visible = false;
+            this.self['BtnNo'].visible = false;
+        } else {
+            this.self['BtnAgain'].visible = true;
+            this.self['BtnNo'].visible = true;
+        }
+    }
 
     lwgDisable(): void {
     }

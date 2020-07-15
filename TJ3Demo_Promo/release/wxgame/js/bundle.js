@@ -8248,6 +8248,8 @@
             ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_box');
             this.randomAdvBox();
             this.createBoxList();
+            this.self['BtnAgain'].visible = false;
+            this.self['BtnNo'].visible = false;
         }
         adaptive() {
             this.self['SceneContent'].y = Laya.stage.height / 2;
@@ -8342,7 +8344,19 @@
                     lwg.Global._createHint_01(lwg.Enum.HintType.getBoxOne);
                     this.getNum += 3;
                     this.maxAdvGet -= 3;
+                    this.self['BtnAgain'].visible = false;
+                    this.self['BtnNo'].visible = false;
                 });
+            }
+        }
+        lwgOnUpdta() {
+            if (this.getNum > 0) {
+                this.self['BtnAgain'].visible = false;
+                this.self['BtnNo'].visible = false;
+            }
+            else {
+                this.self['BtnAgain'].visible = true;
+                this.self['BtnNo'].visible = true;
             }
         }
         lwgDisable() {
