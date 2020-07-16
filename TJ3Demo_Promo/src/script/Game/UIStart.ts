@@ -51,7 +51,6 @@ export default class UIStart extends lwg.Admin.Scene {
 
         if (!lwg.Global._elect) {
             this.self['P201'].visible = false;
-            this.self['P204'].visible = false;
         }
         // 开启多点触控
         Laya.MouseManager.multiTouchEnabled = true;

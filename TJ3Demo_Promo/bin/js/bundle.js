@@ -1034,7 +1034,7 @@
             Global._stageClick = true;
             Global._openXD = false;
             Global._goldNum = 0;
-            Global._elect = true;
+            Global._elect = false;
             Global._shakeSwitch = true;
             Global._btnDelayed = 2000;
             Global._currentPifu = '01_gongzhu';
@@ -7107,7 +7107,6 @@
             ADManager.ShowBanner();
             if (!lwg.Global._elect) {
                 this.self['P201'].visible = false;
-                this.self['P204'].visible = false;
             }
             Laya.MouseManager.multiTouchEnabled = true;
         }
