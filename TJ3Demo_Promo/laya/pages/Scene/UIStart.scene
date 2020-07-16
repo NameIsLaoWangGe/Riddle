@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":104,
-    "selecteID":108,
+    "selectedBox":87,
+    "selecteID":29,
     "searchKey":"View",
     "props":{"width":720,"sceneColor":"#000000","height":1280},
     "nodeParent":-1,
@@ -518,13 +518,14 @@
                     "props":{"y":356,"x":631,"width":89,"visible":true,"var":"BtnPifu","pivotY":45,"pivotX":45,"name":"BtnPifu","height":89},
                     "nodeParent":87,
                     "label":"BtnPifu",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":29,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":43,"x":46,"width":98,"texture":"UI_new/GameStart/board_01_btn.png","pivotY":49,"pivotX":49,"height":98,"alpha":1},
@@ -538,9 +539,10 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
-                            "props":{"y":0,"x":27,"texture":"UI_new/GameStart/person_gongzhu.png"},
+                            "props":{"y":31,"x":46,"width":37,"texture":"UI_new/GameStart/person_gongzhu.png","pivotY":31,"pivotX":19,"height":61},
                             "nodeParent":29,
                             "label":"Sprite",
                             "isDirectory":false,
@@ -551,6 +553,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":63,"x":25,"texture":"UI_new/GameStart/word_pifu.png"},
