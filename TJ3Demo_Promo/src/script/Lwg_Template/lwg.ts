@@ -1187,6 +1187,12 @@ export module lwg {
             lwgOnUpdate(): void {
 
             }
+            onDisable(): void {
+                this.lwgOnDisable();
+            }
+            lwgOnDisable(): void {
+
+            }
         }
 
         /**物件通用父类*/

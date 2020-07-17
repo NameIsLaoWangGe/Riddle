@@ -76,4 +76,8 @@ export default class UIMain_Rival extends UIMain_Gongzhu {
 
         });
     }
+
+    GameOver(): void{
+        this.gameOverMove();
+    };
 }

@@ -47,11 +47,10 @@ export default class UIMain_Room extends lwg.Admin.Object {
         let mask = new Laya.Sprite();
         mask.loadImage(lwg.Enum.WallpaperSkin[lwg.Enum.RoomSkinZoder[(this.self as Laya.Image).skin]]);
         wallpaper0.mask = mask;
-        mask.width = this.self.width - 30;
+        mask.width = this.self.width - 32;
         mask.height = 200;
         mask.y = -10;
     }
-
 
     /**
      * 为带有物理的节点添加移动脚本

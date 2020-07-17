@@ -1896,6 +1896,11 @@
                 }
                 lwgOnUpdate() {
                 }
+                onDisable() {
+                    this.lwgOnDisable();
+                }
+                lwgOnDisable() {
+                }
             }
             Admin.Person = Person;
             class Object extends Laya.Script {
@@ -4910,7 +4915,7 @@
             lwg.Animation.move_Scale(self, 1, self.x, self.y, Laya.stage.width / 2, Laya.stage.height / 2, 2, 500, 100, f => {
                 Laya.timer.frameOnce(40, this, f => {
                     lwg.Global._gameOverAni = true;
-                    Laya.timer.frameOnce(90, this, f => {
+                    Laya.timer.frameOnce(100, this, f => {
                         lwg.Admin._openScene(lwg.Admin.SceneName.UIVictoryBox, null, null, null);
                     });
                 });
@@ -4947,6 +4952,7 @@
             }
             Laya.timer.clearAll(this);
             Laya.Tween.clearAll(this);
+            lwg.Global._gameOverAni = false;
         }
     }
 
@@ -5804,14 +5810,17 @@
                 this.self.y -= this.accelerated;
             }
         }
+        GameOver() {
+            if (!lwg.Global._gameOverAni) {
+                this.gameOverMove();
+            }
+            else {
+                this.gameOverAni();
+            }
+        }
         lwgOnUpdate() {
             if (!lwg.Global._gameStart) {
-                if (!lwg.Global._gameOverAni) {
-                    this.gameOverMove();
-                }
-                else {
-                    this.gameOverAni();
-                }
+                this.GameOver();
                 return;
             }
             this.noMoveDirection();
@@ -5831,6 +5840,9 @@
         }
         notCommon() {
             this.signSkin = 'Room/icon_plaint.png';
+            if (!this.speed) {
+                this.speed = 2.1;
+            }
         }
         createskeleton() {
             this.skeleton = lwg.Sk.gouTem.buildArmature(0);
@@ -5913,19 +5925,10 @@
                 }
             }
         }
-        lwgOnUpdate() {
-            if (!lwg.Global._gameStart) {
-                this.gameOverMove();
-                return;
-            }
-            if (!this.speed) {
-                this.speed = 2.1;
-            }
-            this.noMoveDirection();
-            this.move();
-            this.positionOffset();
-            this.scopeControl();
+        GameOver() {
+            this.gameOverMove();
         }
+        ;
     }
 
     class UIMain_Rival extends UIMain_Gongzhu {
@@ -5988,6 +5991,10 @@
                 });
             });
         }
+        GameOver() {
+            this.gameOverMove();
+        }
+        ;
     }
 
     class UIMain_Bonfire extends lwg.Admin.Object {
@@ -6089,13 +6096,7 @@
         }
         lwgOnUpdate() {
             if (!lwg.Global._gameStart) {
-                if (!lwg.Global._gameOverAni) {
-                    this.gameOverMove();
-                    return;
-                }
-                else {
-                    this.gameOverAni();
-                }
+                this.GameOver();
                 return;
             }
             let necklace = this.self.scene['UIMain'].Gongzhu['UIMain_Gongzhu'].necklace;
@@ -6348,6 +6349,10 @@
                 this.rig.setVelocity({ x: 0, y: 6 });
             }
         }
+        GameOver() {
+            this.gameOverMove();
+        }
+        ;
     }
 
     class UIMain_Room extends lwg.Admin.Object {
@@ -6391,7 +6396,7 @@
             let mask = new Laya.Sprite();
             mask.loadImage(lwg.Enum.WallpaperSkin[lwg.Enum.RoomSkinZoder[this.self.skin]]);
             wallpaper0.mask = mask;
-            mask.width = this.self.width - 30;
+            mask.width = this.self.width - 32;
             mask.height = 200;
             mask.y = -10;
         }

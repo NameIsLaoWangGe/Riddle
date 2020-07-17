@@ -139,7 +139,7 @@ export default class UIMain extends lwg.Admin.Scene {
             // lwg.Effects.createFireworks()
             Laya.timer.frameOnce(40, this, f => {
                 lwg.Global._gameOverAni = true;
-                Laya.timer.frameOnce(90, this, f => {
+                Laya.timer.frameOnce(100, this, f => {
                     lwg.Admin._openScene(lwg.Admin.SceneName.UIVictoryBox, null, null, null);
                 })
             });
@@ -178,5 +178,6 @@ export default class UIMain extends lwg.Admin.Scene {
         }
         Laya.timer.clearAll(this);
         Laya.Tween.clearAll(this);
+        lwg.Global._gameOverAni = false;
     }
 }

@@ -55,6 +55,5 @@ export default class UIMain_Houzi extends lwg.Admin.Object {
                 this.createBanana();
             }
         }
-
     }
 }

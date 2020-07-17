@@ -1022,6 +1022,7 @@
             Global._gameLevel = 1;
             Global._yuanpifu = null;
             Global._gameStart = false;
+            Global._gameOverAni = false;
             Global._execution = 100;
             Global._exemptEx = true;
             Global._hotShare = true;
@@ -1270,7 +1271,7 @@
                     let num = lwg.Admin.openCustomName.substring(lwg.Admin.openCustomName.length - 3, lwg.Admin.openCustomName.length);
                     dec.text = lwg.Global._stimulateDec[Number(num) - 1]['dec'];
                     parent.addChild(sp);
-                    sp.pos(35, 150);
+                    sp.pos(35, 155);
                     sp.zOrder = 65;
                     Global.StimulateDecNode = sp;
                 }));
@@ -1889,6 +1890,16 @@
                 }
                 lwgInit() {
                     console.log('父类的初始化！');
+                }
+                onUpdate() {
+                    this.lwgOnUpdate();
+                }
+                lwgOnUpdate() {
+                }
+                onDisable() {
+                    this.lwgOnDisable();
+                }
+                lwgOnDisable() {
                 }
             }
             Admin.Person = Person;
@@ -3045,7 +3056,7 @@
             Animation.rotate_Scale = rotate_Scale;
             function drop_Simple(node, fY, tY, rotation, time, delayed, func) {
                 node.y = fY;
-                Laya.Tween.to(node, { y: tY, rotation: rotation }, time, Laya.Ease.circOut, Laya.Handler.create(this, function () {
+                Laya.Tween.to(node, { y: tY, rotation: rotation }, time, null, Laya.Handler.create(this, function () {
                     if (func !== null) {
                         func();
                     }
@@ -3336,6 +3347,16 @@
                 }), delayed);
             }
             Animation.scale_Alpha = scale_Alpha;
+            function scale_Simple(target, fScaleX, fScaleY, eScaleX, eScaleY, time, delayed, func) {
+                target.scaleX = fScaleX;
+                target.scaleY = fScaleY;
+                Laya.Tween.to(target, { scaleX: eScaleX, scaleY: eScaleY, }, time, Laya.Ease.expoIn, Laya.Handler.create(this, function () {
+                    if (func !== null) {
+                        func();
+                    }
+                }), delayed);
+            }
+            Animation.scale_Simple = scale_Simple;
             function scale_Scale(target, fScale, eScale, time, delayed, func) {
                 target.scale(fScale, fScale);
                 Laya.Tween.to(target, { scaleX: eScale, scaleY: eScale }, time / 2, null, Laya.Handler.create(this, function () {
@@ -4848,9 +4869,6 @@
             lwg.Global._createBtnPause(this.self);
             lwg.Global._createBtnHint(this.self);
             lwg.Global._createStimulateDec(this.self);
-            if (lwg.Global._elect) {
-                lwg.Global._createP201_01(this.self);
-            }
             if (this.self.name === 'UIMain_001' && lwg.Global._gameLevel !== 1) {
                 this.self['Finger'].visible = false;
                 this.self['guideRoom'].visible = false;
@@ -4858,6 +4876,7 @@
             EventAdmin.register(EventAdmin.EventType.victory, this, f => {
                 this.victoryAni();
             });
+            this.gameOverAniDir = Math.floor(Math.random() * 2) === 1 ? 'left' : 'right';
         }
         openAni() {
             return 0;
@@ -4894,8 +4913,11 @@
             self.anchorX = targetX / self.width;
             self.anchorY = targetY / self.height;
             lwg.Animation.move_Scale(self, 1, self.x, self.y, Laya.stage.width / 2, Laya.stage.height / 2, 2, 500, 100, f => {
-                Laya.timer.frameOnce(90, this, f => {
-                    lwg.Admin._openScene(lwg.Admin.SceneName.UIVictoryBox, null, null, null);
+                Laya.timer.frameOnce(40, this, f => {
+                    lwg.Global._gameOverAni = true;
+                    Laya.timer.frameOnce(100, this, f => {
+                        lwg.Admin._openScene(lwg.Admin.SceneName.UIVictoryBox, null, null, null);
+                    });
                 });
             });
         }
@@ -4930,6 +4952,7 @@
             }
             Laya.timer.clearAll(this);
             Laya.Tween.clearAll(this);
+            lwg.Global._gameOverAni = false;
         }
     }
 
@@ -5128,6 +5151,7 @@
             this.necklace = false;
             this.drumstick = false;
             this.skScale = 1;
+            this.parachute = new Laya.Image();
             this.inAir = false;
             this.targetP = new Laya.Point();
             this.attackSwitch = false;
@@ -5135,6 +5159,9 @@
             this._belongX = null;
             this._belongY = null;
             this._belongChange = false;
+            this.accelerated = 14;
+            this.gameOverAniTime = 0;
+            this.overAniSwitch = true;
         }
         lwgInit() {
             this.createskeleton();
@@ -5240,6 +5267,18 @@
             let pic = this.self.getChildByName('pic');
             pic.visible = false;
             this.skeleton.play(lwg.Enum.gongzhuAni.walk, true);
+            this.createParachute();
+        }
+        createParachute() {
+            this.parachute.skin = 'Room/icon_parachute.png';
+            this.self.addChild(this.parachute);
+            this.parachute.pos(23, -110);
+            this.parachute.width = 170;
+            this.parachute.height = 150;
+            this.parachute.pivotX = 150;
+            this.parachute.pivotX = 85;
+            this.parachute.zOrder = -1;
+            this.parachute.scale(0, 0);
         }
         setBelongRoom() {
             for (let index = 0; index < this.selfScene.numChildren; index++) {
@@ -5706,6 +5745,7 @@
         }
         gameOverMove() {
             if (this.targetP) {
+                this.rig.setVelocity({ x: 0, y: 0 });
                 this.positionOffsetXY();
             }
         }
@@ -5737,10 +5777,50 @@
                 }
             }
         }
-        onUpdate() {
-            if (!lwg.Global._gameStart) {
-                this.rig.setVelocity({ x: 0, y: 0 });
+        parachuteOpen() {
+            this.overAniSwitch = false;
+            Animation.scale_Simple(this.parachute, 0, 0, 1, 1, 300, 100, f => {
+                this.accelerated = -0.15;
+            });
+        }
+        gameOverAni() {
+            this.gameOverAniTime++;
+            if (this.gameOverAniTime > 40) {
+                this.self.y -= this.accelerated;
+                if (this.selfScene['UIMain'].gameOverAniDir === 'left') {
+                    this.self.x -= 0.05;
+                }
+                else {
+                    this.self.x += 0.05;
+                }
+                if (this.overAniSwitch) {
+                    this.parachuteOpen();
+                }
+            }
+            else {
+                if (this.accelerated > -5) {
+                    this.accelerated -= 1;
+                    if (this.selfScene['UIMain'].gameOverAniDir === 'left') {
+                        this.self.x--;
+                    }
+                    else {
+                        this.self.x++;
+                    }
+                }
+                this.self.y -= this.accelerated;
+            }
+        }
+        GameOver() {
+            if (!lwg.Global._gameOverAni) {
                 this.gameOverMove();
+            }
+            else {
+                this.gameOverAni();
+            }
+        }
+        lwgOnUpdate() {
+            if (!lwg.Global._gameStart) {
+                this.GameOver();
                 return;
             }
             this.noMoveDirection();
@@ -5749,6 +5829,7 @@
             this.scopeControl();
         }
         onDisable() {
+            this.destroy();
         }
     }
 
@@ -5759,6 +5840,9 @@
         }
         notCommon() {
             this.signSkin = 'Room/icon_plaint.png';
+            if (!this.speed) {
+                this.speed = 2.1;
+            }
         }
         createskeleton() {
             this.skeleton = lwg.Sk.gouTem.buildArmature(0);
@@ -5841,20 +5925,10 @@
                 }
             }
         }
-        onUpdate() {
-            if (!lwg.Global._gameStart) {
-                this.rig.setVelocity({ x: 0, y: 0 });
-                this.gameOverMove();
-                return;
-            }
-            if (!this.speed) {
-                this.speed = 2.1;
-            }
-            this.noMoveDirection();
-            this.move();
-            this.positionOffset();
-            this.scopeControl();
+        GameOver() {
+            this.gameOverMove();
         }
+        ;
     }
 
     class UIMain_Rival extends UIMain_Gongzhu {
@@ -5917,6 +5991,10 @@
                 });
             });
         }
+        GameOver() {
+            this.gameOverMove();
+        }
+        ;
     }
 
     class UIMain_Bonfire extends lwg.Admin.Object {
@@ -5965,6 +6043,7 @@
                 this.skeleton.scaleX = -1;
             }
             this.skeleton.play(lwg.Enum.wangziAni.standby, true);
+            this.createParachute();
         }
         onTriggerEnter(other, self) {
             if (!lwg.Global._gameStart) {
@@ -6015,10 +6094,9 @@
                 this.rig.setVelocity({ x: 0, y: 6 });
             }
         }
-        onUpdate() {
+        lwgOnUpdate() {
             if (!lwg.Global._gameStart) {
-                this.rig.setVelocity({ x: 0, y: 0 });
-                this.gameOverMove();
+                this.GameOver();
                 return;
             }
             let necklace = this.self.scene['UIMain'].Gongzhu['UIMain_Gongzhu'].necklace;
@@ -6164,7 +6242,7 @@
                 self.visible = false;
             }));
         }
-        onUpdate() {
+        lwgOnUpdate() {
             if (this.timeSwitch && lwg.Global._gameLevel) {
                 if (this.Mask.x > -78) {
                     if (!this.eatSpeed) {
@@ -6271,6 +6349,10 @@
                 this.rig.setVelocity({ x: 0, y: 6 });
             }
         }
+        GameOver() {
+            this.gameOverMove();
+        }
+        ;
     }
 
     class UIMain_Room extends lwg.Admin.Object {
@@ -6314,7 +6396,7 @@
             let mask = new Laya.Sprite();
             mask.loadImage(lwg.Enum.WallpaperSkin[lwg.Enum.RoomSkinZoder[this.self.skin]]);
             wallpaper0.mask = mask;
-            mask.width = this.self.width - 30;
+            mask.width = this.self.width - 32;
             mask.height = 200;
             mask.y = -10;
         }
@@ -7107,7 +7189,6 @@
             ADManager.ShowBanner();
             if (!lwg.Global._elect) {
                 this.self['P201'].visible = false;
-                this.self['P204'].visible = false;
             }
             Laya.MouseManager.multiTouchEnabled = true;
         }

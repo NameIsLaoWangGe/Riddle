@@ -9,6 +9,9 @@ export default class Dog extends UIMain_Gongzhu {
 
     notCommon(): void {
         this.signSkin = 'Room/icon_plaint.png';
+        if (!this.speed) {
+            this.speed = 2.1;
+        }
     }
     /**骨骼动画*/
     createskeleton(): void {
@@ -106,18 +109,7 @@ export default class Dog extends UIMain_Gongzhu {
         }
     }
 
-    lwgOnUpdate(): void {
-        // console.log(this.moveDirection);
-        if (!lwg.Global._gameStart) {
-            this.gameOverMove();
-            return;
-        }
-        if (!this.speed) {
-            this.speed = 2.1;
-        }
-        this.noMoveDirection();
-        this.move();
-        this.positionOffset();
-        this.scopeControl();
-    }
+    GameOver(): void{
+        this.gameOverMove();
+    };
 }

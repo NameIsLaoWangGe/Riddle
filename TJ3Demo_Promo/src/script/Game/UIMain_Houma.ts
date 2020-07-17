@@ -64,4 +64,7 @@ export default class UIMain_Houma extends UIMain_Gongzhu {
         }
     }
 
+    GameOver(): void{
+        this.gameOverMove();
+    };
 }

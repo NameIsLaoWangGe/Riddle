@@ -32,15 +32,6 @@ export default class UIMain_Interaction extends Laya.Script {
         // this.interactionPicStyle('exit');
     }
     onTriggerEnter(other, self): void {
-        // let otherName: string = other.owner.name;
-        // let selfName: string = this.self.name;
-        // // 如果是都是通道，那么连接上
-        // if (other.label === 'interaction') {
-        //     this.interactionPicStyle('enter');
-        //     this.connectRoom = other.owner.parent as Laya.Image;
-        //     this.oppositeAisle = other.owner;
-        //     this.roomAdsorption();
-        // }
     }
 
     /**
@@ -106,24 +97,7 @@ export default class UIMain_Interaction extends Laya.Script {
         }
     }
 
-    onTriggerExit(other, self): void {
-        // // 断开通道之间的连接
-        // let otherName: string = other.owner.name;
-        // let selfName: string = this.self.name;
-        // if (other.label === 'aisle') {
-        //     this.interactionPicStyle('exit');
-        //     // console.log('通道断开连接！');
-        //     this.openSwitch = false;
-        //     this.connectRoom = null;
-        //     this.oppositeAisle = null;
-        // }
-    }
-
     onUpdate(): void {
-        // if (this.connectRoom && this.oppositeAisle) {
-        //     this.roomAdsorption();
-        // }
-        // this.styleChanges();
         this.self.x = this.firstPos.x;
         this.self.y = this.firstPos.y;
     }

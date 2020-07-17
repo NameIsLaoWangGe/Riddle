@@ -86,12 +86,7 @@ export default class UIMain_Wangzi extends UIMain_Gongzhu {
 
     lwgOnUpdate(): void {
         if (!lwg.Global._gameStart) {
-            if (!lwg.Global._gameOverAni) {
-                this.gameOverMove();
-                return;
-            } else {
-                this.gameOverAni();
-            }
+            this.GameOver();
             return;
         }
         let necklace = this.self.scene['UIMain'].Gongzhu['UIMain_Gongzhu'].necklace;

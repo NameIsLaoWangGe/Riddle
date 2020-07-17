@@ -854,8 +854,11 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         });
     }
 
+    /**加速度*/
     accelerated: number = 14;
+    /**时间线，控制打开降落伞的时间*/
     gameOverAniTime: number = 0;
+    /**控制降落伞动画播放一次*/
     overAniSwitch: boolean = true;
     /**游戏结束动画*/
     gameOverAni(): void {
@@ -883,13 +886,17 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         }
     }
 
+    GameOver(): void {
+        if (!lwg.Global._gameOverAni) {
+            this.gameOverMove();
+        } else {
+            this.gameOverAni();
+        }
+    }
+
     lwgOnUpdate(): void {
         if (!lwg.Global._gameStart) {
-            if (!lwg.Global._gameOverAni) {
-                this.gameOverMove();
-            } else {
-                this.gameOverAni();
-            }
+            this.GameOver();
             return;
         }
         this.noMoveDirection();
