@@ -44,9 +44,9 @@ export default class UIMain extends lwg.Admin.Scene {
 
         lwg.Global._createStimulateDec(this.self);
 
-        if (lwg.Global._elect) {
-            lwg.Global._createP201_01(this.self);
-        }
+        // if (lwg.Global._elect) {
+        //     lwg.Global._createP201_01(this.self);
+        // }
 
         if (this.self.name === 'UIMain_001' && lwg.Global._gameLevel !== 1) {
             this.self['Finger'].visible = false;
@@ -133,9 +133,11 @@ export default class UIMain extends lwg.Admin.Scene {
         // 利用动画来进行放大移动操作
         lwg.Animation.move_Scale(self, 1, self.x, self.y, Laya.stage.width / 2, Laya.stage.height / 2, 2, 500, 100, f => {
             // lwg.Effects.createFireworks()
-            Laya.timer.frameOnce(90, this, f => {
-                // lwg.Admin._openScene('UIVictory', null, null, null);
-                lwg.Admin._openScene(lwg.Admin.SceneName.UIVictoryBox, null, null, null);
+            Laya.timer.frameOnce(30, this, f => {
+                lwg.Global._gameOverAni = true;
+                Laya.timer.frameOnce(30, this, f => {
+                    lwg.Admin._openScene(lwg.Admin.SceneName.UIVictoryBox, null, null, null);
+                })
             });
         });
     }

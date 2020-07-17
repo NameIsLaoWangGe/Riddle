@@ -11,6 +11,8 @@ export module lwg {
         export let _yuanpifu: string = null;
         /**游戏是否处于开始状态*/
         export let _gameStart = false;
+        /**是否是游戏结束动画播放时间*/
+        export let _gameOverAni = false;
         /**当前剩余行动力的数量*/
         export let _execution = 100;
         /**当前免体力进游戏的日期，只要当前日期和下次日期不同，说明不是同一天，则给予一次免体力进入彩蛋机会*/
@@ -415,7 +417,7 @@ export module lwg {
         /**动态创建一个心灵鸡汤*/
         export let StimulateDecNode: Laya.Sprite;
         /**
-         * 创建通用重来prefab
+         * 创建心灵鸡汤prefab
          * @param parent 父节点
          */
         export function _createStimulateDec(parent, ): void {
@@ -428,7 +430,7 @@ export module lwg {
                 let num = lwg.Admin.openCustomName.substring(lwg.Admin.openCustomName.length - 3, lwg.Admin.openCustomName.length);
                 dec.text = lwg.Global._stimulateDec[Number(num) - 1]['dec'];
                 parent.addChild(sp);
-                sp.pos(35, 150);
+                sp.pos(35, 155);
                 sp.zOrder = 65;
                 StimulateDecNode = sp;
             }));
@@ -1178,6 +1180,12 @@ export module lwg {
             /**初始化，在onEnable中执行，重写即可覆盖*/
             lwgInit(): void {
                 console.log('父类的初始化！');
+            }
+            onUpdate(): void {
+                this.lwgOnUpdate();
+            }
+            lwgOnUpdate(): void {
+
             }
         }
 
@@ -2740,7 +2748,7 @@ export module lwg {
          */
         export function drop_Simple(node, fY, tY, rotation, time, delayed, func): void {
             node.y = fY;
-            Laya.Tween.to(node, { y: tY, rotation: rotation }, time, Laya.Ease.circOut, Laya.Handler.create(this, function () {
+            Laya.Tween.to(node, { y: tY, rotation: rotation }, time, null, Laya.Handler.create(this, function () {
                 if (func !== null) {
                     func();
                 }
@@ -3271,6 +3279,28 @@ export module lwg {
             target.scaleX = fScaleX;
             target.scaleY = fScaleY;
             Laya.Tween.to(target, { scaleX: eScaleX, scaleY: eScaleY, alpha: eAlpha }, time, null, Laya.Handler.create(this, function () {
+                if (func !== null) {
+                    func()
+                }
+            }), delayed);
+        }
+
+        /**
+        * 放大缩小加上渐变
+        * @param target 节点
+        * @param fScaleX 初始X大小
+        * @param fScaleY 初始Y大小
+        * @param endScaleX 最终X大小
+        * @param endScaleY 最终Y大小
+        * @param eAlpha 最终透明度
+        * @param time 花费时间
+        * @param delayed 延迟时间
+        * @param func 结束回调
+        */
+        export function scale_Simple(target, fScaleX, fScaleY, eScaleX, eScaleY, time, delayed, func): void {
+            target.scaleX = fScaleX;
+            target.scaleY = fScaleY;
+            Laya.Tween.to(target, { scaleX: eScaleX, scaleY: eScaleY, }, time, Laya.Ease.expoIn, Laya.Handler.create(this, function () {
                 if (func !== null) {
                     func()
                 }

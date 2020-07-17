@@ -175,7 +175,9 @@
             "room_common_wall.png",
             "ui_room_common_floor_01.png",
             "ui_room_common_floor_02.png",
-            "mask.png"
+            "mask.png",
+            "stick.png",
+            "icon_parachute.png"
         ]
     ],
     "res/atlas/UI_new/conmmon.atlas": [

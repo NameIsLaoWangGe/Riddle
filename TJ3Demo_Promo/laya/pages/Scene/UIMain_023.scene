@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":2,
-    "selecteID":739,
+    "selectedBox":621,
+    "selecteID":622,
     "searchKey":"View",
     "props":{"width":720,"sceneColor":"#000000","height":1280},
     "nodeParent":-1,
@@ -499,16 +499,17 @@
                     "props":{"y":170,"x":44,"width":27,"pivotY":29,"pivotX":14,"name":"Stick","height":58},
                     "nodeParent":592,
                     "label":"Stick",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":621,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
-                            "props":{"y":29,"x":15,"width":19,"skin":"UI/af5fe039-4106-4820-b634-7a4c5a3c7979.png","pivotY":31,"pivotX":10,"height":62},
+                            "props":{"y":29,"x":15,"width":19,"skin":"Room/stick.png","pivotY":31,"pivotX":10,"height":62},
                             "nodeParent":621,
                             "label":"Image",
                             "isDirectory":false,
@@ -519,6 +520,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"BoxCollider",
                             "switchAble":true,
                             "searchKey":"BoxCollider",
@@ -534,6 +536,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"RigidBody",
                             "switchAble":true,
                             "searchKey":"RigidBody",

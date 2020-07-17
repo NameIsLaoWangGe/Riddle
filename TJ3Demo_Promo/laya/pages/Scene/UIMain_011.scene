@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":2,
-    "selecteID":618,
+    "selectedBox":590,
+    "selecteID":626,
     "searchKey":"View",
     "props":{"width":720,"sceneColor":"#000000","height":1280},
     "nodeParent":-1,
-    "maxID":623,
+    "maxID":627,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -1396,13 +1396,14 @@
                     "props":{"y":114,"x":186.5,"width":27,"pivotY":29,"pivotX":14,"name":"Stick","height":58},
                     "nodeParent":185,
                     "label":"Stick",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":599,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":9,"x":12.5,"width":22,"skin":"Room/stick.png","pivotY":31,"pivotX":10,"height":78},
@@ -1416,6 +1417,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"BoxCollider",
                             "switchAble":true,
                             "searchKey":"BoxCollider",
@@ -1431,6 +1433,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"RigidBody",
                             "switchAble":true,
                             "searchKey":"RigidBody",
@@ -2303,6 +2306,20 @@
                     "isAniNode":true,
                     "hasChild":false,
                     "compId":594,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":43,"x":28,"width":170,"texture":"Room/icon_parachute.png","pivotY":150,"pivotX":85,"height":150},
+                    "nodeParent":590,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":626,
                     "child":[
                         ]
                 }]

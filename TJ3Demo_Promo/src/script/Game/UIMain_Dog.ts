@@ -106,10 +106,9 @@ export default class Dog extends UIMain_Gongzhu {
         }
     }
 
-    onUpdate(): void {
+    lwgOnUpdate(): void {
         // console.log(this.moveDirection);
         if (!lwg.Global._gameStart) {
-            this.rig.setVelocity({ x: 0, y: 0 });
             this.gameOverMove();
             return;
         }

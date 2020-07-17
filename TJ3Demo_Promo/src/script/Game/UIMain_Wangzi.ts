@@ -22,6 +22,7 @@ export default class UIMain_Wangzi extends UIMain_Gongzhu {
         }
         this.skeleton.play(lwg.Enum.wangziAni.standby, true);
         // console.log(this.skeleton);
+        this.createParachute();
     }
 
     onTriggerEnter(other, self): void {
@@ -83,10 +84,14 @@ export default class UIMain_Wangzi extends UIMain_Gongzhu {
         }
     }
 
-    onUpdate(): void {
+    lwgOnUpdate(): void {
         if (!lwg.Global._gameStart) {
-            this.rig.setVelocity({ x: 0, y: 0 });
-            this.gameOverMove();
+            if (!lwg.Global._gameOverAni) {
+                this.gameOverMove();
+                return;
+            } else {
+                this.gameOverAni();
+            }
             return;
         }
         let necklace = this.self.scene['UIMain'].Gongzhu['UIMain_Gongzhu'].necklace;

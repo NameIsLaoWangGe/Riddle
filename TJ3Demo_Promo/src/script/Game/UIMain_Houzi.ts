@@ -42,7 +42,7 @@ export default class UIMain_Houzi extends lwg.Admin.Object {
         }));
     }
     timeSwitch: boolean = true;
-    onUpdate(): void {
+    lwgOnUpdate(): void {
         if (this.timeSwitch && lwg.Global._gameLevel) {
             if (this.Mask.x > -78) {
                 if (!this.eatSpeed) {

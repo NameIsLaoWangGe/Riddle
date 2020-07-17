@@ -1,4 +1,4 @@
-import { lwg, EventAdmin } from "../Lwg_Template/lwg";
+import { lwg, EventAdmin, Animation } from "../Lwg_Template/lwg";
 
 export default class UIMain_Gongzhu extends lwg.Admin.Person {
     /**目前角色属于那个房间*/
@@ -32,6 +32,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
     notCommon(): void {
         this.buffState = null;
         this.signSkin = 'Room/icon_love.png';
+
     }
 
     /**创建感叹号*/
@@ -159,7 +160,28 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         let pic = this.self.getChildByName('pic') as Laya.Sprite;
         pic.visible = false;
         this.skeleton.play(lwg.Enum.gongzhuAni.walk, true);
+
+        this.createParachute();
     }
+
+    /**降落伞*/
+    parachute: Laya.Image = new Laya.Image();
+    /**创建一个降落伞*/
+    createParachute(): void {
+        this.parachute.skin = 'Room/icon_parachute.png';
+        this.self.addChild(this.parachute);
+        this.parachute.pos(23, -110);
+        this.parachute.width = 170;
+        this.parachute.height = 150;
+        this.parachute.pivotX = 150;
+        this.parachute.pivotX = 85;
+        this.parachute.zOrder = -1;
+        this.parachute.scale(0, 0);
+    }
+
+
+
+
 
     /**
      * 在哪个房间内则属于哪个房间
@@ -778,6 +800,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
     /**第二种移动方式，用于游戏结束，完全跟着房子走*/
     gameOverMove(): void {
         if (this.targetP) {
+            this.rig.setVelocity({ x: 0, y: 0 });
             this.positionOffsetXY();
         }
     }
@@ -823,10 +846,47 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         }
     }
 
-    onUpdate(): void {
+    /**降落伞打开动画*/
+    parachuteOpen(): void {
+        this.overAniSwitch = false;
+        Animation.scale_Simple(this.parachute, 0, 0, 1, 1, 300, 100, f => {
+            this.accelerated = -0.1;
+        });
+    }
+
+    accelerated: number = 14;
+    gameOverAniDir: string = 'left';
+    gameOverAniTime: number = 0;
+    overAniSwitch: boolean = true;
+    /**游戏结束动画*/
+    gameOverAni(): void {
+        this.gameOverAniTime++;
+        if (this.gameOverAniTime > 42) {
+            this.self.y -= this.accelerated;
+            this.self.x += 0.05;
+            if (this.overAniSwitch) {
+                this.parachuteOpen();
+            }
+        } else {
+            if (this.accelerated > -5) {
+                this.accelerated -= 1;
+                if (this.gameOverAniDir === 'left') {
+                    this.self.x++;
+                } else {
+                    this.self.x--;
+                }
+            }
+            this.self.y -= this.accelerated;
+        }
+    }
+
+    lwgOnUpdate(): void {
         if (!lwg.Global._gameStart) {
-            this.rig.setVelocity({ x: 0, y: 0 });
-            this.gameOverMove();
+            if (!lwg.Global._gameOverAni) {
+                this.gameOverMove();
+            } else {
+                this.gameOverAni();
+            }
             return;
         }
         this.noMoveDirection();
