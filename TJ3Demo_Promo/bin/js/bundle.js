@@ -4871,6 +4871,7 @@
             EventAdmin.register(EventAdmin.EventType.victory, this, f => {
                 this.victoryAni();
             });
+            this.gameOverAniDir = Math.floor(Math.random() * 2) === 1 ? 'left' : 'right';
         }
         openAni() {
             return 0;
@@ -4907,8 +4908,11 @@
             self.anchorX = targetX / self.width;
             self.anchorY = targetY / self.height;
             lwg.Animation.move_Scale(self, 1, self.x, self.y, Laya.stage.width / 2, Laya.stage.height / 2, 2, 500, 100, f => {
-                Laya.timer.frameOnce(30, this, f => {
+                Laya.timer.frameOnce(40, this, f => {
                     lwg.Global._gameOverAni = true;
+                    Laya.timer.frameOnce(90, this, f => {
+                        lwg.Admin._openScene(lwg.Admin.SceneName.UIVictoryBox, null, null, null);
+                    });
                 });
             });
         }
@@ -5150,7 +5154,6 @@
             this._belongY = null;
             this._belongChange = false;
             this.accelerated = 14;
-            this.gameOverAniDir = 'left';
             this.gameOverAniTime = 0;
             this.overAniSwitch = true;
         }
@@ -5771,14 +5774,19 @@
         parachuteOpen() {
             this.overAniSwitch = false;
             Animation.scale_Simple(this.parachute, 0, 0, 1, 1, 300, 100, f => {
-                this.accelerated = -0.1;
+                this.accelerated = -0.15;
             });
         }
         gameOverAni() {
             this.gameOverAniTime++;
-            if (this.gameOverAniTime > 45) {
+            if (this.gameOverAniTime > 40) {
                 this.self.y -= this.accelerated;
-                this.self.x += 0.05;
+                if (this.selfScene['UIMain'].gameOverAniDir === 'left') {
+                    this.self.x -= 0.05;
+                }
+                else {
+                    this.self.x += 0.05;
+                }
                 if (this.overAniSwitch) {
                     this.parachuteOpen();
                 }
@@ -5786,11 +5794,11 @@
             else {
                 if (this.accelerated > -5) {
                     this.accelerated -= 1;
-                    if (this.gameOverAniDir === 'left') {
-                        this.self.x++;
+                    if (this.selfScene['UIMain'].gameOverAniDir === 'left') {
+                        this.self.x--;
                     }
                     else {
-                        this.self.x--;
+                        this.self.x++;
                     }
                 }
                 this.self.y -= this.accelerated;
@@ -5812,6 +5820,7 @@
             this.scopeControl();
         }
         onDisable() {
+            this.destroy();
         }
     }
 

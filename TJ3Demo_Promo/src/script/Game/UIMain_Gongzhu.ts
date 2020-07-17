@@ -850,30 +850,33 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
     parachuteOpen(): void {
         this.overAniSwitch = false;
         Animation.scale_Simple(this.parachute, 0, 0, 1, 1, 300, 100, f => {
-            this.accelerated = -0.1;
+            this.accelerated = -0.15;
         });
     }
 
     accelerated: number = 14;
-    gameOverAniDir: string = 'left';
     gameOverAniTime: number = 0;
     overAniSwitch: boolean = true;
     /**游戏结束动画*/
     gameOverAni(): void {
         this.gameOverAniTime++;
-        if (this.gameOverAniTime > 42) {
+        if (this.gameOverAniTime > 40) {
             this.self.y -= this.accelerated;
-            this.self.x += 0.05;
+            if (this.selfScene['UIMain'].gameOverAniDir === 'left') {
+                this.self.x -= 0.05;
+            } else {
+                this.self.x += 0.05;
+            }
             if (this.overAniSwitch) {
                 this.parachuteOpen();
             }
         } else {
             if (this.accelerated > -5) {
                 this.accelerated -= 1;
-                if (this.gameOverAniDir === 'left') {
-                    this.self.x++;
-                } else {
+                if (this.selfScene['UIMain'].gameOverAniDir === 'left') {
                     this.self.x--;
+                } else {
+                    this.self.x++;
                 }
             }
             this.self.y -= this.accelerated;
@@ -896,5 +899,6 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
     }
 
     onDisable(): void {
+        this.destroy();
     }
 }

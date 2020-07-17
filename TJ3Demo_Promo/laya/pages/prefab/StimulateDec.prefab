@@ -2,7 +2,7 @@
     "x":0,
     "type":"Sprite",
     "selectedBox":505,
-    "selecteID":508,
+    "selecteID":507,
     "searchKey":"Sprite,StimulateDec",
     "props":{"y":0,"x":0,"width":603,"presetID":1,"preset":"laya/pages/prefab/StimulateDec.prefab","name":"StimulateDec","isPresetRoot":true,"height":63},
     "nodeParent":-1,
@@ -16,37 +16,38 @@
     "child":[
         {
             "x":15,
+            "type":"Image",
+            "searchKey":"Image",
+            "props":{"y":12,"x":67,"width":432,"skin":"UI_new/GameMain/icon_gantan.png","sizeGrid":"0,51,0,51","presetID":3,"preset":"laya/pages/prefab/StimulateDec.prefab","height":38},
+            "nodeParent":505,
+            "label":"Image(StimulateDec)",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":507,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
             "type":"Sprite",
             "searchKey":"Sprite",
-            "props":{"y":-1,"x":0,"texture":"UI_new/GameMain/icon_yuan.png","presetID":2,"preset":"laya/pages/prefab/StimulateDec.prefab"},
+            "props":{"y":12,"x":25,"texture":"UI_new/GameMain/icon_yuan.png","presetID":2,"preset":"laya/pages/prefab/StimulateDec.prefab"},
             "nodeParent":505,
             "label":"Sprite(StimulateDec)",
             "isOpen":true,
-            "isDirectory":true,
+            "isDirectory":false,
             "isAniNode":true,
-            "hasChild":true,
+            "hasChild":false,
             "compId":506,
             "child":[
-                {
-                    "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"y":5.25,"x":24.25,"texture":"UI_new/GameMain/icon_gantan.png","presetID":3,"preset":"laya/pages/prefab/StimulateDec.prefab"},
-                    "nodeParent":506,
-                    "label":"Sprite(StimulateDec)",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":507,
-                    "child":[
-                        ]
-                }]
+                ]
         },
         {
             "x":15,
             "type":"Label",
             "searchKey":"Label,Dec",
-            "props":{"y":10,"x":75,"width":421,"valign":"middle","text":"王子前面多了个火堆。","presetID":4,"preset":"laya/pages/prefab/StimulateDec.prefab","name":"Dec","height":44,"fontSize":32,"font":"Microsoft YaHei","color":"#4e1950","bold":true,"align":"left"},
+            "props":{"y":12,"x":79,"width":421,"valign":"middle","text":"王子前面多了个火堆。","presetID":4,"preset":"laya/pages/prefab/StimulateDec.prefab","name":"Dec","height":44,"fontSize":24,"font":"Microsoft YaHei","color":"#4e1950","bold":true,"align":"left"},
             "nodeParent":505,
             "label":"Dec",
             "isDirectory":false,

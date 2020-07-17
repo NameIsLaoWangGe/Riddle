@@ -283,12 +283,12 @@ P 42A6985F board_01_btn.png
 P C5638B11 board_02_btn.png
 P 17F47C0D icon_again.png
 P 103AB3A1 icon_continue.png
-P 43CF242F icon_gantan.png
+P 583F63FA icon_gantan.png
 P 143D5828 icon_hint.png
 P 9BEEDB20 icon_lookadv.png
 P 48C2C147 icon_pause.png
 P 76321D6F icon_start.png
-P D9F89E4B icon_yuan.png
+P F36FEEDF icon_yuan.png
 R 4C1D8DD2 ui_board_01.png
 P AAEB5B2E ui_board_02.png
 P 888C1E4E word_pause.png

@@ -56,6 +56,8 @@ export default class UIMain extends lwg.Admin.Scene {
         EventAdmin.register(EventAdmin.EventType.victory, this, f => {
             this.victoryAni();
         })
+
+        this.gameOverAniDir = Math.floor(Math.random() * 2) === 1 ? 'left' : 'right';
     }
 
     openAni(): number {
@@ -116,6 +118,8 @@ export default class UIMain extends lwg.Admin.Scene {
         }
     }
 
+    /**主角的跳跃方向*/
+    gameOverAniDir: string;
     victoryAni(): void {
         lwg.Global._gameStart = false;
         // 修改物理组件的父容器为当前场景，否则放大当前场景不会改变子节点物理组件
@@ -133,9 +137,9 @@ export default class UIMain extends lwg.Admin.Scene {
         // 利用动画来进行放大移动操作
         lwg.Animation.move_Scale(self, 1, self.x, self.y, Laya.stage.width / 2, Laya.stage.height / 2, 2, 500, 100, f => {
             // lwg.Effects.createFireworks()
-            Laya.timer.frameOnce(30, this, f => {
+            Laya.timer.frameOnce(40, this, f => {
                 lwg.Global._gameOverAni = true;
-                Laya.timer.frameOnce(30, this, f => {
+                Laya.timer.frameOnce(90, this, f => {
                     lwg.Admin._openScene(lwg.Admin.SceneName.UIVictoryBox, null, null, null);
                 })
             });
