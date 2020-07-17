@@ -49,7 +49,7 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
         let a3 = arr[ran3];
 
         this.ranArray = [a1, a2, a3];
-        console.log(this.ranArray);
+        // console.log(this.ranArray);
 
     }
 
@@ -144,9 +144,14 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
         lwg.Click.on('largen', null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
         lwg.Click.on('largen', null, this.self['BtnAgain'], this, null, null, this.btnAgainUp, null);
     }
+    btnOffClick(): void {
+        lwg.Click.off('largen', this.self['BtnNo'], this, null, null, this.btnNoUp, null);
+        lwg.Click.off('largen', this.self['BtnAgain'], this, null, null, this.btnAgainUp, null);
+    }
 
     btnNoUp(event): void {
         event.currentTarget.scale(1, 1);
+     
         lwg.Admin._openScene(lwg.Admin.SceneName.UIVictory, null, null, null);
         this.self.close();
     }
@@ -181,5 +186,7 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
     }
 
     lwgDisable(): void {
+        Laya.timer.clearAll(this);
+        Laya.Tween.clearAll(this);
     }
 }

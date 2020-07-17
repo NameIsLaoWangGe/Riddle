@@ -266,6 +266,12 @@ export module lwg {
             Num.value = (Number(Num.value) + number).toString();
         }
 
+        /**增加金币但是不显示出来*/
+        export function _addGoldNoDisPlay(number) {
+            lwg.Global._goldNum += number;
+            lwg.LocalStorage.addData();
+        }
+
 
         /**指代当前剩余体力节点*/
         export let ExecutionNumNode: Laya.Sprite;

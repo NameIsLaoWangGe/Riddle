@@ -65,6 +65,12 @@ export default class UIMain_Room extends lwg.Admin.Object {
                 if (!followScript) {
                     child.addComponent(UIMain_Follow);
                 }
+                // 狗窝的位置
+                if (child.name === 'doghouse') {
+                    let house = child.getChildByName('house') as Laya.Image;
+                    house.x = -4.5;
+                    house.y = -19
+                }
             }
         }
     }

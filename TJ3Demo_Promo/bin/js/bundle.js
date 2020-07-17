@@ -1156,6 +1156,11 @@
                 Num.value = (Number(Num.value) + number).toString();
             }
             Global._addGoldDisPlay = _addGoldDisPlay;
+            function _addGoldNoDisPlay(number) {
+                lwg.Global._goldNum += number;
+                lwg.LocalStorage.addData();
+            }
+            Global._addGoldNoDisPlay = _addGoldNoDisPlay;
             function _createExecutionNum(parent) {
                 let sp;
                 Laya.loader.load('prefab/ExecutionNum.json', Laya.Handler.create(this, function (prefab) {
@@ -6409,6 +6414,11 @@
                     if (!followScript) {
                         child.addComponent(UIMain_Follow);
                     }
+                    if (child.name === 'doghouse') {
+                        let house = child.getChildByName('house');
+                        house.x = -4.5;
+                        house.y = -19;
+                    }
                 }
             }
         }
@@ -8072,6 +8082,10 @@
         lwgInit() {
             ADManager.ShowNormal();
             RecordManager.stopAutoRecord();
+            ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_success');
+            ADManager.TAPoint(TaT.BtnShow, 'Share_success');
+            ADManager.TAPoint(TaT.BtnShow, 'nextword_success');
+            ADManager.TAPoint(TaT.BtnShow, 'ADticketbt_success');
             this.BtnGoldAdv = this.self['BtnGoldAdv'];
             this.BtnExAdv = this.self['BtnExAdv'];
             this.GetGold = this.self['GetGold'];
@@ -8140,10 +8154,6 @@
             }
         }
         btnOnClick() {
-            ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_success');
-            ADManager.TAPoint(TaT.BtnShow, 'Share_success');
-            ADManager.TAPoint(TaT.BtnShow, 'nextword_success');
-            ADManager.TAPoint(TaT.BtnShow, 'ADticketbt_success');
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnGoldAdv, this, null, null, this.btnGoldAdvUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
@@ -8165,6 +8175,7 @@
                     this.getGoldAniFunc();
                     let Num = lwg.Global.GoldNumNode.getChildByName('Num');
                     Num.value = (Number(Num.value) + 10).toString();
+                    Num.value = lwg.Global._goldNum.toString();
                 });
             }
         }
@@ -8204,6 +8215,7 @@
             this.getGoldAni(15, fun => {
                 lwg.Global._goldNum += 25 * 2;
                 lwg.LocalStorage.addData();
+                Num.value = lwg.Global._goldNum.toString();
                 lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
                 lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
                 lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
@@ -8222,6 +8234,7 @@
                     this.btnBackUpFunc();
                     let Num = lwg.Global.GoldNumNode.getChildByName('Num');
                     Num.value = (Number(Num.value) + 10).toString();
+                    Num.value = lwg.Global._goldNum.toString();
                 });
             }
         }
@@ -8290,6 +8303,7 @@
             }
         }
         upFunc() {
+            this.selfScene[lwg.Admin.SceneName.UIVictoryBox].btnOffClick();
             this.selfScene[lwg.Admin.SceneName.UIVictoryBox].getNum -= 1;
             let nameNum = Number(this.self.name);
             let number = Number(this.Num.text);
@@ -8304,6 +8318,7 @@
                         this.BoxList.refresh();
                     }, f => {
                         lwg.Global._addGold(number);
+                        this.selfScene[lwg.Admin.SceneName.UIVictoryBox].btnOnClick();
                         this.BoxList.refresh();
                     });
                 });
@@ -8348,7 +8363,6 @@
             let ran3 = Math.floor(Math.random() * (arr.length - 1));
             let a3 = arr[ran3];
             this.ranArray = [a1, a2, a3];
-            console.log(this.ranArray);
         }
         createBoxList() {
             this.BoxList.spaceX = 36;
@@ -8409,6 +8423,10 @@
             lwg.Click.on('largen', null, this.self['BtnNo'], this, null, null, this.btnNoUp, null);
             lwg.Click.on('largen', null, this.self['BtnAgain'], this, null, null, this.btnAgainUp, null);
         }
+        btnOffClick() {
+            lwg.Click.off('largen', this.self['BtnNo'], this, null, null, this.btnNoUp, null);
+            lwg.Click.off('largen', this.self['BtnAgain'], this, null, null, this.btnAgainUp, null);
+        }
         btnNoUp(event) {
             event.currentTarget.scale(1, 1);
             lwg.Admin._openScene(lwg.Admin.SceneName.UIVictory, null, null, null);
@@ -8441,6 +8459,8 @@
             }
         }
         lwgDisable() {
+            Laya.timer.clearAll(this);
+            Laya.Tween.clearAll(this);
         }
     }
 

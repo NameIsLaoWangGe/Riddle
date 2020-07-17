@@ -23,6 +23,10 @@ export default class UIVictory extends lwg.Admin.Scene {
     lwgInit(): void {
         ADManager.ShowNormal();
         RecordManager.stopAutoRecord();
+        ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_success');
+        ADManager.TAPoint(TaT.BtnShow, 'Share_success');
+        ADManager.TAPoint(TaT.BtnShow, 'nextword_success');
+        ADManager.TAPoint(TaT.BtnShow, 'ADticketbt_success');
 
         this.BtnGoldAdv = this.self['BtnGoldAdv'];
         this.BtnExAdv = this.self['BtnExAdv'];
@@ -115,11 +119,6 @@ export default class UIVictory extends lwg.Admin.Scene {
     }
 
     btnOnClick(): void {
-        ADManager.TAPoint(TaT.BtnShow, 'ADrewardbt_success');
-        ADManager.TAPoint(TaT.BtnShow, 'Share_success');
-        ADManager.TAPoint(TaT.BtnShow, 'nextword_success');
-        ADManager.TAPoint(TaT.BtnShow, 'ADticketbt_success');
-
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnGoldAdv, this, null, null, this.btnGoldAdvUp, null);
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
         lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
@@ -145,6 +144,7 @@ export default class UIVictory extends lwg.Admin.Scene {
                 this.getGoldAniFunc();
                 let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
                 Num.value = (Number(Num.value) + 10).toString();
+                Num.value = lwg.Global._goldNum.toString();
             })
         }
     }
@@ -196,7 +196,7 @@ export default class UIVictory extends lwg.Admin.Scene {
             // 开始时已经领取了25
             lwg.Global._goldNum += 25 * 2;
             lwg.LocalStorage.addData();
-
+            Num.value = lwg.Global._goldNum.toString();
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.BtnNext, this, null, null, this.btnNextUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnBack'], this, null, null, this.btnBackUp, null);
             lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['BtnShare'], this, null, null, this.btnShareUp, null);
@@ -218,6 +218,7 @@ export default class UIVictory extends lwg.Admin.Scene {
                 this.btnBackUpFunc();
                 let Num = lwg.Global.GoldNumNode.getChildByName('Num') as Laya.FontClip;
                 Num.value = (Number(Num.value) + 10).toString();
+                Num.value = lwg.Global._goldNum.toString();
             })
         }
     }
@@ -246,5 +247,6 @@ export default class UIVictory extends lwg.Admin.Scene {
     lwgDisable(): void {
         Laya.timer.clearAll(this);
         Laya.Tween.clearAll(this);
+
     }
 }
