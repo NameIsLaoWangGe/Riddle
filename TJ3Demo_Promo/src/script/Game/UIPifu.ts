@@ -33,7 +33,7 @@ export default class UIPifu extends lwg.Admin.Scene {
     }
 
     lwgInit(): void {
-        // lwg.Global._havePifu.push(lwg.Enum.PifuAllName[9]);
+        lwg.Global._havePifu.push(lwg.Enum.PifuAllName[9]);
 
         lwg.Global.ExecutionNumNode.alpha = 0;
         lwg.Global._stageClick = false;

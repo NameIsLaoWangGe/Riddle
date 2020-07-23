@@ -1,4 +1,4 @@
-import { lwg, Animation, EventAdmin, Admin } from "../Lwg_Template/lwg";
+import { lwg, Animation, EventAdmin, Admin, Effects } from "../Lwg_Template/lwg";
 import RecordManager from "../../TJ/RecordManager";
 import ADManager, { TaT } from "../../TJ/Admanager";
 import UIMain_Wangzi from "./UIMain_Wangzi";
@@ -30,7 +30,9 @@ export default class UIMain extends lwg.Admin.Scene {
         this.Gongzhu = this.self['Gongzhu'];
     }
     lwgInit() {
-        this.createHuliRoom();
+
+        this.createHuliAdvertising();
+
         ADManager.TAPoint(TaT.LevelStart, 'level' + lwg.Admin.openLevelNum);
         RecordManager.startAutoRecord();
 
@@ -60,28 +62,33 @@ export default class UIMain extends lwg.Admin.Scene {
 
         this.gameOverAniDir = Math.floor(Math.random() * 2) === 1 ? 'left' : 'right';
 
-
+        EventAdmin.register(EventAdmin.EventType.advertising, this, () => {
+            this.createHuliRoom();
+        });
 
     }
 
-    createHuliAdvertising():void{
-        Admin._openScene(Admin.SceneName.UIAdvertising);
+    createHuliAdvertising(): void {
+        if (lwg.Global._currentPifu === lwg.Sk.PifuMatching.huli) {
+            Admin._openScene(Admin.SceneName.UIAdvertising);
+        }
     }
 
     /**如果当前皮肤是狐狸皮肤，那么创建一个小房间*/
     createHuliRoom(): void {
         this.Gongzhu.zOrder = 10;
-        if (lwg.Global._currentPifu === lwg.Sk.PifuMatching.huli) {
-            let sp: Laya.Sprite;
-            Laya.loader.load('prefab/Room8.json', Laya.Handler.create(this, function (prefab: Laya.Prefab) {
-                let _prefab = new Laya.Prefab();
-                _prefab.json = prefab;
-                sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
-                this.self.addChild(sp);
-                sp.pos(sp.width / 2 + 30, Laya.stage.height - sp.height / 2 - 30);
-                sp.zOrder = -1;
-            }));
-        }
+        let sp: Laya.Sprite;
+        Laya.loader.load('prefab/Room8.json', Laya.Handler.create(this, function (prefab: Laya.Prefab) {
+            let _prefab = new Laya.Prefab();
+            _prefab.json = prefab;
+            sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
+            this.self.addChild(sp);
+            sp.pos(sp.width / 2 + 60, Laya.stage.height - sp.height / 2 - 100);
+            sp.zOrder = -1;
+
+            Animation.bombs_Appear(sp, 0, 1, 1.1, Math.floor(Math.random() * 2) === 1 ? 5 : -5, 200, 150, 0, null, () => { });
+            Effects.createExplosion_Rotate(this.self, 30, sp.x, sp.y, Effects.SkinStyle.dot, 10, 12);
+        }));
     }
 
 

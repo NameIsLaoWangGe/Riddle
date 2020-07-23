@@ -1040,7 +1040,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,Room3",
-            "props":{"y":940,"x":277,"width":319,"skin":"Room/room_yellow.png","sizeGrid":"23,22,24,20","pivotY":143,"pivotX":160,"name":"Room3","height":285},
+            "props":{"y":882,"x":488,"width":319,"skin":"Room/room_yellow.png","sizeGrid":"23,22,24,20","pivotY":143,"pivotX":160,"name":"Room3","height":285},
             "nodeParent":2,
             "label":"Room3",
             "isOpen":true,

@@ -1475,6 +1475,7 @@
                 EventType["btnOnClick"] = "btnOnClick";
                 EventType["aniComplete"] = "aniComplete";
                 EventType["victory"] = "victory";
+                EventType["advertising"] = "advertising";
             })(EventType = EventAdmin.EventType || (EventAdmin.EventType = {}));
             EventAdmin.dispatcher = new Laya.EventDispatcher();
             function register(type, caller, listener) {
@@ -1876,6 +1877,7 @@
                     this.lwgDisable();
                     Laya.timer.clearAll(this);
                     Laya.Tween.clearAll(this);
+                    EventAdmin.dispatcher.offAllCaller(this);
                 }
                 lwgDisable() {
                 }
@@ -1973,6 +1975,11 @@
                 SkinUrl[SkinUrl["Effects/star_yellow.png"] = 23] = "Effects/star_yellow.png";
                 SkinUrl[SkinUrl["Effects/icon_biggold.png"] = 24] = "Effects/icon_biggold.png";
             })(SkinUrl = Effects.SkinUrl || (Effects.SkinUrl = {}));
+            let SkinStyle;
+            (function (SkinStyle) {
+                SkinStyle["star"] = "star";
+                SkinStyle["dot"] = "dot";
+            })(SkinStyle = Effects.SkinStyle || (Effects.SkinStyle = {}));
             class EffectsBase extends Laya.Script {
                 onAwake() {
                     this.initProperty();
@@ -3383,7 +3390,7 @@
                 target.alpha = fAlpha;
                 target.scaleX = fScaleX;
                 target.scaleY = fScaleY;
-                Laya.Tween.to(target, { scaleX: eScaleX, scaleY: eScaleY, alpha: eAlpha }, time, null, Laya.Handler.create(this, function () {
+                Laya.Tween.to(target, { scaleX: eScaleX, scaleY: eScaleY, alpha: eAlpha }, time, Laya.Ease.cubicOut, Laya.Handler.create(this, function () {
                     if (func !== null) {
                         func();
                     }
@@ -3635,8 +3642,46 @@
     let Effects = lwg.Effects;
 
     class UIAdvertising extends lwg.Admin.Scene {
+        selfVars() {
+            this.SceneContent = this.self['SceneContent'];
+            this.Star = this.self['Star'];
+        }
         adaptive() {
-            this.self['SceneContent'].y = Laya.stage.height / 2;
+            this.SceneContent.y = Laya.stage.height / 2;
+        }
+        lwgInit() {
+        }
+        btnOnClick() {
+            lwg.Click.on(lwg.Click.ClickType.largen, null, this.self['background'], this, null, null, this.backgroundUp, null);
+        }
+        backgroundUp() {
+            console.log('防止穿透！');
+        }
+        openAni() {
+            this.aniTime = 100;
+            this.aniDelayde = 100;
+            Animation.scale_Alpha(this.SceneContent, 0, 0, 0, 1, 1, 1, this.aniTime * 5, this.aniDelayde * 0, f => {
+                Laya.timer.once(this.aniTime * 15, this, () => {
+                    Animation.scale_Alpha(this.SceneContent, 1, 1, 1, 0, 0, 0, this.aniTime * 2, this.aniDelayde * 0, f => {
+                        this.self.close();
+                    });
+                });
+            });
+            for (let index = 0; index < this.Star.numChildren; index++) {
+                const element = this.Star.getChildAt(index);
+                Animation.blink_FadeOut(element, 0, 1, this.aniTime * 5, Math.random() * 3 * this.aniDelayde, () => {
+                    Animation.blink_FadeOut(element, Math.random() * 0.3 + 0.2, 1, this.aniTime * 3, Math.random() * 3 * 0, () => {
+                        Animation.blink_FadeOut(element, Math.random() * 0.3 + 0.2, 1, this.aniTime * 3, Math.random() * 3 * 0, () => {
+                            Animation.blink_FadeOut(element, Math.random() * 0.3 + 0.2, 1, this.aniTime * 3, Math.random() * 3 * 0, () => {
+                            });
+                        });
+                    });
+                });
+            }
+            return 100;
+        }
+        lwgDisable() {
+            EventAdmin.notify(EventAdmin.EventType.advertising);
         }
     }
 
@@ -4910,7 +4955,7 @@
             this.Gongzhu = this.self['Gongzhu'];
         }
         lwgInit() {
-            this.createHuliRoom();
+            this.createHuliAdvertising();
             ADManager.TAPoint(TaT.LevelStart, 'level' + lwg.Admin.openLevelNum);
             RecordManager.startAutoRecord();
             Laya.MouseManager.multiTouchEnabled = false;
@@ -4927,21 +4972,28 @@
                 this.victoryAni();
             });
             this.gameOverAniDir = Math.floor(Math.random() * 2) === 1 ? 'left' : 'right';
+            EventAdmin.register(EventAdmin.EventType.advertising, this, () => {
+                this.createHuliRoom();
+            });
+        }
+        createHuliAdvertising() {
+            if (lwg.Global._currentPifu === lwg.Sk.PifuMatching.huli) {
+                Admin._openScene(Admin.SceneName.UIAdvertising);
+            }
         }
         createHuliRoom() {
             this.Gongzhu.zOrder = 10;
-            if (lwg.Global._currentPifu === lwg.Sk.PifuMatching.huli) {
-                Admin._openScene(Admin.SceneName.UIAdvertising);
-                let sp;
-                Laya.loader.load('prefab/Room8.json', Laya.Handler.create(this, function (prefab) {
-                    let _prefab = new Laya.Prefab();
-                    _prefab.json = prefab;
-                    sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
-                    this.self.addChild(sp);
-                    sp.pos(sp.width / 2 + 30, Laya.stage.height - sp.height / 2 - 30);
-                    sp.zOrder = -1;
-                }));
-            }
+            let sp;
+            Laya.loader.load('prefab/Room8.json', Laya.Handler.create(this, function (prefab) {
+                let _prefab = new Laya.Prefab();
+                _prefab.json = prefab;
+                sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
+                this.self.addChild(sp);
+                sp.pos(sp.width / 2 + 60, Laya.stage.height - sp.height / 2 - 100);
+                sp.zOrder = -1;
+                Animation.bombs_Appear(sp, 0, 1, 1.1, Math.floor(Math.random() * 2) === 1 ? 5 : -5, 200, 150, 0, null, () => { });
+                Effects.createExplosion_Rotate(this.self, 30, sp.x, sp.y, Effects.SkinStyle.dot, 10, 12);
+            }));
         }
         openAni() {
             return 0;
@@ -6715,6 +6767,7 @@
             this.background = this.self['background'];
         }
         lwgInit() {
+            lwg.Global._havePifu.push(lwg.Enum.PifuAllName[9]);
             lwg.Global.ExecutionNumNode.alpha = 0;
             lwg.Global._stageClick = false;
             if (lwg.Enum.PifuAllName[lwg.Global._currentPifu]) {
@@ -8733,7 +8786,7 @@
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;
-    GameConfig.physicsDebug = true;
+    GameConfig.physicsDebug = false;
     GameConfig.exportSceneToJson = true;
     GameConfig.init();
 

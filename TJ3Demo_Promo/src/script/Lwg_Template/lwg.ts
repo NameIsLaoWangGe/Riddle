@@ -672,7 +672,8 @@ export module lwg {
         export enum EventType {
             btnOnClick = 'btnOnClick',
             aniComplete = 'aniComplete',
-            victory = 'victory'
+            victory = 'victory',
+            advertising = 'advertising'
         }
         export let dispatcher: Laya.EventDispatcher = new Laya.EventDispatcher();
 
@@ -1151,6 +1152,7 @@ export module lwg {
                 this.lwgDisable();
                 Laya.timer.clearAll(this);
                 Laya.Tween.clearAll(this);
+                EventAdmin.dispatcher.offAllCaller(this);
             }
             /**离开时执行，子类不执行onDisable，只执行lwgDisable*/
             lwgDisable(): void {
@@ -1280,6 +1282,12 @@ export module lwg {
             "Effects/star_white.png",
             "Effects/star_yellow.png",
             "Effects/icon_biggold.png"
+        }
+
+        /**表示需要什么样的图片样式*/ 
+        export enum SkinStyle {
+            star ='star',
+            dot ='dot',
         }
 
         /**类粒子特效的通用父类*/
@@ -3329,7 +3337,7 @@ export module lwg {
             target.alpha = fAlpha;
             target.scaleX = fScaleX;
             target.scaleY = fScaleY;
-            Laya.Tween.to(target, { scaleX: eScaleX, scaleY: eScaleY, alpha: eAlpha }, time, null, Laya.Handler.create(this, function () {
+            Laya.Tween.to(target, { scaleX: eScaleX, scaleY: eScaleY, alpha: eAlpha }, time, Laya.Ease.cubicOut, Laya.Handler.create(this, function () {
                 if (func !== null) {
                     func()
                 }
