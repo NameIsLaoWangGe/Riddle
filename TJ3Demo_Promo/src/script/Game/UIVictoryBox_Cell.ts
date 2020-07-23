@@ -62,6 +62,9 @@ export default class UIVictoryBox_Cell extends lwg.Admin.Object {
     }
 
     upFunc(): void {
+
+        this.selfScene[lwg.Admin.SceneName.UIVictoryBox].maxGetNum++;
+
         this.selfScene[lwg.Admin.SceneName.UIVictoryBox].btnOffClick();
 
         this.selfScene[lwg.Admin.SceneName.UIVictoryBox].getNum -= 1;
@@ -94,6 +97,6 @@ export default class UIVictoryBox_Cell extends lwg.Admin.Object {
     }
 
     lwgDisable(): void {
-       
+
     }
 }

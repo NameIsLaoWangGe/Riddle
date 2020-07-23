@@ -151,27 +151,33 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
 
     btnNoUp(event): void {
         event.currentTarget.scale(1, 1);
-     
+
         lwg.Admin._openScene(lwg.Admin.SceneName.UIVictory, null, null, null);
         this.self.close();
     }
 
     /**看广告获取的最大次数为6次*/
     maxAdvGet: number = 6;
+    /**领了多少次奖励*/
+    maxGetNum: number = 0;
     btnAgainUp(event): void {
         ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_box');
         event.currentTarget.scale(1, 1);
-        if (this.maxAdvGet <= 0) {
-            lwg.Global._createHint_01(lwg.Enum.HintType.noGetNum);
-        } else {
-            ADManager.ShowReward(() => {
-                lwg.Global._createHint_01(lwg.Enum.HintType.getBoxOne);
-                this.getNum += 3;
-                this.maxAdvGet -= 3;
+        if (this.maxGetNum < 9) {
+            if (this.maxAdvGet <= 0) {
+                lwg.Global._createHint_01(lwg.Enum.HintType.noGetNum);
+            } else {
+                ADManager.ShowReward(() => {
+                    lwg.Global._createHint_01(lwg.Enum.HintType.getBoxOne);
+                    this.getNum += 3;
+                    this.maxAdvGet -= 3;
 
-                this.self['BtnAgain'].visible = false;
-                this.self['BtnNo'].visible = false;
-            })
+                    this.self['BtnAgain'].visible = false;
+                    this.self['BtnNo'].visible = false;
+                })
+            }
+        } else {
+            lwg.Global._createHint_01(lwg.Enum.HintType["没有宝箱领可以领了！"]);
         }
     }
 

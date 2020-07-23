@@ -2568,6 +2568,7 @@
                 HintDec[HintDec["\u6CA1\u6709\u9886\u53D6\u6B21\u6570\u4E86\uFF01"] = 23] = "\u6CA1\u6709\u9886\u53D6\u6B21\u6570\u4E86\uFF01";
                 HintDec[HintDec["\u589E\u52A0\u4E09\u6B21\u5F00\u542F\u5B9D\u7BB1\u6B21\u6570\uFF01"] = 24] = "\u589E\u52A0\u4E09\u6B21\u5F00\u542F\u5B9D\u7BB1\u6B21\u6570\uFF01";
                 HintDec[HintDec["\u89C2\u770B\u5E7F\u544A\u53EF\u4EE5\u83B7\u5F97\u4E09\u6B21\u5F00\u5B9D\u7BB1\u6B21\u6570\uFF01"] = 25] = "\u89C2\u770B\u5E7F\u544A\u53EF\u4EE5\u83B7\u5F97\u4E09\u6B21\u5F00\u5B9D\u7BB1\u6B21\u6570\uFF01";
+                HintDec[HintDec["\u6CA1\u6709\u5B9D\u7BB1\u9886\u53EF\u4EE5\u9886\u4E86\uFF01"] = 26] = "\u6CA1\u6709\u5B9D\u7BB1\u9886\u53EF\u4EE5\u9886\u4E86\uFF01";
             })(HintDec = Enum.HintDec || (Enum.HintDec = {}));
             let HintType;
             (function (HintType) {
@@ -2597,6 +2598,7 @@
                 HintType[HintType["noGetNum"] = 23] = "noGetNum";
                 HintType[HintType["getBoxOne"] = 24] = "getBoxOne";
                 HintType[HintType["watchAdv"] = 25] = "watchAdv";
+                HintType[HintType["\u6CA1\u6709\u5B9D\u7BB1\u9886\u53EF\u4EE5\u9886\u4E86\uFF01"] = 26] = "\u6CA1\u6709\u5B9D\u7BB1\u9886\u53EF\u4EE5\u9886\u4E86\uFF01";
             })(HintType = Enum.HintType || (Enum.HintType = {}));
             let PifuOrder;
             (function (PifuOrder) {
@@ -8421,6 +8423,7 @@
             }
         }
         upFunc() {
+            this.selfScene[lwg.Admin.SceneName.UIVictoryBox].maxGetNum++;
             this.selfScene[lwg.Admin.SceneName.UIVictoryBox].btnOffClick();
             this.selfScene[lwg.Admin.SceneName.UIVictoryBox].getNum -= 1;
             let nameNum = Number(this.self.name);
@@ -8453,6 +8456,7 @@
             this.getNum = 3;
             this.ranArray = [];
             this.maxAdvGet = 6;
+            this.maxGetNum = 0;
         }
         selfVars() {
             this.BoxList = this.self['BoxList'];
@@ -8553,17 +8557,22 @@
         btnAgainUp(event) {
             ADManager.TAPoint(TaT.BtnClick, 'ADrewardbt_box');
             event.currentTarget.scale(1, 1);
-            if (this.maxAdvGet <= 0) {
-                lwg.Global._createHint_01(lwg.Enum.HintType.noGetNum);
+            if (this.maxGetNum < 9) {
+                if (this.maxAdvGet <= 0) {
+                    lwg.Global._createHint_01(lwg.Enum.HintType.noGetNum);
+                }
+                else {
+                    ADManager.ShowReward(() => {
+                        lwg.Global._createHint_01(lwg.Enum.HintType.getBoxOne);
+                        this.getNum += 3;
+                        this.maxAdvGet -= 3;
+                        this.self['BtnAgain'].visible = false;
+                        this.self['BtnNo'].visible = false;
+                    });
+                }
             }
             else {
-                ADManager.ShowReward(() => {
-                    lwg.Global._createHint_01(lwg.Enum.HintType.getBoxOne);
-                    this.getNum += 3;
-                    this.maxAdvGet -= 3;
-                    this.self['BtnAgain'].visible = false;
-                    this.self['BtnNo'].visible = false;
-                });
+                lwg.Global._createHint_01(lwg.Enum.HintType["没有宝箱领可以领了！"]);
             }
         }
         lwgOnUpdta() {
