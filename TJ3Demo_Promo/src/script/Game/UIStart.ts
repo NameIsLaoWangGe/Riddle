@@ -57,9 +57,8 @@ export default class UIStart extends lwg.Admin.Scene {
     }
 
     adaptive(): void {
-        // this.self['P204'].y = Laya.stage.height - 75;
-        this.self['P201'].y = Laya.stage.height * 0.156;
-        this.SceneContent.y = Laya.stage.height - 75 - 80 - this.SceneContent.height / 2;
+        // this.self['P201'].y = Laya.stage.height * 0.156;
+        this.SceneContent.y = Laya.stage.height * 0.468;
     }
 
     openAni(): number {
@@ -596,7 +595,4 @@ export default class UIStart extends lwg.Admin.Scene {
         // 关闭多点触控
         Laya.MouseManager.multiTouchEnabled = false;
     }
-
-
-
 }

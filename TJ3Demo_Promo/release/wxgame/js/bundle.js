@@ -7203,8 +7203,7 @@
             Laya.MouseManager.multiTouchEnabled = true;
         }
         adaptive() {
-            this.self['P201'].y = Laya.stage.height * 0.156;
-            this.SceneContent.y = Laya.stage.height - 75 - 80 - this.SceneContent.height / 2;
+            this.SceneContent.y = Laya.stage.height * 0.468;
         }
         openAni() {
             let time = 80;

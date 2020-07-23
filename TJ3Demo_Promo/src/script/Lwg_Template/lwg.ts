@@ -1324,11 +1324,11 @@ export module lwg {
                 this.selfScene = this.self.scene;
                 let calssName = this['__proto__']['constructor'].name;
                 this.self[calssName] = this;
-                this.self.pivotX = this.self.width / 2;
-                this.self.pivotY = this.self.height / 2;
+                // console.log(this.self.getBounds());
                 this.timer = 0;
                 this.lwgInit();
                 this.propertyAssign();
+
             }
             /**初始化，在onEnable中执行，重写即可覆盖*/
             lwgInit(): void {
@@ -1402,6 +1402,12 @@ export module lwg {
 
         /**普通爆炸移动类*/
         export class commonExplosion extends lwg.Effects.EffectsBase {
+            lwgInit(): void {
+                this.self.width = 25;
+                this.self.height = 25;
+                this.self.pivotX = this.self.width / 2;
+                this.self.pivotY = this.self.height / 2;
+            }
             initProperty(): void {
                 this.startAngle = 360 * Math.random();
                 this.startSpeed = 5 * Math.random() + 8;
@@ -1463,6 +1469,12 @@ export module lwg {
 
         /**普通爆炸移动类*/
         export class Explosion_Rotate extends lwg.Effects.EffectsBase {
+            lwgInit(): void {
+                this.self.width = 41;
+                this.self.height = 41;
+                this.self.pivotX = this.self.width / 2;
+                this.self.pivotY = this.self.height / 2;
+            }
             initProperty(): void {
                 this.startAngle = 360 * Math.random();
                 this.startSpeed = 5 * Math.random() + 8;
@@ -1568,6 +1580,12 @@ export module lwg {
             targetY: number;
             /**回调函数*/
             func: any
+            lwgInit(): void {
+                this.self.width = 115;
+                this.self.height = 111;
+                this.self.pivotX = this.self.width / 2;
+                this.self.pivotY = this.self.height / 2;
+            }
             initProperty(): void {
             }
             moveRules(): void {
@@ -1586,7 +1604,6 @@ export module lwg {
             }
         }
 
-
         /**
           * 创建类似于烟花爆炸动画，四周爆炸随机散开
           * @param parent 父节点
@@ -1598,7 +1615,7 @@ export module lwg {
             for (let index = 0; index < quantity; index++) {
                 let ele = Laya.Pool.getItemByClass('fireworks', Laya.Image) as Laya.Image;
                 ele.name = 'fireworks';//标识符和名称一样
-                let num = Math.floor(Math.random() * 12);
+                let num = 12 + Math.floor(Math.random() * 11);
                 ele.alpha = 1;
                 ele.skin = SkinUrl[num];
                 parent.addChild(ele);
@@ -1612,6 +1629,13 @@ export module lwg {
 
         /**类似烟花爆炸，速度逐渐减慢，并且有下降趋势*/
         export class Fireworks extends lwg.Effects.EffectsBase {
+            lwgInit(): void {
+                this.self.width = 41;
+                this.self.height = 41;
+                this.self.pivotX = this.self.width / 2;
+                this.self.pivotY = this.self.height / 2;
+            }
+
             initProperty(): void {
                 this.startAngle = 360 * Math.random();
                 this.startSpeed = 5 * Math.random() + 5;
@@ -1670,6 +1694,13 @@ export module lwg {
         export class leftOrRightJet extends lwg.Effects.EffectsBase {
             direction: string;
             randomRotate: number;
+
+            lwgInit(): void {
+                this.self.width = 41;
+                this.self.height = 41;
+                this.self.pivotX = this.self.width / 2;
+                this.self.pivotY = this.self.height / 2;
+            }
             initProperty(): void {
                 if (this.direction === 'left') {
                     this.startAngle = 100 * Math.random() - 90 + 45 - 10 - 20;

@@ -1978,8 +1978,6 @@
                     this.selfScene = this.self.scene;
                     let calssName = this['__proto__']['constructor'].name;
                     this.self[calssName] = this;
-                    this.self.pivotX = this.self.width / 2;
-                    this.self.pivotY = this.self.height / 2;
                     this.timer = 0;
                     this.lwgInit();
                     this.propertyAssign();
@@ -2038,6 +2036,12 @@
             }
             Effects.createCommonExplosion = createCommonExplosion;
             class commonExplosion extends lwg.Effects.EffectsBase {
+                lwgInit() {
+                    this.self.width = 25;
+                    this.self.height = 25;
+                    this.self.pivotX = this.self.width / 2;
+                    this.self.pivotY = this.self.height / 2;
+                }
                 initProperty() {
                     this.startAngle = 360 * Math.random();
                     this.startSpeed = 5 * Math.random() + 8;
@@ -2088,6 +2092,12 @@
             }
             Effects.createExplosion_Rotate = createExplosion_Rotate;
             class Explosion_Rotate extends lwg.Effects.EffectsBase {
+                lwgInit() {
+                    this.self.width = 41;
+                    this.self.height = 41;
+                    this.self.pivotX = this.self.width / 2;
+                    this.self.pivotY = this.self.height / 2;
+                }
                 initProperty() {
                     this.startAngle = 360 * Math.random();
                     this.startSpeed = 5 * Math.random() + 8;
@@ -2165,6 +2175,12 @@
             }
             Effects.createAddGold = createAddGold;
             class AddGold extends lwg.Effects.EffectsBase {
+                lwgInit() {
+                    this.self.width = 115;
+                    this.self.height = 111;
+                    this.self.pivotX = this.self.width / 2;
+                    this.self.pivotY = this.self.height / 2;
+                }
                 initProperty() {
                 }
                 moveRules() {
@@ -2187,7 +2203,7 @@
                 for (let index = 0; index < quantity; index++) {
                     let ele = Laya.Pool.getItemByClass('fireworks', Laya.Image);
                     ele.name = 'fireworks';
-                    let num = Math.floor(Math.random() * 12);
+                    let num = 12 + Math.floor(Math.random() * 11);
                     ele.alpha = 1;
                     ele.skin = SkinUrl[num];
                     parent.addChild(ele);
@@ -2200,6 +2216,12 @@
             }
             Effects.createFireworks = createFireworks;
             class Fireworks extends lwg.Effects.EffectsBase {
+                lwgInit() {
+                    this.self.width = 41;
+                    this.self.height = 41;
+                    this.self.pivotX = this.self.width / 2;
+                    this.self.pivotY = this.self.height / 2;
+                }
                 initProperty() {
                     this.startAngle = 360 * Math.random();
                     this.startSpeed = 5 * Math.random() + 5;
@@ -2251,6 +2273,12 @@
             }
             Effects.createLeftOrRightJet = createLeftOrRightJet;
             class leftOrRightJet extends lwg.Effects.EffectsBase {
+                lwgInit() {
+                    this.self.width = 41;
+                    this.self.height = 41;
+                    this.self.pivotX = this.self.width / 2;
+                    this.self.pivotY = this.self.height / 2;
+                }
                 initProperty() {
                     if (this.direction === 'left') {
                         this.startAngle = 100 * Math.random() - 90 + 45 - 10 - 20;
@@ -5277,13 +5305,14 @@
         createParachute() {
             this.parachute.skin = 'Room/icon_parachute.png';
             this.self.addChild(this.parachute);
-            this.parachute.pos(23, -110);
+            this.parachute.pos(23, -105);
             this.parachute.width = 170;
             this.parachute.height = 150;
             this.parachute.pivotX = 150;
             this.parachute.pivotX = 85;
             this.parachute.zOrder = -1;
             this.parachute.scale(0, 0);
+            this.parachute.visible = false;
         }
         setBelongRoom() {
             for (let index = 0; index < this.selfScene.numChildren; index++) {
@@ -5784,14 +5813,15 @@
         }
         parachuteOpen() {
             this.overAniSwitch = false;
+            this.parachute.visible = true;
             Animation.scale_Simple(this.parachute, 0, 0, 1, 1, 300, 100, f => {
                 this.accelerated = -0.15;
             });
         }
         gameOverAni() {
             this.gameOverAniTime++;
-            if (this.gameOverAniTime > 40) {
-                this.self.y -= this.accelerated;
+            if (this.gameOverAniTime > 35) {
+                this.self.y -= this.accelerated * 1.5;
                 if (this.selfScene['UIMain'].gameOverAniDir === 'left') {
                     this.self.x -= 0.05;
                 }
@@ -7203,8 +7233,7 @@
             Laya.MouseManager.multiTouchEnabled = true;
         }
         adaptive() {
-            this.self['P201'].y = Laya.stage.height * 0.156;
-            this.SceneContent.y = Laya.stage.height - 75 - 80 - this.SceneContent.height / 2;
+            this.SceneContent.y = Laya.stage.height * 0.468;
         }
         openAni() {
             let time = 80;

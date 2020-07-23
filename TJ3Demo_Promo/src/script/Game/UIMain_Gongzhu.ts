@@ -170,13 +170,14 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
     createParachute(): void {
         this.parachute.skin = 'Room/icon_parachute.png';
         this.self.addChild(this.parachute);
-        this.parachute.pos(23, -110);
+        this.parachute.pos(23, -105);
         this.parachute.width = 170;
         this.parachute.height = 150;
         this.parachute.pivotX = 150;
         this.parachute.pivotX = 85;
         this.parachute.zOrder = -1;
         this.parachute.scale(0, 0);
+        this.parachute.visible = false;
     }
 
 
@@ -849,6 +850,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
     /**降落伞打开动画*/
     parachuteOpen(): void {
         this.overAniSwitch = false;
+        this.parachute.visible = true;
         Animation.scale_Simple(this.parachute, 0, 0, 1, 1, 300, 100, f => {
             this.accelerated = -0.15;
         });
@@ -863,8 +865,8 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
     /**游戏结束动画*/
     gameOverAni(): void {
         this.gameOverAniTime++;
-        if (this.gameOverAniTime > 40) {
-            this.self.y -= this.accelerated;
+        if (this.gameOverAniTime > 35) {
+            this.self.y -= this.accelerated * 1.5;
             if (this.selfScene['UIMain'].gameOverAniDir === 'left') {
                 this.self.x -= 0.05;
             } else {
