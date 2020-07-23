@@ -347,6 +347,7 @@ P F5B6F421 word_yes.png
 P 0A40FA13 yes_btn.png
 D UI_new/Pifu
 P D6D76169 icon_lock.png
+P B0B36898 icon_star.png
 P DE115A9E logo.png
 P 16F0CCB6 pifu_01_gongzhu.png
 P 0B82CFFB pifu_01_gongzhu_h.png
@@ -366,6 +367,9 @@ P FD94A236 pifu_08_zhenzi.png
 P 36CE02EB pifu_08_zhenzi_h.png
 P 6CBAACBA pifu_09_aisha.png
 P FBF6945F pifu_09_aisha_h.png
+P 6CBAACBA pifu_10_huli.png
+P FBF6945F pifu_10_huli_h.png
+R 4921066E ui_advertising.png
 P 1C114509 UI_board_01.png
 P E806D1D4 ui_board_02.png
 P D495C5C0 ui_dot_01.png
@@ -376,6 +380,7 @@ P 39B17A9D word_changfa.png
 P CA15D227 word_goldjs.png
 P 67253FEB word_huangya.png
 P E3456E22 word_hui.png
+P 67253FEB word_huli.png
 P 9F7FEF93 word_jingying.png
 P 285C3D2B word_scelet_01.png
 P 033B334E word_scelet_02.png

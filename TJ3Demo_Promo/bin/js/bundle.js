@@ -1041,7 +1041,7 @@
             Global._currentPifu = '01_gongzhu';
             Global._havePifu = ['01_gongzhu'];
             Global._notHavePifuSubXD = [];
-            Global._allPifu = ['01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha'];
+            Global._allPifu = ['01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha', '10_huli'];
             Global._buyNum = 1;
             Global._watchAdsNum = 0;
             Global._huangpihaozi = false;
@@ -1073,11 +1073,13 @@
                 lwg.Global._notHavePifu = allArray;
                 for (let k = 0; k < allArray.length; k++) {
                     const element = allArray[k];
-                    if (element === '09_aisha') {
+                    if (element === '09_aisha' || element === '10_huli') {
                         allArray.splice(k, 1);
+                        k--;
                     }
                 }
                 lwg.Global._notHavePifuSubXD = allArray;
+                console.log(lwg.Global._notHavePifuSubXD);
             }
             Global.notHavePifuSubXD = notHavePifuSubXD;
             function _createLevel(parent, x, y) {
@@ -1525,6 +1527,7 @@
                 SceneName["UICaidanPifu"] = "UICaidanPifu";
                 SceneName["UIVictoryBox"] = "UIVictoryBox";
                 SceneName["UICheckIn"] = "UICheckIn";
+                SceneName["UIAdvertising"] = "UIAdvertising";
             })(SceneName = Admin.SceneName || (Admin.SceneName = {}));
             let GameState;
             (function (GameState) {
@@ -1547,6 +1550,7 @@
                     scene.name = openName;
                     Admin._sceneControl[openName] = scene;
                     let background = scene.getChildByName('background');
+                    background.zOrder = -10;
                     if (background) {
                         if (openName.substring(0, 6) === 'UIMain') {
                             background.width = null;
@@ -2327,6 +2331,7 @@
                 PifuMatching["xiaohuangya"] = "07_xiaohuangya";
                 PifuMatching["zhenzi"] = "08_zhenzi";
                 PifuMatching["aisha"] = "09_aisha";
+                PifuMatching["huli"] = "10_huli";
             })(PifuMatching = Sk.PifuMatching || (Sk.PifuMatching = {}));
             let PaintedPifu;
             (function (PaintedPifu) {
@@ -2597,6 +2602,7 @@
                 PifuOrder[PifuOrder["07_xiaohuangya"] = 6] = "07_xiaohuangya";
                 PifuOrder[PifuOrder["08_zhenzi"] = 7] = "08_zhenzi";
                 PifuOrder[PifuOrder["09_aisha"] = 8] = "09_aisha";
+                PifuOrder[PifuOrder["10_huli"] = 9] = "10_huli";
             })(PifuOrder = Enum.PifuOrder || (Enum.PifuOrder = {}));
             let PifuAllName;
             (function (PifuAllName) {
@@ -2609,6 +2615,7 @@
                 PifuAllName[PifuAllName["07_xiaohuangya"] = 6] = "07_xiaohuangya";
                 PifuAllName[PifuAllName["08_zhenzi"] = 7] = "08_zhenzi";
                 PifuAllName[PifuAllName["09_aisha"] = 8] = "09_aisha";
+                PifuAllName[PifuAllName["10_huli"] = 9] = "10_huli";
             })(PifuAllName = Enum.PifuAllName || (Enum.PifuAllName = {}));
             let PifuSkin;
             (function (PifuSkin) {
@@ -2621,6 +2628,7 @@
                 PifuSkin[PifuSkin["UI_new/Pifu/pifu_07_xiaohuangya.png"] = 6] = "UI_new/Pifu/pifu_07_xiaohuangya.png";
                 PifuSkin[PifuSkin["UI_new/Pifu/pifu_08_zhenzi.png"] = 7] = "UI_new/Pifu/pifu_08_zhenzi.png";
                 PifuSkin[PifuSkin["UI_new/Pifu/pifu_09_aisha.png"] = 8] = "UI_new/Pifu/pifu_09_aisha.png";
+                PifuSkin[PifuSkin["UI_new/Pifu/pifu_10_huli.png"] = 9] = "UI_new/Pifu/pifu_10_huli.png";
             })(PifuSkin = Enum.PifuSkin || (Enum.PifuSkin = {}));
             let PifuSkin_No;
             (function (PifuSkin_No) {
@@ -2633,6 +2641,7 @@
                 PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_07_xiaohuangya_h.png"] = 6] = "UI_new/Pifu/pifu_07_xiaohuangya_h.png";
                 PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_08_zhenzi_h.png"] = 7] = "UI_new/Pifu/pifu_08_zhenzi_h.png";
                 PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_09_aisha_h.png"] = 8] = "UI_new/Pifu/pifu_09_aisha_h.png";
+                PifuSkin_No[PifuSkin_No["UI_new/Pifu/pifu_10_huli_h.png"] = 9] = "UI_new/Pifu/pifu_10_huli_h.png";
             })(PifuSkin_No = Enum.PifuSkin_No || (Enum.PifuSkin_No = {}));
             let PifuNameSkin;
             (function (PifuNameSkin) {
@@ -2645,6 +2654,7 @@
                 PifuNameSkin[PifuNameSkin["UI_new/Pifu/word_huangya.png"] = 6] = "UI_new/Pifu/word_huangya.png";
                 PifuNameSkin[PifuNameSkin["UI_new/Pifu/word_changfa.png"] = 7] = "UI_new/Pifu/word_changfa.png";
                 PifuNameSkin[PifuNameSkin["UI_new/Pifu/word_bingjing.png"] = 8] = "UI_new/Pifu/word_bingjing.png";
+                PifuNameSkin[PifuNameSkin["UI_new/Pifu/word_huli.png"] = 9] = "UI_new/Pifu/word_huli.png";
             })(PifuNameSkin = Enum.PifuNameSkin || (Enum.PifuNameSkin = {}));
             let CaidanPifuName;
             (function (CaidanPifuName) {
@@ -3623,6 +3633,12 @@
     let EventAdmin = lwg.EventAdmin;
     let Tools = lwg.Tools;
     let Effects = lwg.Effects;
+
+    class UIAdvertising extends lwg.Admin.Scene {
+        adaptive() {
+            this.self['SceneContent'].y = Laya.stage.height / 2;
+        }
+    }
 
     class UIAnchorXD extends lwg.Admin.Scene {
         btnOnClick() {
@@ -4894,6 +4910,7 @@
             this.Gongzhu = this.self['Gongzhu'];
         }
         lwgInit() {
+            this.createHuliRoom();
             ADManager.TAPoint(TaT.LevelStart, 'level' + lwg.Admin.openLevelNum);
             RecordManager.startAutoRecord();
             Laya.MouseManager.multiTouchEnabled = false;
@@ -4910,6 +4927,21 @@
                 this.victoryAni();
             });
             this.gameOverAniDir = Math.floor(Math.random() * 2) === 1 ? 'left' : 'right';
+        }
+        createHuliRoom() {
+            this.Gongzhu.zOrder = 10;
+            if (lwg.Global._currentPifu === lwg.Sk.PifuMatching.huli) {
+                Admin._openScene(Admin.SceneName.UIAdvertising);
+                let sp;
+                Laya.loader.load('prefab/Room8.json', Laya.Handler.create(this, function (prefab) {
+                    let _prefab = new Laya.Prefab();
+                    _prefab.json = prefab;
+                    sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
+                    this.self.addChild(sp);
+                    sp.pos(sp.width / 2 + 30, Laya.stage.height - sp.height / 2 - 30);
+                    sp.zOrder = -1;
+                }));
+            }
         }
         openAni() {
             return 0;
@@ -5262,6 +5294,9 @@
                 case lwg.Sk.PifuMatching.aisha:
                     this.skeleton = lwg.Sk.aishaTem.buildArmature(0);
                     this.skScale = 0.9;
+                case lwg.Sk.PifuMatching.huli:
+                    this.skeleton = lwg.Sk.dajiTem.buildArmature(0);
+                    this.skScale = 0.9;
                     break;
                 case lwg.Enum.CaidanPifuName.daji:
                     this.skeleton = lwg.Sk.dajiTem.buildArmature(0);
@@ -5328,6 +5363,7 @@
             }
         }
         onTriggerEnter(other, self) {
+            console.log('上面是通的' + other.label);
             if (!lwg.Global._gameStart) {
                 return;
             }
@@ -6726,8 +6762,8 @@
         }
         refreshListData(func) {
             var data = [];
-            for (var m = -1; m < 10; m++) {
-                if (m === -1 || m === 9) {
+            for (var m = -1; m < 11; m++) {
+                if (m === -1 || m === 10) {
                     data.push({
                         stance: true
                     });
@@ -6801,8 +6837,8 @@
             }
             else if (diffX < -80) {
                 this.listFirstIndex += 1;
-                if (this.listFirstIndex > 8) {
-                    this.listFirstIndex = 8;
+                if (this.listFirstIndex > 9) {
+                    this.listFirstIndex = 9;
                 }
             }
             this.moveSwitch = false;
@@ -8648,6 +8684,7 @@
             reg("TJ/Promo/script/P204.ts", P204);
             reg("TJ/Promo/script/P205.ts", P205);
             reg("TJ/Promo/script/P106.ts", P106);
+            reg("script/Game/UIAdvertising.ts", UIAdvertising);
             reg("script/Game/UIAnchorXD.ts", UIAnchorXD);
             reg("script/Game/UICaidanPifu.ts", UICaidanPifu);
             reg("ZhuanPan/SkinItem.ts", SkinItem);
@@ -8696,7 +8733,7 @@
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;
-    GameConfig.physicsDebug = false;
+    GameConfig.physicsDebug = true;
     GameConfig.exportSceneToJson = true;
     GameConfig.init();
 

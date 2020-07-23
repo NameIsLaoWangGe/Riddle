@@ -1,4 +1,4 @@
-import { lwg, Animation, EventAdmin } from "../Lwg_Template/lwg";
+import { lwg, Animation, EventAdmin, Admin } from "../Lwg_Template/lwg";
 import RecordManager from "../../TJ/RecordManager";
 import ADManager, { TaT } from "../../TJ/Admanager";
 import UIMain_Wangzi from "./UIMain_Wangzi";
@@ -30,6 +30,7 @@ export default class UIMain extends lwg.Admin.Scene {
         this.Gongzhu = this.self['Gongzhu'];
     }
     lwgInit() {
+        this.createHuliRoom();
         ADManager.TAPoint(TaT.LevelStart, 'level' + lwg.Admin.openLevelNum);
         RecordManager.startAutoRecord();
 
@@ -58,7 +59,31 @@ export default class UIMain extends lwg.Admin.Scene {
         })
 
         this.gameOverAniDir = Math.floor(Math.random() * 2) === 1 ? 'left' : 'right';
+
+
+
     }
+
+    createHuliAdvertising():void{
+        Admin._openScene(Admin.SceneName.UIAdvertising);
+    }
+
+    /**如果当前皮肤是狐狸皮肤，那么创建一个小房间*/
+    createHuliRoom(): void {
+        this.Gongzhu.zOrder = 10;
+        if (lwg.Global._currentPifu === lwg.Sk.PifuMatching.huli) {
+            let sp: Laya.Sprite;
+            Laya.loader.load('prefab/Room8.json', Laya.Handler.create(this, function (prefab: Laya.Prefab) {
+                let _prefab = new Laya.Prefab();
+                _prefab.json = prefab;
+                sp = Laya.Pool.getItemByCreateFun('prefab', _prefab.create, _prefab);
+                this.self.addChild(sp);
+                sp.pos(sp.width / 2 + 30, Laya.stage.height - sp.height / 2 - 30);
+                sp.zOrder = -1;
+            }));
+        }
+    }
+
 
     openAni(): number {
         // lwg.Global._gameStart = false;

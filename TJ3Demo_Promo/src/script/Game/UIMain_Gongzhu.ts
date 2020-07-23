@@ -35,6 +35,7 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
 
     }
 
+
     /**创建感叹号*/
     plaint: Laya.Image;
     createPlaint(): void {
@@ -110,6 +111,10 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
                 this.skeleton = lwg.Sk.aishaTem.buildArmature(0);
                 this.skScale = 0.9;
 
+            case lwg.Sk.PifuMatching.huli:
+                this.skeleton = lwg.Sk.dajiTem.buildArmature(0);
+                this.skScale = 0.9;
+
                 break;
 
 
@@ -180,10 +185,6 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
         this.parachute.visible = false;
     }
 
-
-
-
-
     /**
      * 在哪个房间内则属于哪个房间
      * 通过X位置的宽度判断
@@ -222,6 +223,8 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
     targetP: Laya.Point = new Laya.Point();
 
     onTriggerEnter(other: any, self: any): void {
+        console.log('上面是通的' + other.label);
+        
         if (!lwg.Global._gameStart) {
             return;
         }
@@ -637,7 +640,6 @@ export default class UIMain_Gongzhu extends lwg.Admin.Person {
                     // 必须是当前房间的通道才会改变方向
                     let upAisle = this.belongRoom.getChildByName(otherOwner.name);
                     if (otherOwner === upAisle) {
-                        // console.log('上面不通换方向' + this.personState);
                         this.changeDirection();
                     }
                 } else {

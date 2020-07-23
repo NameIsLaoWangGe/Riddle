@@ -33,6 +33,7 @@ export default class UIPifu extends lwg.Admin.Scene {
     }
 
     lwgInit(): void {
+        // lwg.Global._havePifu.push(lwg.Enum.PifuAllName[9]);
 
         lwg.Global.ExecutionNumNode.alpha = 0;
         lwg.Global._stageClick = false;
@@ -102,8 +103,8 @@ export default class UIPifu extends lwg.Admin.Scene {
      * */
     refreshListData(func): void {
         var data: Array<Object> = [];
-        for (var m: number = -1; m < 10; m++) {
-            if (m === -1 || m === 9) {
+        for (var m: number = -1; m < 11; m++) {
+            if (m === -1 || m === 10) {
                 data.push({
                     stance: true
                 })
@@ -200,8 +201,8 @@ export default class UIPifu extends lwg.Admin.Scene {
         } else if (diffX < -80) {
             // console.log('向右滑动');
             this.listFirstIndex += 1;
-            if (this.listFirstIndex > 8) {
-                this.listFirstIndex = 8;
+            if (this.listFirstIndex > 9) {
+                this.listFirstIndex = 9;
             }
         }
         this.moveSwitch = false;

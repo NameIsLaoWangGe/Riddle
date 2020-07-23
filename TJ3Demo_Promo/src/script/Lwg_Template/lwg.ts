@@ -83,7 +83,7 @@ export module lwg {
         /**当前未拥有皮肤名称，删除限定的皮肤，是最后一个皮肤*/
         export let _notHavePifuSubXD: Array<string> = [];
         /**所有的皮肤的和排列顺序*/
-        export let _allPifu: Array<string> = ['01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha'];
+        export let _allPifu: Array<string> = ['01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha', '10_huli'];
 
         /**购买次数,随着购买次数的增加，消耗金币也会增加,超人皮肤是看广告获得，暂时不可买到*/
         export let _buyNum: number = 1;
@@ -142,12 +142,13 @@ export module lwg {
             // 去除超人皮肤
             for (let k = 0; k < allArray.length; k++) {
                 const element = allArray[k];
-                if (element === '09_aisha') {
+                if (element === '09_aisha' || element === '10_huli') {
                     allArray.splice(k, 1);
+                    k--;
                 }
             }
             lwg.Global._notHavePifuSubXD = allArray;
-            // console.log(lwg.Global._notHavePifuSubXD);
+            console.log(lwg.Global._notHavePifuSubXD);
         }
 
         /**指代当前界面的等级节点*/
@@ -733,7 +734,8 @@ export module lwg {
             UICaiDanQiang = 'UICaiDanQiang',
             UICaidanPifu = 'UICaidanPifu',
             UIVictoryBox = 'UIVictoryBox',
-            UICheckIn = 'UICheckIn'
+            UICheckIn = 'UICheckIn',
+            UIAdvertising = 'UIAdvertising'
         }
         /**游戏当前的状态*/
         export enum GameState {
@@ -755,7 +757,7 @@ export module lwg {
           * @param cloesScene 需要关闭的场景，如果不需要关闭，传入null
           * @param func 回调函数
          */
-        export function _openScene(openName: string, zOder: number, cloesScene: Laya.Scene, func): void {
+        export function _openScene(openName: string, zOder?: number, cloesScene?: Laya.Scene, func?): void {
             Laya.Scene.load('Scene/' + openName + '.json', Laya.Handler.create(this, function (scene: Laya.Scene) {
                 scene.width = Laya.stage.width;
                 scene.height = Laya.stage.height;
@@ -768,6 +770,7 @@ export module lwg {
                 _sceneControl[openName] = scene;
                 // 背景图自适应并且居中
                 let background = scene.getChildByName('background') as Laya.Image;
+                background.zOrder = -10;
                 if (background) {
                     if (openName.substring(0, 6) === 'UIMain') {
                         background.width = null;
@@ -1749,7 +1752,8 @@ export module lwg {
             xiaohongmao = '06_xiaohongmao',
             xiaohuangya = '07_xiaohuangya',
             zhenzi = '08_zhenzi',
-            aisha = '09_aisha'
+            aisha = '09_aisha',
+            huli = '10_huli',
         }
         /**皮肤的顺序以及名称*/
         export enum PaintedPifu {
@@ -2021,11 +2025,11 @@ export module lwg {
         }
         /**皮肤的顺序以及名称*/
         export enum PifuOrder {
-            '01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha'
+            '01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha', '10_huli'
         }
         /**皮肤的顺序以及名称*/
         export enum PifuAllName {
-            '01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha'
+            '01_gongzhu', '02_chiji', '03_change', '04_huiguniang', '05_tianshi', '06_xiaohongmao', '07_xiaohuangya', '08_zhenzi', '09_aisha', '10_huli'
         }
 
 
@@ -2039,7 +2043,9 @@ export module lwg {
             'UI_new/Pifu/pifu_06_xiaohongmao.png',
             'UI_new/Pifu/pifu_07_xiaohuangya.png',
             'UI_new/Pifu/pifu_08_zhenzi.png',
-            'UI_new/Pifu/pifu_09_aisha.png'
+            'UI_new/Pifu/pifu_09_aisha.png',
+            'UI_new/Pifu/pifu_10_huli.png'
+
         }
 
         /**灰色皮肤顺序对应的地址*/
@@ -2052,7 +2058,8 @@ export module lwg {
             'UI_new/Pifu/pifu_06_xiaohongmao_h.png',
             'UI_new/Pifu/pifu_07_xiaohuangya_h.png',
             'UI_new/Pifu/pifu_08_zhenzi_h.png',
-            'UI_new/Pifu/pifu_09_aisha_h.png'
+            'UI_new/Pifu/pifu_09_aisha_h.png',
+            'UI_new/Pifu/pifu_10_huli_h.png'
         }
 
         /**名称图片对应地址*/
@@ -2065,7 +2072,8 @@ export module lwg {
             'UI_new/Pifu/wrod_hongmao.png',
             'UI_new/Pifu/word_huangya.png',
             'UI_new/Pifu/word_changfa.png',
-            'UI_new/Pifu/word_bingjing.png'
+            'UI_new/Pifu/word_bingjing.png',
+            'UI_new/Pifu/word_huli.png',
         }
 
         /**彩蛋皮肤顺序对应的地址*/

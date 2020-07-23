@@ -1,0 +1,8 @@
+{
+  "code": "import { lwg } from \"../Lwg_Template/lwg\";\r\nexport default class UIAdvertising extends lwg.Admin.Scene {\r\n    adaptive() {\r\n        this.self['SceneContent'].y = Laya.stage.height / 2;\r\n    }\r\n}\r\n",
+  "references": [
+    "D:/Game/project/Riddle/Riddle1/TJ3Demo_Promo/src/script/Lwg_Template/lwg.ts",
+    "D:/Game/project/Riddle/Riddle1/TJ3Demo_Promo/src/TJ/Admanager.ts",
+    "D:/Game/project/Riddle/Riddle1/TJ3Demo_Promo/src/TJ/RecordManager.ts"
+  ]
+}

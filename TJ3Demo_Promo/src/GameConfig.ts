@@ -7,6 +7,7 @@ import P202 from "./TJ/Promo/script/P202"
 import P204 from "./TJ/Promo/script/P204"
 import P205 from "./TJ/Promo/script/P205"
 import P106 from "./TJ/Promo/script/P106"
+import UIAdvertising from "./script/Game/UIAdvertising"
 import UIAnchorXD from "./script/Game/UIAnchorXD"
 import UICaidanPifu from "./script/Game/UICaidanPifu"
 import SkinItem from "./ZhuanPan/SkinItem"
@@ -57,7 +58,7 @@ export default class GameConfig{
     static sceneRoot:string="";
     static debug:boolean=false;
     static stat:boolean=false;
-    static physicsDebug:boolean=false;
+    static physicsDebug:boolean=true;
     static exportSceneToJson:boolean=true;
     constructor(){}
     static init(){
@@ -70,6 +71,7 @@ export default class GameConfig{
         reg("TJ/Promo/script/P204.ts",P204);
         reg("TJ/Promo/script/P205.ts",P205);
         reg("TJ/Promo/script/P106.ts",P106);
+        reg("script/Game/UIAdvertising.ts",UIAdvertising);
         reg("script/Game/UIAnchorXD.ts",UIAnchorXD);
         reg("script/Game/UICaidanPifu.ts",UICaidanPifu);
         reg("ZhuanPan/SkinItem.ts",SkinItem);

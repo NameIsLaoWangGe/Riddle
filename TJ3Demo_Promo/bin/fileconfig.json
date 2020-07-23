@@ -371,7 +371,10 @@
             "word_huangya.png",
             "word_changfa.png",
             "word_bingjing.png",
-            "ui_board_02.png"
+            "ui_board_02.png",
+            "pifu_10_huli.png",
+            "pifu_10_huli_h.png",
+            "icon_star.png"
         ]
     ],
     "res/atlas/UI_new/PifuTry.atlas": [
