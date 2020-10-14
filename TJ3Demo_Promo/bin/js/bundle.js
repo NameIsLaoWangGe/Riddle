@@ -8787,11 +8787,11 @@
     }
     GameConfig.width = 720;
     GameConfig.height = 1280;
-    GameConfig.scaleMode = "fixedwidth";
+    GameConfig.scaleMode = "fixedauto";
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "middle";
     GameConfig.alignH = "center";
-    GameConfig.startScene = "Scene/UILoding.scene";
+    GameConfig.startScene = "Promo.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

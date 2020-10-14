@@ -1,4 +1,4 @@
-import { lwg } from "../Lwg_Template/lwg";
+import { lwg, Admin } from "../Lwg_Template/lwg";
 import ADManager, { TaT } from "../../TJ/Admanager";
 
 export default class UIVictoryBox extends lwg.Admin.Scene {
@@ -10,6 +10,9 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
 
     /**随机三个作为看广告宝箱*/
     ranArray: Array<number> = [];
+
+    openTpey: string;
+
     constructor() { super(); }
 
     selfVars(): void {
@@ -77,6 +80,7 @@ export default class UIVictoryBox extends lwg.Admin.Scene {
     listOpenAni(): void {
 
     }
+
 
     /**
      * 刷新list列表数据,如果需要更新list列表数据，更新此方法即可

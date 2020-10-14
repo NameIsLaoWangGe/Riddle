@@ -50,11 +50,11 @@ import UILoding_ExecutionNumNode from "./script/Game/UILoding_ExecutionNumNode"
 export default class GameConfig{
     static width:number=720;
     static height:number=1280;
-    static scaleMode:string="fixedwidth";
+    static scaleMode:string="fixedauto";
     static screenMode:string="vertical";
     static alignV:string="middle";
     static alignH:string="center";
-    static startScene:any="Scene/UILoding.scene";
+    static startScene:any="Promo.scene";
     static sceneRoot:string="";
     static debug:boolean=false;
     static stat:boolean=false;
